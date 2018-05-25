@@ -393,7 +393,8 @@ namespace Simple_AVS_Generator
             if (chbMKV.Checked) chbMP4.Checked = false;
         }
         #endregion Container
-        
+
+        #region ComponentEvents
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
         {
             if (fileName != "" && Directory.Exists(outDir) && !File.Exists(output))
@@ -432,5 +433,6 @@ namespace Simple_AVS_Generator
                 else chbMP4.Enabled = true;
             }
         }
+        #endregion ComponentEvents
     }
 }
