@@ -191,7 +191,7 @@ namespace Simple_AVS_Generator
                 StreamWriter sw = new StreamWriter(vCmdFile);
                 sw.WriteLine(vPipe + vEncoder);
                 sw.Close();
-                avsMeter();
+                //avsMeter();
             }
 
             if (audio)
