@@ -149,7 +149,7 @@ namespace Simple_AVS_Generator
         {
             String switches = " -i -l";
             StreamWriter sw = new StreamWriter(outDir + "AVSMeter.cmd");
-            sw.WriteLine("AVSMeter \"" + output + "\"" + switches);
+            sw.WriteLine("AVSMeter64 \"" + output + "\"" + switches);
             sw.Close();
             /*String fpsLine = "";
             StreamReader sr = new StreamReader(outDir + "\\Script.log");
