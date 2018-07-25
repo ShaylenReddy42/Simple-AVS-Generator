@@ -183,7 +183,7 @@ namespace Simple_AVS_Generator
                 }
                 else if (cbxVideoCodec.SelectedIndex == 2)
                 {
-                    vEncoder += "x264 --preset slower --crf 27 -i 1 -I 10000 --bframes 1 --no-scenecut --aud --no-mbtree ";
+                    vEncoder += "x264 --preset slower --crf 27 -i 1 -I 10000 --bframes 3 --no-scenecut --aud --no-mbtree ";
                     vEncoder += "--demuxer y4m --frames 0 -o \"" + outDir + "Video.264\" -";
                     vCmdFile += "Encode Video [AVC].cmd";
                 }
