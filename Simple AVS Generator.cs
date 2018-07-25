@@ -171,19 +171,19 @@ namespace Simple_AVS_Generator
 
                 if (cbxVideoCodec.SelectedIndex == 0)
                 {
-                    vEncoder += "x265 -P main --preset slower --crf 27 -i 1 -I 48 --scenecut-bias 7 --bframes 1 ";
+                    vEncoder += "x265 -P main --preset slower --crf 27 -i 1 -I 48 --scenecut-bias 10 --bframes 3 ";
                     vEncoder += "--aq-mode 3 --aq-motion --aud --no-open-gop --y4m -f 0 - \"" + outDir + "Video.265\"";
                     vCmdFile += "Encode Video [HEVC].cmd";
                 }
                 else if (cbxVideoCodec.SelectedIndex == 1)
                 {
-                    vEncoder += "x264 --preset slower --crf 24 -i 1 -I 48 --bframes 1 --aq-mode 3 --aud --no-mbtree ";
+                    vEncoder += "x264 --preset slower --crf 27 -i 1 -I 48 --bframes 3 --aq-mode 3 --aud --no-mbtree ";
                     vEncoder += "--demuxer y4m --frames 0 -o \"" + outDir + "Video.264\" -";
                     vCmdFile += "Encode Video [AVC].cmd";
                 }
                 else if (cbxVideoCodec.SelectedIndex == 2)
                 {
-                    vEncoder += "x264 --preset slower --crf 24 -i 1 -I 10000 --bframes 1 --no-scenecut --aud --no-mbtree ";
+                    vEncoder += "x264 --preset slower --crf 27 -i 1 -I 10000 --bframes 1 --no-scenecut --aud --no-mbtree ";
                     vEncoder += "--demuxer y4m --frames 0 -o \"" + outDir + "Video.264\" -";
                     vCmdFile += "Encode Video [AVC].cmd";
                 }
