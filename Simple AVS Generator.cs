@@ -312,7 +312,7 @@ namespace Simple_AVS_Generator
                 v = chkVEnc.Checked & cbxVideoCodec.SelectedIndex != 3 ? "v=LWLibavVideoSource(i).ConvertToYV12()" : "";
                 v = cbxVideoCodec.SelectedIndex == 2 ? v + ".Spline36Resize(480, 270)" : v;
 
-                a = chkAEnc.Checked ? "a=LWLibavAudioSource(i).ConvertAudioTo16Bit()" : "";
+                a = chkAEnc.Checked ? "a=LWLibavAudioSource(i).ConvertAudioToFloat()" : "";
 
                 StreamWriter sw = null;
 
@@ -327,7 +327,7 @@ namespace Simple_AVS_Generator
                     sw.WriteLine("");
                     sw.WriteLine("a=Normalize(a, 1.0)");
                     sw.WriteLine("");
-                    sw.WriteLine("a");
+                    sw.WriteLine("a.ConvertAudioTo16Bit()");
 
                     Encode(false, true);
                 }
@@ -361,7 +361,7 @@ namespace Simple_AVS_Generator
 
                     sw.WriteLine("o=AudioDub(v, a)");
                     sw.WriteLine("");
-                    sw.WriteLine("o");
+                    sw.WriteLine("o.ConvertAudioTo16Bit()");
 
                     Encode(true, true);
                 }
