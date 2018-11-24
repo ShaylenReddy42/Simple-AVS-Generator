@@ -62,6 +62,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="source\Properties\Resources.Designer.cs" />
+    <Compile Include="source\Properties\Settings.Designer.cs" />
     <Compile Include="source\Simple AVS Generator.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -70,6 +72,7 @@
     </Compile>
     <Compile Include="source\Program.cs" />
     <Compile Include="source\Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="source\Properties\Resources.resx" />
     <EmbeddedResource Include="source\Simple AVS Generator.resx">
       <DependentUpon>Simple AVS Generator.cs</DependentUpon>
     </EmbeddedResource>
@@ -92,6 +95,7 @@
   <ItemGroup>
     <None Include="build\Build [Project].cmd" />
     <None Include="build\Build [Solution].cmd" />
+    <None Include="source\Properties\Settings.settings" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="source\CMakeLists.txt" />
