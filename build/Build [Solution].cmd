@@ -1,7 +1,7 @@
-@echo off
+@ECHO off
 
-@md "%~dp0solution"
+@MD "%~dp0solution"
 
-@cd "%~dp0solution"
+@CD "%~dp0solution"
 
 cmake -G "Visual Studio 15 Win64" ../../source
