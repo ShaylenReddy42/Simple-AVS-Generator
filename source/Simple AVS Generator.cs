@@ -25,21 +25,6 @@ using System.Text;
 using System.Windows.Forms;
 using System.IO;
 
-/*  Known Bugs And Features
-    #01 Program Doesn't Remember Last Position
-
-    #02 Cannot Write File To "C:\\"
-        [Crashes: Access Violation]
-
-    #03 Currently No Way Of Manually Detecting
-        Codec To Simplify Choice Of Source
-
-   X#04 Implement Codecs:
-        OPUS, MP1, MP2
-
-    #05 Implement Help, About And Prerequisites 
- */
-
 namespace Simple_AVS_Generator
 {
     public partial class MainForm : Form
