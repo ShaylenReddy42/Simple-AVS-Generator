@@ -30,12 +30,12 @@ set_source_files_properties(
 )
 
 set_source_files_properties(
-	Resources.Designer.cs PROPERTIES
+	Properties/Resources.Designer.cs PROPERTIES
 	VS_CSHARP_DependentUpon Resources.resx
 )
 
 set_source_files_properties(
-	Settings.Designer.cs PROPERTIES
+	Properties/Settings.Designer.cs PROPERTIES
 	VS_CSHARP_DependentUpon Settings.settings
 )
 
