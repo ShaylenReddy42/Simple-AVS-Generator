@@ -36,10 +36,16 @@ namespace Simple_AVS_Generator
             populateComboLists();
         }
 
-        String fileName = "", fileDir = "", v = "", a = "", output = "", fileExt = "", fileNameOnly = "",
-               outDir = "C:\\Users\\" + Environment.UserName + "\\Desktop\\Temp\\",
-               home = "C:\\Users\\" + Environment.UserName + "\\Desktop\\Temp\\";
-        //int fps = 0;
+        static String home = "C:\\Users\\" + Environment.UserName + "\\Desktop\\Temp\\";
+
+        String fileName = "",
+                fileDir = "",
+                      v = "",
+                      a = "",
+                 output = "",
+                fileExt = "",
+           fileNameOnly = "",
+                 outDir = home;
 
         String cS = "*.3gp;*.3g2;*.mp4;*.mkv;*.avi;*.mov;*.m4v;*.flv",
                vS = "*.264;*.265;*.vp9",
