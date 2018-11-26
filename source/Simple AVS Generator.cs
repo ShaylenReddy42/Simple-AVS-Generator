@@ -17,11 +17,6 @@
  ******************************************************************************/
 
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Text;
 using System.Windows.Forms;
 using System.IO;
 
@@ -50,7 +45,8 @@ namespace Simple_AVS_Generator
         String cS = "*.3gp;*.3g2;*.mp4;*.mkv;*.avi;*.mov;*.m4v;*.flv",
                vS = "*.264;*.265;*.vp9",
                aS = "*.aac;*.m1a;*.m2a;*.mp3;*.m4a;*.dts;*.ac3;*.opus";
-
+        
+        #region Methods
         void populateComboLists()
         {
             cbxAudioCodec.Items.Add("AAC-LC");
@@ -74,6 +70,13 @@ namespace Simple_AVS_Generator
             cbxChannels.Items.Add("5.1 Channels");
             cbxChannels.Items.Add("7.1 Channels");
             cbxChannels.SelectedIndex = 0;
+        }
+
+        void writeFile(String outputFileName, String fileContents)
+        {
+            StreamWriter sw = new StreamWriter(outputFileName);
+            sw.Write(fileContents);
+            sw.Close();
         }
 
         int determineAudioBitrate()
@@ -119,7 +122,6 @@ namespace Simple_AVS_Generator
             return audioLanguage;
         }
 
-        #region Methods
         void EnableEncodeAndContainer()
         {
             chkVEnc.Enabled     = true;
@@ -158,9 +160,10 @@ namespace Simple_AVS_Generator
         {
             String switches = "-i -l";
 
-            StreamWriter sw = new StreamWriter(outDir + "AVSMeter.cmd");
-            sw.WriteLine("AVSMeter64 \"%~dp0Script.avs\" " + switches);
-            sw.Close();
+            String outputFileName = outDir + "AVSMeter.cmd",
+                     fileContents = "AVSMeter64 \"%~dp0Script.avs\" " + switches;
+
+            writeFile(outputFileName, fileContents);
         }
 
         void Encode(bool video, bool audio)
@@ -189,10 +192,11 @@ namespace Simple_AVS_Generator
                     vEncoder += "--demuxer y4m --frames 0 -o \"%~dp0Video.264\" -";
                     vCmdFile += "Encode Video [AVC].cmd";
                 }
-                
-                StreamWriter sw = new StreamWriter(vCmdFile);
-                sw.WriteLine(vPipe + vEncoder);
-                sw.Close();
+
+                String outputFileName = vCmdFile,
+                         fileContents = vPipe + vEncoder;
+
+                writeFile(outputFileName, fileContents);
                 avsMeter();
             }
 
@@ -221,16 +225,20 @@ namespace Simple_AVS_Generator
                     aCmdFile += "Encode Audio [OPUS].cmd";
                 }
 
-                StreamWriter sw = new StreamWriter(aCmdFile);
-                sw.WriteLine(aPipe + aEncoder);
-                sw.Close();
+                String outputFileName = aCmdFile,
+                         fileContents = aPipe + aEncoder;
+
+                writeFile(outputFileName, fileContents);
             }
         }
 
         void container(bool mp4, bool mkv)
         {
             String videoExtension = cbxVideoCodec.SelectedIndex == 0 ? ".265" : ".264",
-                   audioExtension = cbxAudioCodec.SelectedIndex == 2 ? ".ogg" : ".m4a";
+                   audioExtension = cbxAudioCodec.SelectedIndex == 2 ? ".ogg" : ".m4a",
+
+                   outputFileName = "",
+                     fileContents = "";
 
             if (mp4)
             {
@@ -238,9 +246,8 @@ namespace Simple_AVS_Generator
                        mp4A = chkAEnc.Checked ? "-add \"%~dp0" + fileNameOnly + ".m4a\":name=:lang=" + determineAudioLanguage() : "",
                      newmp4 = " -new " + "\"%~dp0" + fileNameOnly + ".mp4\"";
 
-                StreamWriter sw = new StreamWriter(outDir + "MP4 Mux.cmd");
-                sw.WriteLine("mp4box " + mp4V + mp4A + newmp4);
-                sw.Close();
+                outputFileName = outDir + "MP4 Mux.cmd";
+                fileContents = "mp4box " + mp4V + mp4A + newmp4;
             }
 
             if (mkv)
@@ -249,9 +256,8 @@ namespace Simple_AVS_Generator
                        mkvV = "\"%~dp0Video" + videoExtension + "\" ",
                        mkvA = chkAEnc.Checked ? "--language 0:eng \"%~dp0" + fileNameOnly + audioExtension + "\" " : "";
 
-                StreamWriter sw = new StreamWriter(outDir + "MKV Mux.cmd");
-                sw.WriteLine("mkvmerge " + mkvO + mkvV + mkvA);
-                sw.Close();
+                outputFileName = outDir + "MKV Mux.cmd";
+                fileContents = "mkvmerge " + mkvO + mkvV + mkvA;
             }
 
             if (cbxVideoCodec.SelectedIndex == 3)
@@ -260,10 +266,11 @@ namespace Simple_AVS_Generator
                        mp4A = chkAEnc.Checked ? "-add \"%~dp0" + fileNameOnly + ".m4a\":name=:lang=" + determineAudioLanguage() : "",
                      newmp4 = " -new " + "\"%~dp0" + fileNameOnly + ".mp4\"";
 
-                StreamWriter sw = new StreamWriter(outDir + "MP4 Mux [Original Video].cmd");
-                sw.WriteLine("mp4box " + mp4V + mp4A + newmp4);
-                sw.Close();
+                outputFileName = outDir + "MP4 Mux [Original Video].cmd";
+                fileContents = "mp4box " + mp4V + mp4A + newmp4;
             }
+
+            writeFile(outputFileName, fileContents);
         }
         #endregion Methods
 
@@ -275,10 +282,12 @@ namespace Simple_AVS_Generator
                    vF = "Video Types [264 265 VP9]|" + vS,
                    aF = "Audio Types [AAC AC3 DTS M1A M2A MP3 M4A]|" + aS;
 
-            OpenFileDialog ofd = new OpenFileDialog();
-            ofd.Multiselect = false;
-            ofd.Title = "Open File";
-            ofd.Filter = sF + "|" + cF + "|" + vF + "|" + aF;
+            OpenFileDialog ofd = new OpenFileDialog
+            {
+                Multiselect = false,
+                Title = "Open File",
+                Filter = sF + "|" + cF + "|" + vF + "|" + aF
+            };
 
             fileName = ofd.ShowDialog() == DialogResult.OK ? ofd.FileName : "";
 
@@ -320,61 +329,68 @@ namespace Simple_AVS_Generator
 
                 a = chkAEnc.Checked ? "a=LWLibavAudioSource(i).ConvertAudioToFloat()" : "";
 
-                StreamWriter sw = null;
+                String outputFileName = output,
+                         fileContents = "";
 
                 if (v == "" && a != "")
                 {
-                    sw = new StreamWriter(output);
+                    fileContents += i;
+                    fileContents += "\r\n\r\n";
 
-                    sw.WriteLine(i);
-                    sw.WriteLine("");
+                    fileContents += a;
+                    fileContents += "\r\n\r\n";
 
-                    sw.WriteLine(a);
-                    sw.WriteLine("");
-                    sw.WriteLine("a=Normalize(a, 1.0)");
-                    sw.WriteLine("");
-                    sw.WriteLine("a.ConvertAudioTo16Bit()");
+                    fileContents += "a=Normalize(a, 1.0)";
+                    fileContents += "\r\n\r\n";
+
+                    fileContents += "a=ConvertAudioTo16Bit(a)";
+                    fileContents += "\r\n\r\n";
+
+                    fileContents += "o";
 
                     Encode(false, true);
                 }
                 else if (a == "" && v != "")
                 {
-                    sw = new StreamWriter(output);
+                    fileContents += i;
+                    fileContents += "\r\n\r\n";
 
-                    sw.WriteLine(i);
-                    sw.WriteLine("");
+                    fileContents += v;
+                    fileContents += "\r\n\r\n";
 
-                    sw.WriteLine(v);
-                    sw.WriteLine("");
-                    sw.WriteLine("v");
+                    fileContents += "v";
 
                     Encode(true, false);
                 }
                 else if (v != "" && a != "")
                 {
-                    sw = new StreamWriter(output);
+                    fileContents += i;
+                    fileContents += "\r\n\r\n";
 
-                    sw.WriteLine(i);
-                    sw.WriteLine("");
+                    fileContents += v;
+                    fileContents += "\r\n\r\n";
 
-                    sw.WriteLine(v);
-                    sw.WriteLine("");
+                    fileContents += a;
+                    fileContents += "\r\n\r\n";
 
-                    sw.WriteLine(a);
-                    sw.WriteLine("");
-                    sw.WriteLine("a=Normalize(a, 1.0)");
-                    sw.WriteLine("");
+                    fileContents += "a=Normalize(a, 1.0)";
+                    fileContents += "\r\n\r\n";
 
-                    sw.WriteLine("o=AudioDub(v, a)");
-                    sw.WriteLine("");
-                    sw.WriteLine("o.ConvertAudioTo16Bit()");
+                    fileContents += "o=AudioDub(v, a)";
+                    fileContents += "\r\n\r\n";
+
+                    fileContents += "o=ConvertAudioTo16Bit(o)";
+                    fileContents += "\r\n\r\n";
+
+                    fileContents += "o";
 
                     Encode(true, true);
                 }
 
+                writeFile(outputFileName, fileContents);
+
                 if (File.Exists(output))
                 {
-                    sw.Close();
                     container(chbMP4.Checked, chbMKV.Checked);
                     New();
                 }
@@ -384,18 +400,6 @@ namespace Simple_AVS_Generator
 
         private void btnNew_Click(object sender, EventArgs e) { New(); }
         #endregion Buttons
-
-        #region Container
-        private void chbMP4_CheckedChanged(object sender, EventArgs e)
-        {
-            if (chbMP4.Checked) chbMKV.Checked = false;
-        }
-
-        private void chbMKV_CheckedChanged(object sender, EventArgs e)
-        {
-            if (chbMKV.Checked) chbMP4.Checked = false;
-        }
-        #endregion Container
 
         #region ComponentEvents
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
@@ -435,6 +439,16 @@ namespace Simple_AVS_Generator
                 }
                 else chbMP4.Enabled = true;
             }
+        }
+
+        private void chbMP4_CheckedChanged(object sender, EventArgs e)
+        {
+            if (chbMP4.Checked) chbMKV.Checked = false;
+        }
+
+        private void chbMKV_CheckedChanged(object sender, EventArgs e)
+        {
+            if (chbMKV.Checked) chbMP4.Checked = false;
         }
         #endregion ComponentEvents
     }
