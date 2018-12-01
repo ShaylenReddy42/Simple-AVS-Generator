@@ -1,5 +1,7 @@
 cmake_minimum_required(VERSION 3.8)
 
+include(CSharpUtilities)
+
 project(
 	SimpleAVSGenerator
 	LANGUAGES CSharp
@@ -18,25 +20,17 @@ add_executable(
 	Properties/Settings.Designer.cs
 )
 
-set_source_files_properties(
-	"Simple AVS Generator.Designer.cs" PROPERTIES
-	VS_CSHARP_DependentUpon "Simple AVS Generator.cs"
-	VS_CSHARP_SubType "Form"
+csharp_set_windows_forms_properties(
+	"Simple AVS Generator.cs"
+	"Simple AVS Generator.Designer.cs"
+	"Simple AVS Generator.resx"
 )
 
-set_source_files_properties(
-	"Simple AVS Generator.resx" PROPERTIES
-	VS_CSHARP_DependentUpon "Simple AVS Generator.cs"
-)
-
-set_source_files_properties(
-	Properties/Resources.Designer.cs PROPERTIES
-	VS_CSHARP_DependentUpon Resources.resx
-)
-
-set_source_files_properties(
-	Properties/Settings.Designer.cs PROPERTIES
-	VS_CSHARP_DependentUpon Settings.settings
+csharp_set_designer_cs_properties(
+	Properties/Resources.resx
+	Properties/Resources.Designer.cs
+	Properties/Settings.settings
+	Properties/Settings.Designer.cs
 )
 
 set_target_properties(
