@@ -366,13 +366,10 @@ namespace Simple_AVS_Generator
                 a = chkAEnc.Checked ? "a=LWLibavAudioSource(i).ConvertAudioToFloat()" : "";
 
                 String outputFileName = output,
-                         fileContents = "";
+                         fileContents = i + "\r\n\r\n";
 
-                if (v == "" && a != "")
+                if (v == "" && a != "") //Audio only
                 {
-                    fileContents += i;
-                    fileContents += "\r\n\r\n";
-
                     fileContents += a;
                     fileContents += "\r\n\r\n";
 
@@ -386,11 +383,8 @@ namespace Simple_AVS_Generator
 
                     Encode(false, true);
                 }
-                else if (a == "" && v != "")
+                else if (v != "" && a == "") //Video only
                 {
-                    fileContents += i;
-                    fileContents += "\r\n\r\n";
-
                     fileContents += v;
                     fileContents += "\r\n\r\n";
 
@@ -398,11 +392,8 @@ namespace Simple_AVS_Generator
 
                     Encode(true, false);
                 }
-                else if (v != "" && a != "")
+                else if (v != "" && a != "") //Video and Audio
                 {
-                    fileContents += i;
-                    fileContents += "\r\n\r\n";
-
                     fileContents += v;
                     fileContents += "\r\n\r\n";
 
