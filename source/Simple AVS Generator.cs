@@ -28,7 +28,7 @@ namespace Simple_AVS_Generator
         {
             InitializeComponent();
             txbOutFile.Text = outDir;
-            populateComboLists();
+            PopulateComboBoxes();
         }
 
         static String home = "C:\\Users\\" + Environment.UserName + "\\Desktop\\Temp\\";
@@ -77,7 +77,7 @@ namespace Simple_AVS_Generator
         }
         
         #region Methods
-        void populateComboLists()
+        void PopulateComboBoxes()
         {
             cmbAudioCodec.Items.Add("AAC-LC");
             cmbAudioCodec.Items.Add("AAC-HE");
@@ -102,14 +102,14 @@ namespace Simple_AVS_Generator
             cmbChannels.SelectedIndex = 0;
         }
 
-        void writeFile(String outputFileName, String fileContents)
+        void WriteFile(String outputFileName, String fileContents)
         {
             StreamWriter sw = new StreamWriter(outputFileName);
             sw.Write(fileContents);
             sw.Close();
         }
 
-        int determineAudioBitrate()
+        int DetermineAudioBitrate()
         {
             int audioBitrate = 0;
 
@@ -135,7 +135,7 @@ namespace Simple_AVS_Generator
             return audioBitrate;
         }
 
-        String determineAudioLanguage()
+        String DetermineAudioLanguage()
         {
             String audioLanguage = "";
 
@@ -192,14 +192,14 @@ namespace Simple_AVS_Generator
             btnNew.Enabled  = false; btnOpenFile.Enabled = true;
         }
 
-        void avsMeter()
+        void AVSMeter()
         {
             String switches = "-i -l";
 
             String outputFileName = outDir + "AVSMeter.cmd",
                      fileContents = "AVSMeter64 \"%~dp0Script.avs\" " + switches;
 
-            writeFile(outputFileName, fileContents);
+            WriteFile(outputFileName, fileContents);
         }
 
         void Encode(bool video, bool audio)
@@ -232,8 +232,8 @@ namespace Simple_AVS_Generator
                 String outputFileName = vCmdFile,
                          fileContents = vPipe + vEncoder;
 
-                writeFile(outputFileName, fileContents);
-                avsMeter();
+                WriteFile(outputFileName, fileContents);
+                AVSMeter();
             }
 
             if (audio)
@@ -244,19 +244,19 @@ namespace Simple_AVS_Generator
 
                 if (cmbAudioCodec.SelectedIndex == (int) Audio.AAC_LC)
                 {
-                    aEncoder += "qaac64 --abr " + determineAudioBitrate() + " --ignorelength --no-delay ";
+                    aEncoder += "qaac64 --abr " + DetermineAudioBitrate() + " --ignorelength --no-delay ";
                     aEncoder += "-o \"%~dp0" + fileNameOnly + ".m4a\" - ";
                     aCmdFile += "Encode Audio [AAC-LC].cmd";
                 }
                 else if (cmbAudioCodec.SelectedIndex == (int) Audio.AAC_HE)
                 {
-                    aEncoder += "qaac64 --he --abr " + determineAudioBitrate() + " --ignorelength ";
+                    aEncoder += "qaac64 --he --abr " + DetermineAudioBitrate() + " --ignorelength ";
                     aEncoder += "-o \"%~dp0" + fileNameOnly + ".m4a\" - ";
                     aCmdFile += "Encode Audio [AAC-HE].cmd";
                 }
                 else //OPUS
                 {
-                    aEncoder += "opusenc --bitrate " + determineAudioBitrate() + " --ignorelength ";
+                    aEncoder += "opusenc --bitrate " + DetermineAudioBitrate() + " --ignorelength ";
                     aEncoder += "- \"%~dp0" + fileNameOnly + ".ogg\"";
                     aCmdFile += "Encode Audio [OPUS].cmd";
                 }
@@ -264,11 +264,11 @@ namespace Simple_AVS_Generator
                 String outputFileName = aCmdFile,
                          fileContents = aPipe + aEncoder;
 
-                writeFile(outputFileName, fileContents);
+                WriteFile(outputFileName, fileContents);
             }
         }
 
-        void container(bool mp4, bool mkv, bool originalVideo)
+        void OutputContainer(bool mp4, bool mkv, bool originalVideo)
         {
             String videoExtension = cmbVideoCodec.SelectedIndex == (int) Video.HEVC ? ".265" : ".264",
                    audioExtension = cmbAudioCodec.SelectedIndex == (int) Audio.OPUS ? ".ogg" : ".m4a",
@@ -280,7 +280,7 @@ namespace Simple_AVS_Generator
             {
                 String mp4V = !originalVideo ? "-add \"%~dp0Video" + videoExtension + "\":name= " :
                                                "-add \"" + fileName + "\"#video ",
-                       mp4A = cbxAudio.Checked ? "-add \"%~dp0" + fileNameOnly + ".m4a\":name=:lang=" + determineAudioLanguage() : "",
+                       mp4A = cbxAudio.Checked ? "-add \"%~dp0" + fileNameOnly + ".m4a\":name=:lang=" + DetermineAudioLanguage() : "",
                      newmp4 = " -new " + "\"%~dp0" + fileNameOnly + ".mp4\"";
 
                 outputFileName += "MP4 Mux" + (originalVideo ? " [Original Video]" : "") + ".cmd";
@@ -297,7 +297,7 @@ namespace Simple_AVS_Generator
                 fileContents = "mkvmerge " + mkvO + mkvV + mkvA;
             }
 
-            writeFile(outputFileName, fileContents);
+            WriteFile(outputFileName, fileContents);
         }
         #endregion Methods
 
@@ -405,12 +405,12 @@ namespace Simple_AVS_Generator
                     Encode(true, true);
                 }
 
-                writeFile(outputFileName, fileContents);
+                WriteFile(outputFileName, fileContents);
 
                 if (File.Exists(output))
                 {
                     if (cbxVideo.Checked && (cbxMP4.Checked || cbxMKV.Checked))
-                        container(cbxMP4.Checked, cbxMKV.Checked, cmbVideoCodec.SelectedIndex == (int) Video.Original);
+                        OutputContainer(cbxMP4.Checked, cbxMKV.Checked, cmbVideoCodec.SelectedIndex == (int) Video.Original);
 
                     New();
                 }
