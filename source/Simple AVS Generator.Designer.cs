@@ -142,7 +142,6 @@
             this.cbxVideoCodec.Name = "cbxVideoCodec";
             this.cbxVideoCodec.Size = new System.Drawing.Size(113, 21);
             this.cbxVideoCodec.TabIndex = 2;
-            this.cbxVideoCodec.SelectedIndexChanged += new System.EventHandler(this.cbxVideoCodec_SelectedIndexChanged);
             // 
             // chkAEnc
             // 
