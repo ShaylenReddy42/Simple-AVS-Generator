@@ -79,27 +79,27 @@ namespace Simple_AVS_Generator
         #region Methods
         void populateComboLists()
         {
-            cbxAudioCodec.Items.Add("AAC-LC");
-            cbxAudioCodec.Items.Add("AAC-HE");
-            cbxAudioCodec.Items.Add("OPUS");
-            cbxAudioCodec.SelectedIndex = 0;
+            cmbAudioCodec.Items.Add("AAC-LC");
+            cmbAudioCodec.Items.Add("AAC-HE");
+            cmbAudioCodec.Items.Add("OPUS");
+            cmbAudioCodec.SelectedIndex = 0;
 
-            cbxVideoCodec.Items.Add("HEVC");
-            cbxVideoCodec.Items.Add("AVC");
-            cbxVideoCodec.Items.Add("Whatsapp");
-            cbxVideoCodec.Items.Add("Mux Original");
-            cbxVideoCodec.SelectedIndex = 0;
+            cmbVideoCodec.Items.Add("HEVC");
+            cmbVideoCodec.Items.Add("AVC");
+            cmbVideoCodec.Items.Add("Whatsapp");
+            cmbVideoCodec.Items.Add("Mux Original");
+            cmbVideoCodec.SelectedIndex = 0;
 
-            cbxLanguage.Items.Add("English");
-            cbxLanguage.Items.Add("Hindi");
-            cbxLanguage.Items.Add("Japanese");
-            cbxLanguage.Items.Add("Tamil");
-            cbxLanguage.SelectedIndex = 0;
+            cmbLanguage.Items.Add("English");
+            cmbLanguage.Items.Add("Hindi");
+            cmbLanguage.Items.Add("Japanese");
+            cmbLanguage.Items.Add("Tamil");
+            cmbLanguage.SelectedIndex = 0;
 
-            cbxChannels.Items.Add("2 Channels");
-            cbxChannels.Items.Add("5.1 Channels");
-            cbxChannels.Items.Add("7.1 Channels");
-            cbxChannels.SelectedIndex = 0;
+            cmbChannels.Items.Add("2 Channels");
+            cmbChannels.Items.Add("5.1 Channels");
+            cmbChannels.Items.Add("7.1 Channels");
+            cmbChannels.SelectedIndex = 0;
         }
 
         void writeFile(String outputFileName, String fileContents)
@@ -113,21 +113,21 @@ namespace Simple_AVS_Generator
         {
             int audioBitrate = 0;
 
-            switch (cbxChannels.SelectedIndex)
+            switch (cmbChannels.SelectedIndex)
             {
                 case (int) AudioChannels.Two:
-                    audioBitrate = cbxAudioCodec.SelectedIndex == (int) Audio.AAC_LC ? 112 :
-                                   cbxAudioCodec.SelectedIndex == (int) Audio.AAC_HE ? 80 :
+                    audioBitrate = cmbAudioCodec.SelectedIndex == (int) Audio.AAC_LC ? 112 :
+                                   cmbAudioCodec.SelectedIndex == (int) Audio.AAC_HE ? 80 :
                                    96; //OPUS
                     break;
                 case (int) AudioChannels.Six:
-                    audioBitrate = cbxAudioCodec.SelectedIndex == (int) Audio.AAC_LC ? 320 :
-                                   cbxAudioCodec.SelectedIndex == (int) Audio.AAC_HE ? 224 :
+                    audioBitrate = cmbAudioCodec.SelectedIndex == (int) Audio.AAC_LC ? 320 :
+                                   cmbAudioCodec.SelectedIndex == (int) Audio.AAC_HE ? 224 :
                                    288; //OPUS
                     break;
                 case (int) AudioChannels.Eight:
-                    audioBitrate = cbxAudioCodec.SelectedIndex == (int) Audio.AAC_LC ? 448 :
-                                   cbxAudioCodec.SelectedIndex == (int) Audio.AAC_HE ? 320 :
+                    audioBitrate = cmbAudioCodec.SelectedIndex == (int) Audio.AAC_LC ? 448 :
+                                   cmbAudioCodec.SelectedIndex == (int) Audio.AAC_HE ? 320 :
                                    384; //OPUS
                     break;
             }
@@ -139,7 +139,7 @@ namespace Simple_AVS_Generator
         {
             String audioLanguage = "";
 
-            switch (cbxLanguage.SelectedIndex)
+            switch (cmbLanguage.SelectedIndex)
             {
                 case (int) AudioLanguages.English:
                     audioLanguage = "eng";
@@ -160,12 +160,12 @@ namespace Simple_AVS_Generator
 
         void EnableEncodeAndContainer()
         {
-            chkVEnc.Enabled     = true;
-            chkAEnc.Enabled     = true;
-            cbxChannels.Enabled = true;
-            cbxLanguage.Enabled = true;
-            chbMP4.Enabled      = true;
-            chbMKV.Enabled      = true;
+            cbxVideo.Enabled    = true;
+            cbxAudio.Enabled    = true;
+            cmbChannels.Enabled = true;
+            cmbLanguage.Enabled = true;
+            cbxMP4.Enabled      = true;
+            cbxMKV.Enabled      = true;
         }
 
         void New()
@@ -177,17 +177,17 @@ namespace Simple_AVS_Generator
 
             txbOutFile.Text = outDir;
 
-            chbMP4.Checked  = false; chbMKV.Checked  = false;
-            chkVEnc.Checked = false; chkAEnc.Checked = false;
+            cbxMP4.Checked  = false; cbxMKV.Checked  = false;
+            cbxVideo.Checked = false; cbxAudio.Checked = false;
 
-            chkVEnc.Enabled = false; chkAEnc.Enabled = false;
-            chbMP4.Enabled  = false; chbMKV.Enabled  = false;
+            cbxVideo.Enabled = false; cbxAudio.Enabled = false;
+            cbxMP4.Enabled  = false; cbxMKV.Enabled  = false;
 
-            cbxVideoCodec.Enabled = false; cbxAudioCodec.Enabled = false;
-            cbxVideoCodec.SelectedIndex = 0; cbxAudioCodec.SelectedIndex = 0;
+            cmbVideoCodec.Enabled = false; cmbAudioCodec.Enabled = false;
+            cmbVideoCodec.SelectedIndex = 0; cmbAudioCodec.SelectedIndex = 0;
 
-            cbxLanguage.Enabled = false; cbxChannels.Enabled = false;
-            cbxLanguage.SelectedIndex = 0; cbxChannels.SelectedIndex = 0;
+            cmbLanguage.Enabled = false; cmbChannels.Enabled = false;
+            cmbLanguage.SelectedIndex = 0; cmbChannels.SelectedIndex = 0;
 
             btnNew.Enabled  = false; btnOpenFile.Enabled = true;
         }
@@ -210,19 +210,19 @@ namespace Simple_AVS_Generator
                     vEncoder = "",
                     vCmdFile = outDir;
 
-                if (cbxVideoCodec.SelectedIndex == (int) Video.HEVC)
+                if (cmbVideoCodec.SelectedIndex == (int) Video.HEVC)
                 {
                     vEncoder += "x265 -P main --preset slower --crf 27 -i 1 -I 48 --scenecut-bias 10 --bframes 1 ";
                     vEncoder += "--aq-mode 3 --aq-motion --aud --no-open-gop --y4m -f 0 - \"%~dp0Video.265\"";
                     vCmdFile += "Encode Video [HEVC].cmd";
                 }
-                else if (cbxVideoCodec.SelectedIndex == (int) Video.AVC)
+                else if (cmbVideoCodec.SelectedIndex == (int) Video.AVC)
                 {
                     vEncoder += "x264 --preset slower --crf 27 -i 1 -I 48 --bframes 1 --aq-mode 3 --aud --no-mbtree ";
                     vEncoder += "--demuxer y4m --frames 0 -o \"%~dp0Video.264\" -";
                     vCmdFile += "Encode Video [AVC].cmd";
                 }
-                else if (cbxVideoCodec.SelectedIndex == (int) Video.WhatsApp)
+                else if (cmbVideoCodec.SelectedIndex == (int) Video.WhatsApp)
                 {
                     vEncoder += "x264 --preset slower --crf 27 -i 1 -I 10000 --bframes 16 --no-scenecut --aud --no-mbtree ";
                     vEncoder += "--demuxer y4m --frames 0 -o \"%~dp0Video.264\" -";
@@ -242,13 +242,13 @@ namespace Simple_AVS_Generator
                     aEncoder = "",
                     aCmdFile = outDir;
 
-                if (cbxAudioCodec.SelectedIndex == (int) Audio.AAC_LC)
+                if (cmbAudioCodec.SelectedIndex == (int) Audio.AAC_LC)
                 {
                     aEncoder += "qaac64 --abr " + determineAudioBitrate() + " --ignorelength --no-delay ";
                     aEncoder += "-o \"%~dp0" + fileNameOnly + ".m4a\" - ";
                     aCmdFile += "Encode Audio [AAC-LC].cmd";
                 }
-                else if (cbxAudioCodec.SelectedIndex == (int) Audio.AAC_HE)
+                else if (cmbAudioCodec.SelectedIndex == (int) Audio.AAC_HE)
                 {
                     aEncoder += "qaac64 --he --abr " + determineAudioBitrate() + " --ignorelength ";
                     aEncoder += "-o \"%~dp0" + fileNameOnly + ".m4a\" - ";
@@ -270,8 +270,8 @@ namespace Simple_AVS_Generator
 
         void container(bool mp4, bool mkv, bool originalVideo)
         {
-            String videoExtension = cbxVideoCodec.SelectedIndex == (int) Video.HEVC ? ".265" : ".264",
-                   audioExtension = cbxAudioCodec.SelectedIndex == (int) Audio.OPUS ? ".ogg" : ".m4a",
+            String videoExtension = cmbVideoCodec.SelectedIndex == (int) Video.HEVC ? ".265" : ".264",
+                   audioExtension = cmbAudioCodec.SelectedIndex == (int) Audio.OPUS ? ".ogg" : ".m4a",
 
                    outputFileName = outDir,
                      fileContents = "";
@@ -280,7 +280,7 @@ namespace Simple_AVS_Generator
             {
                 String mp4V = !originalVideo ? "-add \"%~dp0Video" + videoExtension + "\":name= " :
                                                "-add \"" + fileName + "\"#video ",
-                       mp4A = chkAEnc.Checked ? "-add \"%~dp0" + fileNameOnly + ".m4a\":name=:lang=" + determineAudioLanguage() : "",
+                       mp4A = cbxAudio.Checked ? "-add \"%~dp0" + fileNameOnly + ".m4a\":name=:lang=" + determineAudioLanguage() : "",
                      newmp4 = " -new " + "\"%~dp0" + fileNameOnly + ".mp4\"";
 
                 outputFileName += "MP4 Mux" + (originalVideo ? " [Original Video]" : "") + ".cmd";
@@ -291,7 +291,7 @@ namespace Simple_AVS_Generator
                 String mkvO = "-o \"%~dp0" + fileNameOnly + ".mkv\" ",
                        mkvV = !originalVideo ? "\"%~dp0Video" + videoExtension + "\" " :
                                                "--no-audio \"" + fileName + "\" ",
-                       mkvA = chkAEnc.Checked ? "--language 0:eng \"%~dp0" + fileNameOnly + audioExtension + "\" " : "";
+                       mkvA = cbxAudio.Checked ? "--language 0:eng \"%~dp0" + fileNameOnly + audioExtension + "\" " : "";
 
                 outputFileName += "MKV Mux" + (originalVideo ? " [Original Video]" : "") + ".cmd";
                 fileContents = "mkvmerge " + mkvO + mkvV + mkvA;
@@ -351,10 +351,10 @@ namespace Simple_AVS_Generator
             if (fileName != "")
             {
                 String i = "i=\"" + fileName + "\"";
-                v = chkVEnc.Checked & cbxVideoCodec.SelectedIndex != (int) Video.Original ? "v=LWLibavVideoSource(i).ConvertToYV12()" : "";
-                v = cbxVideoCodec.SelectedIndex == (int) Video.WhatsApp ? v + ".Spline36Resize(480, 270)" : v;
+                v = cbxVideo.Checked & cmbVideoCodec.SelectedIndex != (int) Video.Original ? "v=LWLibavVideoSource(i).ConvertToYV12()" : "";
+                v = cmbVideoCodec.SelectedIndex == (int) Video.WhatsApp ? v + ".Spline36Resize(480, 270)" : v;
 
-                a = chkAEnc.Checked ? "a=LWLibavAudioSource(i).ConvertAudioToFloat()" : "";
+                a = cbxAudio.Checked ? "a=LWLibavAudioSource(i).ConvertAudioToFloat()" : "";
 
                 String outputFileName = output,
                          fileContents = i + "\r\n\r\n";
@@ -409,8 +409,8 @@ namespace Simple_AVS_Generator
 
                 if (File.Exists(output))
                 {
-                    if (chkVEnc.Checked && (chbMP4.Checked || chbMKV.Checked))
-                        container(chbMP4.Checked, chbMKV.Checked, cbxVideoCodec.SelectedIndex == (int) Video.Original);
+                    if (cbxVideo.Checked && (cbxMP4.Checked || cbxMKV.Checked))
+                        container(cbxMP4.Checked, cbxMKV.Checked, cmbVideoCodec.SelectedIndex == (int) Video.Original);
 
                     New();
                 }
@@ -428,43 +428,43 @@ namespace Simple_AVS_Generator
                 Directory.Delete(outDir);
         }
 
-        private void chkVEnc_CheckedChanged(object sender, EventArgs e)
+        private void cbxVideo_CheckedChanged(object sender, EventArgs e)
         {
-            chbMP4.Checked = chkVEnc.Checked &&
-                             chbMP4.Enabled &&
-                             cbxAudioCodec.SelectedIndex != (int) Audio.OPUS &&
-                             !chbMKV.Checked;
+            cbxMP4.Checked = cbxVideo.Checked &&
+                             cbxMP4.Enabled &&
+                             cmbAudioCodec.SelectedIndex != (int) Audio.OPUS &&
+                             !cbxMKV.Checked;
 
-            cbxVideoCodec.Enabled = chkVEnc.Checked;
+            cmbVideoCodec.Enabled = cbxVideo.Checked;
         }
 
-        private void chkAEnc_CheckedChanged(object sender, EventArgs e)
+        private void cbxAudio_CheckedChanged(object sender, EventArgs e)
         {
-            cbxAudioCodec.Enabled = chkAEnc.Checked;
+            cmbAudioCodec.Enabled = cbxAudio.Checked;
         }
 
-        private void cbxAudioCodec_SelectedIndexChanged(object sender, EventArgs e)
+        private void cmbAudioCodec_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (chkVEnc.Enabled)
+            if (cbxVideo.Enabled)
             {
-                if (cbxAudioCodec.SelectedIndex == (int) Audio.OPUS)
+                if (cmbAudioCodec.SelectedIndex == (int) Audio.OPUS)
                 {
-                    chbMP4.Enabled = false;
-                    chbMP4.Checked = false;
-                    chbMKV.Checked = true;
+                    cbxMP4.Enabled = false;
+                    cbxMP4.Checked = false;
+                    cbxMKV.Checked = true;
                 }
-                else chbMP4.Enabled = true;
+                else cbxMP4.Enabled = true;
             }
         }
 
-        private void chbMP4_CheckedChanged(object sender, EventArgs e)
+        private void cbxMP4_CheckedChanged(object sender, EventArgs e)
         {
-            if (chbMP4.Checked) chbMKV.Checked = false;
+            if (cbxMP4.Checked) cbxMKV.Checked = false;
         }
 
-        private void chbMKV_CheckedChanged(object sender, EventArgs e)
+        private void cbxMKV_CheckedChanged(object sender, EventArgs e)
         {
-            if (chbMKV.Checked) chbMP4.Checked = false;
+            if (cbxMKV.Checked) cbxMP4.Checked = false;
         }
         #endregion ComponentEvents
     }

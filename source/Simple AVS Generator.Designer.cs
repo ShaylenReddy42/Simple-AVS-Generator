@@ -35,16 +35,16 @@
             this.btnGen = new System.Windows.Forms.Button();
             this.btnNew = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.cbxAudioCodec = new System.Windows.Forms.ComboBox();
-            this.cbxVideoCodec = new System.Windows.Forms.ComboBox();
-            this.chkAEnc = new System.Windows.Forms.CheckBox();
-            this.chkVEnc = new System.Windows.Forms.CheckBox();
+            this.cmbAudioCodec = new System.Windows.Forms.ComboBox();
+            this.cmbVideoCodec = new System.Windows.Forms.ComboBox();
+            this.cbxAudio = new System.Windows.Forms.CheckBox();
+            this.cbxVideo = new System.Windows.Forms.CheckBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.chbMKV = new System.Windows.Forms.CheckBox();
-            this.chbMP4 = new System.Windows.Forms.CheckBox();
+            this.cbxMKV = new System.Windows.Forms.CheckBox();
+            this.cbxMP4 = new System.Windows.Forms.CheckBox();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.cbxChannels = new System.Windows.Forms.ComboBox();
-            this.cbxLanguage = new System.Windows.Forms.ComboBox();
+            this.cmbChannels = new System.Windows.Forms.ComboBox();
+            this.cmbLanguage = new System.Windows.Forms.ComboBox();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
@@ -111,10 +111,10 @@
             // 
             // groupBox1
             // 
-            this.groupBox1.Controls.Add(this.cbxAudioCodec);
-            this.groupBox1.Controls.Add(this.cbxVideoCodec);
-            this.groupBox1.Controls.Add(this.chkAEnc);
-            this.groupBox1.Controls.Add(this.chkVEnc);
+            this.groupBox1.Controls.Add(this.cmbAudioCodec);
+            this.groupBox1.Controls.Add(this.cmbVideoCodec);
+            this.groupBox1.Controls.Add(this.cbxAudio);
+            this.groupBox1.Controls.Add(this.cbxVideo);
             this.groupBox1.Location = new System.Drawing.Point(13, 39);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(201, 85);
@@ -122,55 +122,55 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Encoders";
             // 
-            // cbxAudioCodec
+            // cmbAudioCodec
             // 
-            this.cbxAudioCodec.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cbxAudioCodec.Enabled = false;
-            this.cbxAudioCodec.FormattingEnabled = true;
-            this.cbxAudioCodec.Location = new System.Drawing.Point(79, 50);
-            this.cbxAudioCodec.Name = "cbxAudioCodec";
-            this.cbxAudioCodec.Size = new System.Drawing.Size(113, 21);
-            this.cbxAudioCodec.TabIndex = 3;
-            this.cbxAudioCodec.SelectedIndexChanged += new System.EventHandler(this.cbxAudioCodec_SelectedIndexChanged);
+            this.cmbAudioCodec.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbAudioCodec.Enabled = false;
+            this.cmbAudioCodec.FormattingEnabled = true;
+            this.cmbAudioCodec.Location = new System.Drawing.Point(79, 50);
+            this.cmbAudioCodec.Name = "cmbAudioCodec";
+            this.cmbAudioCodec.Size = new System.Drawing.Size(113, 21);
+            this.cmbAudioCodec.TabIndex = 3;
+            this.cmbAudioCodec.SelectedIndexChanged += new System.EventHandler(this.cmbAudioCodec_SelectedIndexChanged);
             // 
-            // cbxVideoCodec
+            // cmbVideoCodec
             // 
-            this.cbxVideoCodec.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cbxVideoCodec.Enabled = false;
-            this.cbxVideoCodec.FormattingEnabled = true;
-            this.cbxVideoCodec.Location = new System.Drawing.Point(79, 17);
-            this.cbxVideoCodec.Name = "cbxVideoCodec";
-            this.cbxVideoCodec.Size = new System.Drawing.Size(113, 21);
-            this.cbxVideoCodec.TabIndex = 2;
+            this.cmbVideoCodec.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbVideoCodec.Enabled = false;
+            this.cmbVideoCodec.FormattingEnabled = true;
+            this.cmbVideoCodec.Location = new System.Drawing.Point(79, 17);
+            this.cmbVideoCodec.Name = "cmbVideoCodec";
+            this.cmbVideoCodec.Size = new System.Drawing.Size(113, 21);
+            this.cmbVideoCodec.TabIndex = 2;
             // 
-            // chkAEnc
+            // cbxAudio
             // 
-            this.chkAEnc.AutoSize = true;
-            this.chkAEnc.Enabled = false;
-            this.chkAEnc.Location = new System.Drawing.Point(19, 52);
-            this.chkAEnc.Name = "chkAEnc";
-            this.chkAEnc.Size = new System.Drawing.Size(53, 17);
-            this.chkAEnc.TabIndex = 1;
-            this.chkAEnc.Text = "Audio";
-            this.chkAEnc.UseVisualStyleBackColor = true;
-            this.chkAEnc.CheckedChanged += new System.EventHandler(this.chkAEnc_CheckedChanged);
+            this.cbxAudio.AutoSize = true;
+            this.cbxAudio.Enabled = false;
+            this.cbxAudio.Location = new System.Drawing.Point(19, 52);
+            this.cbxAudio.Name = "cbxAudio";
+            this.cbxAudio.Size = new System.Drawing.Size(53, 17);
+            this.cbxAudio.TabIndex = 1;
+            this.cbxAudio.Text = "Audio";
+            this.cbxAudio.UseVisualStyleBackColor = true;
+            this.cbxAudio.CheckedChanged += new System.EventHandler(this.cbxAudio_CheckedChanged);
             // 
-            // chkVEnc
+            // cbxVideo
             // 
-            this.chkVEnc.AutoSize = true;
-            this.chkVEnc.Enabled = false;
-            this.chkVEnc.Location = new System.Drawing.Point(19, 19);
-            this.chkVEnc.Name = "chkVEnc";
-            this.chkVEnc.Size = new System.Drawing.Size(53, 17);
-            this.chkVEnc.TabIndex = 0;
-            this.chkVEnc.Text = "Video";
-            this.chkVEnc.UseVisualStyleBackColor = true;
-            this.chkVEnc.CheckedChanged += new System.EventHandler(this.chkVEnc_CheckedChanged);
+            this.cbxVideo.AutoSize = true;
+            this.cbxVideo.Enabled = false;
+            this.cbxVideo.Location = new System.Drawing.Point(19, 19);
+            this.cbxVideo.Name = "cbxVideo";
+            this.cbxVideo.Size = new System.Drawing.Size(53, 17);
+            this.cbxVideo.TabIndex = 0;
+            this.cbxVideo.Text = "Video";
+            this.cbxVideo.UseVisualStyleBackColor = true;
+            this.cbxVideo.CheckedChanged += new System.EventHandler(this.cbxVideo_CheckedChanged);
             // 
             // groupBox2
             // 
-            this.groupBox2.Controls.Add(this.chbMKV);
-            this.groupBox2.Controls.Add(this.chbMP4);
+            this.groupBox2.Controls.Add(this.cbxMKV);
+            this.groupBox2.Controls.Add(this.cbxMP4);
             this.groupBox2.Location = new System.Drawing.Point(409, 40);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(148, 84);
@@ -178,34 +178,34 @@
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Output Containers";
             // 
-            // chbMKV
+            // cbxMKV
             // 
-            this.chbMKV.AutoSize = true;
-            this.chbMKV.Enabled = false;
-            this.chbMKV.Location = new System.Drawing.Point(82, 37);
-            this.chbMKV.Name = "chbMKV";
-            this.chbMKV.Size = new System.Drawing.Size(49, 17);
-            this.chbMKV.TabIndex = 1;
-            this.chbMKV.Text = "MKV";
-            this.chbMKV.UseVisualStyleBackColor = true;
-            this.chbMKV.CheckedChanged += new System.EventHandler(this.chbMKV_CheckedChanged);
+            this.cbxMKV.AutoSize = true;
+            this.cbxMKV.Enabled = false;
+            this.cbxMKV.Location = new System.Drawing.Point(82, 37);
+            this.cbxMKV.Name = "cbxMKV";
+            this.cbxMKV.Size = new System.Drawing.Size(49, 17);
+            this.cbxMKV.TabIndex = 1;
+            this.cbxMKV.Text = "MKV";
+            this.cbxMKV.UseVisualStyleBackColor = true;
+            this.cbxMKV.CheckedChanged += new System.EventHandler(this.cbxMKV_CheckedChanged);
             // 
-            // chbMP4
+            // cbxMP4
             // 
-            this.chbMP4.AutoSize = true;
-            this.chbMP4.Enabled = false;
-            this.chbMP4.Location = new System.Drawing.Point(19, 37);
-            this.chbMP4.Name = "chbMP4";
-            this.chbMP4.Size = new System.Drawing.Size(48, 17);
-            this.chbMP4.TabIndex = 0;
-            this.chbMP4.Text = "MP4";
-            this.chbMP4.UseVisualStyleBackColor = true;
-            this.chbMP4.CheckedChanged += new System.EventHandler(this.chbMP4_CheckedChanged);
+            this.cbxMP4.AutoSize = true;
+            this.cbxMP4.Enabled = false;
+            this.cbxMP4.Location = new System.Drawing.Point(19, 37);
+            this.cbxMP4.Name = "cbxMP4";
+            this.cbxMP4.Size = new System.Drawing.Size(48, 17);
+            this.cbxMP4.TabIndex = 0;
+            this.cbxMP4.Text = "MP4";
+            this.cbxMP4.UseVisualStyleBackColor = true;
+            this.cbxMP4.CheckedChanged += new System.EventHandler(this.cbxMP4_CheckedChanged);
             // 
             // groupBox3
             // 
-            this.groupBox3.Controls.Add(this.cbxChannels);
-            this.groupBox3.Controls.Add(this.cbxLanguage);
+            this.groupBox3.Controls.Add(this.cmbChannels);
+            this.groupBox3.Controls.Add(this.cmbLanguage);
             this.groupBox3.Controls.Add(this.label2);
             this.groupBox3.Controls.Add(this.label1);
             this.groupBox3.Location = new System.Drawing.Point(222, 39);
@@ -215,25 +215,25 @@
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Audio Options";
             // 
-            // cbxChannels
+            // cmbChannels
             // 
-            this.cbxChannels.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cbxChannels.Enabled = false;
-            this.cbxChannels.FormattingEnabled = true;
-            this.cbxChannels.Location = new System.Drawing.Point(74, 50);
-            this.cbxChannels.Name = "cbxChannels";
-            this.cbxChannels.Size = new System.Drawing.Size(101, 21);
-            this.cbxChannels.TabIndex = 3;
+            this.cmbChannels.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbChannels.Enabled = false;
+            this.cmbChannels.FormattingEnabled = true;
+            this.cmbChannels.Location = new System.Drawing.Point(74, 50);
+            this.cmbChannels.Name = "cmbChannels";
+            this.cmbChannels.Size = new System.Drawing.Size(101, 21);
+            this.cmbChannels.TabIndex = 3;
             // 
-            // cbxLanguage
+            // cmbLanguage
             // 
-            this.cbxLanguage.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cbxLanguage.Enabled = false;
-            this.cbxLanguage.FormattingEnabled = true;
-            this.cbxLanguage.Location = new System.Drawing.Point(74, 17);
-            this.cbxLanguage.Name = "cbxLanguage";
-            this.cbxLanguage.Size = new System.Drawing.Size(100, 21);
-            this.cbxLanguage.TabIndex = 2;
+            this.cmbLanguage.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbLanguage.Enabled = false;
+            this.cmbLanguage.FormattingEnabled = true;
+            this.cmbLanguage.Location = new System.Drawing.Point(74, 17);
+            this.cmbLanguage.Name = "cmbLanguage";
+            this.cmbLanguage.Size = new System.Drawing.Size(100, 21);
+            this.cmbLanguage.TabIndex = 2;
             // 
             // label2
             // 
@@ -294,15 +294,15 @@
         private System.Windows.Forms.Button btnNew;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.GroupBox groupBox2;
-        private System.Windows.Forms.CheckBox chbMKV;
-        private System.Windows.Forms.CheckBox chbMP4;
-        private System.Windows.Forms.ComboBox cbxVideoCodec;
-        private System.Windows.Forms.CheckBox chkVEnc;
-        private System.Windows.Forms.CheckBox chkAEnc;
-        private System.Windows.Forms.ComboBox cbxAudioCodec;
+        private System.Windows.Forms.CheckBox cbxMKV;
+        private System.Windows.Forms.CheckBox cbxMP4;
+        private System.Windows.Forms.ComboBox cmbVideoCodec;
+        private System.Windows.Forms.CheckBox cbxVideo;
+        private System.Windows.Forms.CheckBox cbxAudio;
+        private System.Windows.Forms.ComboBox cmbAudioCodec;
         private System.Windows.Forms.GroupBox groupBox3;
-        private System.Windows.Forms.ComboBox cbxChannels;
-        private System.Windows.Forms.ComboBox cbxLanguage;
+        private System.Windows.Forms.ComboBox cmbChannels;
+        private System.Windows.Forms.ComboBox cmbLanguage;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
     }
