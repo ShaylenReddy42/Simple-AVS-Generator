@@ -268,42 +268,33 @@ namespace Simple_AVS_Generator
             }
         }
 
-        void container(bool mp4, bool mkv)
+        void container(bool mp4, bool mkv, bool originalVideo)
         {
             String videoExtension = cbxVideoCodec.SelectedIndex == (int) Video.HEVC ? ".265" : ".264",
                    audioExtension = cbxAudioCodec.SelectedIndex == (int) Audio.OPUS ? ".ogg" : ".m4a",
 
-                   outputFileName = "",
+                   outputFileName = outDir,
                      fileContents = "";
 
             if (mp4)
             {
-                String mp4V = "-add \"%~dp0Video" + videoExtension + "\":name= ",
+                String mp4V = !originalVideo ? "-add \"%~dp0Video" + videoExtension + "\":name= " :
+                                               "-add \"" + fileName + "\"#video ",
                        mp4A = chkAEnc.Checked ? "-add \"%~dp0" + fileNameOnly + ".m4a\":name=:lang=" + determineAudioLanguage() : "",
                      newmp4 = " -new " + "\"%~dp0" + fileNameOnly + ".mp4\"";
 
-                outputFileName = outDir + "MP4 Mux.cmd";
+                outputFileName += "MP4 Mux" + (originalVideo ? " [Original Video]" : "") + ".cmd";
                 fileContents = "mp4box " + mp4V + mp4A + newmp4;
             }
-
-            if (mkv)
+            else if (mkv)
             {
                 String mkvO = "-o \"%~dp0" + fileNameOnly + ".mkv\" ",
-                       mkvV = "\"%~dp0Video" + videoExtension + "\" ",
+                       mkvV = !originalVideo ? "\"%~dp0Video" + videoExtension + "\" " :
+                                               "--no-audio \"" + fileName + "\" ",
                        mkvA = chkAEnc.Checked ? "--language 0:eng \"%~dp0" + fileNameOnly + audioExtension + "\" " : "";
 
-                outputFileName = outDir + "MKV Mux.cmd";
+                outputFileName += "MKV Mux" + (originalVideo ? " [Original Video]" : "") + ".cmd";
                 fileContents = "mkvmerge " + mkvO + mkvV + mkvA;
-            }
-
-            if (cbxVideoCodec.SelectedIndex == (int) Video.Original)
-            {
-                String mp4V = "-add \"" + fileName + "\"#video ",
-                       mp4A = chkAEnc.Checked ? "-add \"%~dp0" + fileNameOnly + ".m4a\":name=:lang=" + determineAudioLanguage() : "",
-                     newmp4 = " -new " + "\"%~dp0" + fileNameOnly + ".mp4\"";
-
-                outputFileName = outDir + "MP4 Mux [Original Video].cmd";
-                fileContents = "mp4box " + mp4V + mp4A + newmp4;
             }
 
             writeFile(outputFileName, fileContents);
@@ -379,7 +370,7 @@ namespace Simple_AVS_Generator
                     fileContents += "a=ConvertAudioTo16Bit(a)";
                     fileContents += "\r\n\r\n";
 
-                    fileContents += "o";
+                    fileContents += "a";
 
                     Encode(false, true);
                 }
@@ -419,7 +410,7 @@ namespace Simple_AVS_Generator
                 if (File.Exists(output))
                 {
                     if (chkVEnc.Checked && (chbMP4.Checked || chbMKV.Checked))
-                        container(chbMP4.Checked, chbMKV.Checked);
+                        container(chbMP4.Checked, chbMKV.Checked, cbxVideoCodec.SelectedIndex == (int) Video.Original);
 
                     New();
                 }
