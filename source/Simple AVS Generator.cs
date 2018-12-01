@@ -427,7 +427,9 @@ namespace Simple_AVS_Generator
 
                 if (File.Exists(output))
                 {
-                    container(chbMP4.Checked, chbMKV.Checked);
+                    if (chkVEnc.Checked && (chbMP4.Checked || chbMKV.Checked))
+                        container(chbMP4.Checked, chbMKV.Checked);
+
                     New();
                 }
             }
