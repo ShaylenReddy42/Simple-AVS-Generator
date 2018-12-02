@@ -109,6 +109,40 @@ namespace Simple_AVS_Generator
             sw.Close();
         }
 
+        bool SupportedInMP4()
+        {
+            bool supported = false;
+
+            String [] supportedExts =
+            {
+                //Raw video extensions
+                ".M1V", ".M2V", //MPEG-1-2 Video
+                ".CMP", ".M4V", //MPEG-4 Video
+                ".263", ".H263", //H263 Video
+                ".H264", ".H26L", ".264", ".26L", ".X264", ".SVC", //AVC Video
+                ".HEVC", ".H265", ".265", ".HVC", ".SHVC", ".LHVC", ".MHVC", //HEVC Video
+
+                //Containers
+                ".AVI",
+                ".MPG", ".MPEG", ".VOB", ".VCD", ".SVCD", //MPEG-2 PS
+                ".TS", ".M2T", //MPEG-2 TS
+                ".QCP",
+                ".OGG",
+                ".MP4", ".3GP", ".3G2" //Some ISO Media Extensions
+            };
+
+            foreach (String ext in supportedExts)
+            {
+                if (fileExt.Equals(ext))
+                {
+                    supported = true;
+                    break;
+                }
+            }
+
+            return supported;
+        }
+
         int DetermineAudioBitrate()
         {
             int audioBitrate = 0;
@@ -442,6 +476,19 @@ namespace Simple_AVS_Generator
         {
             cmbAudioCodec.Enabled = cbxAudio.Checked;
         }
+        
+        private void cmbVideoCodec_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (cmbVideoCodec.SelectedIndex == (int) Video.Original && !SupportedInMP4())
+            {
+                cbxMP4.Enabled = false;
+                cbxMP4.Checked = false;
+                cbxMKV.Checked = true;
+            }
+            else if (cmbAudioCodec.SelectedIndex != (int) Audio.OPUS &&
+                     fileName != "")
+                cbxMP4.Enabled = true;
+        }
 
         private void cmbAudioCodec_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -453,18 +500,23 @@ namespace Simple_AVS_Generator
                     cbxMP4.Checked = false;
                     cbxMKV.Checked = true;
                 }
-                else cbxMP4.Enabled = true;
+                else if (cmbAudioCodec.SelectedIndex != (int) Audio.OPUS &&
+                         (cmbVideoCodec.SelectedIndex != (int) Video.Original ||
+                         (cmbVideoCodec.SelectedIndex == (int) Video.Original && SupportedInMP4())))
+                    cbxMP4.Enabled = true;
             }
         }
 
         private void cbxMP4_CheckedChanged(object sender, EventArgs e)
         {
-            if (cbxMP4.Checked) cbxMKV.Checked = false;
+            if (cbxMP4.Checked)
+                cbxMKV.Checked = false;
         }
 
         private void cbxMKV_CheckedChanged(object sender, EventArgs e)
         {
-            if (cbxMKV.Checked) cbxMP4.Checked = false;
+            if (cbxMKV.Checked)
+                cbxMP4.Checked = false;
         }
         #endregion ComponentEvents
     }

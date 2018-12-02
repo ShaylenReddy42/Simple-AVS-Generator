@@ -142,6 +142,7 @@
             this.cmbVideoCodec.Name = "cmbVideoCodec";
             this.cmbVideoCodec.Size = new System.Drawing.Size(113, 21);
             this.cmbVideoCodec.TabIndex = 2;
+            this.cmbVideoCodec.SelectedIndexChanged += new System.EventHandler(this.cmbVideoCodec_SelectedIndexChanged);
             // 
             // cbxAudio
             // 
