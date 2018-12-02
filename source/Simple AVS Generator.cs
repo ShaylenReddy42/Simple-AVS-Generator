@@ -86,7 +86,7 @@ namespace Simple_AVS_Generator
 
             cmbVideoCodec.Items.Add("HEVC");
             cmbVideoCodec.Items.Add("AVC");
-            cmbVideoCodec.Items.Add("Whatsapp");
+            cmbVideoCodec.Items.Add("WhatsApp");
             cmbVideoCodec.Items.Add("Mux Original");
             cmbVideoCodec.SelectedIndex = 0;
 
@@ -302,6 +302,26 @@ namespace Simple_AVS_Generator
             }
         }
 
+        String ResizeVideo()
+        {
+            String fileContents = "";
+
+            if (cmbVideoCodec.SelectedIndex == (int) Video.WhatsApp)
+            {
+                fileContents += "# Calculate the target height based on a target width" + "\r\n";
+                fileContents += "aspectRatio=float(Width(v)) / float(Height(v))" + "\r\n";
+                fileContents += "targetWidth=480" + "\r\n";
+                fileContents += "targetHeight=int(targetWidth / aspectRatio)" + "\r\n";
+                fileContents += "targetHeight=targetHeight + ((targetHeight % 2) != 0 ? 1 : 0)";
+                fileContents += "\r\n\r\n";
+
+                fileContents += "v=Spline36Resize(v, targetWidth, targetHeight)";
+                fileContents += "\r\n\r\n";
+            }
+
+            return fileContents;
+        }
+
         void OutputContainer(bool mp4, bool mkv, bool originalVideo)
         {
             String videoExtension = cmbVideoCodec.SelectedIndex == (int) Video.HEVC ? ".265" : ".264",
@@ -412,17 +432,7 @@ namespace Simple_AVS_Generator
                     fileContents += v;
                     fileContents += "\r\n\r\n";
 
-                    if (cmbVideoCodec.SelectedIndex == (int) Video.WhatsApp)
-                    {
-                        fileContents += "# Calculate the target height for a width of 480" + "\r\n";
-                        fileContents += "aspectratio=float(Width(v)) / float(Height(v))" + "\r\n";
-                        fileContents += "targetHeight=int(480 / aspectratio)" + "\r\n";
-                        fileContents += "targetHeight=targetHeight + ((targetHeight % 2) != 0 ? 1 : 0)";
-                        fileContents += "\r\n\r\n";
-
-                        fileContents += "v=Spline36Resize(v, 480, targetHeight)";
-                        fileContents += "\r\n\r\n";
-                    }
+                    fileContents += ResizeVideo();
 
                     fileContents += "v";
 
@@ -433,17 +443,7 @@ namespace Simple_AVS_Generator
                     fileContents += v;
                     fileContents += "\r\n\r\n";
 
-                    if (cmbVideoCodec.SelectedIndex == (int) Video.WhatsApp)
-                    {
-                        fileContents += "# Calculate the target height for a width of 480" + "\r\n";
-                        fileContents += "aspectratio=float(Width(v)) / float(Height(v))" + "\r\n";
-                        fileContents += "targetHeight=int(480 / aspectratio)" + "\r\n";
-                        fileContents += "targetHeight=targetHeight + ((targetHeight % 2) != 0 ? 1 : 0)";
-                        fileContents += "\r\n\r\n";
-
-                        fileContents += "v=Spline36Resize(v, 480, targetHeight)";
-                        fileContents += "\r\n\r\n";
-                    }
+                    fileContents += ResizeVideo();
 
                     fileContents += a;
                     fileContents += "\r\n\r\n";
