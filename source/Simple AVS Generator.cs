@@ -386,7 +386,6 @@ namespace Simple_AVS_Generator
             {
                 String i = "i=\"" + fileName + "\"";
                 v = cbxVideo.Checked & cmbVideoCodec.SelectedIndex != (int) Video.Original ? "v=LWLibavVideoSource(i).ConvertToYV12()" : "";
-                v = cmbVideoCodec.SelectedIndex == (int) Video.WhatsApp ? v + ".Spline36Resize(480, 270)" : v;
 
                 a = cbxAudio.Checked ? "a=LWLibavAudioSource(i).ConvertAudioToFloat()" : "";
 
@@ -413,6 +412,18 @@ namespace Simple_AVS_Generator
                     fileContents += v;
                     fileContents += "\r\n\r\n";
 
+                    if (cmbVideoCodec.SelectedIndex == (int) Video.WhatsApp)
+                    {
+                        fileContents += "# Calculate the target height for a width of 480" + "\r\n";
+                        fileContents += "aspectratio=float(Width(v)) / float(Height(v))" + "\r\n";
+                        fileContents += "targetHeight=int(480 / aspectratio)" + "\r\n";
+                        fileContents += "targetHeight=targetHeight + ((targetHeight % 2) != 0 ? 1 : 0)";
+                        fileContents += "\r\n\r\n";
+
+                        fileContents += "v=Spline36Resize(v, 480, targetHeight)";
+                        fileContents += "\r\n\r\n";
+                    }
+
                     fileContents += "v";
 
                     Encode(true, false);
@@ -421,6 +432,18 @@ namespace Simple_AVS_Generator
                 {
                     fileContents += v;
                     fileContents += "\r\n\r\n";
+
+                    if (cmbVideoCodec.SelectedIndex == (int) Video.WhatsApp)
+                    {
+                        fileContents += "# Calculate the target height for a width of 480" + "\r\n";
+                        fileContents += "aspectratio=float(Width(v)) / float(Height(v))" + "\r\n";
+                        fileContents += "targetHeight=int(480 / aspectratio)" + "\r\n";
+                        fileContents += "targetHeight=targetHeight + ((targetHeight % 2) != 0 ? 1 : 0)";
+                        fileContents += "\r\n\r\n";
+
+                        fileContents += "v=Spline36Resize(v, 480, targetHeight)";
+                        fileContents += "\r\n\r\n";
+                    }
 
                     fileContents += a;
                     fileContents += "\r\n\r\n";
