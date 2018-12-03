@@ -102,6 +102,32 @@ namespace Simple_AVS_Generator
             cmbChannels.SelectedIndex = 0;
         }
 
+        bool VideoExt()
+        {
+            bool isVideoExt = false;
+
+            String [] videoExts =
+            {
+                ".M1V", ".M2V", //MPEG-1-2 Video
+                ".CMP", ".M4V", //MPEG-4 Video
+                ".263", ".H263", //H263 Video
+                ".H264", ".H26L", ".264", ".26L", ".X264", ".SVC", //AVC Video
+                ".HEVC", ".H265", ".265", ".HVC", ".SHVC", ".LHVC", ".MHVC", //HEVC Video
+                ".VP9"
+            };
+
+            foreach (String ext in videoExts)
+            {
+                if (fileExt.Equals(ext))
+                {
+                    isVideoExt = true;
+                    break;
+                }
+            }
+
+            return isVideoExt;
+        }
+
         bool AudioExt()
         {
             bool isAudioExt = false;
@@ -220,10 +246,11 @@ namespace Simple_AVS_Generator
         void EnableEncodeAndContainer()
         {
             cbxVideo.Enabled    = !AudioExt();
-            cbxAudio.Enabled    = true;
-            cbxAudio.Checked    = AudioExt();
-            cmbChannels.Enabled = true;
-            cmbLanguage.Enabled = true;
+            cbxVideo.Checked    =  VideoExt();
+            cbxAudio.Enabled    = !VideoExt();
+            cbxAudio.Checked    =  AudioExt();
+            cmbChannels.Enabled = !VideoExt();
+            cmbLanguage.Enabled = !VideoExt();
             cbxMP4.Enabled      = !AudioExt();
             cbxMKV.Enabled      = !AudioExt();
         }
