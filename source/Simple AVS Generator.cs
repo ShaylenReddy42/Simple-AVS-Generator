@@ -102,6 +102,31 @@ namespace Simple_AVS_Generator
             cmbChannels.SelectedIndex = 0;
         }
 
+        bool AudioExt()
+        {
+            bool isAudioExt = false;
+
+            String [] audioExts =
+            {
+                ".AAC", ".M4A", //AAC Audio
+                ".M1A", ".M2A", ".MP3", //MPEG Audio
+                ".DTS",
+                ".AC3", //Dolby Digital
+                ".OPUS"
+            };
+
+            foreach (String ext in audioExts)
+            {
+                if (fileExt.Equals(ext))
+                {
+                    isAudioExt = true;
+                    break;
+                }
+            }
+
+            return isAudioExt;
+        }
+
         void WriteFile(String outputFileName, String fileContents)
         {
             StreamWriter sw = new StreamWriter(outputFileName);
@@ -194,12 +219,13 @@ namespace Simple_AVS_Generator
 
         void EnableEncodeAndContainer()
         {
-            cbxVideo.Enabled    = true;
+            cbxVideo.Enabled    = !AudioExt();
             cbxAudio.Enabled    = true;
+            cbxAudio.Checked    = AudioExt();
             cmbChannels.Enabled = true;
             cmbLanguage.Enabled = true;
-            cbxMP4.Enabled      = true;
-            cbxMKV.Enabled      = true;
+            cbxMP4.Enabled      = !AudioExt();
+            cbxMKV.Enabled      = !AudioExt();
         }
 
         void New()
@@ -374,13 +400,13 @@ namespace Simple_AVS_Generator
 
             if (fileName != "")
             {
-                EnableEncodeAndContainer();
                 fileNameOnly = ofd.SafeFileName;
                 fileNameOnly = fileNameOnly.Substring(0, fileNameOnly.Length - 4);
                 fileDir = fileName.Substring(0, fileName.LastIndexOf("\\"));
                 fileExt = fileName.Substring(fileName.LastIndexOf('.')).ToUpper();
                 outDir = outDir + fileNameOnly + "\\";
                 output = outDir + "Script.avs";
+                EnableEncodeAndContainer();
 
                 btnOpenFile.Enabled = false; btnNew.Enabled = true;
             }
