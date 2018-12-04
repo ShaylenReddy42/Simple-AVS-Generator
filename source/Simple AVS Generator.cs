@@ -245,14 +245,17 @@ namespace Simple_AVS_Generator
 
         void EnableEncodeAndContainer()
         {
-            cbxVideo.Enabled    = !AudioExt();
-            cbxVideo.Checked    =  VideoExt();
-            cbxAudio.Enabled    = !VideoExt();
-            cbxAudio.Checked    =  AudioExt();
-            cmbChannels.Enabled = !VideoExt();
-            cmbLanguage.Enabled = !VideoExt();
-            cbxMP4.Enabled      = !AudioExt();
-            cbxMKV.Enabled      = !AudioExt();
+            bool videoExt = VideoExt(),
+                 audioExt = AudioExt();
+
+            cbxVideo.Enabled    = !audioExt;
+            cbxVideo.Checked    =  videoExt;
+            cbxAudio.Enabled    = !videoExt;
+            cbxAudio.Checked    =  audioExt;
+            cmbChannels.Enabled = !videoExt;
+            cmbLanguage.Enabled = !videoExt;
+            cbxMP4.Enabled      = !audioExt;
+            cbxMKV.Enabled      = !audioExt;
         }
 
         void New()
