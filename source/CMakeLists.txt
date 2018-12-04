@@ -10,13 +10,13 @@ project(
 add_executable(
 	${PROJECT_NAME} WIN32
 	Program.cs
-	Settings.cs
 	"Simple AVS Generator.cs"
 	"Simple AVS Generator.Designer.cs"
 	"Simple AVS Generator.resx"
 	Properties/AssemblyInfo.cs
 	Properties/Resources.resx
 	Properties/Resources.Designer.cs
+	Properties/Settings.cs
 	Properties/Settings.settings
 	Properties/Settings.Designer.cs
 )
@@ -30,6 +30,7 @@ csharp_set_windows_forms_properties(
 csharp_set_designer_cs_properties(
 	Properties/Resources.resx
 	Properties/Resources.Designer.cs
+	Properties/Settings.cs
 	Properties/Settings.settings
 	Properties/Settings.Designer.cs
 )
