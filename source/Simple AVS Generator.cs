@@ -365,13 +365,13 @@ namespace Simple_AVS_Generator
             if (cmbVideoCodec.SelectedIndex == (int) Video.WhatsApp)
             {
                 fileContents += "# Calculate the target height based on a target width" + "\r\n";
-                fileContents += "aspectRatio=float(Width(v)) / float(Height(v))" + "\r\n";
-                fileContents += "targetWidth=480" + "\r\n";
-                fileContents += "targetHeight=int(targetWidth / aspectRatio)" + "\r\n";
-                fileContents += "targetHeight=targetHeight + ((targetHeight % 2) != 0 ? 1 : 0)";
+                fileContents += "aspectRatio  = float(Width(v)) / float(Height(v))" + "\r\n";
+                fileContents += "targetWidth  = 480" + "\r\n";
+                fileContents += "targetHeight = int(targetWidth / aspectRatio)" + "\r\n";
+                fileContents += "targetHeight = targetHeight + ((targetHeight % 2 != 0) ? 1 : 0)";
                 fileContents += "\r\n\r\n";
 
-                fileContents += "v=Spline36Resize(v, targetWidth, targetHeight)";
+                fileContents += "v = Spline36Resize(v, targetWidth, targetHeight)";
                 fileContents += "\r\n\r\n";
             }
 
@@ -460,10 +460,10 @@ namespace Simple_AVS_Generator
 
             if (fileName != "")
             {
-                String i = "i=\"" + fileName + "\"";
-                v = cbxVideo.Checked & cmbVideoCodec.SelectedIndex != (int) Video.Original ? "v=LWLibavVideoSource(i).ConvertToYV12()" : "";
+                String i = "i = \"" + fileName + "\"";
+                v = cbxVideo.Checked & cmbVideoCodec.SelectedIndex != (int) Video.Original ? "v = LWLibavVideoSource(i).ConvertToYV12()" : "";
 
-                a = cbxAudio.Checked ? "a=LWLibavAudioSource(i).ConvertAudioToFloat()" : "";
+                a = cbxAudio.Checked ? "a = LWLibavAudioSource(i).ConvertAudioToFloat()" : "";
 
                 String outputFileName = output,
                          fileContents = i + "\r\n\r\n";
@@ -473,10 +473,10 @@ namespace Simple_AVS_Generator
                     fileContents += a;
                     fileContents += "\r\n\r\n";
 
-                    fileContents += "a=Normalize(a, 1.0)";
+                    fileContents += "a = Normalize(a, 1.0)";
                     fileContents += "\r\n\r\n";
 
-                    fileContents += "a=ConvertAudioTo16Bit(a)";
+                    fileContents += "a = ConvertAudioTo16Bit(a)";
                     fileContents += "\r\n\r\n";
 
                     fileContents += "a";
@@ -504,13 +504,13 @@ namespace Simple_AVS_Generator
                     fileContents += a;
                     fileContents += "\r\n\r\n";
 
-                    fileContents += "a=Normalize(a, 1.0)";
+                    fileContents += "a = Normalize(a, 1.0)";
                     fileContents += "\r\n\r\n";
 
-                    fileContents += "o=AudioDub(v, a)";
+                    fileContents += "o = AudioDub(v, a)";
                     fileContents += "\r\n\r\n";
 
-                    fileContents += "o=ConvertAudioTo16Bit(o)";
+                    fileContents += "o = ConvertAudioTo16Bit(o)";
                     fileContents += "\r\n\r\n";
 
                     fileContents += "o";
