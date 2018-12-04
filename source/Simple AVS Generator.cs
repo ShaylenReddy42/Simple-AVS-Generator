@@ -253,7 +253,7 @@ namespace Simple_AVS_Generator
             cbxAudio.Enabled    = !videoExt;
             cbxAudio.Checked    =  audioExt;
             cmbChannels.Enabled = !videoExt;
-            cmbLanguage.Enabled = !videoExt;
+            cmbLanguage.Enabled = !videoExt && !audioExt;
             cbxMP4.Enabled      = !audioExt;
             cbxMKV.Enabled      = !audioExt;
         }
