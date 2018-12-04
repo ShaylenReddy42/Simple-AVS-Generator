@@ -541,6 +541,9 @@ namespace Simple_AVS_Generator
         {
             if (fileName != "" && Directory.Exists(outDir) && !File.Exists(output))
                 Directory.Delete(outDir);
+
+            global::Properties.Settings.Default.Location = this.Location;
+            global::Properties.Settings.Default.Save();
         }
 
         private void cbxVideo_CheckedChanged(object sender, EventArgs e)
