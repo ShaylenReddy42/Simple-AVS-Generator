@@ -46,6 +46,7 @@ namespace Simple_AVS_Generator
                vS = "*.264;*.265;*.vp9",
                aS = "*.aac;*.m1a;*.m2a;*.mp3;*.m4a;*.dts;*.ac3;*.opus";
 
+        #region Enums
         enum Video
         {
             HEVC = 0,
@@ -75,7 +76,8 @@ namespace Simple_AVS_Generator
             Six = 1,
             Eight = 2
         }
-        
+        #endregion Enums
+
         #region Methods
         void PopulateComboBoxes()
         {
