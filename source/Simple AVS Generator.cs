@@ -403,7 +403,7 @@ namespace Simple_AVS_Generator
                 String mkvO = "-o \"%~dp0" + fileNameOnly + ".mkv\" ",
                        mkvV = !originalVideo ? "\"%~dp0Video" + videoExtension + "\" " :
                                                "--no-audio \"" + fileName + "\" ",
-                       mkvA = cbxAudio.Checked ? "--language 0:eng \"%~dp0" + fileNameOnly + audioExtension + "\" " : "";
+                       mkvA = cbxAudio.Checked ? "--language 0:" + DetermineAudioLanguage() + " \"%~dp0" + fileNameOnly + audioExtension + "\" " : "";
 
                 outputFileName += "MKV Mux" + (originalVideo ? " [Original Video]" : "") + ".cmd";
                 fileContents = "mkvmerge " + mkvO + mkvV + mkvA;
