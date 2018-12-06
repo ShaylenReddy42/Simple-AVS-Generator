@@ -9,6 +9,7 @@ project(
 
 add_executable(
 	${PROJECT_NAME} WIN32
+	app.config
 	Program.cs
 	"Simple AVS Generator.cs"
 	"Simple AVS Generator.Designer.cs"
