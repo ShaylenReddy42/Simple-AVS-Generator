@@ -50,9 +50,10 @@ namespace Simple_AVS_Generator
         enum Video
         {
             HEVC = 0,
-            AVC = 1,
-            WhatsApp = 2,
-            Original = 3
+            AV1 = 1,
+            AVC = 2,
+            WhatsApp = 3,
+            Original = 4
         }
 
         enum Audio
@@ -88,6 +89,7 @@ namespace Simple_AVS_Generator
             cmbAudioCodec.SelectedIndex = 0;
 
             cmbVideoCodec.Items.Add("HEVC");
+            cmbVideoCodec.Items.Add("AV1");
             cmbVideoCodec.Items.Add("AVC");
             cmbVideoCodec.Items.Add("WhatsApp");
             cmbVideoCodec.Items.Add("Mux Original");
@@ -272,6 +274,12 @@ namespace Simple_AVS_Generator
                     vEncoder += "--aq-mode 3 --aq-motion --aud --no-open-gop --y4m -f 0 - \"%~dp0Video.265\"";
                     vCmdFile += "Encode Video [HEVC].cmd";
                 }
+                else if (cmbVideoCodec.SelectedIndex == (int) Video.AV1)
+                {
+                    vEncoder += "aomenc --passes=1 --end-usage=q --min-q=27 --max-q=35 --target-bitrate=0 --lag-in-frames=10 ";
+                    vEncoder += "--enable-fwd-kf=1 --kf-max-dist=48 --verbose --yv12 --ivf -o \"%~dp0Video.ivf\" -";
+                    vCmdFile += "Encode Video [AV1].cmd";
+                }
                 else if (cmbVideoCodec.SelectedIndex == (int) Video.AVC)
                 {
                     vEncoder += "x264 --preset slower --crf 27 -i 1 -I 48 --bframes 1 --aq-mode 3 --aud --no-mbtree ";
@@ -346,7 +354,9 @@ namespace Simple_AVS_Generator
 
         void OutputContainer(bool mp4, bool mkv, bool originalVideo)
         {
-            String videoExtension = cmbVideoCodec.SelectedIndex == (int) Video.HEVC ? ".265" : ".264",
+            String videoExtension = cmbVideoCodec.SelectedIndex == (int) Video.HEVC ? ".265" :
+                                    cmbVideoCodec.SelectedIndex == (int) Video.AV1 ? ".ivf" :
+                                    ".264",
                    audioExtension = cmbAudioCodec.SelectedIndex == (int) Audio.OPUS ? ".ogg" : ".m4a",
 
                    outputFileName = outDir,
