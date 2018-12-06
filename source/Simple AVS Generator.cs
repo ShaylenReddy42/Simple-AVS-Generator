@@ -67,7 +67,8 @@ namespace Simple_AVS_Generator
             English = 0,
             Hindi = 1,
             Japanese = 2,
-            Tamil = 3
+            Tamil = 3,
+            Undetermined = 4
         }
 
         enum AudioChannels
@@ -96,6 +97,7 @@ namespace Simple_AVS_Generator
             cmbLanguage.Items.Add("Hindi");
             cmbLanguage.Items.Add("Japanese");
             cmbLanguage.Items.Add("Tamil");
+            cmbLanguage.Items.Add("Undetermined");
             cmbLanguage.SelectedIndex = 0;
 
             cmbChannels.Items.Add("2 Channels");
@@ -239,6 +241,9 @@ namespace Simple_AVS_Generator
                     break;
                 case (int) AudioLanguages.Tamil:
                     audioLanguage = "tam";
+                    break;
+                case (int) AudioLanguages.Undetermined:
+                    audioLanguage = "und";
                     break;
             }
 
