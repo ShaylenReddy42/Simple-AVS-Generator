@@ -389,7 +389,7 @@ namespace Simple_AVS_Generator
         void WriteFile(String outputFileName, String fileContents)
         {
             StreamWriter sw = new StreamWriter(outputFileName);
-            sw.Write(fileContents);
+            sw.Write((outputFileName.EndsWith(".cmd") ? "@ECHO off\r\n\r\n" : "") + fileContents);
             sw.Close();
         }
 
