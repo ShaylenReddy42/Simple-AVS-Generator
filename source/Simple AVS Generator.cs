@@ -106,6 +106,21 @@ namespace Simple_AVS_Generator
             cmbChannels.SelectedIndex = 0;
         }
 
+        void EnableEncodeAndContainer()
+        {
+            bool videoExt = VideoExt(),
+                 audioExt = AudioExt();
+
+            cbxVideo.Enabled    = !audioExt;
+            cbxVideo.Checked    =  videoExt;
+            cbxAudio.Enabled    = !videoExt;
+            cbxAudio.Checked    =  audioExt;
+            cmbChannels.Enabled = !videoExt;
+            cmbLanguage.Enabled = !videoExt && !audioExt;
+            cbxMP4.Enabled      = !audioExt;
+            cbxMKV.Enabled      = !audioExt;
+        }
+
         bool VideoExt()
         {
             bool isVideoExt = false;
@@ -157,14 +172,7 @@ namespace Simple_AVS_Generator
             return isAudioExt;
         }
 
-        void WriteFile(String outputFileName, String fileContents)
-        {
-            StreamWriter sw = new StreamWriter(outputFileName);
-            sw.Write(fileContents);
-            sw.Close();
-        }
-
-        bool SupportedInMP4()
+        bool SupportedByMP4Box()
         {
             bool supported = false;
 
@@ -198,7 +206,7 @@ namespace Simple_AVS_Generator
             return supported;
         }
 
-        int DetermineAudioBitrate()
+        int GetAudioBitrate()
         {
             int audioBitrate = 0;
 
@@ -224,79 +232,30 @@ namespace Simple_AVS_Generator
             return audioBitrate;
         }
 
-        String DetermineAudioLanguage()
+        String GetLanguageCode()
         {
-            String audioLanguage = "";
+            String languageCode = "";
 
             switch (cmbLanguage.SelectedIndex)
             {
                 case (int) AudioLanguages.English:
-                    audioLanguage = "eng";
+                    languageCode = "eng";
                     break;
                 case (int) AudioLanguages.Hindi:
-                    audioLanguage = "hin";
+                    languageCode = "hin";
                     break;
                 case (int) AudioLanguages.Japanese:
-                    audioLanguage = "jpn";
+                    languageCode = "jpn";
                     break;
                 case (int) AudioLanguages.Tamil:
-                    audioLanguage = "tam";
+                    languageCode = "tam";
                     break;
                 case (int) AudioLanguages.Undetermined:
-                    audioLanguage = "und";
+                    languageCode = "und";
                     break;
             }
 
-            return audioLanguage;
-        }
-
-        void EnableEncodeAndContainer()
-        {
-            bool videoExt = VideoExt(),
-                 audioExt = AudioExt();
-
-            cbxVideo.Enabled    = !audioExt;
-            cbxVideo.Checked    =  videoExt;
-            cbxAudio.Enabled    = !videoExt;
-            cbxAudio.Checked    =  audioExt;
-            cmbChannels.Enabled = !videoExt;
-            cmbLanguage.Enabled = !videoExt && !audioExt;
-            cbxMP4.Enabled      = !audioExt;
-            cbxMKV.Enabled      = !audioExt;
-        }
-
-        void New()
-        {
-            txbInFile.Clear();
-            
-            fileName = ""; fileNameOnly = ""; fileDir = ""; v = ""; a = ""; output = ""; fileExt = "";
-            outDir = home;
-
-            txbOutFile.Text = outDir;
-
-            cbxMP4.Checked  = false; cbxMKV.Checked  = false;
-            cbxVideo.Checked = false; cbxAudio.Checked = false;
-
-            cbxVideo.Enabled = false; cbxAudio.Enabled = false;
-            cbxMP4.Enabled  = false; cbxMKV.Enabled  = false;
-
-            cmbVideoCodec.Enabled = false; cmbAudioCodec.Enabled = false;
-            cmbVideoCodec.SelectedIndex = 0; cmbAudioCodec.SelectedIndex = 0;
-
-            cmbLanguage.Enabled = false; cmbChannels.Enabled = false;
-            cmbLanguage.SelectedIndex = 0; cmbChannels.SelectedIndex = 0;
-
-            btnNew.Enabled  = false; btnOpenFile.Enabled = true;
-        }
-
-        void AVSMeter()
-        {
-            String switches = "-i -l";
-
-            String outputFileName = outDir + "AVSMeter.cmd",
-                     fileContents = "AVSMeter64 \"%~dp0Script.avs\" " + switches;
-
-            WriteFile(outputFileName, fileContents);
+            return languageCode;
         }
 
         void Encode(bool video, bool audio)
@@ -341,19 +300,19 @@ namespace Simple_AVS_Generator
 
                 if (cmbAudioCodec.SelectedIndex == (int) Audio.AAC_LC)
                 {
-                    aEncoder += "qaac64 --abr " + DetermineAudioBitrate() + " --ignorelength --no-delay ";
+                    aEncoder += "qaac64 --abr " + GetAudioBitrate() + " --ignorelength --no-delay ";
                     aEncoder += "-o \"%~dp0" + fileNameOnly + ".m4a\" - ";
                     aCmdFile += "Encode Audio [AAC-LC].cmd";
                 }
                 else if (cmbAudioCodec.SelectedIndex == (int) Audio.AAC_HE)
                 {
-                    aEncoder += "qaac64 --he --abr " + DetermineAudioBitrate() + " --ignorelength ";
+                    aEncoder += "qaac64 --he --abr " + GetAudioBitrate() + " --ignorelength ";
                     aEncoder += "-o \"%~dp0" + fileNameOnly + ".m4a\" - ";
                     aCmdFile += "Encode Audio [AAC-HE].cmd";
                 }
                 else //OPUS
                 {
-                    aEncoder += "opusenc --bitrate " + DetermineAudioBitrate() + " --ignorelength ";
+                    aEncoder += "opusenc --bitrate " + GetAudioBitrate() + " --ignorelength ";
                     aEncoder += "- \"%~dp0" + fileNameOnly + ".ogg\"";
                     aCmdFile += "Encode Audio [OPUS].cmd";
                 }
@@ -397,7 +356,7 @@ namespace Simple_AVS_Generator
             {
                 String mp4V = !originalVideo ? "-add \"%~dp0Video" + videoExtension + "\":name= " :
                                                "-add \"" + fileName + "\"#video ",
-                       mp4A = cbxAudio.Checked ? "-add \"%~dp0" + fileNameOnly + ".m4a\":name=:lang=" + DetermineAudioLanguage() : "",
+                       mp4A = cbxAudio.Checked ? "-add \"%~dp0" + fileNameOnly + ".m4a\":name=:lang=" + GetLanguageCode() : "",
                      newmp4 = " -new " + "\"%~dp0" + fileNameOnly + ".mp4\"";
 
                 outputFileName += "MP4 Mux" + (originalVideo ? " [Original Video]" : "") + ".cmd";
@@ -408,13 +367,54 @@ namespace Simple_AVS_Generator
                 String mkvO = "-o \"%~dp0" + fileNameOnly + ".mkv\" ",
                        mkvV = !originalVideo ? "\"%~dp0Video" + videoExtension + "\" " :
                                                "--no-audio \"" + fileName + "\" ",
-                       mkvA = cbxAudio.Checked ? "--language 0:" + DetermineAudioLanguage() + " \"%~dp0" + fileNameOnly + audioExtension + "\" " : "";
+                       mkvA = cbxAudio.Checked ? "--language 0:" + GetLanguageCode() + " \"%~dp0" + fileNameOnly + audioExtension + "\" " : "";
 
                 outputFileName += "MKV Mux" + (originalVideo ? " [Original Video]" : "") + ".cmd";
                 fileContents = "mkvmerge " + mkvO + mkvV + mkvA;
             }
 
             WriteFile(outputFileName, fileContents);
+        }
+
+        void AVSMeter()
+        {
+            String switches = "-i -l";
+
+            String outputFileName = outDir + "AVSMeter.cmd",
+                     fileContents = "AVSMeter64 \"%~dp0Script.avs\" " + switches;
+
+            WriteFile(outputFileName, fileContents);
+        }
+
+        void WriteFile(String outputFileName, String fileContents)
+        {
+            StreamWriter sw = new StreamWriter(outputFileName);
+            sw.Write(fileContents);
+            sw.Close();
+        }
+
+        void New()
+        {
+            txbInFile.Clear();
+
+            fileName = ""; fileNameOnly = ""; fileDir = ""; v = ""; a = ""; output = ""; fileExt = "";
+            outDir = home;
+
+            txbOutFile.Text = outDir;
+
+            cbxMP4.Checked = false; cbxMKV.Checked = false;
+            cbxVideo.Checked = false; cbxAudio.Checked = false;
+
+            cbxVideo.Enabled = false; cbxAudio.Enabled = false;
+            cbxMP4.Enabled = false; cbxMKV.Enabled = false;
+
+            cmbVideoCodec.Enabled = false; cmbAudioCodec.Enabled = false;
+            cmbVideoCodec.SelectedIndex = 0; cmbAudioCodec.SelectedIndex = 0;
+
+            cmbLanguage.Enabled = false; cmbChannels.Enabled = false;
+            cmbLanguage.SelectedIndex = 0; cmbChannels.SelectedIndex = 0;
+
+            btnNew.Enabled = false; btnOpenFile.Enabled = true;
         }
         #endregion Methods
 
@@ -568,7 +568,7 @@ namespace Simple_AVS_Generator
         
         private void cmbVideoCodec_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (cmbVideoCodec.SelectedIndex == (int) Video.Original && !SupportedInMP4())
+            if (cmbVideoCodec.SelectedIndex == (int) Video.Original && !SupportedByMP4Box())
             {
                 cbxMP4.Enabled = false;
                 cbxMP4.Checked = false;
@@ -591,7 +591,7 @@ namespace Simple_AVS_Generator
                 }
                 else if (cmbAudioCodec.SelectedIndex != (int) Audio.OPUS &&
                          (cmbVideoCodec.SelectedIndex != (int) Video.Original ||
-                         (cmbVideoCodec.SelectedIndex == (int) Video.Original && SupportedInMP4())))
+                         (cmbVideoCodec.SelectedIndex == (int) Video.Original && SupportedByMP4Box())))
                     cbxMP4.Enabled = true;
             }
         }
