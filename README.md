@@ -4,10 +4,33 @@
 
 This project was created to make my life easier
 
-It creates scripts to re-encode videos using AviSynth+, x264, x265, qaac64 and opusenc [with my preferred settings] and using mp4box or mkvmerge to mux the resulting files into a container.
-This project currently assumes that all these tools are in your PATH and easily accessible
+It creates scripts to re-encode videos using [AviSynth+](https://github.com/pinterf/AviSynthPlus/releases)
 
 The generated AviSynth+ scripts make use of the [LSMASHSource msvc plugins](https://www.dropbox.com/sh/3i81ttxf028m1eh/AAABkQn4Y5w1k-toVhYLasmwa?dl=0) which must be placed in the relevant AviSynth+ plugin folders [plugins+ for the 32bit dll and plugins64+ for the 64bit]
+
+### Tools required in your path ###
+
+#### AviSynth+ related tools ####
+
+* [avs2pipemod](https://github.com/chikuzen/avs2pipemod/releases)
+* [AVSMeter64](https://www.videohelp.com/software/AVSMeter)
+
+#### Video encoders ####
+
+* [x264](https://download.videolan.org/pub/x264/binaries/)
+* [x265](http://msystem.waw.pl/x265/)
+* aomenc [[Build from source](https://aomedia.googlesource.com/aom/)]
+
+#### Audio encoders ####
+
+* [qaac64](https://github.com/nu774/qaac/releases)
+* [opusenc](https://opus-codec.org/downloads/)
+
+#### Multiplexing tools ####
+
+* [mp4box from GPAC](https://gpac.wp.imt.fr/downloads/gpac-nightly-builds/)
+* [mkvmerge from MKVToolNix](https://mkvtoolnix.download/downloads.html#windows)
+
 
 ## How do I get set up? ##
 
