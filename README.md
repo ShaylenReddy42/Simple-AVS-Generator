@@ -29,7 +29,7 @@ The generated AviSynth+ scripts make use of the [LSMASHSource msvc plugins](http
 #### Multiplexing tools ####
 
 * [mp4box from GPAC](https://gpac.wp.imt.fr/downloads/gpac-nightly-builds/)
-* [mkvmerge from MKVToolNix](https://mkvtoolnix.download/downloads.html#windows)
+* [mkvmerge from MKVToolNix](https://www.videohelp.com/software/MKVToolNix)
 
 
 ## How do I get set up? ##
