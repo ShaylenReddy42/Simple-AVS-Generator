@@ -46,6 +46,18 @@ namespace Simple_AVS_Generator
                vS = "*.264;*.265;*.vp9",
                aS = "*.aac;*.m1a;*.m2a;*.mp3;*.m4a;*.dts;*.ac3;*.opus";
 
+        #region Languages
+        String [,] languages =
+        {
+            //ISO 639-2 language code | Name of language in English
+            { "eng", "English"      },
+            { "hin", "Hindi"        },
+            { "jpn", "Japanese"     },
+            { "tam", "Tamil"        },
+            { "und", "Undetermined" }
+        };
+        #endregion Languages
+
         #region Enums
         enum Video
         {
@@ -61,15 +73,6 @@ namespace Simple_AVS_Generator
             AAC_LC = 0,
             AAC_HE = 1,
             OPUS = 2
-        }
-
-        enum AudioLanguages
-        {
-            English = 0,
-            Hindi = 1,
-            Japanese = 2,
-            Tamil = 3,
-            Undetermined = 4
         }
 
         enum AudioChannels
@@ -95,11 +98,9 @@ namespace Simple_AVS_Generator
             cmbVideoCodec.Items.Add("Mux Original");
             cmbVideoCodec.SelectedIndex = 0;
 
-            cmbLanguage.Items.Add("English");
-            cmbLanguage.Items.Add("Hindi");
-            cmbLanguage.Items.Add("Japanese");
-            cmbLanguage.Items.Add("Tamil");
-            cmbLanguage.Items.Add("Undetermined");
+            for (int i = 0; i < languages.GetLength(0); i++)
+                cmbLanguage.Items.Add(languages[i, 1]);
+
             cmbLanguage.SelectedIndex = 0;
 
             cmbChannels.Items.Add("2 Channels");
@@ -234,31 +235,7 @@ namespace Simple_AVS_Generator
             return audioBitrate;
         }
 
-        String GetLanguageCode()
-        {
-            String languageCode = "";
-
-            switch (cmbLanguage.SelectedIndex)
-            {
-                case (int) AudioLanguages.English:
-                    languageCode = "eng";
-                    break;
-                case (int) AudioLanguages.Hindi:
-                    languageCode = "hin";
-                    break;
-                case (int) AudioLanguages.Japanese:
-                    languageCode = "jpn";
-                    break;
-                case (int) AudioLanguages.Tamil:
-                    languageCode = "tam";
-                    break;
-                case (int) AudioLanguages.Undetermined:
-                    languageCode = "und";
-                    break;
-            }
-
-            return languageCode;
-        }
+        String GetLanguageCode() { return languages[cmbLanguage.SelectedIndex, 0]; }
 
         void Encode(bool video, bool audio)
         {
