@@ -58,6 +58,19 @@ namespace Simple_AVS_Generator
         };
         #endregion Languages
 
+        #region AudioBitrates
+        /**
+         * Row: Codec [AAC-LC, AAC-HE, OPUS]
+         * Column: Channels [2, 5.1, 7.1]
+         */
+        int [,] audioBitrates =
+        {
+            { 112, 320, 448 }, //AAC-LC
+            {  80, 224, 320 }, //AAC-HE
+            {  96, 288, 384 }  //OPUS
+        };
+        #endregion AudioBitrates
+
         #region Enums
         enum Video
         {
@@ -73,13 +86,6 @@ namespace Simple_AVS_Generator
             AAC_LC = 0,
             AAC_HE = 1,
             OPUS = 2
-        }
-
-        enum AudioChannels
-        {
-            Two = 0,
-            Six = 1,
-            Eight = 2
         }
         #endregion Enums
 
@@ -208,34 +214,10 @@ namespace Simple_AVS_Generator
 
             return supported;
         }
-
-        int GetAudioBitrate()
-        {
-            int audioBitrate = 0;
-
-            switch (cmbChannels.SelectedIndex)
-            {
-                case (int) AudioChannels.Two:
-                    audioBitrate = cmbAudioCodec.SelectedIndex == (int) Audio.AAC_LC ? 112 :
-                                   cmbAudioCodec.SelectedIndex == (int) Audio.AAC_HE ? 80 :
-                                   96; //OPUS
-                    break;
-                case (int) AudioChannels.Six:
-                    audioBitrate = cmbAudioCodec.SelectedIndex == (int) Audio.AAC_LC ? 320 :
-                                   cmbAudioCodec.SelectedIndex == (int) Audio.AAC_HE ? 224 :
-                                   288; //OPUS
-                    break;
-                case (int) AudioChannels.Eight:
-                    audioBitrate = cmbAudioCodec.SelectedIndex == (int) Audio.AAC_LC ? 448 :
-                                   cmbAudioCodec.SelectedIndex == (int) Audio.AAC_HE ? 320 :
-                                   384; //OPUS
-                    break;
-            }
-
-            return audioBitrate;
-        }
-
+        
         String GetLanguageCode() { return languages[cmbLanguage.SelectedIndex, 0]; }
+
+        int GetAudioBitrate() { return audioBitrates[cmbAudioCodec.SelectedIndex, cmbChannels.SelectedIndex]; }
 
         void Encode(bool video, bool audio)
         {
