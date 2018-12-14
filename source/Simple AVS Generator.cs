@@ -414,24 +414,45 @@ namespace Simple_AVS_Generator
         {
             txbInFile.Clear();
 
-            fileName = ""; fileNameOnly = ""; fileDir = ""; v = ""; a = ""; output = ""; fileExt = "";
+            fileName = "";
+            fileNameOnly = "";
+            fileDir = "";
+            v = "";
+            a = "";
+            output = "";
+            fileExt = "";
             outDir = home;
 
             txbOutFile.Text = outDir;
 
-            cbxMP4.Checked = false; cbxMKV.Checked = false;
-            cbxVideo.Checked = false; cbxAudio.Checked = false;
+            cbxVideo.Checked = false;
+            cbxVideo.Enabled = false;
 
-            cbxVideo.Enabled = false; cbxAudio.Enabled = false;
-            cbxMP4.Enabled = false; cbxMKV.Enabled = false;
+            cmbVideoCodec.Enabled = false;
+            cmbVideoCodec.SelectedIndex = 0;
 
-            cmbVideoCodec.Enabled = false; cmbAudioCodec.Enabled = false;
-            cmbVideoCodec.SelectedIndex = 0; cmbAudioCodec.SelectedIndex = 0;
+            cbxAudio.Enabled = false;
+            cbxAudio.Checked = false;
 
-            cmbLanguage.Enabled = false; cmbChannels.Enabled = false; cmbBitrate.Enabled = false;
-            cmbLanguage.SelectedIndex = 0; cmbChannels.SelectedIndex = 0; cmbBitrate.SelectedValue = defaultAudioBitrates[cmbAudioCodec.SelectedIndex, cmbChannels.SelectedIndex];
+            cmbAudioCodec.Enabled = false;
+            cmbAudioCodec.SelectedIndex = 0;
 
-            btnNew.Enabled = false; btnOpenFile.Enabled = true;
+            cmbLanguage.Enabled = false;
+            cmbLanguage.SelectedIndex = 0;
+
+            cmbChannels.Enabled = false;
+            cmbChannels.SelectedIndex = 0;
+
+            cmbBitrate.Enabled = false;
+
+            cbxMP4.Enabled = false;
+            cbxMP4.Checked = false;
+
+            cbxMKV.Enabled = false;
+            cbxMKV.Checked = false;
+
+            btnNew.Enabled = false;
+            btnOpenFile.Enabled = true;
         }
         #endregion Methods
 
