@@ -42,9 +42,9 @@ namespace Simple_AVS_Generator
            fileNameOnly = "",
                  outDir = home;
 
-        String cS = "*.3gp;*.3g2;*.mp4;*.mkv;*.avi;*.mov;*.m4v;*.flv",
-               vS = "*.264;*.265;*.vp9",
-               aS = "*.aac;*.m1a;*.m2a;*.mp3;*.m4a;*.dts;*.ac3;*.opus";
+        String supportedContainerExts = "*.3gp;*.3g2;*.mp4;*.mkv;*.avi;*.mov;*.m4v;*.flv",
+                   supportedVideoExts = "*.264;*.265;*.vp9",
+                   supportedAudioExts = "*.aac;*.m1a;*.m2a;*.mp3;*.m4a;*.dts;*.ac3;*.opus";
 
         #region Languages
         String [,] languages =
@@ -459,16 +459,16 @@ namespace Simple_AVS_Generator
         #region Buttons
         private void btnOpenFile_Click(object sender, EventArgs e)
         {
-            String sF = "All Supported|" + cS + ";" + vS + ";" + aS,
-                   cF = "Container Types [3GP 3G2 AVI FLV MP4 MKV MOV M4V]|" + cS,
-                   vF = "Video Types [264 265 VP9]|" + vS,
-                   aF = "Audio Types [AAC AC3 DTS M1A M2A MP3 M4A]|" + aS;
+            String filterSupportedExts = "All Supported|" + supportedContainerExts + ";" + supportedVideoExts + ";" + supportedAudioExts,
+                   filterContainerExts = "Container Types [3GP 3G2 AVI FLV MP4 MKV MOV M4V]|" + supportedContainerExts,
+                       filterVideoExts = "Video Types [264 265 VP9]|" + supportedVideoExts,
+                       filterAudioExts = "Audio Types [AAC AC3 DTS M1A M2A MP3 M4A]|" + supportedAudioExts;
 
             OpenFileDialog ofd = new OpenFileDialog
             {
                 Multiselect = false,
                 Title = "Open File",
-                Filter = sF + "|" + cF + "|" + vF + "|" + aF
+                Filter = filterSupportedExts + "|" + filterContainerExts + "|" + filterVideoExts + "|" + filterAudioExts
             };
 
             fileName = ofd.ShowDialog() == DialogResult.OK ? ofd.FileName : "";
