@@ -60,13 +60,45 @@ namespace Simple_AVS_Generator
 
         #region AudioBitrates
         /**
-         * Row: Codec [AAC-LC, AAC-HE, OPUS]
-         * Column: Channels [2, 5.1, 7.1]
+         * A 3D array containing sane audio bitrates
+         * for each codec and their channel layouts
+         * 
+         * 1st Dimension: Codec [AAC-LC, AAC-HE, OPUS]
+         * 2nd Dimension: Channels [2, 5.1, 7.1]
+         * 3rd Dimension: List of sane bitrates
          */
-        int [,] audioBitrates =
+        int [,,] selectableAudioBitrates =
+            {
+                //AAC-LC
+                {
+                    { 112, 128, 144, 160 }, //2 Channels
+                    { 256, 288, 320, 384 }, //5.1 Channels
+                    { 448, 512, 576, 640 }  //7.1 Channels
+                },
+
+                //AAC-HE
+                {
+                    {  48,  56,  64,  80 }, //2 Channels
+                    { 112, 128, 160, 192 }, //5.1 Channels
+                    { 160, 192, 224, 256 }  //7.1 Channels
+                },
+
+                //OPUS
+                {
+                    {  96, 112, 128, 144 }, //2 Channels
+                    { 192, 224, 256, 288 }, //5.1 Channels
+                    { 288, 320, 384, 448 }  //7.1 Channels
+                }
+            };
+        
+        /**
+         * 1st Dimension: Codec [AAC-LC, AAC-HE, OPUS]
+         * 2nd Dimension: Channels [2, 5.1, 7.1]
+         */
+        int [,] defaultAudioBitrates =
         {
             { 112, 320, 448 }, //AAC-LC
-            {  80, 224, 320 }, //AAC-HE
+            {  80, 192, 256 }, //AAC-HE
             {  96, 288, 384 }  //OPUS
         };
         #endregion AudioBitrates
@@ -113,6 +145,21 @@ namespace Simple_AVS_Generator
             cmbChannels.Items.Add("5.1 Channels");
             cmbChannels.Items.Add("7.1 Channels");
             cmbChannels.SelectedIndex = 0;
+            
+            SetSelectableAudioBitrates();
+        }
+
+        void SetSelectableAudioBitrates()
+        {
+            cmbBitrate.Items.Clear();
+
+            int audioCodec = cmbAudioCodec.SelectedIndex,
+             audioChannels = cmbChannels.SelectedIndex == -1 ? 0 : cmbChannels.SelectedIndex;
+
+            for (int i = 0; i < selectableAudioBitrates.GetLength(2); i++)
+                cmbBitrate.Items.Add(selectableAudioBitrates[audioCodec, audioChannels, i]);
+
+            cmbBitrate.SelectedItem = defaultAudioBitrates[audioCodec, audioChannels];
         }
 
         void EnableEncodeAndContainer()
@@ -126,6 +173,7 @@ namespace Simple_AVS_Generator
             cbxAudio.Checked    =  audioExt;
             cmbChannels.Enabled = !videoExt;
             cmbLanguage.Enabled = !videoExt && !audioExt;
+            cmbBitrate.Enabled  = !videoExt;
             cbxMP4.Enabled      = !audioExt;
             cbxMKV.Enabled      = !audioExt;
         }
@@ -217,7 +265,7 @@ namespace Simple_AVS_Generator
         
         String GetLanguageCode() { return languages[cmbLanguage.SelectedIndex, 0]; }
 
-        int GetAudioBitrate() { return audioBitrates[cmbAudioCodec.SelectedIndex, cmbChannels.SelectedIndex]; }
+        int GetAudioBitrate() { return (int) cmbBitrate.SelectedItem; }
 
         void Encode(bool video, bool audio)
         {
@@ -380,8 +428,8 @@ namespace Simple_AVS_Generator
             cmbVideoCodec.Enabled = false; cmbAudioCodec.Enabled = false;
             cmbVideoCodec.SelectedIndex = 0; cmbAudioCodec.SelectedIndex = 0;
 
-            cmbLanguage.Enabled = false; cmbChannels.Enabled = false;
-            cmbLanguage.SelectedIndex = 0; cmbChannels.SelectedIndex = 0;
+            cmbLanguage.Enabled = false; cmbChannels.Enabled = false; cmbBitrate.Enabled = false;
+            cmbLanguage.SelectedIndex = 0; cmbChannels.SelectedIndex = 0; cmbBitrate.SelectedValue = defaultAudioBitrates[cmbAudioCodec.SelectedIndex, cmbChannels.SelectedIndex];
 
             btnNew.Enabled = false; btnOpenFile.Enabled = true;
         }
@@ -563,7 +611,11 @@ namespace Simple_AVS_Generator
                          (cmbVideoCodec.SelectedIndex == (int) Video.Original && SupportedByMP4Box())))
                     cbxMP4.Enabled = true;
             }
+
+            SetSelectableAudioBitrates();
         }
+
+        private void cmbChannels_SelectedIndexChanged(object sender, EventArgs e) { SetSelectableAudioBitrates(); }
 
         private void cbxMP4_CheckedChanged(object sender, EventArgs e)
         {
