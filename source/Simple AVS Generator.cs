@@ -42,9 +42,9 @@ namespace Simple_AVS_Generator
            fileNameOnly = "",
                  outDir = home;
 
-        String supportedContainerExts = "*.3gp;*.3g2;*.mp4;*.mkv;*.avi;*.mov;*.m4v;*.flv",
-                   supportedVideoExts = "*.264;*.265;*.vp9",
-                   supportedAudioExts = "*.aac;*.m1a;*.m2a;*.mp3;*.m4a;*.dts;*.ac3;*.opus";
+        String supportedContainerExts = "*.3gp;*.3g2;*.asf;*.avi;*.flv;*.mp4;*.m4v;*.mkv;*.mov;*.m2t;*.m2ts;*.mxf;*.ogm;*.rm;*.rmvb;*.ts;*.wmv",
+                   supportedVideoExts = "*.263;*.h263;*.264;*.h264;*.265;*.h265;*.hevc;*.y4m",
+                   supportedAudioExts = "*.aa3;*.aac;*.aif;*.ac3;*.ape;*.dts;*.flac;*.m1a;*.m2a;*.mp2;*.mp3;*.m4a;*.oma;*.opus;*.thd;*.tta;*.wav;*.wma";
 
         #region Languages
         String [,] languages =
@@ -189,7 +189,7 @@ namespace Simple_AVS_Generator
                 ".263", ".H263", //H263 Video
                 ".H264", ".H26L", ".264", ".26L", ".X264", ".SVC", //AVC Video
                 ".HEVC", ".H265", ".265", ".HVC", ".SHVC", ".LHVC", ".MHVC", //HEVC Video
-                ".VP9"
+                ".Y4M" //YUV4MPEG Raw Video
             };
 
             foreach (String ext in videoExts)
@@ -210,11 +210,18 @@ namespace Simple_AVS_Generator
 
             String [] audioExts =
             {
-                ".AAC", ".M4A", //AAC Audio
-                ".M1A", ".M2A", ".MP3", //MPEG Audio
+                ".AA3", ".OMA", //Advanced Transform Acoustic Coding [ATRAC] Audio
+                ".AAC", ".M4A", //Advanced Audio Coding [AAC] Audio
+                ".AC3", ".THD", //Dolby Digital
+                ".AIF", //AIFF Audio
+                ".APE", //Monkey Audio
                 ".DTS",
-                ".AC3", //Dolby Digital
-                ".OPUS"
+                ".FLAC", //Free Lossless Audio Codec
+                ".M1A", ".M2A", ".MP2", ".MP3", //MPEG Audio
+                ".OPUS",
+                ".TTA",
+                ".WAV",
+                ".WMA"
             };
 
             foreach (String ext in audioExts)
@@ -241,11 +248,13 @@ namespace Simple_AVS_Generator
                 ".263", ".H263", //H263 Video
                 ".H264", ".H26L", ".264", ".26L", ".X264", ".SVC", //AVC Video
                 ".HEVC", ".H265", ".265", ".HVC", ".SHVC", ".LHVC", ".MHVC", //HEVC Video
+                ".IVF", //AV1 and VP9 Video
+                ".OBU", //AV1 Video
 
                 //Containers
                 ".AVI",
-                ".MPG", ".MPEG", ".VOB", ".VCD", ".SVCD", //MPEG-2 PS
-                ".TS", ".M2T", //MPEG-2 TS
+                ".MPG", ".MPEG", ".VOB", ".VCD", ".SVCD", //MPEG-2 Program Streams
+                ".TS", ".M2T", ".M2TS", //MPEG-2 Transport Streams
                 ".QCP",
                 ".OGG",
                 ".MP4", ".3GP", ".3G2" //Some ISO Media Extensions
@@ -460,9 +469,9 @@ namespace Simple_AVS_Generator
         private void btnOpenFile_Click(object sender, EventArgs e)
         {
             String filterSupportedExts = "All Supported|" + supportedContainerExts + ";" + supportedVideoExts + ";" + supportedAudioExts,
-                   filterContainerExts = "Container Types [3GP 3G2 AVI FLV MP4 MKV MOV M4V]|" + supportedContainerExts,
-                       filterVideoExts = "Video Types [264 265 VP9]|" + supportedVideoExts,
-                       filterAudioExts = "Audio Types [AAC AC3 DTS M1A M2A MP3 M4A]|" + supportedAudioExts;
+                   filterContainerExts = "Container Types [3GP 32G ASF AVI FLV M4V MP4 MKV MOV M2T M2TS MXF OGM RM RMVB TS WMV]|" + supportedContainerExts,
+                       filterVideoExts = "Video Types [263 H263 264 H264 265 H265 HEVC Y4M]|" + supportedVideoExts,
+                       filterAudioExts = "Audio Types [AA3 AAC AC3 AIF APE DTS FLAC M1A M2A MP2 MP3 M4A OMA OPUS THD TTA WAV WMA]|" + supportedAudioExts;
 
             OpenFileDialog ofd = new OpenFileDialog
             {
