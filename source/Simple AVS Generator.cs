@@ -585,16 +585,6 @@ namespace Simple_AVS_Generator
             else MessageBox.Show("Please Input A File First");
         }
 
-        private void cmbLanguage_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void cmbBitrate_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
-        }
-
         private void btnNew_Click(object sender, EventArgs e) { New(); }
         #endregion Buttons
 

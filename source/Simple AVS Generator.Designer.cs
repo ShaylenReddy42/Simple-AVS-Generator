@@ -263,7 +263,6 @@
             this.cmbBitrate.Name = "cmbBitrate";
             this.cmbBitrate.Size = new System.Drawing.Size(100, 21);
             this.cmbBitrate.TabIndex = 5;
-            this.cmbBitrate.SelectedIndexChanged += new System.EventHandler(this.cmbBitrate_SelectedIndexChanged);
             // 
             // label3
             // 
@@ -303,7 +302,6 @@
             this.cmbLanguage.Name = "cmbLanguage";
             this.cmbLanguage.Size = new System.Drawing.Size(100, 21);
             this.cmbLanguage.TabIndex = 2;
-            this.cmbLanguage.SelectedIndexChanged += new System.EventHandler(this.cmbLanguage_SelectedIndexChanged);
             // 
             // label2
             // 
