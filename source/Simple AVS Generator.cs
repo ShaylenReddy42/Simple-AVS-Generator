@@ -27,6 +27,13 @@ namespace Simple_AVS_Generator
         public MainForm()
         {
             InitializeComponent();
+
+            if (global::Properties.Settings.Default.Location.X <= 0 ||
+                global::Properties.Settings.Default.Location.Y <= 0)
+                this.StartPosition = FormStartPosition.CenterScreen;
+            else
+                this.DataBindings.Add("Location", global::Properties.Settings.Default, "Location", true, DataSourceUpdateMode.OnPropertyChanged);
+
             txbOutFile.Text = outDir;
             PopulateComboBoxes();
         }

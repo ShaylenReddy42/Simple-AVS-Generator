@@ -339,9 +339,7 @@
             this.Controls.Add(this.txbOutFile);
             this.Controls.Add(this.btnOpenFile);
             this.Controls.Add(this.txbInFile);
-            this.DataBindings.Add(new System.Windows.Forms.Binding("Location", global::Properties.Settings.Default, "Location", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
-            this.Location = global::Properties.Settings.Default.Location;
             this.MaximizeBox = false;
             this.Name = "MainForm";
             this.Text = "Simple AVS Generator";
