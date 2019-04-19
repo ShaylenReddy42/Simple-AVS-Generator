@@ -489,7 +489,7 @@ namespace Simple_AVS_Generator
             if (fileName != "")
             {
                 fileNameOnly = ofd.SafeFileName;
-                fileNameOnly = fileNameOnly.Substring(0, fileNameOnly.Length - 4);
+                fileNameOnly = fileNameOnly.Substring(0, fileNameOnly.LastIndexOf('.'));
                 fileDir = fileName.Substring(0, fileName.LastIndexOf("\\"));
                 fileExt = fileName.Substring(fileName.LastIndexOf('.')).ToUpper();
                 outDir = outDir + fileNameOnly + "\\";
