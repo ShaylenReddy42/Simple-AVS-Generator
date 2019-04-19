@@ -386,7 +386,7 @@ namespace Simple_AVS_Generator
             {
                 String mp4V = !originalVideo ? "-add \"%~dp0Video" + videoExtension + "\":name= " :
                                                "-add \"" + fileName + "\"#video ",
-                       mp4A = cbxAudio.Checked ? "-add \"%~dp0" + fileNameOnly + ".m4a\":name=:lang=" + GetLanguageCode() : "",
+                       mp4A = cbxAudio.Checked ? "-add \"%~dp0" + fileNameOnly + audioExtension + "\":name=:lang=" + GetLanguageCode() : "",
                      newmp4 = " -new " + "\"%~dp0" + fileNameOnly + ".mp4\"";
 
                 outputFileName += "MP4 Mux" + (originalVideo ? " [Original Video]" : "") + ".cmd";
@@ -606,7 +606,6 @@ namespace Simple_AVS_Generator
         {
             cbxMP4.Checked = cbxVideo.Checked &&
                              cbxMP4.Enabled &&
-                             cmbAudioCodec.SelectedIndex != (int) Audio.OPUS &&
                              !cbxMKV.Checked;
 
             cmbVideoCodec.Enabled = cbxVideo.Checked;
@@ -625,29 +624,11 @@ namespace Simple_AVS_Generator
                 cbxMP4.Checked = false;
                 cbxMKV.Checked = true;
             }
-            else if (cmbAudioCodec.SelectedIndex != (int) Audio.OPUS &&
-                     fileName != "")
+            else if (fileName != "")
                 cbxMP4.Enabled = true;
         }
 
-        private void cmbAudioCodec_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            if (cbxVideo.Enabled)
-            {
-                if (cmbAudioCodec.SelectedIndex == (int) Audio.OPUS)
-                {
-                    cbxMP4.Enabled = false;
-                    cbxMP4.Checked = false;
-                    cbxMKV.Checked = true;
-                }
-                else if (cmbAudioCodec.SelectedIndex != (int) Audio.OPUS &&
-                         (cmbVideoCodec.SelectedIndex != (int) Video.Original ||
-                         (cmbVideoCodec.SelectedIndex == (int) Video.Original && SupportedByMP4Box())))
-                    cbxMP4.Enabled = true;
-            }
-
-            SetSelectableAudioBitrates();
-        }
+        private void cmbAudioCodec_SelectedIndexChanged(object sender, EventArgs e) { SetSelectableAudioBitrates(); }
 
         private void cmbChannels_SelectedIndexChanged(object sender, EventArgs e) { SetSelectableAudioBitrates(); }
 
