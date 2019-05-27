@@ -19,6 +19,7 @@
 using System;
 using System.Windows.Forms;
 using System.IO;
+using System.Drawing;
 
 namespace Simple_AVS_Generator
 {
@@ -37,6 +38,11 @@ namespace Simple_AVS_Generator
             txbOutFile.Text = outDir;
             PopulateComboBoxes();
         }
+
+        //Variables for dragging the form
+        private bool dragging = false;
+        private Point dragCursorPoint;
+        private Point dragFormPoint;
 
         static String home = "C:\\Users\\" + Environment.UserName + "\\Desktop\\Temp\\";
 
@@ -593,6 +599,37 @@ namespace Simple_AVS_Generator
         #endregion Buttons
 
         #region ComponentEvents
+        private void MainForm_MouseDown(object sender, MouseEventArgs e)
+        {
+            dragging = true;
+            dragCursorPoint = Cursor.Position;
+            dragFormPoint = this.Location;
+        }
+
+        private void MainForm_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (dragging)
+            {
+                Point dif = Point.Subtract(Cursor.Position, new Size(dragCursorPoint));
+                this.Location = Point.Add(dragFormPoint, new Size(dif));
+            }
+        }
+
+        private void MainForm_MouseUp(object sender, MouseEventArgs e)
+        {
+            dragging = false;
+        }
+
+        private void MainForm_Deactivate(object sender, EventArgs e)
+        {
+            lbltitle.ForeColor = Color.FromArgb(200, 200, 200);
+        }
+
+        private void MainForm_Activated(object sender, EventArgs e)
+        {
+            lbltitle.ForeColor = Color.White;
+        }
+
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
         {
             if (fileName != "" && Directory.Exists(outDir) && !File.Exists(output))
@@ -642,6 +679,36 @@ namespace Simple_AVS_Generator
         {
             if (cbxMKV.Checked)
                 cbxMP4.Checked = false;
+        }
+
+        private void lblClose_MouseEnter(object sender, EventArgs e)
+        {
+            lblClose.BackColor = Color.Red;
+        }
+
+        private void lblClose_MouseLeave(object sender, EventArgs e)
+        {
+            lblClose.BackColor = Color.FromArgb(40, 40, 40);
+        }
+
+        private void lblClose_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
+        }
+
+        private void lblMinimize_MouseEnter(object sender, EventArgs e)
+        {
+            lblMinimize.BackColor = Color.FromArgb(60, 60, 60);
+        }
+
+        private void lblMinimize_MouseLeave(object sender, EventArgs e)
+        {
+            lblMinimize.BackColor = Color.FromArgb(40, 40, 40);
+        }
+
+        private void lblMinimize_Click(object sender, EventArgs e)
+        {
+            this.WindowState = FormWindowState.Minimized;
         }
         #endregion ComponentEvents
     }

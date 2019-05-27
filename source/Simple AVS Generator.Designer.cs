@@ -1,4 +1,6 @@
-﻿namespace Simple_AVS_Generator
+﻿using System.Drawing;
+
+namespace Simple_AVS_Generator
 {
     partial class MainForm
     {
@@ -49,6 +51,9 @@
             this.cmbLanguage = new System.Windows.Forms.ComboBox();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
+            this.lbltitle = new System.Windows.Forms.Label();
+            this.lblClose = new System.Windows.Forms.Label();
+            this.lblMinimize = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -58,7 +63,7 @@
             // 
             this.txbInFile.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
             this.txbInFile.ForeColor = System.Drawing.Color.White;
-            this.txbInFile.Location = new System.Drawing.Point(13, 13);
+            this.txbInFile.Location = new System.Drawing.Point(12, 38);
             this.txbInFile.Name = "txbInFile";
             this.txbInFile.ReadOnly = true;
             this.txbInFile.Size = new System.Drawing.Size(385, 20);
@@ -68,7 +73,7 @@
             // 
             this.btnOpenFile.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
             this.btnOpenFile.ForeColor = System.Drawing.Color.White;
-            this.btnOpenFile.Location = new System.Drawing.Point(404, 11);
+            this.btnOpenFile.Location = new System.Drawing.Point(403, 36);
             this.btnOpenFile.Name = "btnOpenFile";
             this.btnOpenFile.Size = new System.Drawing.Size(105, 23);
             this.btnOpenFile.TabIndex = 1;
@@ -80,7 +85,7 @@
             // 
             this.txbOutFile.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
             this.txbOutFile.ForeColor = System.Drawing.Color.White;
-            this.txbOutFile.Location = new System.Drawing.Point(12, 168);
+            this.txbOutFile.Location = new System.Drawing.Point(11, 193);
             this.txbOutFile.Name = "txbOutFile";
             this.txbOutFile.ReadOnly = true;
             this.txbOutFile.Size = new System.Drawing.Size(497, 20);
@@ -90,7 +95,7 @@
             // 
             this.btnOutDir.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
             this.btnOutDir.ForeColor = System.Drawing.Color.White;
-            this.btnOutDir.Location = new System.Drawing.Point(404, 194);
+            this.btnOutDir.Location = new System.Drawing.Point(403, 219);
             this.btnOutDir.Name = "btnOutDir";
             this.btnOutDir.Size = new System.Drawing.Size(106, 23);
             this.btnOutDir.TabIndex = 5;
@@ -102,7 +107,7 @@
             // 
             this.btnGen.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
             this.btnGen.ForeColor = System.Drawing.Color.White;
-            this.btnGen.Location = new System.Drawing.Point(195, 194);
+            this.btnGen.Location = new System.Drawing.Point(194, 219);
             this.btnGen.Name = "btnGen";
             this.btnGen.Size = new System.Drawing.Size(127, 23);
             this.btnGen.TabIndex = 6;
@@ -115,7 +120,7 @@
             this.btnNew.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
             this.btnNew.Enabled = false;
             this.btnNew.ForeColor = System.Drawing.Color.White;
-            this.btnNew.Location = new System.Drawing.Point(12, 194);
+            this.btnNew.Location = new System.Drawing.Point(11, 219);
             this.btnNew.Name = "btnNew";
             this.btnNew.Size = new System.Drawing.Size(98, 23);
             this.btnNew.TabIndex = 9;
@@ -131,7 +136,7 @@
             this.groupBox1.Controls.Add(this.cbxAudio);
             this.groupBox1.Controls.Add(this.cbxVideo);
             this.groupBox1.ForeColor = System.Drawing.Color.White;
-            this.groupBox1.Location = new System.Drawing.Point(13, 40);
+            this.groupBox1.Location = new System.Drawing.Point(12, 65);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(154, 123);
             this.groupBox1.TabIndex = 12;
@@ -200,7 +205,7 @@
             this.groupBox2.Controls.Add(this.cbxMKV);
             this.groupBox2.Controls.Add(this.cbxMP4);
             this.groupBox2.ForeColor = System.Drawing.Color.White;
-            this.groupBox2.Location = new System.Drawing.Point(361, 40);
+            this.groupBox2.Location = new System.Drawing.Point(360, 65);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(148, 122);
             this.groupBox2.TabIndex = 13;
@@ -243,7 +248,7 @@
             this.groupBox3.Controls.Add(this.label2);
             this.groupBox3.Controls.Add(this.label1);
             this.groupBox3.ForeColor = System.Drawing.Color.White;
-            this.groupBox3.Location = new System.Drawing.Point(174, 40);
+            this.groupBox3.Location = new System.Drawing.Point(173, 65);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Size = new System.Drawing.Size(181, 123);
             this.groupBox3.TabIndex = 14;
@@ -323,13 +328,55 @@
             this.label1.TabIndex = 0;
             this.label1.Text = "Language: ";
             // 
+            // lbltitle
+            // 
+            this.lbltitle.AutoSize = true;
+            this.lbltitle.Font = new System.Drawing.Font("Calibri", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbltitle.ForeColor = System.Drawing.Color.White;
+            this.lbltitle.Location = new System.Drawing.Point(12, 9);
+            this.lbltitle.Name = "lbltitle";
+            this.lbltitle.Size = new System.Drawing.Size(136, 17);
+            this.lbltitle.TabIndex = 15;
+            this.lbltitle.Text = "Simple AVS Generator";
+            // 
+            // lblClose
+            // 
+            this.lblClose.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblClose.ForeColor = System.Drawing.Color.White;
+            this.lblClose.Location = new System.Drawing.Point(480, 4);
+            this.lblClose.Margin = new System.Windows.Forms.Padding(5);
+            this.lblClose.Name = "lblClose";
+            this.lblClose.Size = new System.Drawing.Size(25, 25);
+            this.lblClose.TabIndex = 16;
+            this.lblClose.Text = "X";
+            this.lblClose.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.lblClose.Click += new System.EventHandler(this.lblClose_Click);
+            this.lblClose.MouseEnter += new System.EventHandler(this.lblClose_MouseEnter);
+            this.lblClose.MouseLeave += new System.EventHandler(this.lblClose_MouseLeave);
+            // 
+            // lblMinimize
+            // 
+            this.lblMinimize.ForeColor = System.Drawing.Color.White;
+            this.lblMinimize.Location = new System.Drawing.Point(447, 4);
+            this.lblMinimize.Name = "lblMinimize";
+            this.lblMinimize.Size = new System.Drawing.Size(25, 25);
+            this.lblMinimize.TabIndex = 17;
+            this.lblMinimize.Text = "_";
+            this.lblMinimize.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.lblMinimize.Click += new System.EventHandler(this.lblMinimize_Click);
+            this.lblMinimize.MouseEnter += new System.EventHandler(this.lblMinimize_MouseEnter);
+            this.lblMinimize.MouseLeave += new System.EventHandler(this.lblMinimize_MouseLeave);
+            // 
             // MainForm
             // 
             this.AllowDrop = true;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
-            this.ClientSize = new System.Drawing.Size(519, 228);
+            this.ClientSize = new System.Drawing.Size(519, 255);
+            this.Controls.Add(this.lblMinimize);
+            this.Controls.Add(this.lblClose);
+            this.Controls.Add(this.lbltitle);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
@@ -339,11 +386,16 @@
             this.Controls.Add(this.txbOutFile);
             this.Controls.Add(this.btnOpenFile);
             this.Controls.Add(this.txbInFile);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.MaximizeBox = false;
             this.Name = "MainForm";
             this.Text = "Simple AVS Generator";
+            this.Activated += new System.EventHandler(this.MainForm_Activated);
+            this.Deactivate += new System.EventHandler(this.MainForm_Deactivate);
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainForm_FormClosing);
+            this.MouseDown += new System.Windows.Forms.MouseEventHandler(this.MainForm_MouseDown);
+            this.MouseMove += new System.Windows.Forms.MouseEventHandler(this.MainForm_MouseMove);
+            this.MouseUp += new System.Windows.Forms.MouseEventHandler(this.MainForm_MouseUp);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.groupBox2.ResumeLayout(false);
@@ -378,6 +430,9 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.ComboBox cmbBitrate;
+        private System.Windows.Forms.Label lbltitle;
+        private System.Windows.Forms.Label lblClose;
+        private System.Windows.Forms.Label lblMinimize;
     }
 }
 
