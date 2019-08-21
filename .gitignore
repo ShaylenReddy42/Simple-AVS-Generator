@@ -1,9 +1,7 @@
-syntax: glob
-
 # Folders
 bin/**
 build/solution/**
 obj/**
 
 # File extensions
-**.exe
+*.exe
