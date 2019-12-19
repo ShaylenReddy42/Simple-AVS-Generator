@@ -1,7 +1,7 @@
 # Folders
-bin/**
-build/solution/**
-obj/**
+bin/
+build/
+obj/
 
 # File extensions
 *.exe
