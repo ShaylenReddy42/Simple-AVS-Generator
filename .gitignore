@@ -5,3 +5,6 @@ obj/
 
 # File extensions
 *.exe
+
+# Files
+source/Properties/AssemblyInfo.cs
