@@ -1,0 +1,13 @@
+image: Visual Studio 2019
+
+version: '{build}'
+
+before_build:
+    - cmd: cmake -G "Visual Studio 16" -S "source" -B "build"
+
+build:
+    project: "build/SimpleAVSGenerator.sln"
+
+
+artifacts:
+    - path: "build/Release/Simple AVS Generator.exe"
