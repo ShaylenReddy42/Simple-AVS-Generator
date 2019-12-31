@@ -1,4 +1,4 @@
-# Simple AVS Generator #
+# Simple AVS Generator [![Build status](https://ci.appveyor.com/api/projects/status/61g0g8mca7ihkkot?svg=true)](https://ci.appveyor.com/project/Shaylen/simple-avs-generator) #
 
 ## What is this project for? ##
 
