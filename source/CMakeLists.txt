@@ -77,7 +77,7 @@ set(FILE_VERSION "${TAG}.0.${REVISION}")
 set(INFORMATIONAL_VERSION "${TAG}+${REVISION} [${COMMIT_ID}]")
 
 message(STATUS "File Version: ${FILE_VERSION}")
-message(STATUS "Information Version: ${INFORMATIONAL_VERSION}")
+message(STATUS "Informational Version: ${INFORMATIONAL_VERSION}")
 
 configure_file("${CMAKE_SOURCE_DIR}/AssemblyInfo.cs.in" "${CMAKE_SOURCE_DIR}/Properties/AssemblyInfo.cs")
 
