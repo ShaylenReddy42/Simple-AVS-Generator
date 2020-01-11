@@ -11,43 +11,73 @@ project(
 # Extracting version
 
 set(TAG "0.0")
-set(TAG_DISTANCE "0")
+set(REVISION "0")
 set(COMMIT_ID "commit")
 
 if(${GIT_FOUND} AND EXISTS "${CMAKE_SOURCE_DIR}/../.git")
 	execute_process(
 		COMMAND ${GIT_EXECUTABLE} rev-list --all --abbrev-commit --abbrev=7 --max-count=1
-		WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
+		WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
 		OUTPUT_VARIABLE COMMIT_ID
 		OUTPUT_STRIP_TRAILING_WHITESPACE
 		ERROR_QUIET
 	)
 	
 	execute_process(
-		COMMAND ${GIT_EXECUTABLE} rev-list ${COMMIT_ID} --count
-		WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
-		OUTPUT_VARIABLE TAG_DISTANCE
+		COMMAND ${GIT_EXECUTABLE} describe --tags --abbrev=0
+		WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
+		OUTPUT_VARIABLE TAG
 		OUTPUT_STRIP_TRAILING_WHITESPACE
 		ERROR_QUIET
 	)
-	
-	execute_process(
-		COMMAND ${GIT_EXECUTABLE} describe --tags ${COMMIT_ID}
-		WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
-		OUTPUT_VARIABLE GIT_TAG
-		OUTPUT_STRIP_TRAILING_WHITESPACE
-		ERROR_QUIET
-	)
-	
-	if(GIT_TAG STREQUAL "")
+
+	if(TAG STREQUAL "")
 		set(TAG "0.0")
+		
+		execute_process(
+			COMMAND ${GIT_EXECUTABLE} rev-list ${COMMIT_ID} --count
+			WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
+			OUTPUT_VARIABLE REVISION
+			OUTPUT_STRIP_TRAILING_WHITESPACE
+			ERROR_QUIET
+		)
+	else()
+		execute_process(
+			COMMAND ${GIT_EXECUTABLE} describe --tags
+			WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
+			OUTPUT_VARIABLE FULL_TAG
+			OUTPUT_STRIP_TRAILING_WHITESPACE
+			ERROR_QUIET
+		)
+		
+		if(FULL_TAG STREQUAL TAG)
+			set(REVISION 0)
+		else()
+			string(REGEX MATCH "-[0-9]+-" REVISION "${FULL_TAG}")
+			string(REGEX REPLACE "-" "" REVISION "${REVISION}")
+		endif()
 	endif()
 endif()
 
-set(FILE_VERSION "${TAG}.0.${TAG_DISTANCE}")
-set(INFORMATIONAL_VERSION "${TAG}+${TAG_DISTANCE} [${COMMIT_ID}]")
+# CMake's string length function stores length in bytes not number
+# of characters so no point in preparing for tags like 1.0.1
+# Sticking to tags like 1.0, 1.1 for now [if I do tag :D]
 
-message(STATUS "Version: ${INFORMATIONAL_VERSION}")
+# string(LENGTH TAG TAG_LENGTH)
+
+# message(STATUS "Tag: ${TAG} Length: ${TAG_LENGTH}")
+
+# if(TAG_LENGTH STREQUAL "3")
+# 	set(FILE_VERSION "${TAG}.0.${REVISION}")
+# else()
+# 	set(FILE_VERSION "${TAG}.${REVISION}")
+# endif()
+
+set(FILE_VERSION "${TAG}.0.${REVISION}")
+set(INFORMATIONAL_VERSION "${TAG}+${REVISION} [${COMMIT_ID}]")
+
+message(STATUS "File Version: ${FILE_VERSION}")
+message(STATUS "Information Version: ${INFORMATIONAL_VERSION}")
 
 configure_file("${CMAKE_SOURCE_DIR}/AssemblyInfo.cs.in" "${CMAKE_SOURCE_DIR}/Properties/AssemblyInfo.cs")
 
