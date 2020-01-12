@@ -31,7 +31,6 @@ The generated AviSynth+ scripts make use of the [LSMASHSource msvc plugins](http
 * [mp4box from GPAC](https://gpac.wp.imt.fr/downloads/gpac-nightly-builds/)
 * [mkvmerge from MKVToolNix](https://www.videohelp.com/software/MKVToolNix)
 
-
 ## How do I get set up? ##
 
 * [Microsoft Visual Studio 2017 Community Edition](https://visualstudio.microsoft.com/vs/community/) with C# language support
@@ -39,4 +38,4 @@ The generated AviSynth+ scripts make use of the [LSMASHSource msvc plugins](http
 
 ## Build Instructions ##
 
-Run build/Build [Project].cmd and the resulting executable will be in same folder as the script
+Run `build.cmd` and the resulting executable will be in same folder as the script
