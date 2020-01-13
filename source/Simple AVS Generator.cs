@@ -626,12 +626,16 @@ namespace Simple_AVS_Generator
 
         private void MainForm_Deactivate(object sender, EventArgs e)
         {
-            lbltitle.ForeColor = Color.FromArgb(200, 200, 200);
+            lbltitle.ForeColor    = Color.FromArgb(200, 200, 200);
+            lblMinimize.ForeColor = Color.FromArgb(200, 200, 200);
+            lblClose.ForeColor    = Color.FromArgb(200, 200, 200);
         }
 
         private void MainForm_Activated(object sender, EventArgs e)
         {
-            lbltitle.ForeColor = Color.White;
+            lbltitle.ForeColor    = Color.White;
+            lblMinimize.ForeColor = Color.White;
+            lblClose.ForeColor    = Color.White;
         }
 
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
