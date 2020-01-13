@@ -20,6 +20,8 @@ using System;
 using System.Windows.Forms;
 using System.IO;
 using System.Drawing;
+using System.Reflection;
+using System.Diagnostics;
 
 namespace Simple_AVS_Generator
 {
@@ -28,6 +30,8 @@ namespace Simple_AVS_Generator
         public MainForm()
         {
             InitializeComponent();
+
+            lbltitle.Text += " v" + FileVersionInfo.GetVersionInfo(Assembly.GetEntryAssembly().Location).ProductVersion;
 
             if (global::Properties.Settings.Default.Location.X <= 0 ||
                 global::Properties.Settings.Default.Location.Y <= 0)

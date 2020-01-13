@@ -1,6 +1,4 @@
-﻿using System.Drawing;
-
-namespace Simple_AVS_Generator
+﻿namespace Simple_AVS_Generator
 {
     partial class MainForm
     {
