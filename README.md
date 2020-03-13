@@ -4,9 +4,9 @@
 
 This project was created to make my life easier
 
-It creates scripts to re-encode videos using [AviSynth+](https://github.com/pinterf/AviSynthPlus/releases)
+It creates scripts to re-encode videos using [AviSynth+](https://github.com/AviSynth/AviSynthPlus/releases)
 
-The generated AviSynth+ scripts make use of the [LSMASHSource msvc plugins](https://www.dropbox.com/sh/3i81ttxf028m1eh/AAABkQn4Y5w1k-toVhYLasmwa?dl=0) which must be placed in the relevant AviSynth+ plugin folders [plugins+ for the 32bit dll and plugins64+ for the 64bit]
+The generated AviSynth+ scripts make use of the [L-SMASH-Works plugin](https://github.com/HolyWu/L-SMASH-Works/releases) which must be placed in the relevant AviSynth+ plugin folders [plugins+ for the 32bit dll and plugins64+ for the 64bit]
 
 ### Tools required in your path ###
 
@@ -33,7 +33,7 @@ The generated AviSynth+ scripts make use of the [LSMASHSource msvc plugins](http
 
 ## How do I get set up? ##
 
-* [Microsoft Visual Studio 2017 Community Edition](https://visualstudio.microsoft.com/vs/community/) with C# language support
+* [Microsoft Visual Studio 2019 / 2017 Community Edition](https://visualstudio.microsoft.com/vs/community/) with C# language support
 * [CMake v3.8 or later](https://cmake.org) [This must be in your PATH]
 
 ## Build Instructions ##
