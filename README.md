@@ -19,7 +19,7 @@ The generated AviSynth+ scripts make use of the [L-SMASH-Works plugin](https://g
 
 * [x264](https://download.videolan.org/pub/x264/binaries/)
 * [x265](http://msystem.waw.pl/x265/)
-* aomenc [[Build from source](https://aomedia.googlesource.com/aom/)]
+* [aomenc](https://ci.appveyor.com/project/marcomsousa/build-aom/history)
 
 #### Audio encoders ####
 
