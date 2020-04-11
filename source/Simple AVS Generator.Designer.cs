@@ -69,7 +69,8 @@
             // 
             // btnOpenFile
             // 
-            this.btnOpenFile.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
+            this.btnOpenFile.BackColor = System.Drawing.Color.RoyalBlue;
+            this.btnOpenFile.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnOpenFile.ForeColor = System.Drawing.Color.White;
             this.btnOpenFile.Location = new System.Drawing.Point(403, 36);
             this.btnOpenFile.Name = "btnOpenFile";
@@ -91,7 +92,8 @@
             // 
             // btnOutDir
             // 
-            this.btnOutDir.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
+            this.btnOutDir.BackColor = System.Drawing.Color.RoyalBlue;
+            this.btnOutDir.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnOutDir.ForeColor = System.Drawing.Color.White;
             this.btnOutDir.Location = new System.Drawing.Point(403, 219);
             this.btnOutDir.Name = "btnOutDir";
@@ -103,7 +105,8 @@
             // 
             // btnGen
             // 
-            this.btnGen.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
+            this.btnGen.BackColor = System.Drawing.Color.RoyalBlue;
+            this.btnGen.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnGen.ForeColor = System.Drawing.Color.White;
             this.btnGen.Location = new System.Drawing.Point(194, 219);
             this.btnGen.Name = "btnGen";
@@ -115,7 +118,8 @@
             // 
             // btnNew
             // 
-            this.btnNew.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
+            this.btnNew.BackColor = System.Drawing.Color.RoyalBlue;
+            this.btnNew.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnNew.Enabled = false;
             this.btnNew.ForeColor = System.Drawing.Color.White;
             this.btnNew.Location = new System.Drawing.Point(11, 219);
