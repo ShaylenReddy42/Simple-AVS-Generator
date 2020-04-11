@@ -12,7 +12,7 @@ project(
 
 set(TAG "0.0")
 set(REVISION "0")
-set(COMMIT_ID "commit")
+set(COMMIT_ID "unknown")
 
 if(${GIT_FOUND} AND EXISTS "${CMAKE_SOURCE_DIR}/../.git")
 	execute_process(
@@ -80,6 +80,12 @@ message(STATUS "File Version: ${FILE_VERSION}")
 message(STATUS "Informational Version: ${INFORMATIONAL_VERSION}")
 
 configure_file("${CMAKE_SOURCE_DIR}/AssemblyInfo.cs.in" "${CMAKE_SOURCE_DIR}/Properties/AssemblyInfo.cs")
+
+option(APPVEYOR_CI "Used to write the version info to a file for AppVeyor" OFF)
+
+if(APPVEYOR_CI)
+	file(WRITE "${CMAKE_SOURCE_DIR}/version.txt" ${INFORMATIONAL_VERSION})
+endif()
 
 add_executable(
 	${PROJECT_NAME} WIN32

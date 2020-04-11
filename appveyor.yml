@@ -1,17 +1,17 @@
 image: Visual Studio 2019
 
-version: '{build}'
+version: 'Build {build}'
 
 configuration:
     - Release
 
 before_build:
-    - cmd: cmake -G "Visual Studio 16" -S "source" -B "build"
+    - cmd: cmake -G "Visual Studio 16" -S "source" -B "build" -DAPPVEYOR_CI=ON
+    - cmd: set /p version=<"source/version.txt"
+    - cmd: appveyor UpdateBuild -Version "v%version%"
 
 build:
     project: "build/SimpleAVSGenerator.sln"
-    verbosity: minimal
-
 
 artifacts:
     - path: "build/Release/Simple AVS Generator.exe"
