@@ -309,7 +309,7 @@ namespace Simple_AVS_Generator
                 }
                 else if (cmbVideoCodec.SelectedIndex == (int) Video.AV1)
                 {
-                    vEncoder += "aomenc --passes=1 --end-usage=q --min-q=26 --max-q=34 --target-bitrate=0 --lag-in-frames=10 ";
+                    vEncoder += "aomenc --passes=1 --end-usage=q --min-q=26 --max-q=34 --target-bitrate=0 ";
                     vEncoder += "--enable-fwd-kf=1 --kf-max-dist=48 --verbose --ivf -o \"%~dp0Video.ivf\" -";
                     vCmdFile += "Encode Video [AV1].cmd";
                 }
