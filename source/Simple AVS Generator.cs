@@ -63,6 +63,55 @@ namespace Simple_AVS_Generator
                    supportedVideoExts = "*.263;*.h263;*.264;*.h264;*.265;*.h265;*.hevc;*.y4m",
                    supportedAudioExts = "*.aa3;*.aac;*.aif;*.ac3;*.ape;*.dts;*.flac;*.m1a;*.m2a;*.mp2;*.mp3;*.m4a;*.oma;*.opus;*.thd;*.tta;*.wav;*.wma";
 
+        Object [,] extensionTypes =
+        {
+            { ExtensionType.CONTAINER, ".3gp"  },
+            { ExtensionType.CONTAINER, ".3g2"  },
+            { ExtensionType.CONTAINER, ".asf"  },
+            { ExtensionType.CONTAINER, ".avi"  },
+            { ExtensionType.CONTAINER, ".flv"  },
+            { ExtensionType.CONTAINER, ".mp4"  },
+            { ExtensionType.CONTAINER, ".m4v"  },
+            { ExtensionType.CONTAINER, ".mkv"  },
+            { ExtensionType.CONTAINER, ".mov"  },
+            { ExtensionType.CONTAINER, ".m2t"  },
+            { ExtensionType.CONTAINER, ".m2ts" },
+            { ExtensionType.CONTAINER, ".mxf"  },
+            { ExtensionType.CONTAINER, ".ogm"  },
+            { ExtensionType.CONTAINER, ".rm"   },
+            { ExtensionType.CONTAINER, ".rmvb" },
+            { ExtensionType.CONTAINER, ".ts"   },
+            { ExtensionType.CONTAINER, ".wmv"  },
+
+            { ExtensionType.VIDEO,     ".263"  },
+            { ExtensionType.VIDEO,     ".h263" },
+            { ExtensionType.VIDEO,     ".264"  },
+            { ExtensionType.VIDEO,     ".h264" },
+            { ExtensionType.VIDEO,     ".265"  },
+            { ExtensionType.VIDEO,     ".h265" },
+            { ExtensionType.VIDEO,     ".hevc" },
+            { ExtensionType.VIDEO,     ".y4m"  },
+
+            { ExtensionType.AUDIO,     ".aa3"  },
+            { ExtensionType.AUDIO,     ".aac"  },
+            { ExtensionType.AUDIO,     ".aif"  },
+            { ExtensionType.AUDIO,     ".ac3"  },
+            { ExtensionType.AUDIO,     ".ape"  },
+            { ExtensionType.AUDIO,     ".dts"  },
+            { ExtensionType.AUDIO,     ".flac" },
+            { ExtensionType.AUDIO,     ".m1a"  },
+            { ExtensionType.AUDIO,     ".m2a"  },
+            { ExtensionType.AUDIO,     ".mp2"  },
+            { ExtensionType.AUDIO,     ".mp3"  },
+            { ExtensionType.AUDIO,     ".m4a"  },
+            { ExtensionType.AUDIO,     ".oma"  },
+            { ExtensionType.AUDIO,     ".opus" },
+            { ExtensionType.AUDIO,     ".thd"  },
+            { ExtensionType.AUDIO,     ".tta"  },
+            { ExtensionType.AUDIO,     ".wav"  },
+            { ExtensionType.AUDIO,     ".wma"  }
+        };
+
         #region Languages
         String [,] languages =
         {
@@ -121,6 +170,13 @@ namespace Simple_AVS_Generator
         #endregion AudioBitrates
 
         #region Enums
+        enum ExtensionType
+        {
+            CONTAINER = 0,
+            VIDEO = 1,
+            AUDIO = 2
+        }
+        
         enum Video
         {
             HEVC = 0,
@@ -181,76 +237,26 @@ namespace Simple_AVS_Generator
 
         void EnableEncodeAndContainer()
         {
-            bool videoExt = VideoExt(),
-                 audioExt = AudioExt();
-
-            cbxVideo.Enabled    = !audioExt;
-            cbxVideo.Checked    =  videoExt;
-            cbxAudio.Enabled    = !videoExt;
-            cbxAudio.Checked    =  audioExt;
-            cmbChannels.Enabled = !videoExt;
-            cmbLanguage.Enabled = !videoExt && !audioExt;
-            cmbBitrate.Enabled  = !videoExt;
-            cbxMP4.Enabled      = !audioExt;
-            cbxMKV.Enabled      = !audioExt;
-        }
-
-        bool VideoExt()
-        {
-            bool isVideoExt = false;
-
-            String [] videoExts =
+            int type = -1;
+            
+            for (int i = 0; i < extensionTypes.Length; i++)
             {
-                ".M1V", ".M2V", //MPEG-1-2 Video
-                ".CMP", ".M4V", //MPEG-4 Video
-                ".263", ".H263", //H263 Video
-                ".H264", ".H26L", ".264", ".26L", ".X264", ".SVC", //AVC Video
-                ".HEVC", ".H265", ".265", ".HVC", ".SHVC", ".LHVC", ".MHVC", //HEVC Video
-                ".Y4M" //YUV4MPEG Raw Video
-            };
-
-            foreach (String ext in videoExts)
-            {
-                if (fileExt.Equals(ext))
+                if (extensionTypes[i, 1].ToString().Equals(fileExt, StringComparison.CurrentCultureIgnoreCase))
                 {
-                    isVideoExt = true;
+                    type = (int) extensionTypes[i, 0];
                     break;
                 }
             }
-
-            return isVideoExt;
-        }
-
-        bool AudioExt()
-        {
-            bool isAudioExt = false;
-
-            String [] audioExts =
-            {
-                ".AA3", ".OMA", //Advanced Transform Acoustic Coding [ATRAC] Audio
-                ".AAC", ".M4A", //Advanced Audio Coding [AAC] Audio
-                ".AC3", ".THD", //Dolby Digital
-                ".AIF", //AIFF Audio
-                ".APE", //Monkey Audio
-                ".DTS",
-                ".FLAC", //Free Lossless Audio Codec
-                ".M1A", ".M2A", ".MP2", ".MP3", //MPEG Audio
-                ".OPUS",
-                ".TTA",
-                ".WAV",
-                ".WMA"
-            };
-
-            foreach (String ext in audioExts)
-            {
-                if (fileExt.Equals(ext))
-                {
-                    isAudioExt = true;
-                    break;
-                }
-            }
-
-            return isAudioExt;
+            
+            cbxVideo.Enabled    = type != (int) ExtensionType.AUDIO;
+            cbxVideo.Checked    = type == (int) ExtensionType.VIDEO;
+            cbxAudio.Enabled    = type != (int) ExtensionType.VIDEO;
+            cbxAudio.Checked    = type == (int) ExtensionType.AUDIO;
+            cmbChannels.Enabled = type != (int) ExtensionType.VIDEO;
+            cmbLanguage.Enabled = type == (int) ExtensionType.CONTAINER;
+            cmbBitrate.Enabled  = type != (int) ExtensionType.VIDEO;
+            cbxMP4.Enabled      = type != (int) ExtensionType.AUDIO;
+            cbxMKV.Enabled      = type != (int) ExtensionType.AUDIO;
         }
 
         bool SupportedByMP4Box()
@@ -506,7 +512,8 @@ namespace Simple_AVS_Generator
                 output = outDir + "Script.avs";
                 EnableEncodeAndContainer();
 
-                btnOpenFile.Enabled = false; btnNew.Enabled = true;
+                btnOpenFile.Enabled = false;
+                btnNew.Enabled = true;
             }
 
             txbInFile.Text = fileName;
