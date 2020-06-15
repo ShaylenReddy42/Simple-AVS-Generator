@@ -50,18 +50,18 @@ namespace Simple_AVS_Generator
 
         static String home = "C:\\Users\\" + Environment.UserName + "\\Desktop\\Temp\\";
 
-        String fileName = "",
-                fileDir = "",
-                      v = "",
-                      a = "",
-                 output = "",
-                fileExt = "",
-           fileNameOnly = "",
-                 outDir = home;
+        String fileName     = "",
+               fileDir      = "",
+               v            = "",
+               a            = "",
+               output       = "",
+               fileExt      = "",
+               fileNameOnly = "",
+               outDir       = home;
 
         String supportedContainerExts = "*.3gp;*.3g2;*.asf;*.avi;*.flv;*.mp4;*.m4v;*.mkv;*.mov;*.m2t;*.m2ts;*.mxf;*.ogm;*.rm;*.rmvb;*.ts;*.wmv",
-                   supportedVideoExts = "*.263;*.h263;*.264;*.h264;*.265;*.h265;*.hevc;*.y4m",
-                   supportedAudioExts = "*.aa3;*.aac;*.aif;*.ac3;*.ape;*.dts;*.flac;*.m1a;*.m2a;*.mp2;*.mp3;*.m4a;*.oma;*.opus;*.thd;*.tta;*.wav;*.wma";
+               supportedVideoExts     = "*.263;*.h263;*.264;*.h264;*.265;*.h265;*.hevc;*.y4m",
+               supportedAudioExts     = "*.aa3;*.aac;*.aif;*.ac3;*.ape;*.dts;*.flac;*.m1a;*.m2a;*.mp2;*.mp3;*.m4a;*.oma;*.opus;*.thd;*.tta;*.wav;*.wma";
 
         Object [,] extensionTypes =
         {
@@ -226,8 +226,8 @@ namespace Simple_AVS_Generator
         {
             cmbBitrate.Items.Clear();
 
-            int audioCodec = cmbAudioCodec.SelectedIndex,
-             audioChannels = cmbChannels.SelectedIndex == -1 ? 0 : cmbChannels.SelectedIndex;
+            int audioCodec    = cmbAudioCodec.SelectedIndex,
+                audioChannels = cmbChannels.SelectedIndex == -1 ? 0 : cmbChannels.SelectedIndex;
 
             for (int i = 0; i < selectableAudioBitrates.GetLength(2); i++)
                 cmbBitrate.Items.Add(selectableAudioBitrates[audioCodec, audioChannels, i]);
@@ -303,9 +303,9 @@ namespace Simple_AVS_Generator
         {
             if (video)
             {
-                String vPipe = "avs2pipemod -y4mp \"%~dp0Script.avs\" | ",
-                    vEncoder = "",
-                    vCmdFile = outDir;
+                String vPipe    = "avs2pipemod -y4mp \"%~dp0Script.avs\" | ",
+                       vEncoder = "",
+                       vCmdFile = outDir;
 
                 if (cmbVideoCodec.SelectedIndex == (int) Video.HEVC)
                 {
@@ -333,7 +333,7 @@ namespace Simple_AVS_Generator
                 }
 
                 String outputFileName = vCmdFile,
-                         fileContents = vPipe + vEncoder;
+                       fileContents   = vPipe + vEncoder;
 
                 WriteFile(outputFileName, fileContents);
                 AVSMeter();
@@ -341,9 +341,9 @@ namespace Simple_AVS_Generator
 
             if (audio)
             {
-                String aPipe = "avs2pipemod -wav=16bit \"%~dp0Script.avs\" | ",
-                    aEncoder = "",
-                    aCmdFile = outDir;
+                String aPipe    = "avs2pipemod -wav=16bit \"%~dp0Script.avs\" | ",
+                       aEncoder = "",
+                       aCmdFile = outDir;
 
                 if (cmbAudioCodec.SelectedIndex == (int) Audio.AAC_LC)
                 {
@@ -365,7 +365,7 @@ namespace Simple_AVS_Generator
                 }
 
                 String outputFileName = aCmdFile,
-                         fileContents = aPipe + aEncoder;
+                       fileContents   = aPipe + aEncoder;
 
                 WriteFile(outputFileName, fileContents);
             }
@@ -396,14 +396,14 @@ namespace Simple_AVS_Generator
                    audioExtension = cmbAudioCodec.SelectedIndex == (int) Audio.OPUS ? ".ogg" : ".m4a",
 
                    outputFileName = outDir,
-                     fileContents = "";
+                   fileContents   = "";
 
             if (mp4)
             {
-                String mp4V = !originalVideo ? "-add \"%~dp0Video" + videoExtension + "\":name= " :
+                String mp4V   = !originalVideo ? "-add \"%~dp0Video" + videoExtension + "\":name= " :
                                                "-add \"" + fileName + "\"#video ",
-                       mp4A = cbxAudio.Checked ? "-add \"%~dp0" + fileNameOnly + audioExtension + "\":name=:lang=" + GetLanguageCode() : "",
-                     newmp4 = " -new " + "\"%~dp0" + fileNameOnly + ".mp4\"";
+                       mp4A   = cbxAudio.Checked ? "-add \"%~dp0" + fileNameOnly + audioExtension + "\":name=:lang=" + GetLanguageCode() : "",
+                       newmp4 = " -new " + "\"%~dp0" + fileNameOnly + ".mp4\"";
 
                 outputFileName += "MP4 Mux" + (originalVideo ? " [Original Video]" : "") + ".cmd";
                 fileContents = "mp4box " + mp4V + mp4A + newmp4;
@@ -427,7 +427,7 @@ namespace Simple_AVS_Generator
             String switches = "-i -l";
 
             String outputFileName = outDir + "AVSMeter.cmd",
-                     fileContents = "AVSMeter64 \"%~dp0Script.avs\" " + switches;
+                   fileContents   = "AVSMeter64 \"%~dp0Script.avs\" " + switches;
 
             WriteFile(outputFileName, fileContents);
         }
@@ -490,8 +490,8 @@ namespace Simple_AVS_Generator
         {
             String filterSupportedExts = "All Supported|" + supportedContainerExts + ";" + supportedVideoExts + ";" + supportedAudioExts,
                    filterContainerExts = "Container Types [3GP 32G ASF AVI FLV M4V MP4 MKV MOV M2T M2TS MXF OGM RM RMVB TS WMV]|" + supportedContainerExts,
-                       filterVideoExts = "Video Types [263 H263 264 H264 265 H265 HEVC Y4M]|" + supportedVideoExts,
-                       filterAudioExts = "Audio Types [AA3 AAC AC3 AIF APE DTS FLAC M1A M2A MP2 MP3 M4A OMA OPUS THD TTA WAV WMA]|" + supportedAudioExts;
+                   filterVideoExts     = "Video Types [263 H263 264 H264 265 H265 HEVC Y4M]|" + supportedVideoExts,
+                   filterAudioExts     = "Audio Types [AA3 AAC AC3 AIF APE DTS FLAC M1A M2A MP2 MP3 M4A OMA OPUS THD TTA WAV WMA]|" + supportedAudioExts;
 
             OpenFileDialog ofd = new OpenFileDialog
             {
@@ -656,8 +656,8 @@ namespace Simple_AVS_Generator
 
         private void cbxVideo_CheckedChanged(object sender, EventArgs e)
         {
-            cbxMP4.Checked = cbxVideo.Checked &&
-                             cbxMP4.Enabled &&
+            cbxMP4.Checked =  cbxVideo.Checked &&
+                              cbxMP4.Enabled &&
                              !cbxMKV.Checked;
 
             cmbVideoCodec.Enabled = cbxVideo.Checked;
