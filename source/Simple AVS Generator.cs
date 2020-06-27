@@ -309,26 +309,26 @@ namespace Simple_AVS_Generator
 
                 if (cmbVideoCodec.SelectedIndex == (int) Video.HEVC)
                 {
-                    vEncoder += "x265 -P main --preset slower --crf 26 -i 1 -I 48 --scenecut-bias 10 --bframes 1 ";
+                    vEncoder += "x265 -P main --preset slower --crf 26 -i 1 -I 48 --scenecut-bias 10 --bframes 5 ";
                     vEncoder += "--aq-mode 3 --aq-motion --aud --no-open-gop --y4m -f 0 - \"%~dp0Video.265\"";
                     vCmdFile += "Encode Video [HEVC].cmd";
                 }
                 else if (cmbVideoCodec.SelectedIndex == (int) Video.AV1)
                 {
-                    vEncoder += "aomenc --passes=1 --end-usage=q --cq-level=26 --target-bitrate=0 ";
+                    vEncoder += "aomenc --passes=1 --end-usage=q --cq-level=32 --target-bitrate=0 ";
                     vEncoder += "--enable-fwd-kf=1 --kf-max-dist=48 --verbose --ivf -o \"%~dp0Video.ivf\" -";
                     vCmdFile += "Encode Video [AV1].cmd";
                 }
                 else if (cmbVideoCodec.SelectedIndex == (int) Video.AVC)
                 {
-                    vEncoder += "x264 --preset slower --crf 26 -i 1 -I 48 --bframes 1 --aq-mode 3 --aud --no-mbtree ";
-                    vEncoder += "--demuxer y4m --frames 0 -o \"%~dp0Video.264\" -";
+                    vEncoder += "x264 --preset slower --crf 26 -i 1 -I 48 --bframes 5 --aq-mode 3 --ssim ";
+                    vEncoder += "--aud --no-mbtree --demuxer y4m --frames 0 -o \"%~dp0Video.264\" -";
                     vCmdFile += "Encode Video [AVC].cmd";
                 }
                 else if (cmbVideoCodec.SelectedIndex == (int) Video.WhatsApp)
                 {
-                    vEncoder += "x264 --preset slower --crf 26 -i 1 -I 10000 --bframes 8 --no-scenecut --aud --no-mbtree ";
-                    vEncoder += "--demuxer y4m --frames 0 -o \"%~dp0Video.264\" -";
+                    vEncoder += "x264 --profile baseline --preset slower --crf 26 -i 1 --ssim --aud ";
+                    vEncoder += "--no-mbtree --demuxer y4m --frames 0 -o \"%~dp0Video.264\" -";
                     vCmdFile += "Encode Video [AVC].cmd";
                 }
 
