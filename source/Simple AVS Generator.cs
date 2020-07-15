@@ -321,14 +321,14 @@ namespace Simple_AVS_Generator
                 }
                 else if (cmbVideoCodec.SelectedIndex == (int) Video.AVC)
                 {
-                    vEncoder += "x264 --preset slower --crf 26 -i 1 -I 48 --bframes 5 --aq-mode 3 --ssim ";
-                    vEncoder += "--aud --no-mbtree --demuxer y4m --frames 0 -o \"%~dp0Video.264\" -";
+                    vEncoder += "x264 --preset veryslow --crf 26 -i 1 -I 48 --deblock -2:-1 --aq-mode 3 ";
+                    vEncoder += "--ssim --aud --no-mbtree --demuxer y4m --frames 0 -o \"%~dp0Video.264\" -";
                     vCmdFile += "Encode Video [AVC].cmd";
                 }
                 else if (cmbVideoCodec.SelectedIndex == (int) Video.WhatsApp)
                 {
-                    vEncoder += "x264 --profile baseline --preset slower --crf 26 -i 1 --ssim --aud ";
-                    vEncoder += "--no-mbtree --demuxer y4m --frames 0 -o \"%~dp0Video.264\" -";
+                    vEncoder += "x264 --profile baseline --preset veryslow --crf 26 -i 1 --deblock -2:-1 ";
+                    vEncoder += "--ssim --aud --no-mbtree --demuxer y4m --frames 0 -o \"%~dp0Video.264\" -";
                     vCmdFile += "Encode Video [AVC].cmd";
                 }
 
