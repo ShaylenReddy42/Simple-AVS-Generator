@@ -327,7 +327,7 @@ namespace Simple_AVS_Generator
                 }
                 else if (cmbVideoCodec.SelectedIndex == (int) Video.WhatsApp)
                 {
-                    vEncoder += "x264 --profile baseline --preset veryslow --crf 26 -i 1 --deblock -2:-1 ";
+                    vEncoder += "x264 --profile baseline --preset veryslow --crf 26 -i 1 --ref 1 --deblock -2:-1 ";
                     vEncoder += "--ssim --aud --no-mbtree --demuxer y4m --frames 0 -o \"%~dp0Video.264\" -";
                     vCmdFile += "Encode Video [AVC].cmd";
                 }
