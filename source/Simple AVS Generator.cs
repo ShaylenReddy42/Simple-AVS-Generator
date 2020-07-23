@@ -321,7 +321,7 @@ namespace Simple_AVS_Generator
                 }
                 else if (cmbVideoCodec.SelectedIndex == (int) Video.AVC)
                 {
-                    vEncoder += "x264 --preset veryslow --crf 26 -i 1 -I 48 --deblock -2:-1 --aq-mode 3 ";
+                    vEncoder += "x264 --preset veryslow --crf 26 -i 1 -I 48 --bframes 3 --deblock -2:-1 --aq-mode 3 ";
                     vEncoder += "--ssim --aud --no-mbtree --demuxer y4m --frames 0 -o \"%~dp0Video.264\" -";
                     vCmdFile += "Encode Video [AVC].cmd";
                 }
