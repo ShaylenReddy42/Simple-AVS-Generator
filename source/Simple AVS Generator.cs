@@ -309,8 +309,8 @@ namespace Simple_AVS_Generator
 
                 if (cmbVideoCodec.SelectedIndex == (int) Video.HEVC)
                 {
-                    vEncoder += "x265 -P main --preset slower --crf 26 -i 1 -I 48 --scenecut-bias 10 --bframes 5 ";
-                    vEncoder += "--aq-mode 3 --aq-motion --aud --no-open-gop --y4m -f 0 - \"%~dp0Video.265\"";
+                    vEncoder += "x265 --profile main --preset slower --crf 26 -i 1 -I 48 --hist-scenecut --hist-threshold 0.02 ";
+                    vEncoder += "--fades --aq-mode 4 --aq-motion --aud --no-open-gop --y4m -f 0 - \"%~dp0Video.265\"";
                     vCmdFile += "Encode Video [HEVC].cmd";
                 }
                 else if (cmbVideoCodec.SelectedIndex == (int) Video.AV1)
