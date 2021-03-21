@@ -536,7 +536,7 @@ namespace Simple_AVS_Generator
             if (fileName != "")
             {
                 String i = "i = \"" + fileName + "\"";
-                v = cbxVideo.Checked & cmbVideoCodec.SelectedIndex != (int) Video.Original ? "v = LWLibavVideoSource(i).ConvertBits(8).ConvertToYV12()" : "";
+                v = cbxVideo.Checked & cmbVideoCodec.SelectedIndex != (int) Video.Original ? "v = LWLibavVideoSource(i).ConvertBits(8).ConvertToYV12()#.ShowFrameNumber()" : "";
 
                 a = cbxAudio.Checked ? "a = LWLibavAudioSource(i).ConvertAudioToFloat()" : "";
 
