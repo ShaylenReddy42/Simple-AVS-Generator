@@ -377,7 +377,7 @@ namespace Simple_AVS_Generator
 
             fileContents += "# Calculate the target height based on a target width" + "\r\n";
             fileContents += "aspectRatio  = float(Width(v)) / float(Height(v))" + "\r\n";
-            fileContents += "targetWidth  = " + (cmbVideoCodec.SelectedIndex == (int) Video.WhatsApp ? "480" : "Width(v)") + "\r\n";
+            fileContents += "targetWidth  = " + (cmbVideoCodec.SelectedIndex == (int) Video.WhatsApp ? "640" : "Width(v)") + "\r\n";
             fileContents += "targetHeight = int(targetWidth / aspectRatio)" + "\r\n";
             fileContents += "targetHeight = targetHeight + ((targetHeight % 2 != 0) ? 1 : 0)";
             fileContents += "\r\n\r\n";
