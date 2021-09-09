@@ -52,9 +52,15 @@
             this.lbltitle = new System.Windows.Forms.Label();
             this.lblClose = new System.Windows.Forms.Label();
             this.lblMinimize = new System.Windows.Forms.Label();
+            this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.label4 = new System.Windows.Forms.Label();
+            this.cmbSourceFPS = new System.Windows.Forms.ComboBox();
+            this.label5 = new System.Windows.Forms.Label();
+            this.cmbKeyframeInterval = new System.Windows.Forms.ComboBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
+            this.groupBox4.SuspendLayout();
             this.SuspendLayout();
             // 
             // txbInFile
@@ -64,7 +70,7 @@
             this.txbInFile.Location = new System.Drawing.Point(12, 38);
             this.txbInFile.Name = "txbInFile";
             this.txbInFile.ReadOnly = true;
-            this.txbInFile.Size = new System.Drawing.Size(385, 20);
+            this.txbInFile.Size = new System.Drawing.Size(560, 20);
             this.txbInFile.TabIndex = 0;
             // 
             // btnOpenFile
@@ -72,7 +78,7 @@
             this.btnOpenFile.BackColor = System.Drawing.Color.RoyalBlue;
             this.btnOpenFile.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnOpenFile.ForeColor = System.Drawing.Color.White;
-            this.btnOpenFile.Location = new System.Drawing.Point(403, 36);
+            this.btnOpenFile.Location = new System.Drawing.Point(578, 36);
             this.btnOpenFile.Name = "btnOpenFile";
             this.btnOpenFile.Size = new System.Drawing.Size(105, 23);
             this.btnOpenFile.TabIndex = 1;
@@ -87,7 +93,7 @@
             this.txbOutFile.Location = new System.Drawing.Point(11, 193);
             this.txbOutFile.Name = "txbOutFile";
             this.txbOutFile.ReadOnly = true;
-            this.txbOutFile.Size = new System.Drawing.Size(497, 20);
+            this.txbOutFile.Size = new System.Drawing.Size(672, 20);
             this.txbOutFile.TabIndex = 4;
             // 
             // btnOutDir
@@ -95,7 +101,7 @@
             this.btnOutDir.BackColor = System.Drawing.Color.RoyalBlue;
             this.btnOutDir.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnOutDir.ForeColor = System.Drawing.Color.White;
-            this.btnOutDir.Location = new System.Drawing.Point(403, 219);
+            this.btnOutDir.Location = new System.Drawing.Point(577, 219);
             this.btnOutDir.Name = "btnOutDir";
             this.btnOutDir.Size = new System.Drawing.Size(106, 23);
             this.btnOutDir.TabIndex = 5;
@@ -108,7 +114,7 @@
             this.btnGen.BackColor = System.Drawing.Color.RoyalBlue;
             this.btnGen.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnGen.ForeColor = System.Drawing.Color.White;
-            this.btnGen.Location = new System.Drawing.Point(194, 219);
+            this.btnGen.Location = new System.Drawing.Point(288, 219);
             this.btnGen.Name = "btnGen";
             this.btnGen.Size = new System.Drawing.Size(127, 23);
             this.btnGen.TabIndex = 6;
@@ -119,8 +125,8 @@
             // btnNew
             // 
             this.btnNew.BackColor = System.Drawing.Color.RoyalBlue;
-            this.btnNew.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnNew.Enabled = false;
+            this.btnNew.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnNew.ForeColor = System.Drawing.Color.White;
             this.btnNew.Location = new System.Drawing.Point(11, 219);
             this.btnNew.Name = "btnNew";
@@ -207,7 +213,7 @@
             this.groupBox2.Controls.Add(this.cbxMKV);
             this.groupBox2.Controls.Add(this.cbxMP4);
             this.groupBox2.ForeColor = System.Drawing.Color.White;
-            this.groupBox2.Location = new System.Drawing.Point(360, 65);
+            this.groupBox2.Location = new System.Drawing.Point(535, 66);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(148, 122);
             this.groupBox2.TabIndex = 13;
@@ -250,9 +256,9 @@
             this.groupBox3.Controls.Add(this.label2);
             this.groupBox3.Controls.Add(this.label1);
             this.groupBox3.ForeColor = System.Drawing.Color.White;
-            this.groupBox3.Location = new System.Drawing.Point(173, 65);
+            this.groupBox3.Location = new System.Drawing.Point(348, 66);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(181, 123);
+            this.groupBox3.Size = new System.Drawing.Size(181, 121);
             this.groupBox3.TabIndex = 14;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Audio Options";
@@ -345,7 +351,7 @@
             // 
             this.lblClose.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblClose.ForeColor = System.Drawing.Color.White;
-            this.lblClose.Location = new System.Drawing.Point(480, 4);
+            this.lblClose.Location = new System.Drawing.Point(658, 4);
             this.lblClose.Margin = new System.Windows.Forms.Padding(5);
             this.lblClose.Name = "lblClose";
             this.lblClose.Size = new System.Drawing.Size(25, 25);
@@ -359,7 +365,7 @@
             // lblMinimize
             // 
             this.lblMinimize.ForeColor = System.Drawing.Color.White;
-            this.lblMinimize.Location = new System.Drawing.Point(447, 4);
+            this.lblMinimize.Location = new System.Drawing.Point(625, 4);
             this.lblMinimize.Name = "lblMinimize";
             this.lblMinimize.Size = new System.Drawing.Size(25, 25);
             this.lblMinimize.TabIndex = 17;
@@ -369,13 +375,72 @@
             this.lblMinimize.MouseEnter += new System.EventHandler(this.lblMinimize_MouseEnter);
             this.lblMinimize.MouseLeave += new System.EventHandler(this.lblMinimize_MouseLeave);
             // 
+            // groupBox4
+            // 
+            this.groupBox4.Controls.Add(this.cmbKeyframeInterval);
+            this.groupBox4.Controls.Add(this.label5);
+            this.groupBox4.Controls.Add(this.cmbSourceFPS);
+            this.groupBox4.Controls.Add(this.label4);
+            this.groupBox4.ForeColor = System.Drawing.Color.White;
+            this.groupBox4.Location = new System.Drawing.Point(173, 66);
+            this.groupBox4.Name = "groupBox4";
+            this.groupBox4.Size = new System.Drawing.Size(169, 121);
+            this.groupBox4.TabIndex = 18;
+            this.groupBox4.TabStop = false;
+            this.groupBox4.Text = "Video Options";
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(20, 19);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(124, 13);
+            this.label4.TabIndex = 0;
+            this.label4.Text = "Select Source Framerate";
+            // 
+            // cmbSourceFPS
+            // 
+            this.cmbSourceFPS.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(60)))), ((int)(((byte)(60)))));
+            this.cmbSourceFPS.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbSourceFPS.Enabled = false;
+            this.cmbSourceFPS.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.cmbSourceFPS.ForeColor = System.Drawing.Color.White;
+            this.cmbSourceFPS.FormattingEnabled = true;
+            this.cmbSourceFPS.Location = new System.Drawing.Point(23, 41);
+            this.cmbSourceFPS.Name = "cmbSourceFPS";
+            this.cmbSourceFPS.Size = new System.Drawing.Size(121, 21);
+            this.cmbSourceFPS.TabIndex = 1;
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(20, 74);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(125, 13);
+            this.label5.TabIndex = 2;
+            this.label5.Text = "Select Keyframe Interval ";
+            // 
+            // cmbKeyframeInterval
+            // 
+            this.cmbKeyframeInterval.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(60)))), ((int)(((byte)(60)))));
+            this.cmbKeyframeInterval.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbKeyframeInterval.Enabled = false;
+            this.cmbKeyframeInterval.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.cmbKeyframeInterval.ForeColor = System.Drawing.Color.White;
+            this.cmbKeyframeInterval.FormattingEnabled = true;
+            this.cmbKeyframeInterval.Location = new System.Drawing.Point(23, 91);
+            this.cmbKeyframeInterval.Name = "cmbKeyframeInterval";
+            this.cmbKeyframeInterval.Size = new System.Drawing.Size(121, 21);
+            this.cmbKeyframeInterval.TabIndex = 3;
+            // 
             // MainForm
             // 
             this.AllowDrop = true;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
-            this.ClientSize = new System.Drawing.Size(519, 255);
+            this.ClientSize = new System.Drawing.Size(697, 255);
+            this.Controls.Add(this.groupBox4);
             this.Controls.Add(this.lblMinimize);
             this.Controls.Add(this.lblClose);
             this.Controls.Add(this.lbltitle);
@@ -404,6 +469,8 @@
             this.groupBox2.PerformLayout();
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
+            this.groupBox4.ResumeLayout(false);
+            this.groupBox4.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -435,6 +502,11 @@
         private System.Windows.Forms.Label lbltitle;
         private System.Windows.Forms.Label lblClose;
         private System.Windows.Forms.Label lblMinimize;
+        private System.Windows.Forms.GroupBox groupBox4;
+        private System.Windows.Forms.ComboBox cmbSourceFPS;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.ComboBox cmbKeyframeInterval;
+        private System.Windows.Forms.Label label5;
     }
 }
 

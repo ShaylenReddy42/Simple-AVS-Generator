@@ -112,6 +112,9 @@ namespace Simple_AVS_Generator
             { ExtensionType.AUDIO,     ".wma"  }
         };
 
+        int [] sourceFPS  = { 24, 25, 30, 60 },
+               kfInterval = { 2, 5, 10 };
+
         #region Languages
         String [,] languages =
         {
@@ -214,6 +217,29 @@ namespace Simple_AVS_Generator
 
             cmbLanguage.SelectedIndex = 0;
 
+            cmbSourceFPS.Items.AddRange
+            (
+                new String []
+                {
+                    "23.976 / 24",
+                    "25",
+                    "29.97 / 30",
+                    "59.94 / 60"
+                }
+            );
+            cmbSourceFPS.SelectedIndex = 0;
+
+            cmbKeyframeInterval.Items.AddRange
+            (
+                new String []
+                {
+                    "2 Seconds",
+                    "5 Seconds",
+                    "10 Seconds"
+                }
+            );
+            cmbKeyframeInterval.SelectedIndex = 0;
+
             cmbChannels.Items.Add("2 Channels");
             cmbChannels.Items.Add("5.1 Channels");
             cmbChannels.Items.Add("7.1 Channels");
@@ -252,9 +278,6 @@ namespace Simple_AVS_Generator
             cbxVideo.Checked    = type == (int) ExtensionType.VIDEO;
             cbxAudio.Enabled    = type != (int) ExtensionType.VIDEO;
             cbxAudio.Checked    = type == (int) ExtensionType.AUDIO;
-            cmbChannels.Enabled = type != (int) ExtensionType.VIDEO;
-            cmbLanguage.Enabled = type == (int) ExtensionType.CONTAINER;
-            cmbBitrate.Enabled  = type != (int) ExtensionType.VIDEO;
             cbxMP4.Enabled      = type != (int) ExtensionType.AUDIO;
             cbxMKV.Enabled      = type != (int) ExtensionType.AUDIO;
         }
@@ -294,6 +317,8 @@ namespace Simple_AVS_Generator
 
             return supported;
         }
+
+        int GetKeyframeIntervalInFrames() { return sourceFPS[cmbSourceFPS.SelectedIndex] * kfInterval[cmbKeyframeInterval.SelectedIndex]; }
         
         String GetLanguageCode() { return languages[cmbLanguage.SelectedIndex, 0]; }
 
@@ -309,19 +334,19 @@ namespace Simple_AVS_Generator
 
                 if (cmbVideoCodec.SelectedIndex == (int) Video.HEVC)
                 {
-                    vEncoder += "x265 --profile main --preset slower --crf 26 -i 1 -I 48 --hist-scenecut --hist-threshold 0.02 ";
+                    vEncoder += "x265 --profile main --preset slower --crf 26 -i 1 -I " + GetKeyframeIntervalInFrames() + " --hist-scenecut --hist-threshold 0.02 ";
                     vEncoder += "--fades --aq-mode 4 --aq-motion --aud --no-open-gop --y4m -f 0 - \"%~dp0Video.265\"";
                     vCmdFile += "Encode Video [HEVC].cmd";
                 }
                 else if (cmbVideoCodec.SelectedIndex == (int) Video.AV1)
                 {
                     vEncoder += "aomenc --passes=1 --end-usage=q --cq-level=32 --target-bitrate=0 ";
-                    vEncoder += "--enable-fwd-kf=1 --kf-max-dist=48 --verbose --ivf -o \"%~dp0Video.ivf\" -";
+                    vEncoder += "--enable-fwd-kf=1 --kf-max-dist="+ GetKeyframeIntervalInFrames() +" --verbose --ivf -o \"%~dp0Video.ivf\" -";
                     vCmdFile += "Encode Video [AV1].cmd";
                 }
                 else if (cmbVideoCodec.SelectedIndex == (int) Video.AVC)
                 {
-                    vEncoder += "x264 --preset veryslow --crf 26 -i 1 -I 48 --bframes 3 --deblock -2:-1 --aq-mode 3 ";
+                    vEncoder += "x264 --preset veryslow --crf 26 -i 1 -I " + GetKeyframeIntervalInFrames() + " --bframes 3 --deblock -2:-1 --aq-mode 3 ";
                     vEncoder += "--aud --no-mbtree --demuxer y4m --frames 0 -o \"%~dp0Video.264\" -";
                     vCmdFile += "Encode Video [AVC].cmd";
                 }
@@ -457,22 +482,16 @@ namespace Simple_AVS_Generator
             cbxVideo.Checked = false;
             cbxVideo.Enabled = false;
 
-            cmbVideoCodec.Enabled = false;
             cmbVideoCodec.SelectedIndex = 0;
+            cmbSourceFPS.SelectedIndex = 0;
+            cmbKeyframeInterval.SelectedIndex = 0;
 
             cbxAudio.Enabled = false;
             cbxAudio.Checked = false;
 
-            cmbAudioCodec.Enabled = false;
             cmbAudioCodec.SelectedIndex = 0;
-
-            cmbLanguage.Enabled = false;
             cmbLanguage.SelectedIndex = 0;
-
-            cmbChannels.Enabled = false;
             cmbChannels.SelectedIndex = 0;
-
-            cmbBitrate.Enabled = false;
 
             cbxMP4.Enabled = false;
             cbxMP4.Checked = false;
@@ -661,11 +680,17 @@ namespace Simple_AVS_Generator
                              !cbxMKV.Checked;
 
             cmbVideoCodec.Enabled = cbxVideo.Checked;
+            cmbSourceFPS.Enabled = cbxVideo.Checked;
+            cmbKeyframeInterval.Enabled = cbxVideo.Checked;
         }
 
         private void cbxAudio_CheckedChanged(object sender, EventArgs e)
         {
             cmbAudioCodec.Enabled = cbxAudio.Checked;
+
+            cmbLanguage.Enabled = cbxAudio.Checked;
+            cmbChannels.Enabled = cbxAudio.Checked;
+            cmbBitrate.Enabled = cbxAudio.Checked;
         }
         
         private void cmbVideoCodec_SelectedIndexChanged(object sender, EventArgs e)
