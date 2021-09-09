@@ -53,10 +53,10 @@
             this.lblClose = new System.Windows.Forms.Label();
             this.lblMinimize = new System.Windows.Forms.Label();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
-            this.label4 = new System.Windows.Forms.Label();
-            this.cmbSourceFPS = new System.Windows.Forms.ComboBox();
-            this.label5 = new System.Windows.Forms.Label();
             this.cmbKeyframeInterval = new System.Windows.Forms.ComboBox();
+            this.label5 = new System.Windows.Forms.Label();
+            this.cmbSourceFPS = new System.Windows.Forms.ComboBox();
+            this.label4 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -377,6 +377,7 @@
             // 
             // groupBox4
             // 
+            this.groupBox4.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
             this.groupBox4.Controls.Add(this.cmbKeyframeInterval);
             this.groupBox4.Controls.Add(this.label5);
             this.groupBox4.Controls.Add(this.cmbSourceFPS);
@@ -389,14 +390,27 @@
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Video Options";
             // 
-            // label4
+            // cmbKeyframeInterval
             // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(20, 19);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(124, 13);
-            this.label4.TabIndex = 0;
-            this.label4.Text = "Select Source Framerate";
+            this.cmbKeyframeInterval.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(60)))), ((int)(((byte)(60)))));
+            this.cmbKeyframeInterval.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbKeyframeInterval.Enabled = false;
+            this.cmbKeyframeInterval.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.cmbKeyframeInterval.ForeColor = System.Drawing.Color.White;
+            this.cmbKeyframeInterval.FormattingEnabled = true;
+            this.cmbKeyframeInterval.Location = new System.Drawing.Point(23, 91);
+            this.cmbKeyframeInterval.Name = "cmbKeyframeInterval";
+            this.cmbKeyframeInterval.Size = new System.Drawing.Size(121, 21);
+            this.cmbKeyframeInterval.TabIndex = 3;
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(20, 74);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(125, 13);
+            this.label5.TabIndex = 2;
+            this.label5.Text = "Select Keyframe Interval ";
             // 
             // cmbSourceFPS
             // 
@@ -411,27 +425,14 @@
             this.cmbSourceFPS.Size = new System.Drawing.Size(121, 21);
             this.cmbSourceFPS.TabIndex = 1;
             // 
-            // label5
+            // label4
             // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(20, 74);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(125, 13);
-            this.label5.TabIndex = 2;
-            this.label5.Text = "Select Keyframe Interval ";
-            // 
-            // cmbKeyframeInterval
-            // 
-            this.cmbKeyframeInterval.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(60)))), ((int)(((byte)(60)))));
-            this.cmbKeyframeInterval.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cmbKeyframeInterval.Enabled = false;
-            this.cmbKeyframeInterval.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.cmbKeyframeInterval.ForeColor = System.Drawing.Color.White;
-            this.cmbKeyframeInterval.FormattingEnabled = true;
-            this.cmbKeyframeInterval.Location = new System.Drawing.Point(23, 91);
-            this.cmbKeyframeInterval.Name = "cmbKeyframeInterval";
-            this.cmbKeyframeInterval.Size = new System.Drawing.Size(121, 21);
-            this.cmbKeyframeInterval.TabIndex = 3;
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(20, 19);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(124, 13);
+            this.label4.TabIndex = 0;
+            this.label4.Text = "Select Source Framerate";
             // 
             // MainForm
             // 
