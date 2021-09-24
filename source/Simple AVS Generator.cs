@@ -166,7 +166,7 @@ namespace Simple_AVS_Generator
          */
         int [,] defaultAudioBitrates =
         {
-            { 112, 320, 448 }, //AAC-LC
+            { 128, 384, 512 }, //AAC-LC
             {  80, 192, 256 }, //AAC-HE
             {  96, 288, 384 }  //OPUS
         };
