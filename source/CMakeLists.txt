@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.8)
+cmake_minimum_required(VERSION 3.22)
 
 include(CSharpUtilities)
 include(FindGit)
@@ -119,7 +119,7 @@ csharp_set_designer_cs_properties(
 set_target_properties(
 	${PROJECT_NAME} 
 	PROPERTIES
-		VS_DOTNET_TARGET_FRAMEWORK_VERSION "v4.0"
+		DOTNET_TARGET_FRAMEWORK_VERSION "4.8"
 		VS_DOTNET_REFERENCES "System;System.Windows.Forms;System.Data;System.Drawing"
 		OUTPUT_NAME "Simple AVS Generator"
 )
