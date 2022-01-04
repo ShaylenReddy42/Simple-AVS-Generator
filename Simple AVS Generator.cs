@@ -26,7 +26,7 @@ namespace Simple_AVS_Generator
         {
             InitializeComponent();
 
-            lbltitle.Text += " v" + FileVersionInfo.GetVersionInfo($@"{System.AppContext.BaseDirectory}\{System.AppDomain.CurrentDomain.FriendlyName}.exe").ProductVersion;
+            lbltitle.Text += " v" + FileVersionInfo.GetVersionInfo(Application.ExecutablePath).ProductVersion;
 
             if (Properties.Settings.Default.Location.X <= 0 ||
                 Properties.Settings.Default.Location.Y <= 0)
