@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.32014.148
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Simple AVS Generator", "Simple AVS Generator.csproj", "{F4E2D21C-B20C-46F6-98A1-3C021F6E9DDB}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F4E2D21C-B20C-46F6-98A1-3C021F6E9DDB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F4E2D21C-B20C-46F6-98A1-3C021F6E9DDB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F4E2D21C-B20C-46F6-98A1-3C021F6E9DDB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F4E2D21C-B20C-46F6-98A1-3C021F6E9DDB}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {3B28E57C-3D2C-49BF-AD7E-7205531E49CC}
+	EndGlobalSection
+EndGlobal

@@ -1,0 +1,48 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net6.0-windows</TargetFramework>
+    <RootNamespace>Simple_AVS_Generator</RootNamespace>
+    <Nullable>enable</Nullable>
+    <UseWindowsForms>true</UseWindowsForms>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Update="Properties\Settings.Designer.cs">
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+
+  <!-- Manually added PropertyGroup for reducing files created during publishing -->
+  <PropertyGroup>
+    <DebugType>embedded</DebugType>
+    <PublishSingleFile>true</PublishSingleFile>
+    <RuntimeIdentifier>win-x64</RuntimeIdentifier>
+    <SelfContained>false</SelfContained>
+  </PropertyGroup>
+
+  <!-- Manually added PropertyGroup for versioning the executable -->
+  <PropertyGroup>
+    <Product>Simple AVS Generator</Product>
+    <AssemblyDescription>Simple AVS Generator</AssemblyDescription>
+    <Authors>Shaylen Reddy</Authors>
+    <Copyright>Shaylen Reddy: GPLv2</Copyright>
+
+    <AssemblyVersion>$(FileVersion)</AssemblyVersion>
+    <FileVersion>$(FileVersion)</FileVersion>
+    <InformationalVersion>$(InformationalVersion)</InformationalVersion>
+    <NeutralLanguage>en</NeutralLanguage>
+  </PropertyGroup>
+
+</Project>

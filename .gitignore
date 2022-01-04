@@ -2,9 +2,10 @@
 bin/
 build/
 obj/
+publish/
 
 # File extensions
 *.exe
 
 # Files
-source/Properties/AssemblyInfo.cs
+dotnet-publish.cmd

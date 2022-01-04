@@ -33,9 +33,10 @@ The generated AviSynth+ scripts make use of the [L-SMASH-Works plugin](https://g
 
 ## How do I get set up? ##
 
-* [Microsoft Visual Studio 2019 / 2017 Community Edition](https://visualstudio.microsoft.com/vs/community/) with C# language support
-* [CMake v3.8 or later](https://cmake.org) [This must be in your PATH]
+* [Microsoft Visual Studio 2022 Community Edition](https://visualstudio.microsoft.com/vs/community/) with C# language support
+* [.Net 6.0](https://dotnet.microsoft.com/en-us/download/dotnet/6.0)
+* [CMake v3.21.4 or later](https://cmake.org) [This must be in your PATH]
 
 ## Build Instructions ##
 
-Run `build.cmd` and the resulting executable will be in same folder as the script
+Run `build.cmd` and the resulting executable will be in the publish folder
