@@ -6,7 +6,7 @@ project(SimpleAVSGenerator)
 
 # Extracting version
 
-set(TAG "0.0")
+set(TAG "0.0.0")
 set(REVISION "0")
 set(COMMIT_ID "unknown")
 
@@ -28,7 +28,7 @@ if(${GIT_FOUND} AND EXISTS "${CMAKE_SOURCE_DIR}/.git")
 	)
 
 	if(TAG STREQUAL "")
-		set(TAG "0.0")
+		set(TAG "0.0.0")
 		
 		execute_process(
 			COMMAND ${GIT_EXECUTABLE} rev-list ${COMMIT_ID} --count
@@ -55,7 +55,7 @@ if(${GIT_FOUND} AND EXISTS "${CMAKE_SOURCE_DIR}/.git")
 	endif()
 endif()
 
-set(FILE_VERSION "${TAG}.0.${REVISION}")
+set(FILE_VERSION "${TAG}.${REVISION}")
 set(INFORMATIONAL_VERSION "${TAG}+${REVISION}-${COMMIT_ID}")
 
 message(STATUS "File Version: ${FILE_VERSION}")
