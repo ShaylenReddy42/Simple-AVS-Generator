@@ -56,7 +56,7 @@ if(${GIT_FOUND} AND EXISTS "${CMAKE_SOURCE_DIR}/.git")
 endif()
 
 set(FILE_VERSION "${TAG}.0.${REVISION}")
-set(INFORMATIONAL_VERSION "${TAG}+${REVISION} [${COMMIT_ID}]")
+set(INFORMATIONAL_VERSION "${TAG}+${REVISION}-${COMMIT_ID}")
 
 message(STATUS "File Version: ${FILE_VERSION}")
 message(STATUS "Informational Version: ${INFORMATIONAL_VERSION}")
