@@ -1,7 +1,5 @@
 @ECHO off
 
-@MD "%~dp0build"
-
 IF NOT EXIST "%~dp0version.txt" (
 	cmake -G "Visual Studio 17" -S . -B "%~dp0build"
 	@ECHO.
