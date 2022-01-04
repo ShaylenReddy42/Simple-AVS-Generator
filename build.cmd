@@ -13,7 +13,7 @@ IF EXIST "C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\Tools\
 
 @MD "%~dp0build"
 
-cmake -G "%GENERATOR%" -A "x64" -S . -B "%~dp0build"
+cmake -G "%GENERATOR%" -S . -B "%~dp0build"
 @ECHO.
 
 @CALL dotnet-publish.cmd
@@ -23,5 +23,3 @@ cmake -G "%GENERATOR%" -A "x64" -S . -B "%~dp0build"
 @DEL "%~dp0dotnet-publish.cmd"
 
 :END
-
-@PAUSE
