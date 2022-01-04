@@ -1,6 +1,6 @@
 # Simple AVS Generator [![Build status](https://ci.appveyor.com/api/projects/status/61g0g8mca7ihkkot?svg=true)](https://ci.appveyor.com/project/Shaylen/simple-avs-generator) #
 
-## What is this project for? ##
+## What's This Project For? ##
 
 This project was created to make my life easier
 
@@ -8,34 +8,48 @@ It creates scripts to re-encode videos using [AviSynth+](https://github.com/AviS
 
 The generated AviSynth+ scripts make use of the [L-SMASH-Works plugin](https://github.com/HolyWu/L-SMASH-Works/releases) which must be placed in the relevant AviSynth+ plugin folders [plugins+ for the 32bit dll and plugins64+ for the 64bit]
 
-### Tools required in your path ###
+## Tools Required in Your Path ##
 
-#### AviSynth+ related tools ####
+| AviSynth+ |
+| :---: |
+| [avs2pipemod](https://github.com/chikuzen/avs2pipemod/releases) | 
+| [AVSMeter64](https://www.videohelp.com/software/AVSMeter) |
 
-* [avs2pipemod](https://github.com/chikuzen/avs2pipemod/releases)
-* [AVSMeter64](https://www.videohelp.com/software/AVSMeter)
+| Video Encoders |
+| :---: |
+| [x264](https://www.videohelp.com/software/x264-Encoder) |
+| [x265](https://jeremylee.sh/bins/) |
+| [AOM-AV1](https://jeremylee.sh/bins/) |
 
-#### Video encoders ####
+| Audio Encoders |
+| :---: |
+| [qaac](https://github.com/nu774/qaac/releases) |
+| [opustools](https://jeremylee.sh/bins/) |
 
-* [x264](https://download.videolan.org/pub/x264/binaries/)
-* [x265](http://msystem.waw.pl/x265/)
-* [aomenc](https://ci.appveyor.com/project/marcomsousa/build-aom/history)
+| Multiplexing Tools |
+| :---: |
+| [GPAC](https://gpac.wp.imt.fr/downloads/gpac-nightly-builds/) |
+| [MKVToolNix](https://www.videohelp.com/software/MKVToolNix) |
 
-#### Audio encoders ####
+## Required Filenames in Your Path ##
 
-* [qaac64](https://github.com/nu774/qaac/releases)
-* [opusenc](https://opus-codec.org/downloads/)
+| Tool        | Filename        |
+| :---------: | :-------------: |
+| avs2pipemod | avs2pipemod.exe |
+| AVSMeter    | AVSMeter64.exe  |
+| x264        | x264.exe        |
+| x265        | x265.exe        |
+| AOM         | aomenc.exe      |
+| qaac        | qaac64.exe      |
+| opustools   | opusenc.exe     |
+| GPAC        | mp4box.exe      |
+| MKVToolNix  | mkvmerge.exe    |
 
-#### Multiplexing tools ####
-
-* [mp4box from GPAC](https://gpac.wp.imt.fr/downloads/gpac-nightly-builds/)
-* [mkvmerge from MKVToolNix](https://www.videohelp.com/software/MKVToolNix)
-
-## How do I get set up? ##
+## Required Setup ##
 
 * [Microsoft Visual Studio 2022 Community Edition](https://visualstudio.microsoft.com/vs/community/) with C# language support
 * [.Net 6.0](https://dotnet.microsoft.com/en-us/download/dotnet/6.0)
-* [CMake v3.21.4 or later](https://cmake.org) [This must be in your PATH]
+* [CMake v3.21.4 or later](https://cmake.org/download/) [This must be in your PATH]
 
 ## Build Instructions ##
 
