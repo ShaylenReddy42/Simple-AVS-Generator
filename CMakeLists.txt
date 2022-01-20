@@ -20,7 +20,10 @@ cmake_minimum_required(VERSION 3.21.4)
 
 include(FindGit)
 
-project(SimpleAVSGenerator)
+project(
+	SimpleAVSGenerator
+	LANGUAGES NONE
+)
 
 # Extracting version
 
