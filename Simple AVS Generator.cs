@@ -206,7 +206,7 @@ namespace Simple_AVS_Generator
             );
             cmbAudioCodec.SelectedIndex = 0;
 
-            cmbSourceFPS.Items.AddRange
+            cmbVideoCodec.Items.AddRange
             (
                 new string []
                 {
