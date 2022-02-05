@@ -46,7 +46,6 @@ namespace Simple_AVS_Generator
         static string home = $@"C:\Users\{Environment.UserName}\Desktop\Temp\";
 
         string fileName     = "",
-               fileDir      = "",
                v            = "",
                a            = "",
                output       = "",
@@ -485,7 +484,6 @@ namespace Simple_AVS_Generator
 
             fileName = "";
             fileNameOnly = "";
-            fileDir = "";
             v = "";
             a = "";
             output = "";
@@ -538,11 +536,9 @@ namespace Simple_AVS_Generator
 
             if (fileName != "")
             {
-                fileNameOnly = ofd.SafeFileName;
-                fileNameOnly = fileNameOnly.Substring(0, fileNameOnly.LastIndexOf('.'));
-                fileDir = fileName.Substring(0, fileName.LastIndexOf("\\"));
-                fileExt = fileName.Substring(fileName.LastIndexOf('.')).ToUpper();
-                outDir = $"{outDir}{fileNameOnly}\\";
+                fileNameOnly = Path.GetFileNameWithoutExtension(fileName);
+                fileExt = Path.GetExtension(fileName).ToUpper();
+                outDir = $@"{outDir}{fileNameOnly}\";
                 output = $"{outDir}Script.avs";
                 EnableEncodeAndContainer();
 
@@ -557,7 +553,7 @@ namespace Simple_AVS_Generator
         private void btnOut_Click(object sender, EventArgs e)
         {
             FolderBrowserDialog fbd = new FolderBrowserDialog();
-            outDir = fbd.ShowDialog() == DialogResult.OK ? $"{fbd.SelectedPath}\\{fileNameOnly}\\" : outDir;
+            outDir = fbd.ShowDialog() == DialogResult.OK ? $@"{fbd.SelectedPath}\{fileNameOnly}\" : outDir;
             output = fileName != "" ? $"{outDir}Script.avs" : outDir;
             
             txbOutFile.Text = output;
