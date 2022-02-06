@@ -2,39 +2,26 @@
 {
     internal class FileHandler
     {
-        private int fileType;
         private bool isSupportedByMP4Box = default;
         
         public string FileName { get; private set; }
         public string FileExt { get; private set; }
         public string FileNameOnly { get; private set; }
-        
-        public int FileType
-        {
-            get
-            {
-                return fileType;
-            }
-            private set
-            {
-                SupportedExts se = new();
-                fileType = se.DetermineInputFileType(FileExt);
-            }
-        }
+        public int FileType { get; private set; }
         
         public FileHandler(string fileName)
         {
             FileName = fileName;
             FileExt = Path.GetExtension(FileName);
             FileNameOnly = Path.GetFileNameWithoutExtension(FileName);
+
+            SupportedExts se = new();
+            FileType = se.DetermineInputFileType(FileExt);
         }
 
         public bool IsSupportedByMP4Box
         {
-            get
-            {
-                return isSupportedByMP4Box;
-            }
+            get => isSupportedByMP4Box;
             private set
             {
                 string[] supportedExts =
