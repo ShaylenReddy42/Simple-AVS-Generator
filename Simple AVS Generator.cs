@@ -17,6 +17,7 @@
  ******************************************************************************/
 
 using System.Diagnostics;
+using Simple_AVS_Generator.Modules;
 
 namespace Simple_AVS_Generator
 {
@@ -45,66 +46,13 @@ namespace Simple_AVS_Generator
 
         static string home = $@"C:\Users\{Environment.UserName}\Desktop\Temp\";
 
-        string fileName     = "",
-               v            = "",
-               a            = "",
-               output       = "",
-               fileExt      = "",
-               fileNameOnly = "",
-               outDir       = home;
+        string v      = "",
+               a      = "",
+               output = "",
+               outDir = home;
 
-        string supportedContainerExts = "*.3gp;*.3g2;*.asf;*.avi;*.flv;*.mp4;*.m4v;*.mkv;*.mov;*.m2t;*.m2ts;*.mxf;*.ogm;*.rm;*.rmvb;*.ts;*.wmv",
-               supportedVideoExts     = "*.263;*.h263;*.264;*.h264;*.265;*.h265;*.hevc;*.y4m",
-               supportedAudioExts     = "*.aa3;*.aac;*.aif;*.ac3;*.ape;*.dts;*.flac;*.m1a;*.m2a;*.mp2;*.mp3;*.m4a;*.oma;*.opus;*.thd;*.tta;*.wav;*.wma";
-
-        object [,] extensionTypes =
-        {
-            { ExtensionType.CONTAINER, ".3gp"  },
-            { ExtensionType.CONTAINER, ".3g2"  },
-            { ExtensionType.CONTAINER, ".asf"  },
-            { ExtensionType.CONTAINER, ".avi"  },
-            { ExtensionType.CONTAINER, ".flv"  },
-            { ExtensionType.CONTAINER, ".mp4"  },
-            { ExtensionType.CONTAINER, ".m4v"  },
-            { ExtensionType.CONTAINER, ".mkv"  },
-            { ExtensionType.CONTAINER, ".mov"  },
-            { ExtensionType.CONTAINER, ".m2t"  },
-            { ExtensionType.CONTAINER, ".m2ts" },
-            { ExtensionType.CONTAINER, ".mxf"  },
-            { ExtensionType.CONTAINER, ".ogm"  },
-            { ExtensionType.CONTAINER, ".rm"   },
-            { ExtensionType.CONTAINER, ".rmvb" },
-            { ExtensionType.CONTAINER, ".ts"   },
-            { ExtensionType.CONTAINER, ".wmv"  },
-
-            { ExtensionType.VIDEO,     ".263"  },
-            { ExtensionType.VIDEO,     ".h263" },
-            { ExtensionType.VIDEO,     ".264"  },
-            { ExtensionType.VIDEO,     ".h264" },
-            { ExtensionType.VIDEO,     ".265"  },
-            { ExtensionType.VIDEO,     ".h265" },
-            { ExtensionType.VIDEO,     ".hevc" },
-            { ExtensionType.VIDEO,     ".y4m"  },
-
-            { ExtensionType.AUDIO,     ".aa3"  },
-            { ExtensionType.AUDIO,     ".aac"  },
-            { ExtensionType.AUDIO,     ".aif"  },
-            { ExtensionType.AUDIO,     ".ac3"  },
-            { ExtensionType.AUDIO,     ".ape"  },
-            { ExtensionType.AUDIO,     ".dts"  },
-            { ExtensionType.AUDIO,     ".flac" },
-            { ExtensionType.AUDIO,     ".m1a"  },
-            { ExtensionType.AUDIO,     ".m2a"  },
-            { ExtensionType.AUDIO,     ".mp2"  },
-            { ExtensionType.AUDIO,     ".mp3"  },
-            { ExtensionType.AUDIO,     ".m4a"  },
-            { ExtensionType.AUDIO,     ".oma"  },
-            { ExtensionType.AUDIO,     ".opus" },
-            { ExtensionType.AUDIO,     ".thd"  },
-            { ExtensionType.AUDIO,     ".tta"  },
-            { ExtensionType.AUDIO,     ".wav"  },
-            { ExtensionType.AUDIO,     ".wma"  }
-        };
+        SupportedExts supportedExts = new();
+        FileHandler? input = null;
 
         int [] sourceFPS  = { 24, 25, 30, 60 },
                kfInterval = { 2, 5, 10 };
@@ -167,13 +115,6 @@ namespace Simple_AVS_Generator
         #endregion AudioBitrates
 
         #region Enums
-        enum ExtensionType
-        {
-            CONTAINER = 0,
-            VIDEO = 1,
-            AUDIO = 2
-        }
-        
         enum Video
         {
             HEVC = 0,
@@ -275,59 +216,14 @@ namespace Simple_AVS_Generator
 
         void EnableEncodeAndContainer()
         {
-            int type = -1;
+            int? type = input?.FileType;
             
-            for (int i = 0; i < extensionTypes.Length; i++)
-            {
-                if (extensionTypes[i, 1].ToString().Equals(fileExt, StringComparison.CurrentCultureIgnoreCase))
-                {
-                    type = (int) extensionTypes[i, 0];
-                    break;
-                }
-            }
-            
-            cbxVideo.Enabled = type != (int) ExtensionType.AUDIO;
-            cbxVideo.Checked = type == (int) ExtensionType.VIDEO;
-            cbxAudio.Enabled = type != (int) ExtensionType.VIDEO;
-            cbxAudio.Checked = type == (int) ExtensionType.AUDIO;
-            cbxMP4.Enabled   = type != (int) ExtensionType.AUDIO;
-            cbxMKV.Enabled   = type != (int) ExtensionType.AUDIO;
-        }
-
-        bool SupportedByMP4Box()
-        {
-            bool supported = false;
-
-            string [] supportedExts =
-            {
-                //Raw video extensions
-                ".M1V", ".M2V", //MPEG-1-2 Video
-                ".CMP", ".M4V", //MPEG-4 Video
-                ".263", ".H263", //H263 Video
-                ".H264", ".H26L", ".264", ".26L", ".X264", ".SVC", //AVC Video
-                ".HEVC", ".H265", ".265", ".HVC", ".SHVC", ".LHVC", ".MHVC", //HEVC Video
-                ".IVF", //AV1 and VP9 Video
-                ".OBU", //AV1 Video
-
-                //Containers
-                ".AVI",
-                ".MPG", ".MPEG", ".VOB", ".VCD", ".SVCD", //MPEG-2 Program Streams
-                ".TS", ".M2T", ".M2TS", //MPEG-2 Transport Streams
-                ".QCP",
-                ".OGG",
-                ".MP4", ".3GP", ".3G2" //Some ISO Media Extensions
-            };
-
-            foreach (string ext in supportedExts)
-            {
-                if (fileExt.Equals(ext))
-                {
-                    supported = true;
-                    break;
-                }
-            }
-
-            return supported;
+            cbxVideo.Enabled = type != (int) Enums.ExtensionTypes.AUDIO;
+            cbxVideo.Checked = type == (int) Enums.ExtensionTypes.VIDEO;
+            cbxAudio.Enabled = type != (int) Enums.ExtensionTypes.VIDEO;
+            cbxAudio.Checked = type == (int) Enums.ExtensionTypes.AUDIO;
+            cbxMP4.Enabled   = type != (int) Enums.ExtensionTypes.AUDIO;
+            cbxMKV.Enabled   = type != (int) Enums.ExtensionTypes.AUDIO;
         }
 
         int GetKeyframeIntervalInFrames() { return sourceFPS[cmbSourceFPS.SelectedIndex] * kfInterval[cmbKeyframeInterval.SelectedIndex]; }
@@ -385,19 +281,19 @@ namespace Simple_AVS_Generator
                 if (cmbAudioCodec.SelectedIndex == (int) Audio.AAC_LC)
                 {
                     aEncoder += $"qaac64 --abr {GetAudioBitrate()} --ignorelength --no-delay ";
-                    aEncoder += $"-o \"%~dp0{fileNameOnly}.m4a\" - ";
+                    aEncoder += $"-o \"%~dp0{input?.FileNameOnly}.m4a\" - ";
                     aCmdFile += "Encode Audio [AAC-LC].cmd";
                 }
                 else if (cmbAudioCodec.SelectedIndex == (int) Audio.AAC_HE)
                 {
                     aEncoder += $"qaac64 --he --abr {GetAudioBitrate()} --ignorelength ";
-                    aEncoder += $"-o \"%~dp0{fileNameOnly}.m4a\" - ";
+                    aEncoder += $"-o \"%~dp0{input?.FileNameOnly}.m4a\" - ";
                     aCmdFile += "Encode Audio [AAC-HE].cmd";
                 }
                 else //OPUS
                 {
                     aEncoder += $"opusenc --bitrate {GetAudioBitrate()} --ignorelength ";
-                    aEncoder += $"- \"%~dp0{fileNameOnly}.ogg\"";
+                    aEncoder += $"- \"%~dp0{input?.FileNameOnly}.ogg\"";
                     aCmdFile += "Encode Audio [OPUS].cmd";
                 }
 
@@ -441,20 +337,20 @@ namespace Simple_AVS_Generator
             {
                 string mp4V   = !originalVideo
                               ? $"-add \"%~dp0Video{videoExtension}\":name="
-                              : $"-add \"{fileName}\"#video",
-                       mp4A   = cbxAudio.Checked ? $"-add \"%~dp0{fileNameOnly}{audioExtension}\":name=:lang={GetLanguageCode()}" : "",
-                       newmp4 = $"-new \"%~dp0{fileNameOnly}.mp4\"";
+                              : $"-add \"{input?.FileName}\"#video",
+                       mp4A   = cbxAudio.Checked ? $"-add \"%~dp0{input?.FileNameOnly}{audioExtension}\":name=:lang={GetLanguageCode()}" : "",
+                       newmp4 = $"-new \"%~dp0{input?.FileNameOnly}.mp4\"";
 
                 outputFileName += $"MP4 Mux{(originalVideo ? " [Original Video]" : "")}.cmd";
                 fileContents = $"mp4box {mp4V} {mp4A} {newmp4}";
             }
             else if (mkv)
             {
-                string mkvO = $"-o \"%~dp0{fileNameOnly}.mkv\"",
+                string mkvO = $"-o \"%~dp0{input?.FileNameOnly}.mkv\"",
                        mkvV = !originalVideo
                             ? $"\"%~dp0Video{videoExtension}\""
-                            : $"--no-audio \"{fileName}\"",
-                       mkvA = cbxAudio.Checked ? $"--language 0:{GetLanguageCode()} \"%~dp0{fileNameOnly}{audioExtension}\"" : "";
+                            : $"--no-audio \"{input?.FileName}\"",
+                       mkvA = cbxAudio.Checked ? $"--language 0:{GetLanguageCode()} \"%~dp0{input?.FileNameOnly}{audioExtension}\"" : "";
 
                 outputFileName += $"MKV Mux{(originalVideo ? " [Original Video]" : "")}.cmd";
                 fileContents = $"mkvmerge {mkvO} {mkvV} {mkvA}";
@@ -482,12 +378,11 @@ namespace Simple_AVS_Generator
         {
             txbInFile.Clear();
 
-            fileName = "";
-            fileNameOnly = "";
+            input = null;
+
             v = "";
             a = "";
             output = "";
-            fileExt = "";
             outDir = home;
 
             txbOutFile.Text = outDir;
@@ -520,11 +415,11 @@ namespace Simple_AVS_Generator
         #region Buttons
         private void btnOpenFile_Click(object sender, EventArgs e)
         {
-            string filterSupportedExts = $"All Supported|{supportedContainerExts};{supportedVideoExts};{supportedAudioExts}",
-                   filterContainerExts = $"Container Types [3GP 32G ASF AVI FLV M4V MP4 MKV MOV M2T M2TS MXF OGM RM RMVB TS WMV]|{supportedContainerExts}",
-                   filterVideoExts     = $"Video Types [263 H263 264 H264 265 H265 HEVC Y4M]|{supportedVideoExts}",
-                   filterAudioExts     = $"Audio Types [AA3 AAC AC3 AIF APE DTS FLAC M1A M2A MP2 MP3 M4A OMA OPUS THD TTA WAV WMA]|{supportedAudioExts}";
-
+            string filterSupportedExts = $"All Supported|{supportedExts.SupportedContainerExts};{supportedExts.SupportedVideoExts};{supportedExts.SupportedAudioExts}",
+                   filterContainerExts = $"Container Types [{supportedExts.FilterContainerExts}]|{supportedExts.SupportedContainerExts}",
+                   filterVideoExts     = $"Video Types [{supportedExts.FilterVideoExts}]|{supportedExts.SupportedVideoExts}",
+                   filterAudioExts     = $"Audio Types [{supportedExts.FilterAudioExts}]|{supportedExts.SupportedAudioExts}";
+            
             OpenFileDialog ofd = new OpenFileDialog
             {
                 Multiselect = false,
@@ -532,13 +427,11 @@ namespace Simple_AVS_Generator
                 Filter = $"{filterSupportedExts}|{filterContainerExts}|{filterVideoExts}|{filterAudioExts}"
             };
 
-            fileName = ofd.ShowDialog() == DialogResult.OK ? ofd.FileName : "";
+            input = ofd.ShowDialog() == DialogResult.OK ? new(ofd.FileName) : null;
 
-            if (fileName != "")
+            if (input is not null)
             {
-                fileNameOnly = Path.GetFileNameWithoutExtension(fileName);
-                fileExt = Path.GetExtension(fileName).ToUpper();
-                outDir = $@"{outDir}{fileNameOnly}\";
+                outDir = $@"{outDir}{input.FileNameOnly}\";
                 output = $"{outDir}Script.avs";
                 EnableEncodeAndContainer();
 
@@ -546,15 +439,16 @@ namespace Simple_AVS_Generator
                 btnNew.Enabled = true;
             }
 
-            txbInFile.Text = fileName;
-            txbOutFile.Text = fileName != "" ? output : outDir;
+            txbInFile.Text = input?.FileName;
+            txbOutFile.Text = input is not null ? output : outDir;
         }
 
         private void btnOut_Click(object sender, EventArgs e)
         {
             FolderBrowserDialog fbd = new FolderBrowserDialog();
-            outDir = fbd.ShowDialog() == DialogResult.OK ? $@"{fbd.SelectedPath}\{fileNameOnly}\" : outDir;
-            output = fileName != "" ? $"{outDir}Script.avs" : outDir;
+            outDir = fbd.ShowDialog() == DialogResult.OK ? $@"{fbd.SelectedPath}\{input?.FileNameOnly}\" : outDir;
+            outDir = outDir.EndsWith(@"\\") ? outDir.Remove(outDir.LastIndexOf(@"\")) : outDir;
+            output = input is not null ? $"{outDir}Script.avs" : outDir;
             
             txbOutFile.Text = output;
         }
@@ -563,9 +457,9 @@ namespace Simple_AVS_Generator
         {
             Directory.CreateDirectory(outDir);
 
-            if (fileName != "")
+            if (input is not null)
             {
-                string i = $"i = \"{fileName}\"";
+                string i = $"i = \"{input.FileName}\"";
                 v = cbxVideo.Checked & cmbVideoCodec.SelectedIndex != (int) Video.Original ? "v = LWLibavVideoSource(i).ConvertBits(8).ConvertToYV12()#.ShowFrameNumber()" : "";
 
                 a = cbxAudio.Checked ? "a = LWLibavAudioSource(i).ConvertAudioToFloat()" : "";
@@ -677,9 +571,6 @@ namespace Simple_AVS_Generator
 
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
         {
-            if (fileName != "" && Directory.Exists(outDir) && !File.Exists(output))
-                Directory.Delete(outDir);
-
             Properties.Settings.Default.Location = Location;
             Properties.Settings.Default.Save();
         }
@@ -706,13 +597,13 @@ namespace Simple_AVS_Generator
         
         private void cmbVideoCodec_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (cmbVideoCodec.SelectedIndex == (int) Video.Original && !SupportedByMP4Box())
+            if (cmbVideoCodec.SelectedIndex == (int) Video.Original && !input.IsSupportedByMP4Box)
             {
                 cbxMP4.Enabled = false;
                 cbxMP4.Checked = false;
                 cbxMKV.Checked = true;
             }
-            else if (fileName != "")
+            else if (input != null)
                 cbxMP4.Enabled = true;
         }
 
