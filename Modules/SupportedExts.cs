@@ -1,4 +1,6 @@
-﻿namespace Simple_AVS_Generator.Modules
+﻿using static Simple_AVS_Generator.Modules.Enums;
+
+namespace Simple_AVS_Generator.Modules
 {
     internal class SupportedExts
     {
@@ -12,51 +14,51 @@
 
         private object [,] extensions =
         {
-            { Enums.ExtensionTypes.CONTAINER, ".3gp"  },
-            { Enums.ExtensionTypes.CONTAINER, ".3g2"  },
-            { Enums.ExtensionTypes.CONTAINER, ".asf"  },
-            { Enums.ExtensionTypes.CONTAINER, ".avi"  },
-            { Enums.ExtensionTypes.CONTAINER, ".flv"  },
-            { Enums.ExtensionTypes.CONTAINER, ".mp4"  },
-            { Enums.ExtensionTypes.CONTAINER, ".m4v"  },
-            { Enums.ExtensionTypes.CONTAINER, ".mkv"  },
-            { Enums.ExtensionTypes.CONTAINER, ".mov"  },
-            { Enums.ExtensionTypes.CONTAINER, ".m2t"  },
-            { Enums.ExtensionTypes.CONTAINER, ".m2ts" },
-            { Enums.ExtensionTypes.CONTAINER, ".mxf"  },
-            { Enums.ExtensionTypes.CONTAINER, ".ogm"  },
-            { Enums.ExtensionTypes.CONTAINER, ".rm"   },
-            { Enums.ExtensionTypes.CONTAINER, ".rmvb" },
-            { Enums.ExtensionTypes.CONTAINER, ".ts"   },
-            { Enums.ExtensionTypes.CONTAINER, ".wmv"  },
+            { ExtensionTypes.CONTAINER, ".3gp"  },
+            { ExtensionTypes.CONTAINER, ".3g2"  },
+            { ExtensionTypes.CONTAINER, ".asf"  },
+            { ExtensionTypes.CONTAINER, ".avi"  },
+            { ExtensionTypes.CONTAINER, ".flv"  },
+            { ExtensionTypes.CONTAINER, ".mp4"  },
+            { ExtensionTypes.CONTAINER, ".m4v"  },
+            { ExtensionTypes.CONTAINER, ".mkv"  },
+            { ExtensionTypes.CONTAINER, ".mov"  },
+            { ExtensionTypes.CONTAINER, ".m2t"  },
+            { ExtensionTypes.CONTAINER, ".m2ts" },
+            { ExtensionTypes.CONTAINER, ".mxf"  },
+            { ExtensionTypes.CONTAINER, ".ogm"  },
+            { ExtensionTypes.CONTAINER, ".rm"   },
+            { ExtensionTypes.CONTAINER, ".rmvb" },
+            { ExtensionTypes.CONTAINER, ".ts"   },
+            { ExtensionTypes.CONTAINER, ".wmv"  },
 
-            { Enums.ExtensionTypes.VIDEO,     ".263"  },
-            { Enums.ExtensionTypes.VIDEO,     ".h263" },
-            { Enums.ExtensionTypes.VIDEO,     ".264"  },
-            { Enums.ExtensionTypes.VIDEO,     ".h264" },
-            { Enums.ExtensionTypes.VIDEO,     ".265"  },
-            { Enums.ExtensionTypes.VIDEO,     ".h265" },
-            { Enums.ExtensionTypes.VIDEO,     ".hevc" },
-            { Enums.ExtensionTypes.VIDEO,     ".y4m"  },
+            { ExtensionTypes.VIDEO,     ".263"  },
+            { ExtensionTypes.VIDEO,     ".h263" },
+            { ExtensionTypes.VIDEO,     ".264"  },
+            { ExtensionTypes.VIDEO,     ".h264" },
+            { ExtensionTypes.VIDEO,     ".265"  },
+            { ExtensionTypes.VIDEO,     ".h265" },
+            { ExtensionTypes.VIDEO,     ".hevc" },
+            { ExtensionTypes.VIDEO,     ".y4m"  },
 
-            { Enums.ExtensionTypes.AUDIO,     ".aa3"  },
-            { Enums.ExtensionTypes.AUDIO,     ".aac"  },
-            { Enums.ExtensionTypes.AUDIO,     ".aif"  },
-            { Enums.ExtensionTypes.AUDIO,     ".ac3"  },
-            { Enums.ExtensionTypes.AUDIO,     ".ape"  },
-            { Enums.ExtensionTypes.AUDIO,     ".dts"  },
-            { Enums.ExtensionTypes.AUDIO,     ".flac" },
-            { Enums.ExtensionTypes.AUDIO,     ".m1a"  },
-            { Enums.ExtensionTypes.AUDIO,     ".m2a"  },
-            { Enums.ExtensionTypes.AUDIO,     ".mp2"  },
-            { Enums.ExtensionTypes.AUDIO,     ".mp3"  },
-            { Enums.ExtensionTypes.AUDIO,     ".m4a"  },
-            { Enums.ExtensionTypes.AUDIO,     ".oma"  },
-            { Enums.ExtensionTypes.AUDIO,     ".opus" },
-            { Enums.ExtensionTypes.AUDIO,     ".thd"  },
-            { Enums.ExtensionTypes.AUDIO,     ".tta"  },
-            { Enums.ExtensionTypes.AUDIO,     ".wav"  },
-            { Enums.ExtensionTypes.AUDIO,     ".wma"  }
+            { ExtensionTypes.AUDIO,     ".aa3"  },
+            { ExtensionTypes.AUDIO,     ".aac"  },
+            { ExtensionTypes.AUDIO,     ".aif"  },
+            { ExtensionTypes.AUDIO,     ".ac3"  },
+            { ExtensionTypes.AUDIO,     ".ape"  },
+            { ExtensionTypes.AUDIO,     ".dts"  },
+            { ExtensionTypes.AUDIO,     ".flac" },
+            { ExtensionTypes.AUDIO,     ".m1a"  },
+            { ExtensionTypes.AUDIO,     ".m2a"  },
+            { ExtensionTypes.AUDIO,     ".mp2"  },
+            { ExtensionTypes.AUDIO,     ".mp3"  },
+            { ExtensionTypes.AUDIO,     ".m4a"  },
+            { ExtensionTypes.AUDIO,     ".oma"  },
+            { ExtensionTypes.AUDIO,     ".opus" },
+            { ExtensionTypes.AUDIO,     ".thd"  },
+            { ExtensionTypes.AUDIO,     ".tta"  },
+            { ExtensionTypes.AUDIO,     ".wav"  },
+            { ExtensionTypes.AUDIO,     ".wma"  }
         };
 
         public SupportedExts()
@@ -74,7 +76,7 @@
         {
             for (int i = 0; i < extensions.GetLength(0); i++)
             {
-                if ((int)extensions[i, 0] == (int)Enums.ExtensionTypes.CONTAINER)
+                if ((int)extensions[i, 0] == (int)ExtensionTypes.CONTAINER)
                 {
                     SupportedContainerExts += $"*{extensions[i, 1]};";
                 }
@@ -87,7 +89,7 @@
         {
             for (int i = 0; i < extensions.GetLength(0); i++)
             {
-                if ((int)extensions[i, 0] == (int)Enums.ExtensionTypes.VIDEO)
+                if ((int)extensions[i, 0] == (int)ExtensionTypes.VIDEO)
                 {
                     SupportedVideoExts += $"*{extensions[i, 1]};";
                 }
@@ -100,7 +102,7 @@
         {
             for (int i = 0; i < extensions.GetLength(0); i++)
             {
-                if ((int)extensions[i, 0] == (int)Enums.ExtensionTypes.AUDIO)
+                if ((int)extensions[i, 0] == (int)ExtensionTypes.AUDIO)
                 {
                     SupportedAudioExts += $"*{extensions[i, 1]};";
                 }
@@ -113,7 +115,7 @@
         {
             for (int i = 0; i < extensions.GetLength(0); i++)
             {
-                if ((int)extensions[i, 0] == (int)Enums.ExtensionTypes.CONTAINER)
+                if ((int)extensions[i, 0] == (int)ExtensionTypes.CONTAINER)
                 {
                     FilterContainerExts += $"{extensions[i, 1].ToString()?.Substring(1).ToUpper()} ";
                 }
@@ -126,7 +128,7 @@
         {
             for (int i = 0; i < extensions.GetLength(0); i++)
             {
-                if ((int)extensions[i, 0] == (int)Enums.ExtensionTypes.VIDEO)
+                if ((int)extensions[i, 0] == (int)ExtensionTypes.VIDEO)
                 {
                     FilterVideoExts += $"{extensions[i, 1].ToString()?.Substring(1).ToUpper()} ";
                 }
@@ -139,7 +141,7 @@
         {
             for (int i = 0; i < extensions.GetLength(0); i++)
             {
-                if ((int)extensions[i, 0] == (int)Enums.ExtensionTypes.AUDIO)
+                if ((int)extensions[i, 0] == (int)ExtensionTypes.AUDIO)
                 {
                     FilterAudioExts += $"{extensions[i, 1].ToString()?.Substring(1).ToUpper()} ";
                 }

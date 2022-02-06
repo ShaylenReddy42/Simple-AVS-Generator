@@ -18,6 +18,7 @@
 
 using System.Diagnostics;
 using Simple_AVS_Generator.Modules;
+using static Simple_AVS_Generator.Modules.Enums;
 
 namespace Simple_AVS_Generator
 {
@@ -218,12 +219,12 @@ namespace Simple_AVS_Generator
         {
             int? type = input?.FileType;
             
-            cbxVideo.Enabled = type != (int) Enums.ExtensionTypes.AUDIO;
-            cbxVideo.Checked = type == (int) Enums.ExtensionTypes.VIDEO;
-            cbxAudio.Enabled = type != (int) Enums.ExtensionTypes.VIDEO;
-            cbxAudio.Checked = type == (int) Enums.ExtensionTypes.AUDIO;
-            cbxMP4.Enabled   = type != (int) Enums.ExtensionTypes.AUDIO;
-            cbxMKV.Enabled   = type != (int) Enums.ExtensionTypes.AUDIO;
+            cbxVideo.Enabled = type != (int) ExtensionTypes.AUDIO;
+            cbxVideo.Checked = type == (int) ExtensionTypes.VIDEO;
+            cbxAudio.Enabled = type != (int) ExtensionTypes.VIDEO;
+            cbxAudio.Checked = type == (int) ExtensionTypes.AUDIO;
+            cbxMP4.Enabled   = type != (int) ExtensionTypes.AUDIO;
+            cbxMKV.Enabled   = type != (int) ExtensionTypes.AUDIO;
         }
 
         int GetKeyframeIntervalInFrames() { return sourceFPS[cmbSourceFPS.SelectedIndex] * kfInterval[cmbKeyframeInterval.SelectedIndex]; }
