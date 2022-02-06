@@ -36,7 +36,7 @@ namespace Simple_AVS_Generator
             else
                 this.DataBindings.Add("Location", Properties.Settings.Default, "Location", true, DataSourceUpdateMode.OnPropertyChanged);
 
-            txbOutFile.Text = outDir;
+            txbOutFile.Text = home;
             PopulateComboBoxes();
         }
 
@@ -47,13 +47,8 @@ namespace Simple_AVS_Generator
 
         static string home = $@"C:\Users\{Environment.UserName}\Desktop\Temp\";
 
-        string v      = "",
-               a      = "",
-               output = "",
-               outDir = home;
-
         SupportedExts supportedExts = new();
-        FileHandler? input = null;
+        InputFileHandler? input = null;
 
         int [] sourceFPS  = { 24, 25, 30, 60 },
                kfInterval = { 2, 5, 10 };
@@ -114,24 +109,6 @@ namespace Simple_AVS_Generator
             {  96, 288, 384 }  //OPUS
         };
         #endregion AudioBitrates
-
-        #region Enums
-        enum Video
-        {
-            HEVC = 0,
-            AV1 = 1,
-            AVC = 2,
-            WhatsApp = 3,
-            Original = 4
-        }
-
-        enum Audio
-        {
-            AAC_LC = 0,
-            AAC_HE = 1,
-            OPUS = 2
-        }
-        #endregion Enums
 
         #region Methods
         void PopulateComboBoxes()
@@ -227,166 +204,13 @@ namespace Simple_AVS_Generator
             cbxMKV.Enabled   = type != (int) ExtensionTypes.AUDIO;
         }
 
-        int GetKeyframeIntervalInFrames() { return sourceFPS[cmbSourceFPS.SelectedIndex] * kfInterval[cmbKeyframeInterval.SelectedIndex]; }
-        
         string GetLanguageCode() { return languages[cmbLanguage.SelectedIndex, 0]; }
-
-        int GetAudioBitrate() { return (int) cmbBitrate.SelectedItem; }
-
-        void Encode(bool video, bool audio)
-        {
-            if (video)
-            {
-                string vPipe    = "avs2pipemod -y4mp \"%~dp0Script.avs\" | ",
-                       vEncoder = "",
-                       vCmdFile = outDir;
-
-                if (cmbVideoCodec.SelectedIndex == (int) Video.HEVC)
-                {
-                    vEncoder += $"x265 --profile main --preset slower --crf 26 -i 1 -I {GetKeyframeIntervalInFrames()} --hist-scenecut --hist-threshold 0.02 ";
-                    vEncoder += "--fades --aq-mode 4 --aq-motion --aud --no-open-gop --y4m -f 0 - \"%~dp0Video.265\"";
-                    vCmdFile += "Encode Video [HEVC].cmd";
-                }
-                else if (cmbVideoCodec.SelectedIndex == (int) Video.AV1)
-                {
-                    vEncoder += "aomenc --passes=1 --end-usage=q --cq-level=32 --target-bitrate=0 ";
-                    vEncoder += $"--enable-fwd-kf=1 --kf-max-dist={GetKeyframeIntervalInFrames()} --verbose --ivf -o \"%~dp0Video.ivf\" -";
-                    vCmdFile += "Encode Video [AV1].cmd";
-                }
-                else if (cmbVideoCodec.SelectedIndex == (int) Video.AVC)
-                {
-                    vEncoder += $"x264 --preset veryslow --crf 26 -i 1 -I {GetKeyframeIntervalInFrames()} --bframes 3 --deblock -2:-1 --aq-mode 3 ";
-                    vEncoder += "--aud --no-mbtree --demuxer y4m --frames 0 -o \"%~dp0Video.264\" -";
-                    vCmdFile += "Encode Video [AVC].cmd";
-                }
-                else if (cmbVideoCodec.SelectedIndex == (int) Video.WhatsApp)
-                {
-                    vEncoder += "x264 --profile baseline --preset veryslow --crf 26 -i 1 --ref 1 --deblock -2:-1 ";
-                    vEncoder += "--aud --no-mbtree --demuxer y4m --frames 0 -o \"%~dp0Video.264\" -";
-                    vCmdFile += "Encode Video [AVC].cmd";
-                }
-
-                string outputFileName = vCmdFile,
-                       fileContents   = vPipe + vEncoder;
-
-                WriteFile(outputFileName, fileContents);
-                AVSMeter();
-            }
-
-            if (audio)
-            {
-                string aPipe    = "avs2pipemod -wav=16bit \"%~dp0Script.avs\" | ",
-                       aEncoder = "",
-                       aCmdFile = outDir;
-
-                if (cmbAudioCodec.SelectedIndex == (int) Audio.AAC_LC)
-                {
-                    aEncoder += $"qaac64 --abr {GetAudioBitrate()} --ignorelength --no-delay ";
-                    aEncoder += $"-o \"%~dp0{input?.FileNameOnly}.m4a\" - ";
-                    aCmdFile += "Encode Audio [AAC-LC].cmd";
-                }
-                else if (cmbAudioCodec.SelectedIndex == (int) Audio.AAC_HE)
-                {
-                    aEncoder += $"qaac64 --he --abr {GetAudioBitrate()} --ignorelength ";
-                    aEncoder += $"-o \"%~dp0{input?.FileNameOnly}.m4a\" - ";
-                    aCmdFile += "Encode Audio [AAC-HE].cmd";
-                }
-                else //OPUS
-                {
-                    aEncoder += $"opusenc --bitrate {GetAudioBitrate()} --ignorelength ";
-                    aEncoder += $"- \"%~dp0{input?.FileNameOnly}.ogg\"";
-                    aCmdFile += "Encode Audio [OPUS].cmd";
-                }
-
-                string outputFileName = aCmdFile,
-                       fileContents   = aPipe + aEncoder;
-
-                WriteFile(outputFileName, fileContents);
-            }
-        }
-
-        string ResizeVideo()
-        {
-            string fileContents = "";
-
-            fileContents += "# Calculate the target height based on a target width" + "\r\n";
-            fileContents += "aspectRatio  = float(Width(v)) / float(Height(v))" + "\r\n";
-            fileContents += $"targetWidth  = {(cmbVideoCodec.SelectedIndex == (int) Video.WhatsApp ? "640" : "Width(v)")}\r\n";
-            fileContents += "targetHeight = int(targetWidth / aspectRatio)" + "\r\n";
-            fileContents += "targetHeight = targetHeight + ((targetHeight % 2 != 0) ? 1 : 0)";
-            fileContents += "\r\n\r\n";
-
-            fileContents += "v = Spline36Resize(v, targetWidth, targetHeight)";
-            fileContents += "\r\n\r\n";
-
-            return fileContents;
-        }
-
-        void OutputContainer(bool mp4, bool mkv, bool originalVideo)
-        {
-            string videoExtension = cmbVideoCodec.SelectedIndex == (int) Video.HEVC
-                                  ? ".265"
-                                  : cmbVideoCodec.SelectedIndex == (int) Video.AV1
-                                  ? ".ivf"
-                                  : ".264",
-                   audioExtension = cmbAudioCodec.SelectedIndex == (int) Audio.OPUS ? ".ogg" : ".m4a",
-
-                   outputFileName = outDir,
-                   fileContents   = "";
-
-            if (mp4)
-            {
-                string mp4V   = !originalVideo
-                              ? $"-add \"%~dp0Video{videoExtension}\":name="
-                              : $"-add \"{input?.FileName}\"#video",
-                       mp4A   = cbxAudio.Checked ? $"-add \"%~dp0{input?.FileNameOnly}{audioExtension}\":name=:lang={GetLanguageCode()}" : "",
-                       newmp4 = $"-new \"%~dp0{input?.FileNameOnly}.mp4\"";
-
-                outputFileName += $"MP4 Mux{(originalVideo ? " [Original Video]" : "")}.cmd";
-                fileContents = $"mp4box {mp4V} {mp4A} {newmp4}";
-            }
-            else if (mkv)
-            {
-                string mkvO = $"-o \"%~dp0{input?.FileNameOnly}.mkv\"",
-                       mkvV = !originalVideo
-                            ? $"\"%~dp0Video{videoExtension}\""
-                            : $"--no-audio \"{input?.FileName}\"",
-                       mkvA = cbxAudio.Checked ? $"--language 0:{GetLanguageCode()} \"%~dp0{input?.FileNameOnly}{audioExtension}\"" : "";
-
-                outputFileName += $"MKV Mux{(originalVideo ? " [Original Video]" : "")}.cmd";
-                fileContents = $"mkvmerge {mkvO} {mkvV} {mkvA}";
-            }
-
-            WriteFile(outputFileName, fileContents);
-        }
-
-        void AVSMeter()
-        {
-            string outputFileName = $"{outDir}AVSMeter.cmd",
-                   fileContents   = $"AVSMeter64 \"%~dp0Script.avs\" -i -l";
-
-            WriteFile(outputFileName, fileContents);
-        }
-
-        void WriteFile(string outputFileName, string fileContents)
-        {
-            StreamWriter sw = new StreamWriter(outputFileName);
-            sw.Write($"{(outputFileName.EndsWith(".cmd") ? "@ECHO off\r\n\r\n" : "")}{fileContents}");
-            sw.Close();
-        }
 
         void New()
         {
             txbInFile.Clear();
 
-            input = null;
-
-            v = "";
-            a = "";
-            output = "";
-            outDir = home;
-
-            txbOutFile.Text = outDir;
+            txbOutFile.Text = home;
 
             cbxVideo.Checked = false;
             cbxVideo.Enabled = false;
@@ -410,6 +234,8 @@ namespace Simple_AVS_Generator
 
             btnNew.Enabled = false;
             btnOpenFile.Enabled = true;
+
+            input = null;
         }
         #endregion Methods
 
@@ -432,8 +258,8 @@ namespace Simple_AVS_Generator
 
             if (input is not null)
             {
-                outDir = $@"{outDir}{input.FileNameOnly}\";
-                output = $"{outDir}Script.avs";
+                input.OutputDir = $@"{home}{input.FileNameOnly}\";
+                input.Script.ScriptFile = $"{input.OutputDir}Script.avs";
                 EnableEncodeAndContainer();
 
                 btnOpenFile.Enabled = false;
@@ -441,92 +267,40 @@ namespace Simple_AVS_Generator
             }
 
             txbInFile.Text = input?.FileName;
-            txbOutFile.Text = input is not null ? output : outDir;
+            txbOutFile.Text = input is not null ? input.Script.ScriptFile : home;
         }
 
         private void btnOut_Click(object sender, EventArgs e)
         {
             FolderBrowserDialog fbd = new FolderBrowserDialog();
-            outDir = fbd.ShowDialog() == DialogResult.OK ? $@"{fbd.SelectedPath}\{input?.FileNameOnly}\" : outDir;
-            outDir = outDir.EndsWith(@"\\") ? outDir.Remove(outDir.LastIndexOf(@"\")) : outDir;
-            output = input is not null ? $"{outDir}Script.avs" : outDir;
+            input.OutputDir = fbd.ShowDialog() == DialogResult.OK ? $@"{fbd.SelectedPath}\{input?.FileNameOnly}\" : input.OutputDir;
+            input.Script.ScriptFile = input is not null ? $"{input.OutputDir}Script.avs" : input.OutputDir;
             
-            txbOutFile.Text = output;
+            txbOutFile.Text = input.Script.ScriptFile;
         }
 
         private void btnGen_Click(object sender, EventArgs e)
         {
-            Directory.CreateDirectory(outDir);
-
             if (input is not null)
             {
-                string i = $"i = \"{input.FileName}\"";
-                v = cbxVideo.Checked & cmbVideoCodec.SelectedIndex != (int) Video.Original ? "v = LWLibavVideoSource(i).ConvertBits(8).ConvertToYV12()#.ShowFrameNumber()" : "";
+                Directory.CreateDirectory(input.OutputDir);
 
-                a = cbxAudio.Checked ? "a = LWLibavAudioSource(i).ConvertAudioToFloat()" : "";
+                input.Audio = cbxAudio.Checked;
 
-                string outputFileName = output,
-                         fileContents = $"{i}\r\n\r\n";
+                input.VideoCodec = cmbVideoCodec.SelectedIndex;
+                input.SourceFPS = sourceFPS[cmbSourceFPS.SelectedIndex];
+                input.KeyframeIntervalInSeconds = kfInterval[cmbKeyframeInterval.SelectedIndex];
+                input.NeedsToBeResized = cmbVideoCodec.SelectedIndex == (int)VideoCodecs.WhatsApp;
+                input.AudioBitrate = (int)cmbBitrate.SelectedItem;
+                input.AudioLanguage = GetLanguageCode();
+                input.OutputContainer = cbxMP4.Checked ? (int)OutputContainers.MP4
+                                      : cbxMKV.Checked ? (int)OutputContainers.MKV
+                                      : null;
+                input.MuxOriginalVideo = cmbVideoCodec.SelectedIndex == (int)VideoCodecs.Original;
 
-                if (v == "" && a != "") //Audio only
-                {
-                    fileContents += a;
-                    fileContents += "\r\n\r\n";
+                input.CreateScripts();
 
-                    fileContents += "a = Normalize(a, 1.0)";
-                    fileContents += "\r\n\r\n";
-
-                    fileContents += "a = ConvertAudioTo16Bit(a)";
-                    fileContents += "\r\n\r\n";
-
-                    fileContents += "a";
-
-                    Encode(false, true);
-                }
-                else if (v != "" && a == "") //Video only
-                {
-                    fileContents += v;
-                    fileContents += "\r\n\r\n";
-
-                    fileContents += ResizeVideo();
-
-                    fileContents += "v";
-
-                    Encode(true, false);
-                }
-                else if (v != "" && a != "") //Video and Audio
-                {
-                    fileContents += v;
-                    fileContents += "\r\n\r\n";
-
-                    fileContents += ResizeVideo();
-
-                    fileContents += a;
-                    fileContents += "\r\n\r\n";
-
-                    fileContents += "a = Normalize(a, 1.0)";
-                    fileContents += "\r\n\r\n";
-
-                    fileContents += "o = AudioDub(v, a)";
-                    fileContents += "\r\n\r\n";
-
-                    fileContents += "o = ConvertAudioTo16Bit(o)";
-                    fileContents += "\r\n\r\n";
-
-                    fileContents += "o";
-
-                    Encode(true, true);
-                }
-
-                WriteFile(outputFileName, fileContents);
-
-                if (File.Exists(output))
-                {
-                    if (cbxVideo.Checked && (cbxMP4.Checked || cbxMKV.Checked))
-                        OutputContainer(cbxMP4.Checked, cbxMKV.Checked, cmbVideoCodec.SelectedIndex == (int) Video.Original);
-
-                    New();
-                }
+                New();
             }
             else MessageBox.Show("Please Input A File First");
         }
@@ -585,6 +359,8 @@ namespace Simple_AVS_Generator
             cmbVideoCodec.Enabled = cbxVideo.Checked;
             cmbSourceFPS.Enabled = cbxVideo.Checked;
             cmbKeyframeInterval.Enabled = cbxVideo.Checked;
+
+            input.Video = cbxVideo.Checked;
         }
 
         private void cbxAudio_CheckedChanged(object sender, EventArgs e)
@@ -598,14 +374,23 @@ namespace Simple_AVS_Generator
         
         private void cmbVideoCodec_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (cmbVideoCodec.SelectedIndex == (int) Video.Original && !input.IsSupportedByMP4Box)
+            if (cmbVideoCodec.SelectedIndex == (int) VideoCodecs.Original && input.IsSupportedByMP4Box is false)
             {
                 cbxMP4.Enabled = false;
                 cbxMP4.Checked = false;
                 cbxMKV.Checked = true;
+
+                input.Video = false;
             }
-            else if (input != null)
+            else if (cmbVideoCodec.SelectedIndex == (int) VideoCodecs.Original && input.IsSupportedByMP4Box is true)
+            {
                 cbxMP4.Enabled = true;
+                input.Video = false;
+            }
+            else if (cmbVideoCodec.SelectedIndex != (int) VideoCodecs.Original && input is not null)
+            {
+                input.Video = true;
+            }
         }
 
         private void cmbAudioCodec_SelectedIndexChanged(object sender, EventArgs e) { SetSelectableAudioBitrates(); }
