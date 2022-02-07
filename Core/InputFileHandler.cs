@@ -2,10 +2,11 @@
 {
     internal class InputFileHandler
     {
-        public Common? Common = null;
+        public Common? common = null;
+        
         public InputFileHandler(string fileName)
         {
-            Common = new(fileName);
+            common = new(fileName);
         }
 
         private void WriteFile(string outputFileName, string fileContents)
@@ -17,31 +18,31 @@
 
         public void CreateScripts()
         {
-            AviSynthScript script = new(Common);
+            AviSynthScript script = new(common);
             
             script.SetScriptContent();
-            WriteFile(script.ScriptFile, script.ScriptContent);
+            WriteFile(script.AVSScriptFile, script.AVSScriptContent);
 
-            WriteFile(Common.AVSMeterScriptFile, Common.AVSMeterScriptContents);
+            WriteFile(common.AVSMeterScriptFile, common.AVSMeterScriptContent);
 
-            OutputScripts output = new(Common);
+            OutputScripts output = new(common);
 
             output.ConfigureVideoScript();
-            if (output.VideoEncoderScriptContents is not null)
+            if (output.VideoEncoderScriptContent is not null)
             {
-                WriteFile(output.VideoEncoderScriptFile, output.VideoEncoderScriptContents);
+                WriteFile(output.VideoEncoderScriptFile, output.VideoEncoderScriptContent);
             }
 
             output.ConfigureAudioScript();
-            if (output.AudioEncoderScriptContents is not null)
+            if (output.AudioEncoderScriptContent is not null)
             {
-                WriteFile(output.AudioEncoderScriptFile, output.AudioEncoderScriptContents);
+                WriteFile(output.AudioEncoderScriptFile, output.AudioEncoderScriptContent);
             }
 
             output.ConfigureContainerScript();
-            if (output.ContainerScriptContents is not null)
+            if (output.ContainerScriptContent is not null)
             {
-                WriteFile(output.ContainerScriptFile, output.ContainerScriptContents);
+                WriteFile(output.ContainerScriptFile, output.ContainerScriptContent);
             }
         }
     }

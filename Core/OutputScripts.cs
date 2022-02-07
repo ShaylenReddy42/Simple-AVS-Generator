@@ -22,13 +22,13 @@ namespace Simple_AVS_Generator.Core
         private int? OutputContainer { get; set; }
         
         public string? VideoEncoderScriptFile { get; private set; }
-        public string? VideoEncoderScriptContents { get; private set; }
+        public string? VideoEncoderScriptContent { get; private set; }
 
         public string? AudioEncoderScriptFile { get; private set; }
-        public string? AudioEncoderScriptContents { get; private set; }
+        public string? AudioEncoderScriptContent { get; private set; }
 
         public string? ContainerScriptFile { get; private set; }
-        public string? ContainerScriptContents { get; private set; }
+        public string? ContainerScriptContent { get; private set; }
 
         public OutputScripts(Common common)
         {
@@ -86,7 +86,7 @@ namespace Simple_AVS_Generator.Core
                 }
 
                 VideoEncoderScriptFile = vCmdFile;
-                VideoEncoderScriptContents = vPipe + vEncoder;
+                VideoEncoderScriptContent = vPipe + vEncoder;
             }
         }
 
@@ -118,7 +118,7 @@ namespace Simple_AVS_Generator.Core
                 }
 
                 AudioEncoderScriptFile = aCmdFile;
-                AudioEncoderScriptContents = aPipe + aEncoder;
+                AudioEncoderScriptContent = aPipe + aEncoder;
             }
         }
 
@@ -156,7 +156,7 @@ namespace Simple_AVS_Generator.Core
             }
 
             ContainerScriptFile = outputFileName;
-            ContainerScriptContents = fileContents;
+            ContainerScriptContent = fileContents;
         }
     }
 }

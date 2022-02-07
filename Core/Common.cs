@@ -15,7 +15,7 @@
 
         //AVSMeter Properties
         public string? AVSMeterScriptFile => $"{OutputDir}AVSMeter.cmd";
-        public string? AVSMeterScriptContents => $"AVSMeter64 \"%~dp0Script.avs\" -i -l";
+        public string? AVSMeterScriptContent => $"AVSMeter64 \"%~dp0Script.avs\" -i -l";
 
         //Video Properties
         public bool Video { get; set; }

@@ -11,8 +11,8 @@ namespace Simple_AVS_Generator.Core
         private bool NeedsToBeResized { get; set; }
         private bool Audio { get; set; }
 
-        public string? ScriptFile { get; set; }
-        public string? ScriptContent { get; private set; }
+        public string? AVSScriptFile { get; set; }
+        public string? AVSScriptContent { get; private set; }
 
         public AviSynthScript(Common common)
         {
@@ -22,7 +22,7 @@ namespace Simple_AVS_Generator.Core
             NeedsToBeResized = common.NeedsToBeResized;
             Audio = common.Audio;
 
-            ScriptFile = common.ScriptFile;
+            AVSScriptFile = common.ScriptFile;
         }
 
         public void SetScriptContent()
@@ -59,7 +59,7 @@ namespace Simple_AVS_Generator.Core
                 sb.Append("a");
             }
 
-            ScriptContent = sb.ToString();
+            AVSScriptContent = sb.ToString();
         }
 
         string ResizeVideo()
