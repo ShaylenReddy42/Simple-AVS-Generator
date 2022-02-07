@@ -234,6 +234,7 @@ namespace Simple_AVS_Generator
 
             btnNew.Enabled = false;
             btnOpenFile.Enabled = true;
+            btnOutDir.Enabled = false;
 
             input = null;
         }
@@ -259,11 +260,11 @@ namespace Simple_AVS_Generator
             if (input is not null)
             {
                 input.common.OutputDir = $@"{home}{input.common.FileNameOnly}\";
-                input.common.ScriptFile = $"{input.common.OutputDir}Script.avs";
                 EnableEncodeAndContainer();
 
                 btnOpenFile.Enabled = false;
                 btnNew.Enabled = true;
+                btnOutDir.Enabled = true;
             }
 
             txbInFile.Text = input?.common.FileName;
@@ -272,11 +273,13 @@ namespace Simple_AVS_Generator
 
         private void btnOut_Click(object sender, EventArgs e)
         {
-            FolderBrowserDialog fbd = new FolderBrowserDialog();
-            input.common.OutputDir = fbd.ShowDialog() == DialogResult.OK ? $@"{fbd.SelectedPath}\{input?.common.FileNameOnly}\" : input.common.OutputDir;
-            input.common.ScriptFile = input is not null ? $"{input.common.OutputDir}Script.avs" : input.common.OutputDir;
-            
-            txbOutFile.Text = input.common.ScriptFile;
+            if (input is not null)
+            {
+                FolderBrowserDialog fbd = new FolderBrowserDialog();
+                input.common.OutputDir = fbd.ShowDialog() == DialogResult.OK ? $@"{fbd.SelectedPath}\{input?.common.FileNameOnly}\" : input.common.OutputDir;
+
+                txbOutFile.Text = input?.common.ScriptFile;
+            }
         }
 
         private void btnGen_Click(object sender, EventArgs e)
@@ -375,16 +378,14 @@ namespace Simple_AVS_Generator
         
         private void cmbVideoCodec_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (cmbVideoCodec.SelectedIndex == (int) VideoCodecs.Original && input?.common?.IsSupportedByMP4Box is false)
+            if (cmbVideoCodec.SelectedIndex == (int) VideoCodecs.Original && input?.common.IsSupportedByMP4Box is false)
             {
                 cbxMP4.Enabled = false;
                 cbxMP4.Checked = false;
                 cbxMKV.Checked = true;
             }
-            else if (cmbVideoCodec.SelectedIndex == (int) VideoCodecs.Original && input?.common?.IsSupportedByMP4Box is true)
-            {
+            else if (input is not null)
                 cbxMP4.Enabled = true;
-            }
         }
 
         private void cmbAudioCodec_SelectedIndexChanged(object sender, EventArgs e) { SetSelectableAudioBitrates(); }

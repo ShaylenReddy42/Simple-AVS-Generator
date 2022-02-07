@@ -2,7 +2,7 @@
 {
     internal class InputFileHandler
     {
-        public Common? common = null;
+        public Common common;
         
         public InputFileHandler(string fileName)
         {
@@ -28,19 +28,19 @@
             OutputScripts output = new(common);
 
             output.ConfigureVideoScript();
-            if (output.VideoEncoderScriptContent is not null)
+            if (output.VideoEncoderScriptFile is not null && output.VideoEncoderScriptContent is not null)
             {
                 WriteFile(output.VideoEncoderScriptFile, output.VideoEncoderScriptContent);
             }
 
             output.ConfigureAudioScript();
-            if (output.AudioEncoderScriptContent is not null)
+            if (output.AudioEncoderScriptFile is not null && output.AudioEncoderScriptContent is not null)
             {
                 WriteFile(output.AudioEncoderScriptFile, output.AudioEncoderScriptContent);
             }
 
             output.ConfigureContainerScript();
-            if (output.ContainerScriptContent is not null)
+            if (output.ContainerScriptFile is not null && output.ContainerScriptContent is not null)
             {
                 WriteFile(output.ContainerScriptFile, output.ContainerScriptContent);
             }

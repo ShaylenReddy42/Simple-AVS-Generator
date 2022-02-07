@@ -67,10 +67,11 @@
             // 
             this.txbInFile.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
             this.txbInFile.ForeColor = System.Drawing.Color.White;
-            this.txbInFile.Location = new System.Drawing.Point(12, 38);
+            this.txbInFile.Location = new System.Drawing.Point(14, 44);
+            this.txbInFile.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.txbInFile.Name = "txbInFile";
             this.txbInFile.ReadOnly = true;
-            this.txbInFile.Size = new System.Drawing.Size(560, 20);
+            this.txbInFile.Size = new System.Drawing.Size(653, 23);
             this.txbInFile.TabIndex = 0;
             // 
             // btnOpenFile
@@ -78,9 +79,10 @@
             this.btnOpenFile.BackColor = System.Drawing.Color.RoyalBlue;
             this.btnOpenFile.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnOpenFile.ForeColor = System.Drawing.Color.White;
-            this.btnOpenFile.Location = new System.Drawing.Point(578, 36);
+            this.btnOpenFile.Location = new System.Drawing.Point(674, 42);
+            this.btnOpenFile.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.btnOpenFile.Name = "btnOpenFile";
-            this.btnOpenFile.Size = new System.Drawing.Size(105, 23);
+            this.btnOpenFile.Size = new System.Drawing.Size(122, 27);
             this.btnOpenFile.TabIndex = 1;
             this.btnOpenFile.Text = "Open File";
             this.btnOpenFile.UseVisualStyleBackColor = false;
@@ -90,20 +92,23 @@
             // 
             this.txbOutFile.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
             this.txbOutFile.ForeColor = System.Drawing.Color.White;
-            this.txbOutFile.Location = new System.Drawing.Point(11, 193);
+            this.txbOutFile.Location = new System.Drawing.Point(13, 223);
+            this.txbOutFile.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.txbOutFile.Name = "txbOutFile";
             this.txbOutFile.ReadOnly = true;
-            this.txbOutFile.Size = new System.Drawing.Size(672, 20);
+            this.txbOutFile.Size = new System.Drawing.Size(783, 23);
             this.txbOutFile.TabIndex = 4;
             // 
             // btnOutDir
             // 
             this.btnOutDir.BackColor = System.Drawing.Color.RoyalBlue;
+            this.btnOutDir.Enabled = false;
             this.btnOutDir.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnOutDir.ForeColor = System.Drawing.Color.White;
-            this.btnOutDir.Location = new System.Drawing.Point(577, 219);
+            this.btnOutDir.Location = new System.Drawing.Point(673, 253);
+            this.btnOutDir.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.btnOutDir.Name = "btnOutDir";
-            this.btnOutDir.Size = new System.Drawing.Size(106, 23);
+            this.btnOutDir.Size = new System.Drawing.Size(124, 27);
             this.btnOutDir.TabIndex = 5;
             this.btnOutDir.Text = "Output";
             this.btnOutDir.UseVisualStyleBackColor = false;
@@ -114,9 +119,10 @@
             this.btnGen.BackColor = System.Drawing.Color.RoyalBlue;
             this.btnGen.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnGen.ForeColor = System.Drawing.Color.White;
-            this.btnGen.Location = new System.Drawing.Point(288, 219);
+            this.btnGen.Location = new System.Drawing.Point(336, 253);
+            this.btnGen.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.btnGen.Name = "btnGen";
-            this.btnGen.Size = new System.Drawing.Size(127, 23);
+            this.btnGen.Size = new System.Drawing.Size(148, 27);
             this.btnGen.TabIndex = 6;
             this.btnGen.Text = "Generate";
             this.btnGen.UseVisualStyleBackColor = false;
@@ -128,9 +134,10 @@
             this.btnNew.Enabled = false;
             this.btnNew.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnNew.ForeColor = System.Drawing.Color.White;
-            this.btnNew.Location = new System.Drawing.Point(11, 219);
+            this.btnNew.Location = new System.Drawing.Point(13, 253);
+            this.btnNew.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.btnNew.Name = "btnNew";
-            this.btnNew.Size = new System.Drawing.Size(98, 23);
+            this.btnNew.Size = new System.Drawing.Size(114, 27);
             this.btnNew.TabIndex = 9;
             this.btnNew.Text = "New";
             this.btnNew.UseVisualStyleBackColor = false;
@@ -144,9 +151,11 @@
             this.groupBox1.Controls.Add(this.cbxAudio);
             this.groupBox1.Controls.Add(this.cbxVideo);
             this.groupBox1.ForeColor = System.Drawing.Color.White;
-            this.groupBox1.Location = new System.Drawing.Point(12, 65);
+            this.groupBox1.Location = new System.Drawing.Point(14, 75);
+            this.groupBox1.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(154, 123);
+            this.groupBox1.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.groupBox1.Size = new System.Drawing.Size(180, 142);
             this.groupBox1.TabIndex = 12;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Encoders";
@@ -160,9 +169,10 @@
             this.cmbAudioCodec.ForeColor = System.Drawing.Color.White;
             this.cmbAudioCodec.FormattingEnabled = true;
             this.cmbAudioCodec.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.cmbAudioCodec.Location = new System.Drawing.Point(19, 92);
+            this.cmbAudioCodec.Location = new System.Drawing.Point(22, 106);
+            this.cmbAudioCodec.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.cmbAudioCodec.Name = "cmbAudioCodec";
-            this.cmbAudioCodec.Size = new System.Drawing.Size(113, 21);
+            this.cmbAudioCodec.Size = new System.Drawing.Size(131, 23);
             this.cmbAudioCodec.TabIndex = 3;
             this.cmbAudioCodec.SelectedIndexChanged += new System.EventHandler(this.cmbAudioCodec_SelectedIndexChanged);
             // 
@@ -175,9 +185,10 @@
             this.cmbVideoCodec.ForeColor = System.Drawing.Color.White;
             this.cmbVideoCodec.FormattingEnabled = true;
             this.cmbVideoCodec.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.cmbVideoCodec.Location = new System.Drawing.Point(19, 42);
+            this.cmbVideoCodec.Location = new System.Drawing.Point(22, 48);
+            this.cmbVideoCodec.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.cmbVideoCodec.Name = "cmbVideoCodec";
-            this.cmbVideoCodec.Size = new System.Drawing.Size(113, 21);
+            this.cmbVideoCodec.Size = new System.Drawing.Size(131, 23);
             this.cmbVideoCodec.TabIndex = 2;
             this.cmbVideoCodec.SelectedIndexChanged += new System.EventHandler(this.cmbVideoCodec_SelectedIndexChanged);
             // 
@@ -186,9 +197,10 @@
             this.cbxAudio.AutoSize = true;
             this.cbxAudio.Enabled = false;
             this.cbxAudio.ForeColor = System.Drawing.Color.White;
-            this.cbxAudio.Location = new System.Drawing.Point(19, 69);
+            this.cbxAudio.Location = new System.Drawing.Point(22, 80);
+            this.cbxAudio.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.cbxAudio.Name = "cbxAudio";
-            this.cbxAudio.Size = new System.Drawing.Size(53, 17);
+            this.cbxAudio.Size = new System.Drawing.Size(58, 19);
             this.cbxAudio.TabIndex = 1;
             this.cbxAudio.Text = "Audio";
             this.cbxAudio.UseVisualStyleBackColor = true;
@@ -199,9 +211,10 @@
             this.cbxVideo.AutoSize = true;
             this.cbxVideo.Enabled = false;
             this.cbxVideo.ForeColor = System.Drawing.Color.White;
-            this.cbxVideo.Location = new System.Drawing.Point(19, 19);
+            this.cbxVideo.Location = new System.Drawing.Point(22, 22);
+            this.cbxVideo.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.cbxVideo.Name = "cbxVideo";
-            this.cbxVideo.Size = new System.Drawing.Size(53, 17);
+            this.cbxVideo.Size = new System.Drawing.Size(56, 19);
             this.cbxVideo.TabIndex = 0;
             this.cbxVideo.Text = "Video";
             this.cbxVideo.UseVisualStyleBackColor = true;
@@ -213,9 +226,11 @@
             this.groupBox2.Controls.Add(this.cbxMKV);
             this.groupBox2.Controls.Add(this.cbxMP4);
             this.groupBox2.ForeColor = System.Drawing.Color.White;
-            this.groupBox2.Location = new System.Drawing.Point(535, 66);
+            this.groupBox2.Location = new System.Drawing.Point(624, 76);
+            this.groupBox2.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(148, 122);
+            this.groupBox2.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.groupBox2.Size = new System.Drawing.Size(173, 141);
             this.groupBox2.TabIndex = 13;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Output Containers";
@@ -225,9 +240,10 @@
             this.cbxMKV.AutoSize = true;
             this.cbxMKV.Enabled = false;
             this.cbxMKV.ForeColor = System.Drawing.Color.White;
-            this.cbxMKV.Location = new System.Drawing.Point(50, 73);
+            this.cbxMKV.Location = new System.Drawing.Point(58, 84);
+            this.cbxMKV.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.cbxMKV.Name = "cbxMKV";
-            this.cbxMKV.Size = new System.Drawing.Size(49, 17);
+            this.cbxMKV.Size = new System.Drawing.Size(51, 19);
             this.cbxMKV.TabIndex = 1;
             this.cbxMKV.Text = "MKV";
             this.cbxMKV.UseVisualStyleBackColor = true;
@@ -238,9 +254,10 @@
             this.cbxMP4.AutoSize = true;
             this.cbxMP4.Enabled = false;
             this.cbxMP4.ForeColor = System.Drawing.Color.White;
-            this.cbxMP4.Location = new System.Drawing.Point(50, 37);
+            this.cbxMP4.Location = new System.Drawing.Point(58, 43);
+            this.cbxMP4.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.cbxMP4.Name = "cbxMP4";
-            this.cbxMP4.Size = new System.Drawing.Size(48, 17);
+            this.cbxMP4.Size = new System.Drawing.Size(50, 19);
             this.cbxMP4.TabIndex = 0;
             this.cbxMP4.Text = "MP4";
             this.cbxMP4.UseVisualStyleBackColor = true;
@@ -256,9 +273,11 @@
             this.groupBox3.Controls.Add(this.label2);
             this.groupBox3.Controls.Add(this.label1);
             this.groupBox3.ForeColor = System.Drawing.Color.White;
-            this.groupBox3.Location = new System.Drawing.Point(348, 66);
+            this.groupBox3.Location = new System.Drawing.Point(406, 76);
+            this.groupBox3.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(181, 121);
+            this.groupBox3.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.groupBox3.Size = new System.Drawing.Size(211, 140);
             this.groupBox3.TabIndex = 14;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Audio Options";
@@ -272,18 +291,20 @@
             this.cmbBitrate.ForeColor = System.Drawing.Color.White;
             this.cmbBitrate.FormattingEnabled = true;
             this.cmbBitrate.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.cmbBitrate.Location = new System.Drawing.Point(74, 89);
+            this.cmbBitrate.Location = new System.Drawing.Point(86, 103);
+            this.cmbBitrate.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.cmbBitrate.Name = "cmbBitrate";
-            this.cmbBitrate.Size = new System.Drawing.Size(100, 21);
+            this.cmbBitrate.Size = new System.Drawing.Size(116, 23);
             this.cmbBitrate.TabIndex = 5;
             // 
             // label3
             // 
             this.label3.AutoSize = true;
             this.label3.ForeColor = System.Drawing.Color.White;
-            this.label3.Location = new System.Drawing.Point(7, 92);
+            this.label3.Location = new System.Drawing.Point(8, 106);
+            this.label3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(40, 13);
+            this.label3.Size = new System.Drawing.Size(44, 15);
             this.label3.TabIndex = 4;
             this.label3.Text = "Bitrate:";
             // 
@@ -296,9 +317,10 @@
             this.cmbChannels.ForeColor = System.Drawing.Color.White;
             this.cmbChannels.FormattingEnabled = true;
             this.cmbChannels.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.cmbChannels.Location = new System.Drawing.Point(74, 56);
+            this.cmbChannels.Location = new System.Drawing.Point(86, 65);
+            this.cmbChannels.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.cmbChannels.Name = "cmbChannels";
-            this.cmbChannels.Size = new System.Drawing.Size(100, 21);
+            this.cmbChannels.Size = new System.Drawing.Size(116, 23);
             this.cmbChannels.TabIndex = 3;
             this.cmbChannels.SelectedIndexChanged += new System.EventHandler(this.cmbChannels_SelectedIndexChanged);
             // 
@@ -311,18 +333,20 @@
             this.cmbLanguage.ForeColor = System.Drawing.Color.White;
             this.cmbLanguage.FormattingEnabled = true;
             this.cmbLanguage.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.cmbLanguage.Location = new System.Drawing.Point(74, 23);
+            this.cmbLanguage.Location = new System.Drawing.Point(86, 27);
+            this.cmbLanguage.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.cmbLanguage.Name = "cmbLanguage";
-            this.cmbLanguage.Size = new System.Drawing.Size(100, 21);
+            this.cmbLanguage.Size = new System.Drawing.Size(116, 23);
             this.cmbLanguage.TabIndex = 2;
             // 
             // label2
             // 
             this.label2.AutoSize = true;
             this.label2.ForeColor = System.Drawing.Color.White;
-            this.label2.Location = new System.Drawing.Point(7, 59);
+            this.label2.Location = new System.Drawing.Point(8, 68);
+            this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(57, 13);
+            this.label2.Size = new System.Drawing.Size(62, 15);
             this.label2.TabIndex = 1;
             this.label2.Text = "Channels: ";
             // 
@@ -330,18 +354,20 @@
             // 
             this.label1.AutoSize = true;
             this.label1.ForeColor = System.Drawing.Color.White;
-            this.label1.Location = new System.Drawing.Point(7, 26);
+            this.label1.Location = new System.Drawing.Point(8, 30);
+            this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(61, 13);
+            this.label1.Size = new System.Drawing.Size(65, 15);
             this.label1.TabIndex = 0;
             this.label1.Text = "Language: ";
             // 
             // lbltitle
             // 
             this.lbltitle.AutoSize = true;
-            this.lbltitle.Font = new System.Drawing.Font("Calibri", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbltitle.Font = new System.Drawing.Font("Calibri", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.lbltitle.ForeColor = System.Drawing.Color.White;
-            this.lbltitle.Location = new System.Drawing.Point(12, 9);
+            this.lbltitle.Location = new System.Drawing.Point(14, 10);
+            this.lbltitle.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lbltitle.Name = "lbltitle";
             this.lbltitle.Size = new System.Drawing.Size(136, 17);
             this.lbltitle.TabIndex = 15;
@@ -349,12 +375,12 @@
             // 
             // lblClose
             // 
-            this.lblClose.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblClose.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.lblClose.ForeColor = System.Drawing.Color.White;
-            this.lblClose.Location = new System.Drawing.Point(658, 4);
-            this.lblClose.Margin = new System.Windows.Forms.Padding(5);
+            this.lblClose.Location = new System.Drawing.Point(768, 5);
+            this.lblClose.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.lblClose.Name = "lblClose";
-            this.lblClose.Size = new System.Drawing.Size(25, 25);
+            this.lblClose.Size = new System.Drawing.Size(29, 29);
             this.lblClose.TabIndex = 16;
             this.lblClose.Text = "X";
             this.lblClose.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -365,9 +391,10 @@
             // lblMinimize
             // 
             this.lblMinimize.ForeColor = System.Drawing.Color.White;
-            this.lblMinimize.Location = new System.Drawing.Point(625, 4);
+            this.lblMinimize.Location = new System.Drawing.Point(729, 5);
+            this.lblMinimize.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblMinimize.Name = "lblMinimize";
-            this.lblMinimize.Size = new System.Drawing.Size(25, 25);
+            this.lblMinimize.Size = new System.Drawing.Size(29, 29);
             this.lblMinimize.TabIndex = 17;
             this.lblMinimize.Text = "_";
             this.lblMinimize.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -383,9 +410,11 @@
             this.groupBox4.Controls.Add(this.cmbSourceFPS);
             this.groupBox4.Controls.Add(this.label4);
             this.groupBox4.ForeColor = System.Drawing.Color.White;
-            this.groupBox4.Location = new System.Drawing.Point(173, 66);
+            this.groupBox4.Location = new System.Drawing.Point(202, 76);
+            this.groupBox4.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(169, 121);
+            this.groupBox4.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.groupBox4.Size = new System.Drawing.Size(197, 140);
             this.groupBox4.TabIndex = 18;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Video Options";
@@ -398,17 +427,19 @@
             this.cmbKeyframeInterval.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.cmbKeyframeInterval.ForeColor = System.Drawing.Color.White;
             this.cmbKeyframeInterval.FormattingEnabled = true;
-            this.cmbKeyframeInterval.Location = new System.Drawing.Point(23, 91);
+            this.cmbKeyframeInterval.Location = new System.Drawing.Point(27, 105);
+            this.cmbKeyframeInterval.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.cmbKeyframeInterval.Name = "cmbKeyframeInterval";
-            this.cmbKeyframeInterval.Size = new System.Drawing.Size(121, 21);
+            this.cmbKeyframeInterval.Size = new System.Drawing.Size(140, 23);
             this.cmbKeyframeInterval.TabIndex = 3;
             // 
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(20, 74);
+            this.label5.Location = new System.Drawing.Point(23, 85);
+            this.label5.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(125, 13);
+            this.label5.Size = new System.Drawing.Size(136, 15);
             this.label5.TabIndex = 2;
             this.label5.Text = "Select Keyframe Interval ";
             // 
@@ -420,27 +451,29 @@
             this.cmbSourceFPS.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.cmbSourceFPS.ForeColor = System.Drawing.Color.White;
             this.cmbSourceFPS.FormattingEnabled = true;
-            this.cmbSourceFPS.Location = new System.Drawing.Point(23, 41);
+            this.cmbSourceFPS.Location = new System.Drawing.Point(27, 47);
+            this.cmbSourceFPS.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.cmbSourceFPS.Name = "cmbSourceFPS";
-            this.cmbSourceFPS.Size = new System.Drawing.Size(121, 21);
+            this.cmbSourceFPS.Size = new System.Drawing.Size(140, 23);
             this.cmbSourceFPS.TabIndex = 1;
             // 
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(20, 19);
+            this.label4.Location = new System.Drawing.Point(23, 22);
+            this.label4.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(124, 13);
+            this.label4.Size = new System.Drawing.Size(133, 15);
             this.label4.TabIndex = 0;
             this.label4.Text = "Select Source Framerate";
             // 
             // MainForm
             // 
             this.AllowDrop = true;
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
-            this.ClientSize = new System.Drawing.Size(697, 255);
+            this.ClientSize = new System.Drawing.Size(813, 294);
             this.Controls.Add(this.groupBox4);
             this.Controls.Add(this.lblMinimize);
             this.Controls.Add(this.lblClose);
@@ -455,6 +488,7 @@
             this.Controls.Add(this.btnOpenFile);
             this.Controls.Add(this.txbInFile);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+            this.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.MaximizeBox = false;
             this.Name = "MainForm";
             this.Text = "Simple AVS Generator";

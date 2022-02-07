@@ -11,8 +11,8 @@ namespace Simple_AVS_Generator.Core
         private bool NeedsToBeResized { get; set; }
         private bool Audio { get; set; }
 
-        public string? AVSScriptFile { get; set; }
-        public string? AVSScriptContent { get; private set; }
+        public string AVSScriptFile { get; set; }
+        public string AVSScriptContent { get; private set; } = "";
 
         public AviSynthScript(Common common)
         {

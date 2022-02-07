@@ -4,9 +4,9 @@ namespace Simple_AVS_Generator.Core
 {
     internal class OutputScripts
     {
-        private string? FileName { get; set;}
-        private string? FileNameOnly { get; set; }
-        private string? OutputDir { get; set; }
+        private string FileName { get; set;}
+        private string FileNameOnly { get; set; }
+        private string OutputDir { get; set; }
 
         private bool Video { get; set; }
         private int VideoCodec { get; set; }
@@ -17,7 +17,7 @@ namespace Simple_AVS_Generator.Core
         private bool Audio { get; set; }
         private int AudioCodec { get; set; }
         private int AudioBitrate { get; set; }
-        private string? AudioLanguage { get; set; }
+        private string AudioLanguage { get; set; }
 
         private int? OutputContainer { get; set; }
         
@@ -54,7 +54,7 @@ namespace Simple_AVS_Generator.Core
 
         public void ConfigureVideoScript()
         {
-            if (Video)
+            if (Video is true && MuxOriginalVideo is false)
             {
                 string? vPipe = "avs2pipemod -y4mp \"%~dp0Script.avs\" | ",
                         vEncoder = "",
