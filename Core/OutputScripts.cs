@@ -1,6 +1,6 @@
-﻿using static Simple_AVS_Generator.Modules.Enums;
+﻿using static Simple_AVS_Generator.Core.Enums;
 
-namespace Simple_AVS_Generator.Modules
+namespace Simple_AVS_Generator.Core
 {
     internal class OutputScripts
     {

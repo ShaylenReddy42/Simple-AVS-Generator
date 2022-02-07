@@ -1,4 +1,4 @@
-﻿namespace Simple_AVS_Generator.Modules
+﻿namespace Simple_AVS_Generator.Core
 {
     internal class InputFileHandler
     {

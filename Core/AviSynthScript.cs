@@ -1,6 +1,6 @@
 ﻿using System.Text;
 
-namespace Simple_AVS_Generator.Modules
+namespace Simple_AVS_Generator.Core
 {
     internal class AviSynthScript
     {

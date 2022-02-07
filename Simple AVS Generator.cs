@@ -17,8 +17,8 @@
  ******************************************************************************/
 
 using System.Diagnostics;
-using Simple_AVS_Generator.Modules;
-using static Simple_AVS_Generator.Modules.Enums;
+using Simple_AVS_Generator.Core;
+using static Simple_AVS_Generator.Core.Enums;
 
 namespace Simple_AVS_Generator
 {
