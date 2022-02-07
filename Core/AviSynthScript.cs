@@ -14,8 +14,6 @@ namespace Simple_AVS_Generator.Core
         public string? ScriptFile { get; set; }
         public string? ScriptContent { get; private set; }
 
-        private string I => $"i = \"{InputFile}\"\r\n\r\n";
-
         public AviSynthScript(Common common)
         {
             InputFile = common.FileName;
@@ -31,7 +29,7 @@ namespace Simple_AVS_Generator.Core
         {
             StringBuilder sb = new();
             
-            sb.Append(I);
+            sb.Append($"i = \"{InputFile}\"\r\n\r\n");
 
             if (Video is true && MuxOriginalVideo is false)
             {
