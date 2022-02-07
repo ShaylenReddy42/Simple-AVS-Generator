@@ -9,7 +9,7 @@ namespace Simple_AVS_Generator.Modules
         public string FileNameOnly { get; private set; }
         public int FileType { get; private set; }
 
-        public string OutputDir { get; set; }
+        public string? OutputDir { get; set; }
 
         public bool Video { private get; set; }
         public bool Audio { private get; set; }

@@ -40,7 +40,7 @@ namespace Simple_AVS_Generator.Modules
         {
             if (Video)
             {
-                string vPipe = "avs2pipemod -y4mp \"%~dp0Script.avs\" | ",
+                string? vPipe = "avs2pipemod -y4mp \"%~dp0Script.avs\" | ",
                         vEncoder = "",
                         vCmdFile = OutputDir;
 
@@ -78,9 +78,9 @@ namespace Simple_AVS_Generator.Modules
         {
             if (Audio)
             {
-                string aPipe = "avs2pipemod -wav=16bit \"%~dp0Script.avs\" | ",
-                       aEncoder = "",
-                       aCmdFile = OutputDir;
+                string? aPipe = "avs2pipemod -wav=16bit \"%~dp0Script.avs\" | ",
+                        aEncoder = "",
+                        aCmdFile = OutputDir;
 
                 if (AudioCodec == (int)AudioCodecs.AAC_LC)
                 {
@@ -108,13 +108,13 @@ namespace Simple_AVS_Generator.Modules
 
         public void ConfigureContainerScript(bool originalVideo)
         {
-            string videoExtension = VideoCodec == (int)VideoCodecs.HEVC ? ".265"
+            string? videoExtension = VideoCodec == (int)VideoCodecs.HEVC ? ".265"
                                   : VideoCodec == (int)VideoCodecs.AV1 ? ".ivf"
                                   : ".264",
-                   audioExtension = AudioCodec == (int)AudioCodecs.OPUS ? ".ogg" : ".m4a",
+                    audioExtension = AudioCodec == (int)AudioCodecs.OPUS ? ".ogg" : ".m4a",
 
-                   outputFileName = OutputDir,
-                   fileContents = "";
+                    outputFileName = OutputDir,
+                    fileContents = "";
 
             if (OutputContainer == (int)OutputContainers.MP4)
             {

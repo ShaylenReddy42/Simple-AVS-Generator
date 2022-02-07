@@ -374,7 +374,7 @@ namespace Simple_AVS_Generator
         
         private void cmbVideoCodec_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (cmbVideoCodec.SelectedIndex == (int) VideoCodecs.Original && input.IsSupportedByMP4Box is false)
+            if (cmbVideoCodec.SelectedIndex == (int) VideoCodecs.Original && input?.IsSupportedByMP4Box is false)
             {
                 cbxMP4.Enabled = false;
                 cbxMP4.Checked = false;
@@ -382,7 +382,7 @@ namespace Simple_AVS_Generator
 
                 input.Video = false;
             }
-            else if (cmbVideoCodec.SelectedIndex == (int) VideoCodecs.Original && input.IsSupportedByMP4Box is true)
+            else if (cmbVideoCodec.SelectedIndex == (int) VideoCodecs.Original && input?.IsSupportedByMP4Box is true)
             {
                 cbxMP4.Enabled = true;
                 input.Video = false;
