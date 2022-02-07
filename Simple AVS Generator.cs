@@ -194,7 +194,7 @@ namespace Simple_AVS_Generator
 
         void EnableEncodeAndContainer()
         {
-            int? type = input?.FileType;
+            int? type = input?.Common.FileType;
             
             cbxVideo.Enabled = type != (int) ExtensionTypes.AUDIO;
             cbxVideo.Checked = type == (int) ExtensionTypes.VIDEO;
@@ -258,45 +258,48 @@ namespace Simple_AVS_Generator
 
             if (input is not null)
             {
-                input.OutputDir = $@"{home}{input.FileNameOnly}\";
-                input.Script.ScriptFile = $"{input.OutputDir}Script.avs";
+                input.Common.OutputDir = $@"{home}{input.Common.FileNameOnly}\";
+                input.Common.ScriptFile = $"{input.Common.OutputDir}Script.avs";
                 EnableEncodeAndContainer();
 
                 btnOpenFile.Enabled = false;
                 btnNew.Enabled = true;
             }
 
-            txbInFile.Text = input?.FileName;
-            txbOutFile.Text = input is not null ? input.Script.ScriptFile : home;
+            txbInFile.Text = input?.Common.FileName;
+            txbOutFile.Text = input is not null ? input.Common.ScriptFile : home;
         }
 
         private void btnOut_Click(object sender, EventArgs e)
         {
             FolderBrowserDialog fbd = new FolderBrowserDialog();
-            input.OutputDir = fbd.ShowDialog() == DialogResult.OK ? $@"{fbd.SelectedPath}\{input?.FileNameOnly}\" : input.OutputDir;
-            input.Script.ScriptFile = input is not null ? $"{input.OutputDir}Script.avs" : input.OutputDir;
+            input.Common.OutputDir = fbd.ShowDialog() == DialogResult.OK ? $@"{fbd.SelectedPath}\{input?.Common.FileNameOnly}\" : input.Common.OutputDir;
+            input.Common.ScriptFile = input is not null ? $"{input.Common.OutputDir}Script.avs" : input.Common.OutputDir;
             
-            txbOutFile.Text = input.Script.ScriptFile;
+            txbOutFile.Text = input.Common.ScriptFile;
         }
 
         private void btnGen_Click(object sender, EventArgs e)
         {
             if (input is not null)
             {
-                Directory.CreateDirectory(input.OutputDir);
+                Directory.CreateDirectory(input.Common.OutputDir);
 
-                input.Audio = cbxAudio.Checked;
-
-                input.VideoCodec = cmbVideoCodec.SelectedIndex;
-                input.SourceFPS = sourceFPS[cmbSourceFPS.SelectedIndex];
-                input.KeyframeIntervalInSeconds = kfInterval[cmbKeyframeInterval.SelectedIndex];
-                input.NeedsToBeResized = cmbVideoCodec.SelectedIndex == (int)VideoCodecs.WhatsApp;
-                input.AudioBitrate = (int)cmbBitrate.SelectedItem;
-                input.AudioLanguage = GetLanguageCode();
-                input.OutputContainer = cbxMP4.Checked ? (int)OutputContainers.MP4
-                                      : cbxMKV.Checked ? (int)OutputContainers.MKV
-                                      : null;
-                input.MuxOriginalVideo = cmbVideoCodec.SelectedIndex == (int)VideoCodecs.Original;
+                input.Common.Video = cbxVideo.Checked;
+                input.Common.MuxOriginalVideo = cmbVideoCodec.SelectedIndex == (int)VideoCodecs.Original;
+                input.Common.VideoCodec = cmbVideoCodec.SelectedIndex;
+                input.Common.SourceFPS = sourceFPS[cmbSourceFPS.SelectedIndex];
+                input.Common.KeyframeIntervalInSeconds = kfInterval[cmbKeyframeInterval.SelectedIndex];
+                input.Common.NeedsToBeResized = cmbVideoCodec.SelectedIndex == (int)VideoCodecs.WhatsApp;
+                
+                input.Common.Audio = cbxAudio.Checked;
+                input.Common.AudioCodec = cmbAudioCodec.SelectedIndex;
+                input.Common.AudioBitrate = (int)cmbBitrate.SelectedItem;
+                input.Common.AudioLanguage = GetLanguageCode();
+                
+                input.Common.OutputContainer = cbxMP4.Checked ? (int)OutputContainers.MP4
+                                             : cbxMKV.Checked ? (int)OutputContainers.MKV
+                                             : null;
 
                 input.CreateScripts();
 
@@ -359,8 +362,6 @@ namespace Simple_AVS_Generator
             cmbVideoCodec.Enabled = cbxVideo.Checked;
             cmbSourceFPS.Enabled = cbxVideo.Checked;
             cmbKeyframeInterval.Enabled = cbxVideo.Checked;
-
-            input.Video = cbxVideo.Checked;
         }
 
         private void cbxAudio_CheckedChanged(object sender, EventArgs e)
@@ -374,22 +375,15 @@ namespace Simple_AVS_Generator
         
         private void cmbVideoCodec_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (cmbVideoCodec.SelectedIndex == (int) VideoCodecs.Original && input?.IsSupportedByMP4Box is false)
+            if (cmbVideoCodec.SelectedIndex == (int) VideoCodecs.Original && input?.Common?.IsSupportedByMP4Box is false)
             {
                 cbxMP4.Enabled = false;
                 cbxMP4.Checked = false;
                 cbxMKV.Checked = true;
-
-                input.Video = false;
             }
-            else if (cmbVideoCodec.SelectedIndex == (int) VideoCodecs.Original && input?.IsSupportedByMP4Box is true)
+            else if (cmbVideoCodec.SelectedIndex == (int) VideoCodecs.Original && input?.Common?.IsSupportedByMP4Box is true)
             {
                 cbxMP4.Enabled = true;
-                input.Video = false;
-            }
-            else if (cmbVideoCodec.SelectedIndex != (int) VideoCodecs.Original && input is not null)
-            {
-                input.Video = true;
             }
         }
 

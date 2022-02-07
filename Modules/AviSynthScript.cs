@@ -4,21 +4,27 @@ namespace Simple_AVS_Generator.Modules
 {
     internal class AviSynthScript
     {
+        private string? InputFile { get; set; }
+        
+        private bool Video { get; set; }
+        private bool MuxOriginalVideo { get; set; }
+        private bool NeedsToBeResized { get; set; }
+        private bool Audio { get; set; }
+
         public string? ScriptFile { get; set; }
-        public string? InputFile { get; private set; }
         public string? ScriptContent { get; private set; }
-        public bool Video { private get; set; }
-        public bool NeedsToBeResized { private get; set; }
-        public bool Audio { private get; set; }
 
         private string I => $"i = \"{InputFile}\"\r\n\r\n";
 
-        public AviSynthScript(string inputFile)
+        public AviSynthScript(Common common)
         {
-            InputFile = inputFile;
-            Video = default;
-            NeedsToBeResized = default;
-            Audio = default;
+            InputFile = common.FileName;
+            Video = common.Video;
+            MuxOriginalVideo = common.MuxOriginalVideo;
+            NeedsToBeResized = common.NeedsToBeResized;
+            Audio = common.Audio;
+
+            ScriptFile = common.ScriptFile;
         }
 
         public void SetScriptContent()
@@ -27,7 +33,7 @@ namespace Simple_AVS_Generator.Modules
             
             sb.Append(I);
 
-            if (Video)
+            if (Video is true && MuxOriginalVideo is false)
             {
                 sb.Append("v = LWLibavVideoSource(i).ConvertBits(8).ConvertToYV12()#.ShowFrameNumber()\r\n\r\n");
                 sb.Append(ResizeVideo());
@@ -40,13 +46,13 @@ namespace Simple_AVS_Generator.Modules
                 sb.Append("a = ConvertAudioTo16Bit(a)\r\n\r\n");
             }
 
-            if (Video && Audio)
+            if ((Video is true && MuxOriginalVideo is false) && Audio)
             {
                 sb.Append("o = AudioDub(v, a)\r\n\r\n");
                 sb.Append("o = ConvertAudioTo16Bit(o)\r\n\r\n");
                 sb.Append("o");
             }
-            else if (Video is true && Audio is false)
+            else if ((Video is true && MuxOriginalVideo is false) && Audio is false)
             {
                 sb.Append("v");
             }

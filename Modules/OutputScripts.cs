@@ -4,34 +4,50 @@ namespace Simple_AVS_Generator.Modules
 {
     internal class OutputScripts
     {
-        public string? OutputDir { private get; set; }
-        public string? FileName { private get; set;}
-        public string? FileNameOnly { private get; set; }
-        
-        public bool Video { private get; set; }
-        public int VideoCodec { private get; set; }
-        public int SourceFPS { private get; set; }
-        public int KeyframeIntervalInSeconds { private get; set; }
+        private string? FileName { get; set;}
+        private string? FileNameOnly { get; set; }
+        private string? OutputDir { get; set; }
 
+        private bool Video { get; set; }
+        private int VideoCodec { get; set; }
+        private int SourceFPS { get; set; }
+        private int KeyframeIntervalInSeconds { get; set; }
+        private bool MuxOriginalVideo { get; set; }
+
+        private bool Audio { get; set; }
+        private int AudioCodec { get; set; }
+        private int AudioBitrate { get; set; }
+        private string? AudioLanguage { get; set; }
+
+        private int? OutputContainer { get; set; }
+        
         public string? VideoEncoderScriptFile { get; private set; }
         public string? VideoEncoderScriptContents { get; private set; }
-
-        public bool Audio { private get; set; }
-        public int AudioCodec { private get; set; }
-        public int AudioBitrate { private get; set; }
-        public string? AudioLanguage { private get; set; }
 
         public string? AudioEncoderScriptFile { get; private set; }
         public string? AudioEncoderScriptContents { get; private set; }
 
-        public int? OutputContainer { private get; set; }
         public string? ContainerScriptFile { get; private set; }
         public string? ContainerScriptContents { get; private set; }
 
-        public OutputScripts()
+        public OutputScripts(Common common)
         {
-            Video = default;
-            Audio = default;
+            OutputDir = common.OutputDir;
+            FileName = common.FileName;
+            FileNameOnly = common.FileNameOnly;
+            
+            Video = common.Video;
+            VideoCodec = common.VideoCodec;
+            SourceFPS = common.SourceFPS;
+            KeyframeIntervalInSeconds = common.KeyframeIntervalInSeconds;
+            MuxOriginalVideo = common.MuxOriginalVideo;
+
+            Audio = common.Audio;
+            AudioCodec = common.AudioCodec;
+            AudioBitrate = common.AudioBitrate;
+            AudioLanguage = common.AudioLanguage;
+
+            OutputContainer = common.OutputContainer;
         }
 
         private int GetKeyframeIntervalInFrames() { return SourceFPS * KeyframeIntervalInSeconds; }
@@ -106,11 +122,11 @@ namespace Simple_AVS_Generator.Modules
             }
         }
 
-        public void ConfigureContainerScript(bool originalVideo)
+        public void ConfigureContainerScript()
         {
             string? videoExtension = VideoCodec == (int)VideoCodecs.HEVC ? ".265"
-                                  : VideoCodec == (int)VideoCodecs.AV1 ? ".ivf"
-                                  : ".264",
+                                   : VideoCodec == (int)VideoCodecs.AV1 ? ".ivf"
+                                   : ".264",
                     audioExtension = AudioCodec == (int)AudioCodecs.OPUS ? ".ogg" : ".m4a",
 
                     outputFileName = OutputDir,
@@ -118,24 +134,24 @@ namespace Simple_AVS_Generator.Modules
 
             if (OutputContainer == (int)OutputContainers.MP4)
             {
-                string mp4V = !originalVideo
-                              ? $"-add \"%~dp0Video{videoExtension}\":name="
-                              : $"-add \"{FileName}\"#video",
+                string mp4V = MuxOriginalVideo is false
+                            ? $"-add \"%~dp0Video{videoExtension}\":name="
+                            : $"-add \"{FileName}\"#video",
                        mp4A = Audio ? $"-add \"%~dp0{FileNameOnly}{audioExtension}\":name=:lang={AudioLanguage}" : "",
                        newmp4 = $"-new \"%~dp0{FileNameOnly}.mp4\"";
 
-                outputFileName += $"MP4 Mux{(originalVideo ? " [Original Video]" : "")}.cmd";
+                outputFileName += $"MP4 Mux{(MuxOriginalVideo ? " [Original Video]" : "")}.cmd";
                 fileContents = $"mp4box {mp4V} {mp4A} {newmp4}";
             }
             else if (OutputContainer == (int)OutputContainers.MKV)
             {
                 string mkvO = $"-o \"%~dp0{FileNameOnly}.mkv\"",
-                       mkvV = !originalVideo
+                       mkvV = MuxOriginalVideo is false
                             ? $"\"%~dp0Video{videoExtension}\""
                             : $"--no-audio \"{FileName}\"",
                        mkvA = Audio ? $"--language 0:{AudioLanguage} \"%~dp0{FileNameOnly}{audioExtension}\"" : "";
 
-                outputFileName += $"MKV Mux{(originalVideo ? " [Original Video]" : "")}.cmd";
+                outputFileName += $"MKV Mux{(MuxOriginalVideo ? " [Original Video]" : "")}.cmd";
                 fileContents = $"mkvmerge {mkvO} {mkvV} {mkvA}";
             }
 
