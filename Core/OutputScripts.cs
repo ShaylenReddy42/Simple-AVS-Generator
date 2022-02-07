@@ -130,7 +130,7 @@ namespace Simple_AVS_Generator.Core
                     audioExtension = AudioCodec == (int)AudioCodecs.OPUS ? ".ogg" : ".m4a",
 
                     outputFileName = OutputDir,
-                    fileContents = "";
+                    fileContents = null;
 
             if (OutputContainer == (int)OutputContainers.MP4)
             {
