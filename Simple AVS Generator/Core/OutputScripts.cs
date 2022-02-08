@@ -13,11 +13,13 @@ namespace Simple_AVS_Generator.Core
         private int SourceFPS { get; set; }
         private int KeyframeIntervalInSeconds { get; set; }
         private bool MuxOriginalVideo { get; set; }
+        private string? VideoExtension { get; set; } = null;
 
         private bool Audio { get; set; }
         private int AudioCodec { get; set; }
         private int AudioBitrate { get; set; }
         private string AudioLanguage { get; set; }
+        private string AudioExtension { get; set; }
 
         private int? OutputContainer { get; set; }
         
@@ -41,11 +43,13 @@ namespace Simple_AVS_Generator.Core
             SourceFPS = common.SourceFPS;
             KeyframeIntervalInSeconds = common.KeyframeIntervalInSeconds;
             MuxOriginalVideo = common.MuxOriginalVideo;
+            VideoExtension = common.VideoExtention;
 
             Audio = common.Audio;
             AudioCodec = common.AudioCodec;
             AudioBitrate = common.AudioBitrate;
             AudioLanguage = common.AudioLanguage;
+            AudioExtension = common.AudioExtension;
 
             OutputContainer = common.OutputContainer;
         }
@@ -101,19 +105,19 @@ namespace Simple_AVS_Generator.Core
                 if (AudioCodec == (int)AudioCodecs.AAC_LC)
                 {
                     aEncoder += $"qaac64 --abr {AudioBitrate} --ignorelength --no-delay ";
-                    aEncoder += $"-o \"%~dp0{FileNameOnly}.m4a\" - ";
+                    aEncoder += $"-o \"%~dp0{FileNameOnly}{AudioExtension}\" - ";
                     aCmdFile += "Encode Audio [AAC-LC].cmd";
                 }
                 else if (AudioCodec == (int)AudioCodecs.AAC_HE)
                 {
                     aEncoder += $"qaac64 --he --abr {AudioBitrate} --ignorelength ";
-                    aEncoder += $"-o \"%~dp0{FileNameOnly}.m4a\" - ";
+                    aEncoder += $"-o \"%~dp0{FileNameOnly}{AudioExtension}\" - ";
                     aCmdFile += "Encode Audio [AAC-HE].cmd";
                 }
                 else //OPUS
                 {
                     aEncoder += $"opusenc --bitrate {AudioBitrate} --ignorelength ";
-                    aEncoder += $"- \"%~dp0{FileNameOnly}.ogg\"";
+                    aEncoder += $"- \"%~dp0{FileNameOnly}{AudioExtension}\"";
                     aCmdFile += "Encode Audio [OPUS].cmd";
                 }
 
@@ -124,20 +128,15 @@ namespace Simple_AVS_Generator.Core
 
         public void ConfigureContainerScript()
         {
-            string? videoExtension = VideoCodec == (int)VideoCodecs.HEVC ? ".265"
-                                   : VideoCodec == (int)VideoCodecs.AV1 ? ".ivf"
-                                   : ".264",
-                    audioExtension = AudioCodec == (int)AudioCodecs.OPUS ? ".ogg" : ".m4a",
-
-                    outputFileName = OutputDir,
+            string? outputFileName = OutputDir,
                     fileContents = null;
 
             if (OutputContainer == (int)OutputContainers.MP4)
             {
                 string mp4V = MuxOriginalVideo is false
-                            ? $"-add \"%~dp0Video{videoExtension}\":name="
+                            ? $"-add \"%~dp0Video{VideoExtension}\":name="
                             : $"-add \"{FileName}\"#video",
-                       mp4A = Audio ? $"-add \"%~dp0{FileNameOnly}{audioExtension}\":name=:lang={AudioLanguage}" : "",
+                       mp4A = Audio ? $"-add \"%~dp0{FileNameOnly}{AudioExtension}\":name=:lang={AudioLanguage}" : "",
                        newmp4 = $"-new \"%~dp0{FileNameOnly}.mp4\"";
 
                 outputFileName += $"MP4 Mux{(MuxOriginalVideo ? " [Original Video]" : "")}.cmd";
@@ -147,9 +146,9 @@ namespace Simple_AVS_Generator.Core
             {
                 string mkvO = $"-o \"%~dp0{FileNameOnly}.mkv\"",
                        mkvV = MuxOriginalVideo is false
-                            ? $"\"%~dp0Video{videoExtension}\""
+                            ? $"\"%~dp0Video{VideoExtension}\""
                             : $"--no-audio \"{FileName}\"",
-                       mkvA = Audio ? $"--language 0:{AudioLanguage} \"%~dp0{FileNameOnly}{audioExtension}\"" : "";
+                       mkvA = Audio ? $"--language 0:{AudioLanguage} \"%~dp0{FileNameOnly}{AudioExtension}\"" : "";
 
                 outputFileName += $"MKV Mux{(MuxOriginalVideo ? " [Original Video]" : "")}.cmd";
                 fileContents = $"mkvmerge {mkvO} {mkvV} {mkvA}";

@@ -12,11 +12,11 @@
             { "und", "Undetermined" }
         };
 
-        public static string [] outputAudioCodecs =
+        public static string [,] outputAudioCodecs =
         {
-            "AAC-LC",
-            "AAC-HE",
-            "OPUS"
+            { ".m4a", "AAC-LC" },
+            { ".m4a", "AAC-HE" },
+            { ".ogg", "OPUS"   }
         };
 
         public static string [] outputAudioChannels =

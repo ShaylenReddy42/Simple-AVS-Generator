@@ -58,11 +58,13 @@ namespace Simple_AVS_Generator
         #region Methods
         void PopulateComboBoxes()
         {
-            cmbAudioCodec.Items.AddRange(outputAudioCodecs);
+            for (int i = 0; i < outputAudioCodecs.GetLength(0); i++)
+                cmbAudioCodec.Items.Add(outputAudioCodecs[i, 1]);
+
             cmbAudioCodec.SelectedIndex = 0;
 
-            for (int i = 0; i < outputVideoCodecs.Length; i++)
-                cmbVideoCodec.Items.Add(outputVideoCodecs[i]);
+            for (int i = 0; i < outputVideoCodecs.GetLength(0); i++)
+                cmbVideoCodec.Items.Add(outputVideoCodecs[i, 1]);
 
             cmbVideoCodec.SelectedIndex = 0;
 
@@ -200,11 +202,13 @@ namespace Simple_AVS_Generator
                 input.common.SourceFPS = (int)sourceFPS[cmbSourceFPS.SelectedIndex, 0];
                 input.common.KeyframeIntervalInSeconds = (int)keyframeInterval[cmbKeyframeInterval.SelectedIndex, 0];
                 input.common.NeedsToBeResized = cmbVideoCodec.SelectedIndex == (int)VideoCodecs.WhatsApp;
+                input.common.VideoExtention = outputVideoCodecs[cmbVideoCodec.SelectedIndex, 0];
                 
                 input.common.Audio = cbxAudio.Checked;
                 input.common.AudioCodec = cmbAudioCodec.SelectedIndex;
                 input.common.AudioBitrate = (int)cmbBitrate.SelectedItem;
                 input.common.AudioLanguage = languages[cmbLanguage.SelectedIndex, 0];
+                input.common.AudioExtension = outputAudioCodecs[cmbAudioCodec.SelectedIndex, 0];
                 
                 input.common.OutputContainer = cbxMP4.Checked ? (int)OutputContainers.MP4
                                              : cbxMKV.Checked ? (int)OutputContainers.MKV

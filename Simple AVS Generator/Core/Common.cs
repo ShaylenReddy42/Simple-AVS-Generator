@@ -25,12 +25,14 @@ namespace Simple_AVS_Generator.Core
         public int SourceFPS { get; set; }
         public int KeyframeIntervalInSeconds { get; set; }
         public bool NeedsToBeResized { get; set; }
+        public string? VideoExtention { get; set; } = null;
 
         //Audio Properties
         public bool Audio { get; set; }
         public int AudioCodec { get; set; }
         public int AudioBitrate { get; set; }
         public string AudioLanguage { get; set; } = "";
+        public string AudioExtension { get; set; } = "";
 
         public int? OutputContainer { get; set; }
         public bool MuxOriginalVideo { get; set; }

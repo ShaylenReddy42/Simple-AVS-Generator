@@ -2,7 +2,7 @@
 {
     internal class Video
     {
-        public static object [,] sourceFPS =
+        public static object[,] sourceFPS =
         {
             { 24, "23.976 / 24" },
             { 25, "25"          },
@@ -10,20 +10,20 @@
             { 60, "59.94"       }
         };
 
-        public static object [,] keyframeInterval =
+        public static object[,] keyframeInterval =
         {
             {  2, "2 Seconds"  },
             {  5, "5 Seconds"  },
             { 10, "10 Seconds" }
         };
 
-        public static string [] outputVideoCodecs =
+        public static string[,] outputVideoCodecs =
         {
-            "HEVC",
-            "AV1",
-            "AVC",
-            "WhatsApp",
-            "Mux Original"
+            { ".265", "HEVC"         },
+            { ".ivf", "AV1"          },
+            { ".264", "AVC"          },
+            { ".264", "WhatsApp"     },
+            {     "", "Mux Original" }
         };
     }
 }
