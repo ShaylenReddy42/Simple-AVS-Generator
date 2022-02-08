@@ -102,7 +102,7 @@ namespace Simple_AVS_Generator
             cmbBitrate.SelectedItem = defaultAudioBitrates[audioCodec, audioChannels];
         }
 
-        void EnableEncodeAndContainer()
+        void EnableUI()
         {
             int? type = input?.common.FileType;
             
@@ -168,7 +168,7 @@ namespace Simple_AVS_Generator
             if (input is not null)
             {
                 input.common.OutputDir = $@"{home}{input.common.FileNameOnly}\";
-                EnableEncodeAndContainer();
+                EnableUI();
 
                 btnOpenFile.Enabled = false;
                 btnNew.Enabled = true;
