@@ -156,7 +156,7 @@ namespace Simple_AVS_Generator
                    filterVideoExts     = $"Video Types [{supportedExts.FilterVideoExts}]|{supportedExts.SupportedVideoExts}",
                    filterAudioExts     = $"Audio Types [{supportedExts.FilterAudioExts}]|{supportedExts.SupportedAudioExts}";
             
-            OpenFileDialog ofd = new OpenFileDialog
+            OpenFileDialog ofd = new()
             {
                 Multiselect = false,
                 Title = "Open File",
@@ -183,7 +183,7 @@ namespace Simple_AVS_Generator
         {
             if (input is not null)
             {
-                FolderBrowserDialog fbd = new FolderBrowserDialog();
+                FolderBrowserDialog fbd = new();
                 input.common.OutputDir = fbd.ShowDialog() == DialogResult.OK ? $@"{fbd.SelectedPath}\{input?.common.FileNameOnly}\" : input.common.OutputDir;
 
                 txbOutFile.Text = input?.common.ScriptFile;
