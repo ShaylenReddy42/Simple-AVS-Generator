@@ -19,6 +19,7 @@
 using System.Diagnostics;
 using Simple_AVS_Generator.Core;
 using static Simple_AVS_Generator.Core.Enums;
+using static Simple_AVS_Generator.Core.SupportedAudioLanguages;
 
 namespace Simple_AVS_Generator
 {
@@ -52,18 +53,6 @@ namespace Simple_AVS_Generator
 
         int [] sourceFPS  = { 24, 25, 30, 60 },
                kfInterval = { 2, 5, 10 };
-
-        #region Languages
-        string [,] languages =
-        {
-            //ISO 639-2 language code | Name of language in English
-            { "eng", "English"      },
-            { "hin", "Hindi"        },
-            { "jpn", "Japanese"     },
-            { "tam", "Tamil"        },
-            { "und", "Undetermined" }
-        };
-        #endregion Languages
 
         #region AudioBitrates
         /**
@@ -204,8 +193,6 @@ namespace Simple_AVS_Generator
             cbxMKV.Enabled   = type != (int) ExtensionTypes.AUDIO;
         }
 
-        string GetLanguageCode() { return languages[cmbLanguage.SelectedIndex, 0]; }
-
         void New()
         {
             txbInFile.Clear();
@@ -298,7 +285,7 @@ namespace Simple_AVS_Generator
                 input.common.Audio = cbxAudio.Checked;
                 input.common.AudioCodec = cmbAudioCodec.SelectedIndex;
                 input.common.AudioBitrate = (int)cmbBitrate.SelectedItem;
-                input.common.AudioLanguage = GetLanguageCode();
+                input.common.AudioLanguage = languages[cmbLanguage.SelectedIndex, 0];
                 
                 input.common.OutputContainer = cbxMP4.Checked ? (int)OutputContainers.MP4
                                              : cbxMKV.Checked ? (int)OutputContainers.MKV
