@@ -8,7 +8,7 @@ IF NOT EXIST "%~dp0version.txt" (
 @CALL "%~dp0dotnet-publish.cmd"
 @ECHO.
 
-@RD "%~dp0bin" "%~dp0build" "%~dp0obj" /S /Q
+@RD "%~dp0build" "%~dp0Simple AVS Generator\bin" "%~dp0Simple AVS Generator\obj" /S /Q
 @DEL "%~dp0dotnet-publish.cmd"
 
 :END

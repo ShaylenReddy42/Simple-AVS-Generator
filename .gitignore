@@ -1,9 +1,10 @@
 # Folders
 .vs/
-bin/
 build/
-obj/
 publish/
+
+Simple AVS Generator/bin/
+Simple AVS Generator/obj/
 
 # File extensions
 *.exe

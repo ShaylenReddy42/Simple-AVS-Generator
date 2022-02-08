@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.32014.148
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Simple AVS Generator", "Simple AVS Generator.csproj", "{F4E2D21C-B20C-46F6-98A1-3C021F6E9DDB}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Simple AVS Generator", "Simple AVS Generator\Simple AVS Generator.csproj", "{F4E2D21C-B20C-46F6-98A1-3C021F6E9DDB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
