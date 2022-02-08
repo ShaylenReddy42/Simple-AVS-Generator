@@ -1,6 +1,6 @@
-﻿namespace Simple_AVS_Generator.Core
+﻿namespace Simple_AVS_Generator.Core.Support
 {
-    internal class AudioSupport
+    internal class Audio
     {
         public static string [,] languages =
         {

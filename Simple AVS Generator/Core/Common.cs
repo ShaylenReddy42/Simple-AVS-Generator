@@ -1,4 +1,6 @@
-﻿namespace Simple_AVS_Generator.Core
+﻿using Simple_AVS_Generator.Core.Support;
+
+namespace Simple_AVS_Generator.Core
 {
     internal class Common
     {
@@ -39,7 +41,7 @@
             FileExt = Path.GetExtension(FileName);
             FileNameOnly = Path.GetFileNameWithoutExtension(FileName);
 
-            SupportedExts se = new();
+            Extensions se = new();
             FileType = se.DetermineInputFileType(FileExt);
 
             SetIsSupportedByMP4Box();

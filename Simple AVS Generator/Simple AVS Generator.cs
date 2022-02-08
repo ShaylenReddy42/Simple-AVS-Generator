@@ -17,9 +17,13 @@
  ******************************************************************************/
 
 using System.Diagnostics;
+
 using Simple_AVS_Generator.Core;
+using Simple_AVS_Generator.Core.Support;
+
 using static Simple_AVS_Generator.Core.Enums;
-using static Simple_AVS_Generator.Core.AudioSupport;
+using static Simple_AVS_Generator.Core.Support.Video;
+using static Simple_AVS_Generator.Core.Support.Audio;
 
 namespace Simple_AVS_Generator
 {
@@ -48,11 +52,8 @@ namespace Simple_AVS_Generator
 
         static string home = $@"C:\Users\{Environment.UserName}\Desktop\Temp\";
 
-        SupportedExts supportedExts = new();
+        Extensions supportedExts = new();
         InputFileHandler? input = null;
-
-        int [] sourceFPS  = { 24, 25, 30, 60 },
-               kfInterval = { 2, 5, 10 };
 
         #region Methods
         void PopulateComboBoxes()
@@ -60,45 +61,24 @@ namespace Simple_AVS_Generator
             cmbAudioCodec.Items.AddRange(outputAudioCodecs);
             cmbAudioCodec.SelectedIndex = 0;
 
-            cmbVideoCodec.Items.AddRange
-            (
-                new string []
-                {
-                    "HEVC",
-                    "AV1",
-                    "AVC",
-                    "WhatsApp",
-                    "Mux Original"
-                }
-            );
+            for (int i = 0; i < outputVideoCodecs.Length; i++)
+                cmbVideoCodec.Items.Add(outputVideoCodecs[i]);
+
             cmbVideoCodec.SelectedIndex = 0;
 
             for (int i = 0; i < languages.GetLength(0); i++)
                 cmbLanguage.Items.Add(languages[i, 1]);
 
             cmbLanguage.SelectedIndex = 0;
-
-            cmbSourceFPS.Items.AddRange
-            (
-                new string []
-                {
-                    "23.976 / 24",
-                    "25",
-                    "29.97 / 30",
-                    "59.94 / 60"
-                }
-            );
+            
+            for (int i = 0; i < sourceFPS.GetLength(0); i++)
+                cmbSourceFPS.Items.Add(sourceFPS[i, 1]);
+            
             cmbSourceFPS.SelectedIndex = 0;
 
-            cmbKeyframeInterval.Items.AddRange
-            (
-                new string []
-                {
-                    "2 Seconds",
-                    "5 Seconds",
-                    "10 Seconds"
-                }
-            );
+            for (int i = 0; i < keyframeInterval.GetLength(0); i++)
+                cmbKeyframeInterval.Items.Add(keyframeInterval[i, 1]);
+            
             cmbKeyframeInterval.SelectedIndex = 0;
 
             cmbChannels.Items.AddRange(outputAudioChannels);
@@ -124,12 +104,12 @@ namespace Simple_AVS_Generator
         {
             int? type = input?.common.FileType;
             
-            cbxVideo.Enabled = type != (int) ExtensionTypes.AUDIO;
-            cbxVideo.Checked = type == (int) ExtensionTypes.VIDEO;
-            cbxAudio.Enabled = type != (int) ExtensionTypes.VIDEO;
-            cbxAudio.Checked = type == (int) ExtensionTypes.AUDIO;
-            cbxMP4.Enabled   = type != (int) ExtensionTypes.AUDIO;
-            cbxMKV.Enabled   = type != (int) ExtensionTypes.AUDIO;
+            cbxVideo.Enabled = type != (int)ExtensionTypes.AUDIO;
+            cbxVideo.Checked = type == (int)ExtensionTypes.VIDEO;
+            cbxAudio.Enabled = type != (int)ExtensionTypes.VIDEO;
+            cbxAudio.Checked = type == (int)ExtensionTypes.AUDIO;
+            cbxMP4.Enabled   = type != (int)ExtensionTypes.AUDIO;
+            cbxMKV.Enabled   = type != (int)ExtensionTypes.AUDIO;
         }
 
         void New()
@@ -217,8 +197,8 @@ namespace Simple_AVS_Generator
                 input.common.Video = cbxVideo.Checked;
                 input.common.MuxOriginalVideo = cmbVideoCodec.SelectedIndex == (int)VideoCodecs.Original;
                 input.common.VideoCodec = cmbVideoCodec.SelectedIndex;
-                input.common.SourceFPS = sourceFPS[cmbSourceFPS.SelectedIndex];
-                input.common.KeyframeIntervalInSeconds = kfInterval[cmbKeyframeInterval.SelectedIndex];
+                input.common.SourceFPS = (int)sourceFPS[cmbSourceFPS.SelectedIndex, 0];
+                input.common.KeyframeIntervalInSeconds = (int)keyframeInterval[cmbKeyframeInterval.SelectedIndex, 0];
                 input.common.NeedsToBeResized = cmbVideoCodec.SelectedIndex == (int)VideoCodecs.WhatsApp;
                 
                 input.common.Audio = cbxAudio.Checked;

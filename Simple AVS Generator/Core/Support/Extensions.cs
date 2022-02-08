@@ -1,8 +1,8 @@
 ﻿using static Simple_AVS_Generator.Core.Enums;
 
-namespace Simple_AVS_Generator.Core
+namespace Simple_AVS_Generator.Core.Support
 {
-    internal class SupportedExts
+    internal class Extensions
     {
         public string? SupportedContainerExts { get; private set; }
         public string? SupportedVideoExts { get; private set; }
@@ -61,7 +61,7 @@ namespace Simple_AVS_Generator.Core
             { ExtensionTypes.AUDIO,     ".wma"  }
         };
 
-        public SupportedExts()
+        public Extensions()
         {
             SetSupportedContainerExts();
             SetSupportedVideoExts();
