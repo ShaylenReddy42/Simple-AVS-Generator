@@ -19,7 +19,7 @@
 using System.Diagnostics;
 using Simple_AVS_Generator.Core;
 using static Simple_AVS_Generator.Core.Enums;
-using static Simple_AVS_Generator.Core.SupportedAudioLanguages;
+using static Simple_AVS_Generator.Core.AudioSupport;
 
 namespace Simple_AVS_Generator
 {
@@ -54,63 +54,10 @@ namespace Simple_AVS_Generator
         int [] sourceFPS  = { 24, 25, 30, 60 },
                kfInterval = { 2, 5, 10 };
 
-        #region AudioBitrates
-        /**
-         * A 3D array containing sane audio bitrates
-         * for each codec and their channel layouts
-         * 
-         * 1st Dimension: Codec [AAC-LC, AAC-HE, OPUS]
-         * 2nd Dimension: Channels [2, 5.1, 7.1]
-         * 3rd Dimension: List of sane bitrates
-         */
-        int [,,] selectableAudioBitrates =
-        {
-            //AAC-LC
-            {
-                {  96, 112, 128, 144, 160, 192 }, //2 Channels
-                { 192, 224, 256, 288, 320, 384 }, //5.1 Channels
-                { 384, 448, 512, 576, 640, 768 }  //7.1 Channels
-            },
-
-            //AAC-HE
-            {
-                {  32,  40,  48,  56,  64,  80 }, //2 Channels
-                {  80,  96, 112, 128, 160, 192 }, //5.1 Channels
-                { 112, 128, 160, 192, 224, 256 }  //7.1 Channels
-            },
-
-            //OPUS
-            {
-                {  96, 112, 128, 144, 160, 192 }, //2 Channels
-                { 144, 160, 192, 224, 256, 288 }, //5.1 Channels
-                { 256, 288, 320, 384, 448, 576 }  //7.1 Channels
-            }
-        };
-        
-        /**
-         * 1st Dimension: Codec [AAC-LC, AAC-HE, OPUS]
-         * 2nd Dimension: Channels [2, 5.1, 7.1]
-         */
-        int [,] defaultAudioBitrates =
-        {
-            { 128, 384, 512 }, //AAC-LC
-            {  80, 192, 256 }, //AAC-HE
-            {  96, 288, 384 }  //OPUS
-        };
-        #endregion AudioBitrates
-
         #region Methods
         void PopulateComboBoxes()
         {
-            cmbAudioCodec.Items.AddRange
-            (
-                new string []
-                {
-                    "AAC-LC",
-                    "AAC-HE",
-                    "OPUS"
-                }
-            );
+            cmbAudioCodec.Items.AddRange(outputAudioCodecs);
             cmbAudioCodec.SelectedIndex = 0;
 
             cmbVideoCodec.Items.AddRange
@@ -154,15 +101,7 @@ namespace Simple_AVS_Generator
             );
             cmbKeyframeInterval.SelectedIndex = 0;
 
-            cmbChannels.Items.AddRange
-            (
-                new string []
-                {
-                    "2 Channels",
-                    "5.1 Channels",
-                    "7.1 Channels"
-                }
-            );
+            cmbChannels.Items.AddRange(outputAudioChannels);
             cmbChannels.SelectedIndex = 0;
 
             SetSelectableAudioBitrates();
