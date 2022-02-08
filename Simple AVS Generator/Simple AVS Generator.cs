@@ -58,30 +58,30 @@ namespace Simple_AVS_Generator
         #region Methods
         void PopulateComboBoxes()
         {
-            for (int i = 0; i < outputAudioCodecs.GetLength(0); i++)
-                cmbAudioCodec.Items.Add(outputAudioCodecs[i, 1]);
-
-            cmbAudioCodec.SelectedIndex = 0;
-
             for (int i = 0; i < outputVideoCodecs.GetLength(0); i++)
                 cmbVideoCodec.Items.Add(outputVideoCodecs[i, 1]);
 
             cmbVideoCodec.SelectedIndex = 0;
 
-            for (int i = 0; i < languages.GetLength(0); i++)
-                cmbLanguage.Items.Add(languages[i, 1]);
+            for (int i = 0; i < outputAudioCodecs.GetLength(0); i++)
+                cmbAudioCodec.Items.Add(outputAudioCodecs[i, 1]);
 
-            cmbLanguage.SelectedIndex = 0;
-            
+            cmbAudioCodec.SelectedIndex = 0;
+
             for (int i = 0; i < sourceFPS.GetLength(0); i++)
                 cmbSourceFPS.Items.Add(sourceFPS[i, 1]);
-            
+
             cmbSourceFPS.SelectedIndex = 0;
 
             for (int i = 0; i < keyframeInterval.GetLength(0); i++)
                 cmbKeyframeInterval.Items.Add(keyframeInterval[i, 1]);
-            
+
             cmbKeyframeInterval.SelectedIndex = 0;
+
+            for (int i = 0; i < languages.GetLength(0); i++)
+                cmbLanguage.Items.Add(languages[i, 1]);
+
+            cmbLanguage.SelectedIndex = 0;
 
             cmbChannels.Items.AddRange(outputAudioChannels);
             cmbChannels.SelectedIndex = 0;
