@@ -63,91 +63,69 @@ namespace Simple_AVS_Generator.Core.Support
 
         public Extensions()
         {
-            SetSupportedContainerExts();
-            SetSupportedVideoExts();
-            SetSupportedAudioExts();
+            SetSupportFor((int)ExtensionTypes.CONTAINER);
+            SetSupportFor((int)ExtensionTypes.VIDEO);
+            SetSupportFor((int)ExtensionTypes.AUDIO);
 
-            SetFilterContainerExts();
-            SetFilterVideoExts();
-            SetFilterAudioExts();
+            SetFilterFor((int)ExtensionTypes.CONTAINER);
+            SetFilterFor((int)ExtensionTypes.VIDEO);
+            SetFilterFor((int)ExtensionTypes.AUDIO);
         }
 
-        private void SetSupportedContainerExts()
+        private void SetSupportFor(int fileType)
         {
+            string support = "";
+
             for (int i = 0; i < extensions.GetLength(0); i++)
             {
-                if ((int)extensions[i, 0] == (int)ExtensionTypes.CONTAINER)
+                if ((int)extensions[i, 0] == fileType)
                 {
-                    SupportedContainerExts += $"*{extensions[i, 1]};";
+                    support += $"*{extensions[i, 1]};";
                 }
             }
 
-            SupportedContainerExts = SupportedContainerExts?.Remove(SupportedContainerExts.LastIndexOf(";"));
+            support = support.Remove(support.LastIndexOf(";"));
+
+            switch (fileType)
+            {
+                case (int)ExtensionTypes.CONTAINER:
+                    SupportedContainerExts = support;
+                    break;
+                case (int)ExtensionTypes.VIDEO:
+                    SupportedVideoExts = support;
+                    break;
+                case (int)ExtensionTypes.AUDIO:
+                    SupportedAudioExts = support;
+                    break;
+            }
         }
 
-        private void SetSupportedVideoExts()
+        private void SetFilterFor(int fileType)
         {
+            string filter = "";
+            
             for (int i = 0; i < extensions.GetLength(0); i++)
             {
-                if ((int)extensions[i, 0] == (int)ExtensionTypes.VIDEO)
+                if ((int)extensions[i, 0] == fileType)
                 {
-                    SupportedVideoExts += $"*{extensions[i, 1]};";
+                    filter += $"{extensions[i, 1].ToString()?.Substring(1).ToUpper()} ";
                 }
             }
 
-            SupportedVideoExts = SupportedVideoExts?.Remove(SupportedVideoExts.LastIndexOf(";"));
-        }
+            filter = filter.Remove(filter.LastIndexOf(" "));
 
-        private void SetSupportedAudioExts()
-        {
-            for (int i = 0; i < extensions.GetLength(0); i++)
+            switch (fileType)
             {
-                if ((int)extensions[i, 0] == (int)ExtensionTypes.AUDIO)
-                {
-                    SupportedAudioExts += $"*{extensions[i, 1]};";
-                }
+                case (int)ExtensionTypes.CONTAINER:
+                    FilterContainerExts = filter;
+                    break;
+                case (int)ExtensionTypes.VIDEO:
+                    FilterVideoExts = filter;
+                    break;
+                case (int)ExtensionTypes.AUDIO:
+                    FilterAudioExts = filter;
+                    break;
             }
-
-            SupportedAudioExts = SupportedAudioExts?.Remove(SupportedAudioExts.LastIndexOf(";"));
-        }
-
-        private void SetFilterContainerExts()
-        {
-            for (int i = 0; i < extensions.GetLength(0); i++)
-            {
-                if ((int)extensions[i, 0] == (int)ExtensionTypes.CONTAINER)
-                {
-                    FilterContainerExts += $"{extensions[i, 1].ToString()?.Substring(1).ToUpper()} ";
-                }
-            }
-
-            FilterContainerExts = FilterContainerExts?.Remove(FilterContainerExts.LastIndexOf(" "));
-        }
-
-        private void SetFilterVideoExts()
-        {
-            for (int i = 0; i < extensions.GetLength(0); i++)
-            {
-                if ((int)extensions[i, 0] == (int)ExtensionTypes.VIDEO)
-                {
-                    FilterVideoExts += $"{extensions[i, 1].ToString()?.Substring(1).ToUpper()} ";
-                }
-            }
-
-            FilterVideoExts = FilterVideoExts?.Remove(FilterVideoExts.LastIndexOf(" "));
-        }
-
-        private void SetFilterAudioExts()
-        {
-            for (int i = 0; i < extensions.GetLength(0); i++)
-            {
-                if ((int)extensions[i, 0] == (int)ExtensionTypes.AUDIO)
-                {
-                    FilterAudioExts += $"{extensions[i, 1].ToString()?.Substring(1).ToUpper()} ";
-                }
-            }
-
-            FilterAudioExts = FilterAudioExts?.Remove(FilterAudioExts.LastIndexOf(" "));
         }
 
         public int DetermineInputFileType(string fileExt)
