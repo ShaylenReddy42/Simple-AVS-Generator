@@ -55,14 +55,14 @@ namespace Simple_AVS_Generator.Core
                 sb.Append(ResizeVideo());
             }
 
-            if (Audio)
+            if (Audio is true)
             {
                 sb.Append("a = LWLibavAudioSource(i).ConvertAudioToFloat()\r\n\r\n");
                 sb.Append("a = Normalize(a, 1.0)\r\n\r\n");
                 sb.Append("a = ConvertAudioTo16Bit(a)\r\n\r\n");
             }
 
-            if ((Video is true && MuxOriginalVideo is false) && Audio)
+            if ((Video is true && MuxOriginalVideo is false) && Audio is true)
             {
                 sb.Append("o = AudioDub(v, a)\r\n\r\n");
                 sb.Append("o = ConvertAudioTo16Bit(o)\r\n\r\n");
@@ -72,7 +72,7 @@ namespace Simple_AVS_Generator.Core
             {
                 sb.Append("v");
             }
-            else if (Audio is true && Video is false)
+            else if (Audio is true && (Video is false || (Video is true && MuxOriginalVideo is true)))
             {
                 sb.Append("a");
             }
