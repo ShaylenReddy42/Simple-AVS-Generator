@@ -6,6 +6,9 @@ publish/
 Simple AVS Generator/bin/
 Simple AVS Generator/obj/
 
+Simple AVS Generator.Core/bin/
+Simple AVS Generator.Core/obj/
+
 # File extensions
 *.exe
 *.user

@@ -1,6 +1,6 @@
 ﻿namespace Simple_AVS_Generator.Core.Support
 {
-    internal class Video
+    public class Video
     {
         public static object[,] sourceFPS =
         {

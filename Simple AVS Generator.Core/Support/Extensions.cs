@@ -2,7 +2,7 @@
 
 namespace Simple_AVS_Generator.Core.Support
 {
-    internal class Extensions
+    public class Extensions
     {
         public string? SupportedContainerExts { get; private set; }
         public string? SupportedVideoExts { get; private set; }

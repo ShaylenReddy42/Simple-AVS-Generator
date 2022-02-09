@@ -1,6 +1,6 @@
 ﻿namespace Simple_AVS_Generator.Core
 {
-    internal class InputFileHandler
+    public class InputFileHandler
     {
         public Common common;
         

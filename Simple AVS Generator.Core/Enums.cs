@@ -1,6 +1,6 @@
 ﻿namespace Simple_AVS_Generator.Core
 {
-    internal class Enums
+    public class Enums
     {
         public enum ExtensionTypes
         {

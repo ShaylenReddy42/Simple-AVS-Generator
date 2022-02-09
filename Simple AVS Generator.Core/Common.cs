@@ -2,7 +2,7 @@
 
 namespace Simple_AVS_Generator.Core
 {
-    internal class Common
+    public class Common
     {
         public string FileName { get; private set; }
         public string FileExt { get; private set; }
