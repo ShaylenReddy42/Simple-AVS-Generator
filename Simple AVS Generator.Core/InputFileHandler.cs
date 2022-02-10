@@ -39,9 +39,12 @@ namespace Simple_AVS_Generator.Core
             AviSynthScript script = new(common);
             
             script.SetScriptContent();
-            WriteFile(script.AVSScriptFile, script.AVSScriptContent);
+            if (script.CreateAviSynthScript is true)
+            {
+                WriteFile(script.AVSScriptFile, script.AVSScriptContent);
 
-            WriteFile(common.AVSMeterScriptFile, common.AVSMeterScriptContent);
+                WriteFile(common.AVSMeterScriptFile, common.AVSMeterScriptContent);
+            }
 
             OutputScripts output = new(common);
 

@@ -29,6 +29,7 @@ namespace Simple_AVS_Generator.Core
         private bool NeedsToBeResized { get; set; }
         private bool Audio { get; set; }
 
+        public bool CreateAviSynthScript { get; private set; } = default;
         public string AVSScriptFile { get; set; }
         public string AVSScriptContent { get; private set; } = "";
 
@@ -67,14 +68,20 @@ namespace Simple_AVS_Generator.Core
                 sb.Append("o = AudioDub(v, a)\r\n\r\n");
                 sb.Append("o = ConvertAudioTo16Bit(o)\r\n\r\n");
                 sb.Append("o");
+
+                CreateAviSynthScript = true;
             }
             else if ((Video is true && MuxOriginalVideo is false) && Audio is false)
             {
                 sb.Append("v");
+
+                CreateAviSynthScript = true;
             }
             else if (Audio is true && (Video is false || (Video is true && MuxOriginalVideo is true)))
             {
                 sb.Append("a");
+
+                CreateAviSynthScript = true;
             }
 
             AVSScriptContent = sb.ToString();
