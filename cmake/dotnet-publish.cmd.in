@@ -1,1 +1,1 @@
-dotnet publish -o publish -p:FileVersion="@FILE_VERSION@" -p:InformationalVersion="@INFORMATIONAL_VERSION@"
+dotnet publish "%~dp0Simple AVS Generator\Simple AVS Generator.csproj" -o publish -c Release -p:FileVersion="@FILE_VERSION@" -p:InformationalVersion="@INFORMATIONAL_VERSION@"
