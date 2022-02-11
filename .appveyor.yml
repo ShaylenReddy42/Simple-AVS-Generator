@@ -5,6 +5,9 @@ version: 'Build {build}'
 configuration:
     - Release
 
+test_script:
+    - cmd: dotnet test "Simple AVS Generator.Core.Tests\Simple AVS Generator.Core.Tests.csproj"
+
 before_build:
     - cmd: cmake -G "Visual Studio 17" -S . -B "build" -DAPPVEYOR_CI=ON
     - cmd: set /p version=<"version.txt"
