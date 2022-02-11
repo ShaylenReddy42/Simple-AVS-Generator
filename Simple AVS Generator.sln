@@ -5,7 +5,9 @@ VisualStudioVersion = 17.0.32014.148
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Simple AVS Generator", "Simple AVS Generator\Simple AVS Generator.csproj", "{F4E2D21C-B20C-46F6-98A1-3C021F6E9DDB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Simple AVS Generator.Core", "Simple AVS Generator.Core\Simple AVS Generator.Core.csproj", "{FECFC601-B84C-4308-B1BC-8E67E6C85B19}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Simple AVS Generator.Core", "Simple AVS Generator.Core\Simple AVS Generator.Core.csproj", "{FECFC601-B84C-4308-B1BC-8E67E6C85B19}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Simple AVS Generator.Core.Tests", "Simple AVS Generator.Core.Tests\Simple AVS Generator.Core.Tests.csproj", "{8BDCE831-C27A-4E77-BC6F-07ABCE95F68D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{FECFC601-B84C-4308-B1BC-8E67E6C85B19}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FECFC601-B84C-4308-B1BC-8E67E6C85B19}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FECFC601-B84C-4308-B1BC-8E67E6C85B19}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8BDCE831-C27A-4E77-BC6F-07ABCE95F68D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8BDCE831-C27A-4E77-BC6F-07ABCE95F68D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8BDCE831-C27A-4E77-BC6F-07ABCE95F68D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8BDCE831-C27A-4E77-BC6F-07ABCE95F68D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
