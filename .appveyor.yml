@@ -17,4 +17,4 @@ test_script:
     - cmd: dotnet test "Simple AVS Generator.Core.Tests\Simple AVS Generator.Core.Tests.csproj"
 
 artifacts:
-    - path: "publish/Simple AVS Generator.exe"
+    - path: "publish\Simple AVS Generator.exe"
