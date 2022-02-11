@@ -21,7 +21,7 @@ namespace Simple_AVS_Generator.Core.Tests
         // Logic shouldn't change but caught onto this via running the tests with true for the IsSupportedByMP4Box property
         // If the logic should reflect this, it means altering the array that holds all the supported extensions to include audio
         
-        [Theory]
+        [Theory (DisplayName = "Check If Properties Are Set Accurately")]
         [MemberData(nameof(Common_CheckIfPropertiesAreSetAccurately_TestData))]
         public void Common_CheckIfPropertiesAreSetAccurately(string fileName, string fileExt, string fileNameOnly, int fileType, bool isSupportedByMP4Box)
         {
