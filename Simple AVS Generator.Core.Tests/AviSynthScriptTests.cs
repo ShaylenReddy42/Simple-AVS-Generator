@@ -35,12 +35,10 @@ namespace Simple_AVS_Generator.Core.Tests
             object[] expectedOutput = new object[] { createAviSynthScript, endsWith };
             
             // Act
-            string noImpactOutputDir = @"C:\Users\User\Desktop\Temp\Sample\Script.avs";
-            bool noImpactNeedsToBeResized = default;
+            string noImpactOutputDir = @"C:\Users\User\Desktop\Temp\Sample\";
 
             Common common = new(fileName);
             common.OutputDir = noImpactOutputDir;
-            common.NeedsToBeResized = noImpactNeedsToBeResized;
             common.Video = video;
             common.MuxOriginalVideo = muxOriginalVideo;
             common.Audio = audio;
