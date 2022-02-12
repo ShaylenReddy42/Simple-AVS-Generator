@@ -23,7 +23,14 @@ namespace Simple_AVS_Generator.Core.Tests
         
         [Theory (DisplayName = "Check If Properties Are Set Accurately")]
         [MemberData(nameof(Common_CheckIfPropertiesAreSetAccurately_TestData))]
-        public void Common_CheckIfPropertiesAreSetAccurately(string fileName, string fileExt, string fileNameOnly, int fileType, bool isSupportedByMP4Box)
+        public void Common_CheckIfPropertiesAreSetAccurately
+        (
+            string fileName,
+            string fileExt,
+            string fileNameOnly,
+            int fileType,
+            bool isSupportedByMP4Box
+        )
         {
             // Arrange
             object[] expectedProperties = { fileName, fileExt, fileNameOnly, fileType, isSupportedByMP4Box };
