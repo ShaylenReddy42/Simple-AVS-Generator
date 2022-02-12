@@ -27,12 +27,12 @@ namespace Simple_AVS_Generator.Core.Tests
             bool video,
             bool muxOriginalVideo,
             bool audio,
-            bool createAviSynthScript,
-            string endsWith
+            bool expectedCreateAviSynthScript,
+            string expectedEndsWith
         )
         {
             // Arrange
-            object[] expectedOutput = new object[] { createAviSynthScript, endsWith };
+            object[] expectedOutput = new object[] { expectedCreateAviSynthScript, expectedEndsWith };
             
             // Act
             string noImpactOutputDir = @"C:\Users\User\Desktop\Temp\Sample\";
@@ -53,6 +53,41 @@ namespace Simple_AVS_Generator.Core.Tests
 
             // Assert
             Assert.Equal(expectedOutput, actualOutput);
+        }
+
+        // NeedsToBeResized | String the script should contain
+        public static IEnumerable<object[]> ResizeVideo_ValidateThatTargetWidthIsSetCorrectly_TestData =
+        new[]
+        {
+            new object[] { true,  "targetWidth  = 640"      },
+            new object[] { false, "targetWidth  = Width(v)" }
+        };
+
+        [Theory (DisplayName = "Validate That 'targetWidth' Is Set Correctly")]
+        [MemberData(nameof(ResizeVideo_ValidateThatTargetWidthIsSetCorrectly_TestData))]
+        public void ResizeVideo_ValidateThatTargetWidthIsSetCorrectly
+        (
+            bool needsToBeResized,
+            string scriptContainsThisString
+        )
+        {
+            // Arrange
+            // Since this test validates contents of a string, there's no expected values
+
+            // Act
+            Common common = new(@"C:\Users\User\Desktop\Sample.mp4");
+            common.OutputDir = @"C:\Users\User\Desktop\Temp\Sample\";
+            common.Video = true;
+            common.NeedsToBeResized = needsToBeResized;
+
+            AviSynthScript script = new(common);
+            script.SetScriptContent();
+
+            string outputScript = script.AVSScriptContent;
+            bool scriptDoesContainTheString = outputScript.Contains(scriptContainsThisString);
+
+            // Assert
+            Assert.True(scriptDoesContainTheString);
         }
     }
 }
