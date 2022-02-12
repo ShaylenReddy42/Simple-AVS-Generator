@@ -20,7 +20,7 @@ using System.Text;
 
 namespace Simple_AVS_Generator.Core
 {
-    internal class AviSynthScript
+    public class AviSynthScript
     {
         private string? InputFile { get; set; }
         
