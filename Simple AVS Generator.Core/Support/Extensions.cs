@@ -30,53 +30,54 @@ namespace Simple_AVS_Generator.Core.Support
         public string? FilterVideoExts { get; private set; }
         public string? FilterAudioExts { get; private set; }
 
-        private object [,] extensions =
+        // ExtensionType | FileExtension | IsSupportedByMP4Box
+        private object[,] extensions =
         {
-            { ExtensionTypes.CONTAINER, ".3gp"  },
-            { ExtensionTypes.CONTAINER, ".3g2"  },
-            { ExtensionTypes.CONTAINER, ".asf"  },
-            { ExtensionTypes.CONTAINER, ".avi"  },
-            { ExtensionTypes.CONTAINER, ".flv"  },
-            { ExtensionTypes.CONTAINER, ".mp4"  },
-            { ExtensionTypes.CONTAINER, ".m4v"  },
-            { ExtensionTypes.CONTAINER, ".mkv"  },
-            { ExtensionTypes.CONTAINER, ".mov"  },
-            { ExtensionTypes.CONTAINER, ".m2t"  },
-            { ExtensionTypes.CONTAINER, ".m2ts" },
-            { ExtensionTypes.CONTAINER, ".mxf"  },
-            { ExtensionTypes.CONTAINER, ".ogm"  },
-            { ExtensionTypes.CONTAINER, ".rm"   },
-            { ExtensionTypes.CONTAINER, ".rmvb" },
-            { ExtensionTypes.CONTAINER, ".ts"   },
-            { ExtensionTypes.CONTAINER, ".wmv"  },
+            { ExtensionTypes.CONTAINER, ".3gp",  true  },
+            { ExtensionTypes.CONTAINER, ".3g2",  true  },
+            { ExtensionTypes.CONTAINER, ".asf",  false },
+            { ExtensionTypes.CONTAINER, ".avi",  true  },
+            { ExtensionTypes.CONTAINER, ".flv",  false },
+            { ExtensionTypes.CONTAINER, ".mp4",  true  },
+            { ExtensionTypes.CONTAINER, ".m4v",  true  },
+            { ExtensionTypes.CONTAINER, ".mkv",  false },
+            { ExtensionTypes.CONTAINER, ".mov",  false },
+            { ExtensionTypes.CONTAINER, ".m2t",  true  },
+            { ExtensionTypes.CONTAINER, ".m2ts", true  },
+            { ExtensionTypes.CONTAINER, ".mxf",  false },
+            { ExtensionTypes.CONTAINER, ".ogm",  false },
+            { ExtensionTypes.CONTAINER, ".rm",   false },
+            { ExtensionTypes.CONTAINER, ".rmvb", false },
+            { ExtensionTypes.CONTAINER, ".ts",   true  },
+            { ExtensionTypes.CONTAINER, ".wmv",  false },
 
-            { ExtensionTypes.VIDEO,     ".263"  },
-            { ExtensionTypes.VIDEO,     ".h263" },
-            { ExtensionTypes.VIDEO,     ".264"  },
-            { ExtensionTypes.VIDEO,     ".h264" },
-            { ExtensionTypes.VIDEO,     ".265"  },
-            { ExtensionTypes.VIDEO,     ".h265" },
-            { ExtensionTypes.VIDEO,     ".hevc" },
-            { ExtensionTypes.VIDEO,     ".y4m"  },
+            { ExtensionTypes.VIDEO,     ".263",  true  },
+            { ExtensionTypes.VIDEO,     ".h263", true  },
+            { ExtensionTypes.VIDEO,     ".264",  true  },
+            { ExtensionTypes.VIDEO,     ".h264", true  },
+            { ExtensionTypes.VIDEO,     ".265",  true  },
+            { ExtensionTypes.VIDEO,     ".h265", true  },
+            { ExtensionTypes.VIDEO,     ".hevc", true  },
+            { ExtensionTypes.VIDEO,     ".y4m",  false },
 
-            { ExtensionTypes.AUDIO,     ".aa3"  },
-            { ExtensionTypes.AUDIO,     ".aac"  },
-            { ExtensionTypes.AUDIO,     ".aif"  },
-            { ExtensionTypes.AUDIO,     ".ac3"  },
-            { ExtensionTypes.AUDIO,     ".ape"  },
-            { ExtensionTypes.AUDIO,     ".dts"  },
-            { ExtensionTypes.AUDIO,     ".flac" },
-            { ExtensionTypes.AUDIO,     ".m1a"  },
-            { ExtensionTypes.AUDIO,     ".m2a"  },
-            { ExtensionTypes.AUDIO,     ".mp2"  },
-            { ExtensionTypes.AUDIO,     ".mp3"  },
-            { ExtensionTypes.AUDIO,     ".m4a"  },
-            { ExtensionTypes.AUDIO,     ".oma"  },
-            { ExtensionTypes.AUDIO,     ".opus" },
-            { ExtensionTypes.AUDIO,     ".thd"  },
-            { ExtensionTypes.AUDIO,     ".tta"  },
-            { ExtensionTypes.AUDIO,     ".wav"  },
-            { ExtensionTypes.AUDIO,     ".wma"  }
+            { ExtensionTypes.AUDIO,     ".aa3",  false },
+            { ExtensionTypes.AUDIO,     ".aac",  true  },
+            { ExtensionTypes.AUDIO,     ".aif",  false },
+            { ExtensionTypes.AUDIO,     ".ac3",  true  },
+            { ExtensionTypes.AUDIO,     ".ape",  false },
+            { ExtensionTypes.AUDIO,     ".dts",  false },
+            { ExtensionTypes.AUDIO,     ".flac", true  },
+            { ExtensionTypes.AUDIO,     ".m1a",  true  },
+            { ExtensionTypes.AUDIO,     ".m2a",  true  },
+            { ExtensionTypes.AUDIO,     ".mp2",  true  },
+            { ExtensionTypes.AUDIO,     ".mp3",  true  },
+            { ExtensionTypes.AUDIO,     ".m4a",  true  },
+            { ExtensionTypes.AUDIO,     ".oma",  false },
+            { ExtensionTypes.AUDIO,     ".opus", true  },
+            { ExtensionTypes.AUDIO,     ".thd",  false },
+            { ExtensionTypes.AUDIO,     ".tta",  false },
+            { ExtensionTypes.AUDIO,     ".wav",  true  },
+            { ExtensionTypes.AUDIO,     ".wma",  false }
         };
 
         public Extensions()
@@ -159,6 +160,21 @@ namespace Simple_AVS_Generator.Core.Support
             }
 
             return ext;
+        }
+
+        public bool IsSupportedByMP4Box(string fileExt)
+        {
+            bool supported = default;
+
+            for (int i = 0; i < extensions.GetLength(0); i++)
+            {
+                if (fileExt.Equals((string)extensions[i, 1], StringComparison.OrdinalIgnoreCase))
+                {
+                    supported = (bool)extensions[i, 2];
+                }
+            }
+
+            return supported;
         }
     }
 }

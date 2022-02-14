@@ -12,15 +12,10 @@ namespace Simple_AVS_Generator.Core.Tests
         {
             new object[] { @"C:\Users\User\Desktop\Sample1.mp4", ".mp4", "Sample1", (int)ExtensionTypes.CONTAINER, true  },
             new object[] { @"C:\Users\User\Desktop\Sample2.mkv", ".mkv", "Sample2", (int)ExtensionTypes.CONTAINER, false },
-            new object[] { @"C:\Users\User\Desktop\Sample3.265", ".265", "Sample3", (int)ExtensionTypes.VIDEO, true      },
-            new object[] { @"C:\Users\User\Desktop\Sample4.m4a", ".m4a", "Sample4", (int)ExtensionTypes.AUDIO, false     }
+            new object[] { @"C:\Users\User\Desktop\Sample3.265", ".265", "Sample3", (int)ExtensionTypes.VIDEO,     true  },
+            new object[] { @"C:\Users\User\Desktop\Sample4.m4a", ".m4a", "Sample4", (int)ExtensionTypes.AUDIO,     true  }
         };
 
-        // COMMENT
-        // Since audio files are not checked for mp4box support, false is always returned even if it is supported
-        // Logic shouldn't change but caught onto this via running the tests with true for the IsSupportedByMP4Box property
-        // If the logic should reflect this, it means altering the array that holds all the supported extensions to include audio
-        
         [Theory (DisplayName = "Check If Properties Are Set Accurately")]
         [MemberData(nameof(Common_CheckIfPropertiesAreSetAccurately_TestData))]
         public void Common_CheckIfPropertiesAreSetAccurately
