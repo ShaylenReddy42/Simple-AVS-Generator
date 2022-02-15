@@ -1,4 +1,4 @@
-﻿namespace Simple_AVS_Generator
+﻿namespace SimpleAVSGenerator
 {
     partial class MainForm
     {
@@ -371,7 +371,7 @@
             this.lbltitle.Name = "lbltitle";
             this.lbltitle.Size = new System.Drawing.Size(136, 17);
             this.lbltitle.TabIndex = 15;
-            this.lbltitle.Text = "Simple AVS Generator";
+            this.lbltitle.Text = "SimpleAVSGenerator";
             // 
             // lblClose
             // 
@@ -491,7 +491,7 @@
             this.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.MaximizeBox = false;
             this.Name = "MainForm";
-            this.Text = "Simple AVS Generator";
+            this.Text = "SimpleAVSGenerator";
             this.Activated += new System.EventHandler(this.MainForm_Activated);
             this.Deactivate += new System.EventHandler(this.MainForm_Deactivate);
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainForm_FormClosing);

@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
-    <RootNamespace>Simple_AVS_Generator.Core</RootNamespace>
+    <RootNamespace>SimpleAVSGenerator.Core</RootNamespace>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
   </PropertyGroup>
@@ -14,8 +14,8 @@
 
   <!-- Manually added PropertyGroup for versioning the library -->
   <PropertyGroup>
-    <Product>Simple AVS Generator.Core</Product>
-    <AssemblyDescription>Simple AVS Generator.Core</AssemblyDescription>
+    <Product>SimpleAVSGenerator.Core</Product>
+    <AssemblyDescription>SimpleAVSGenerator.Core</AssemblyDescription>
     <Authors>Shaylen Reddy</Authors>
     <Copyright>Shaylen Reddy: GPLv2</Copyright>
 

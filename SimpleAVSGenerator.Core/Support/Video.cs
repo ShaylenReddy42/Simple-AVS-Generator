@@ -16,7 +16,7 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  ******************************************************************************/
 
-namespace Simple_AVS_Generator.Core.Support
+namespace SimpleAVSGenerator.Core.Support
 {
     public class Video
     {

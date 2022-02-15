@@ -18,14 +18,14 @@
 
 using System.Diagnostics;
 
-using Simple_AVS_Generator.Core;
-using Simple_AVS_Generator.Core.Support;
+using SimpleAVSGenerator.Core;
+using SimpleAVSGenerator.Core.Support;
 
-using static Simple_AVS_Generator.Core.Enums;
-using static Simple_AVS_Generator.Core.Support.Video;
-using static Simple_AVS_Generator.Core.Support.Audio;
+using static SimpleAVSGenerator.Core.Enums;
+using static SimpleAVSGenerator.Core.Support.Video;
+using static SimpleAVSGenerator.Core.Support.Audio;
 
-namespace Simple_AVS_Generator
+namespace SimpleAVSGenerator
 {
     public partial class MainForm : Form
     {

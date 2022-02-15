@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.32014.148
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Simple AVS Generator", "Simple AVS Generator\Simple AVS Generator.csproj", "{F4E2D21C-B20C-46F6-98A1-3C021F6E9DDB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SimpleAVSGenerator", "SimpleAVSGenerator\SimpleAVSGenerator.csproj", "{F4E2D21C-B20C-46F6-98A1-3C021F6E9DDB}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Simple AVS Generator.Core", "Simple AVS Generator.Core\Simple AVS Generator.Core.csproj", "{FECFC601-B84C-4308-B1BC-8E67E6C85B19}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SimpleAVSGenerator.Core", "SimpleAVSGenerator.Core\SimpleAVSGenerator.Core.csproj", "{FECFC601-B84C-4308-B1BC-8E67E6C85B19}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Simple AVS Generator.Core.Tests", "Simple AVS Generator.Core.Tests\Simple AVS Generator.Core.Tests.csproj", "{8BDCE831-C27A-4E77-BC6F-07ABCE95F68D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SimpleAVSGenerator.Core.Tests", "SimpleAVSGenerator.Core.Tests\SimpleAVSGenerator.Core.Tests.csproj", "{8BDCE831-C27A-4E77-BC6F-07ABCE95F68D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

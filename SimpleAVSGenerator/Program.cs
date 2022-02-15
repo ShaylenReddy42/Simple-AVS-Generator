@@ -1,4 +1,4 @@
-namespace Simple_AVS_Generator
+namespace SimpleAVSGenerator
 {
     internal static class Program
     {

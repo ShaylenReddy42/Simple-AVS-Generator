@@ -16,9 +16,9 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  ******************************************************************************/
 
-using static Simple_AVS_Generator.Core.Enums;
+using static SimpleAVSGenerator.Core.Enums;
 
-namespace Simple_AVS_Generator.Core
+namespace SimpleAVSGenerator.Core
 {
     internal class OutputScripts
     {

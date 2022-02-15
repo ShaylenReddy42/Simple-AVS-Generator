@@ -3,14 +3,14 @@
 build/
 publish/
 
-Simple AVS Generator/bin/
-Simple AVS Generator/obj/
+SimpleAVSGenerator/bin/
+SimpleAVSGenerator/obj/
 
-Simple AVS Generator.Core/bin/
-Simple AVS Generator.Core/obj/
+SimpleAVSGenerator.Core/bin/
+SimpleAVSGenerator.Core/obj/
 
-Simple AVS Generator.Core.Tests/bin
-Simple AVS Generator.Core.Tests/obj
+SimpleAVSGenerator.Core.Tests/bin
+SimpleAVSGenerator.Core.Tests/obj
 
 # File extensions
 *.exe

@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using Xunit;
 
-namespace Simple_AVS_Generator.Core.Tests
+namespace SimpleAVSGenerator.Core.Tests
 {
     public class AviSynthScriptTests
     {

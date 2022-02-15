@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using Xunit;
-using static Simple_AVS_Generator.Core.Enums;
-using Simple_AVS_Generator.Core.Support;
+using static SimpleAVSGenerator.Core.Enums;
+using SimpleAVSGenerator.Core.Support;
 
-namespace Simple_AVS_Generator.Core.Tests.Support
+namespace SimpleAVSGenerator.Core.Tests.Support
 {
     public class ExtensionsTests
     {

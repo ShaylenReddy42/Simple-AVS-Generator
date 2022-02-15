@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
-    <RootNamespace>Simple_AVS_Generator.Core.Tests</RootNamespace>
+    <RootNamespace>SimpleAVSGenerator.Core.Tests</RootNamespace>
     <Nullable>enable</Nullable>
 
     <IsPackable>false</IsPackable>
@@ -22,7 +22,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Simple AVS Generator.Core\Simple AVS Generator.Core.csproj" />
+    <ProjectReference Include="..\SimpleAVSGenerator.Core\SimpleAVSGenerator.Core.csproj" />
   </ItemGroup>
 
 </Project>

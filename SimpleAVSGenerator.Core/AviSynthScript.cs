@@ -18,7 +18,7 @@
 
 using System.Text;
 
-namespace Simple_AVS_Generator.Core
+namespace SimpleAVSGenerator.Core
 {
     public class AviSynthScript
     {

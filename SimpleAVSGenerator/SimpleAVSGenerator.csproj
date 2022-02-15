@@ -3,14 +3,14 @@
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
     <TargetFramework>net6.0-windows</TargetFramework>
-    <RootNamespace>Simple_AVS_Generator</RootNamespace>
+    <RootNamespace>SimpleAVSGenerator</RootNamespace>
     <Nullable>enable</Nullable>
     <UseWindowsForms>true</UseWindowsForms>
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Simple AVS Generator.Core\Simple AVS Generator.Core.csproj" />
+    <ProjectReference Include="..\SimpleAVSGenerator.Core\SimpleAVSGenerator.Core.csproj" />
   </ItemGroup>
 
   <ItemGroup>
@@ -38,11 +38,12 @@
 
   <!-- Manually added PropertyGroup for versioning the executable -->
   <PropertyGroup>
-    <Product>Simple AVS Generator</Product>
-    <AssemblyDescription>Simple AVS Generator</AssemblyDescription>
+    <Product>SimpleAVSGenerator</Product>
+    <AssemblyDescription>SimpleAVSGenerator</AssemblyDescription>
     <Authors>Shaylen Reddy</Authors>
     <Copyright>Shaylen Reddy: GPLv2</Copyright>
 
+    <AssemblyName>Simple AVS Generator</AssemblyName>
     <AssemblyVersion>$(FileVersion)</AssemblyVersion>
     <FileVersion>$(FileVersion)</FileVersion>
     <InformationalVersion>$(InformationalVersion)</InformationalVersion>

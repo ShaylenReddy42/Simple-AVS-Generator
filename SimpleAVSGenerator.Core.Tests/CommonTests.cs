@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using Xunit;
-using static Simple_AVS_Generator.Core.Enums;
+using static SimpleAVSGenerator.Core.Enums;
 
-namespace Simple_AVS_Generator.Core.Tests
+namespace SimpleAVSGenerator.Core.Tests
 {
     public class CommonTests
     {
