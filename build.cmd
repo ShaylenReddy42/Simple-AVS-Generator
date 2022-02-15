@@ -9,9 +9,6 @@ IF NOT EXIST "%~dp0version.txt" (
 @ECHO.
 
 @RD "%~dp0build" /S /Q
-@RD "%~dp0SimpleAVSGenerator\bin" "%~dp0SimpleAVSGenerator\obj" /S /Q
-@RD "%~dp0SimpleAVSGenerator.Core\bin" "%~dp0SimpleAVSGenerator.Core\obj" /S /Q
-@RD "%~dp0SimpleAVSGenerator.Core.Tests\bin" "%~dp0SimpleAVSGenerator.Core.Tests\obj" /S /Q
 @DEL "%~dp0dotnet-publish.cmd"
 
 :END
