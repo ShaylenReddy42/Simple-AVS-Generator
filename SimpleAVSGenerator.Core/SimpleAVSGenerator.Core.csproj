@@ -14,8 +14,8 @@
 
   <!-- Manually added PropertyGroup for versioning the library -->
   <PropertyGroup>
-    <Product>SimpleAVSGenerator.Core</Product>
-    <AssemblyDescription>SimpleAVSGenerator.Core</AssemblyDescription>
+    <Product>Core Library for Simple AVS Generator</Product>
+    <AssemblyDescription>Core Library for Simple AVS Generator</AssemblyDescription>
     <Authors>Shaylen Reddy</Authors>
     <Copyright>Shaylen Reddy: GPLv2</Copyright>
 

@@ -38,8 +38,8 @@
 
   <!-- Manually added PropertyGroup for versioning the executable -->
   <PropertyGroup>
-    <Product>SimpleAVSGenerator</Product>
-    <AssemblyDescription>SimpleAVSGenerator</AssemblyDescription>
+    <Product>Simple AVS Generator</Product>
+    <AssemblyDescription>Simple AVS Generator</AssemblyDescription>
     <Authors>Shaylen Reddy</Authors>
     <Copyright>Shaylen Reddy: GPLv2</Copyright>
 
