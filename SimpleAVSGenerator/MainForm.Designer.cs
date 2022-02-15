@@ -371,14 +371,14 @@
             this.lbltitle.Name = "lbltitle";
             this.lbltitle.Size = new System.Drawing.Size(136, 17);
             this.lbltitle.TabIndex = 15;
-            this.lbltitle.Text = "SimpleAVSGenerator";
+            this.lbltitle.Text = "Simple AVS Generator";
             // 
             // lblClose
             // 
             this.lblClose.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.lblClose.ForeColor = System.Drawing.Color.White;
             this.lblClose.Location = new System.Drawing.Point(768, 5);
-            this.lblClose.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.lblClose.Margin = new System.Windows.Forms.Padding(6);
             this.lblClose.Name = "lblClose";
             this.lblClose.Size = new System.Drawing.Size(29, 29);
             this.lblClose.TabIndex = 16;
@@ -491,7 +491,7 @@
             this.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.MaximizeBox = false;
             this.Name = "MainForm";
-            this.Text = "SimpleAVSGenerator";
+            this.Text = "Simple AVS Generator";
             this.Activated += new System.EventHandler(this.MainForm_Activated);
             this.Deactivate += new System.EventHandler(this.MainForm_Deactivate);
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainForm_FormClosing);
