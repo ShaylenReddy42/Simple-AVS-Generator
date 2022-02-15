@@ -202,7 +202,7 @@ namespace Simple_AVS_Generator
                 input.common.SourceFPS = (int)sourceFPS[cmbSourceFPS.SelectedIndex, 0];
                 input.common.KeyframeIntervalInSeconds = (int)keyframeInterval[cmbKeyframeInterval.SelectedIndex, 0];
                 input.common.NeedsToBeResized = cmbVideoCodec.SelectedIndex == (int)VideoCodecs.WhatsApp;
-                input.common.VideoExtention = outputVideoCodecs[cmbVideoCodec.SelectedIndex, 0];
+                input.common.VideoExtension = outputVideoCodecs[cmbVideoCodec.SelectedIndex, 0];
                 
                 input.common.Audio = cbxAudio.Checked;
                 input.common.AudioCodec = cmbAudioCodec.SelectedIndex;

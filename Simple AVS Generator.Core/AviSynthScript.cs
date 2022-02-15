@@ -22,48 +22,39 @@ namespace Simple_AVS_Generator.Core
 {
     public class AviSynthScript
     {
-        private string? InputFile { get; set; }
+        private Common _common;
         
-        private bool Video { get; set; }
-        private bool MuxOriginalVideo { get; set; }
-        private bool NeedsToBeResized { get; set; }
-        private bool Audio { get; set; }
-
         public bool CreateAviSynthScript { get; private set; } = default;
         public string AVSScriptFile { get; set; }
         public string AVSScriptContent { get; private set; } = "";
 
         public AviSynthScript(Common common)
         {
-            InputFile = common.FileName;
-            Video = common.Video;
-            MuxOriginalVideo = common.MuxOriginalVideo;
-            NeedsToBeResized = common.NeedsToBeResized;
-            Audio = common.Audio;
+            _common = common;
 
-            AVSScriptFile = common.ScriptFile;
+            AVSScriptFile = _common.ScriptFile;
         }
 
         public void SetScriptContent()
         {
             StringBuilder sb = new();
             
-            sb.Append($"i = \"{InputFile}\"\r\n\r\n");
+            sb.Append($"i = \"{_common.FileName}\"\r\n\r\n");
 
-            if (Video is true && MuxOriginalVideo is false)
+            if (_common.Video is true && _common.MuxOriginalVideo is false)
             {
                 sb.Append("v = LWLibavVideoSource(i).ConvertBits(8).ConvertToYV12()#.ShowFrameNumber()\r\n\r\n");
                 sb.Append(ResizeVideo());
             }
 
-            if (Audio is true)
+            if (_common.Audio is true)
             {
                 sb.Append("a = LWLibavAudioSource(i).ConvertAudioToFloat()\r\n\r\n");
                 sb.Append("a = Normalize(a, 1.0)\r\n\r\n");
                 sb.Append("a = ConvertAudioTo16Bit(a)\r\n\r\n");
             }
 
-            if ((Video is true && MuxOriginalVideo is false) && Audio is true)
+            if ((_common.Video is true && _common.MuxOriginalVideo is false) && _common.Audio is true)
             {
                 sb.Append("o = AudioDub(v, a)\r\n\r\n");
                 sb.Append("o = ConvertAudioTo16Bit(o)\r\n\r\n");
@@ -71,13 +62,13 @@ namespace Simple_AVS_Generator.Core
 
                 CreateAviSynthScript = true;
             }
-            else if ((Video is true && MuxOriginalVideo is false) && Audio is false)
+            else if ((_common.Video is true && _common.MuxOriginalVideo is false) && _common.Audio is false)
             {
                 sb.Append("v");
 
                 CreateAviSynthScript = true;
             }
-            else if (Audio is true && (Video is false || (Video is true && MuxOriginalVideo is true)))
+            else if (_common.Audio is true && (_common.Video is false || (_common.Video is true && _common.MuxOriginalVideo is true)))
             {
                 sb.Append("a");
 
@@ -93,7 +84,7 @@ namespace Simple_AVS_Generator.Core
 
             sb.Append("# Calculate the target height based on a target width\r\n");
             sb.Append("aspectRatio  = float(Width(v)) / float(Height(v))\r\n");
-            sb.Append($"targetWidth  = {(NeedsToBeResized ? "640" : "Width(v)")}\r\n");
+            sb.Append($"targetWidth  = {(_common.NeedsToBeResized ? "640" : "Width(v)")}\r\n");
             sb.Append("targetHeight = int(targetWidth / aspectRatio)\r\n");
             sb.Append("targetHeight = targetHeight + ((targetHeight % 2 != 0) ? 1 : 0)\r\n\r\n");
             

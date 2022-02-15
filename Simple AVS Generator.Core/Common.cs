@@ -43,7 +43,7 @@ namespace Simple_AVS_Generator.Core
         public int SourceFPS { get; set; }
         public int KeyframeIntervalInSeconds { get; set; }
         public bool NeedsToBeResized { get; set; } = default;
-        public string? VideoExtention { get; set; } = null;
+        public string VideoExtension { get; set; } = "";
 
         //Audio Properties
         public bool Audio { get; set; } = default;

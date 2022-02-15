@@ -22,24 +22,7 @@ namespace Simple_AVS_Generator.Core
 {
     internal class OutputScripts
     {
-        private string FileName { get; set;}
-        private string FileNameOnly { get; set; }
-        private string OutputDir { get; set; }
-
-        private bool Video { get; set; }
-        private int VideoCodec { get; set; }
-        private int SourceFPS { get; set; }
-        private int KeyframeIntervalInSeconds { get; set; }
-        private bool MuxOriginalVideo { get; set; }
-        private string? VideoExtension { get; set; } = null;
-
-        private bool Audio { get; set; }
-        private int AudioCodec { get; set; }
-        private int AudioBitrate { get; set; }
-        private string AudioLanguage { get; set; }
-        private string AudioExtension { get; set; }
-
-        private int? OutputContainer { get; set; }
+        private Common _common;
         
         public string? VideoEncoderScriptFile { get; private set; }
         public string? VideoEncoderScriptContent { get; private set; }
@@ -52,55 +35,38 @@ namespace Simple_AVS_Generator.Core
 
         public OutputScripts(Common common)
         {
-            OutputDir = common.OutputDir;
-            FileName = common.FileName;
-            FileNameOnly = common.FileNameOnly;
-            
-            Video = common.Video;
-            VideoCodec = common.VideoCodec;
-            SourceFPS = common.SourceFPS;
-            KeyframeIntervalInSeconds = common.KeyframeIntervalInSeconds;
-            MuxOriginalVideo = common.MuxOriginalVideo;
-            VideoExtension = common.VideoExtention;
-
-            Audio = common.Audio;
-            AudioCodec = common.AudioCodec;
-            AudioBitrate = common.AudioBitrate;
-            AudioLanguage = common.AudioLanguage;
-            AudioExtension = common.AudioExtension;
-
-            OutputContainer = common.OutputContainer;
+            _common = common;
         }
 
-        private int GetKeyframeIntervalInFrames() { return SourceFPS * KeyframeIntervalInSeconds; }
+        private int GetKeyframeIntervalInFrames() { return _common.SourceFPS * _common.KeyframeIntervalInSeconds; }
 
         public void ConfigureVideoScript()
         {
-            if (Video is true && MuxOriginalVideo is false)
+            if (_common.Video is true && _common.MuxOriginalVideo is false)
             {
                 string? vPipe = "avs2pipemod -y4mp \"%~dp0Script.avs\" | ",
                         vEncoder = "",
-                        vCmdFile = OutputDir;
+                        vCmdFile = _common.OutputDir;
 
-                if (VideoCodec == (int)VideoCodecs.HEVC)
+                if (_common.VideoCodec == (int)VideoCodecs.HEVC)
                 {
                     vEncoder += $"x265 --profile main --preset slower --crf 26 -i 1 -I {GetKeyframeIntervalInFrames()} --hist-scenecut --hist-threshold 0.02 ";
                     vEncoder += "--fades --aq-mode 4 --aq-motion --aud --no-open-gop --y4m -f 0 - \"%~dp0Video.265\"";
                     vCmdFile += "Encode Video [HEVC].cmd";
                 }
-                else if (VideoCodec == (int)VideoCodecs.AV1)
+                else if (_common.VideoCodec == (int)VideoCodecs.AV1)
                 {
                     vEncoder += "aomenc --passes=1 --end-usage=q --cq-level=32 --target-bitrate=0 ";
                     vEncoder += $"--enable-fwd-kf=1 --kf-max-dist={GetKeyframeIntervalInFrames()} --verbose --ivf -o \"%~dp0Video.ivf\" -";
                     vCmdFile += "Encode Video [AV1].cmd";
                 }
-                else if (VideoCodec == (int)VideoCodecs.AVC)
+                else if (_common.VideoCodec == (int)VideoCodecs.AVC)
                 {
                     vEncoder += $"x264 --preset veryslow --crf 26 -i 1 -I {GetKeyframeIntervalInFrames()} --bframes 3 --deblock -2:-1 --aq-mode 3 ";
                     vEncoder += "--aud --no-mbtree --demuxer y4m --frames 0 -o \"%~dp0Video.264\" -";
                     vCmdFile += "Encode Video [AVC].cmd";
                 }
-                else if (VideoCodec == (int)VideoCodecs.WhatsApp)
+                else if (_common.VideoCodec == (int)VideoCodecs.WhatsApp)
                 {
                     vEncoder += "x264 --profile baseline --preset veryslow --crf 26 -i 1 --ref 1 --deblock -2:-1 ";
                     vEncoder += "--aud --no-mbtree --demuxer y4m --frames 0 -o \"%~dp0Video.264\" -";
@@ -114,28 +80,28 @@ namespace Simple_AVS_Generator.Core
 
         public void ConfigureAudioScript()
         {
-            if (Audio)
+            if (_common.Audio)
             {
                 string? aPipe = "avs2pipemod -wav=16bit \"%~dp0Script.avs\" | ",
                         aEncoder = "",
-                        aCmdFile = OutputDir;
+                        aCmdFile = _common.OutputDir;
 
-                if (AudioCodec == (int)AudioCodecs.AAC_LC)
+                if (_common.AudioCodec == (int)AudioCodecs.AAC_LC)
                 {
-                    aEncoder += $"qaac64 --abr {AudioBitrate} --ignorelength --no-delay ";
-                    aEncoder += $"-o \"%~dp0{FileNameOnly}{AudioExtension}\" - ";
+                    aEncoder += $"qaac64 --abr {_common.AudioBitrate} --ignorelength --no-delay ";
+                    aEncoder += $"-o \"%~dp0{_common.FileNameOnly}{_common.AudioExtension}\" - ";
                     aCmdFile += "Encode Audio [AAC-LC].cmd";
                 }
-                else if (AudioCodec == (int)AudioCodecs.AAC_HE)
+                else if (_common.AudioCodec == (int)AudioCodecs.AAC_HE)
                 {
-                    aEncoder += $"qaac64 --he --abr {AudioBitrate} --ignorelength ";
-                    aEncoder += $"-o \"%~dp0{FileNameOnly}{AudioExtension}\" - ";
+                    aEncoder += $"qaac64 --he --abr {_common.AudioBitrate} --ignorelength ";
+                    aEncoder += $"-o \"%~dp0{_common.FileNameOnly}{_common.AudioExtension}\" - ";
                     aCmdFile += "Encode Audio [AAC-HE].cmd";
                 }
                 else //OPUS
                 {
-                    aEncoder += $"opusenc --bitrate {AudioBitrate} --ignorelength ";
-                    aEncoder += $"- \"%~dp0{FileNameOnly}{AudioExtension}\"";
+                    aEncoder += $"opusenc --bitrate {_common.AudioBitrate} --ignorelength ";
+                    aEncoder += $"- \"%~dp0{_common.FileNameOnly}{_common.AudioExtension}\"";
                     aCmdFile += "Encode Audio [OPUS].cmd";
                 }
 
@@ -146,29 +112,29 @@ namespace Simple_AVS_Generator.Core
 
         public void ConfigureContainerScript()
         {
-            string? outputFileName = OutputDir,
+            string? outputFileName = _common.OutputDir,
                     fileContents = null;
 
-            if (OutputContainer == (int)OutputContainers.MP4)
+            if (_common.OutputContainer == (int)OutputContainers.MP4)
             {
-                string mp4V = MuxOriginalVideo is false
-                            ? $"-add \"%~dp0Video{VideoExtension}\":name="
-                            : $"-add \"{FileName}\"#video",
-                       mp4A = Audio ? $"-add \"%~dp0{FileNameOnly}{AudioExtension}\":name=:lang={AudioLanguage}" : "",
-                       newmp4 = $"-new \"%~dp0{FileNameOnly}.mp4\"";
+                string mp4V = _common.MuxOriginalVideo is false
+                            ? $"-add \"%~dp0Video{_common.VideoExtension}\":name="
+                            : $"-add \"{_common.FileName}\"#video",
+                       mp4A = _common.Audio ? $"-add \"%~dp0{_common.FileNameOnly}{_common.AudioExtension}\":name=:lang={_common.AudioLanguage}" : "",
+                       newmp4 = $"-new \"%~dp0{_common.FileNameOnly}.mp4\"";
 
-                outputFileName += $"MP4 Mux{(MuxOriginalVideo ? " [Original Video]" : "")}.cmd";
+                outputFileName += $"MP4 Mux{(_common.MuxOriginalVideo ? " [Original Video]" : "")}.cmd";
                 fileContents = $"mp4box {mp4V} {mp4A} {newmp4}";
             }
-            else if (OutputContainer == (int)OutputContainers.MKV)
+            else if (_common.OutputContainer == (int)OutputContainers.MKV)
             {
-                string mkvO = $"-o \"%~dp0{FileNameOnly}.mkv\"",
-                       mkvV = MuxOriginalVideo is false
-                            ? $"\"%~dp0Video{VideoExtension}\""
-                            : $"--no-audio \"{FileName}\"",
-                       mkvA = Audio ? $"--language 0:{AudioLanguage} \"%~dp0{FileNameOnly}{AudioExtension}\"" : "";
+                string mkvO = $"-o \"%~dp0{_common.FileNameOnly}.mkv\"",
+                       mkvV = _common.MuxOriginalVideo is false
+                            ? $"\"%~dp0Video{_common.VideoExtension}\""
+                            : $"--no-audio \"{_common.FileName}\"",
+                       mkvA = _common.Audio ? $"--language 0:{_common.AudioLanguage} \"%~dp0{_common.FileNameOnly}{_common.AudioExtension}\"" : "";
 
-                outputFileName += $"MKV Mux{(MuxOriginalVideo ? " [Original Video]" : "")}.cmd";
+                outputFileName += $"MKV Mux{(_common.MuxOriginalVideo ? " [Original Video]" : "")}.cmd";
                 fileContents = $"mkvmerge {mkvO} {mkvV} {mkvA}";
             }
 
