@@ -94,26 +94,20 @@ namespace SimpleAVSGenerator.Core.Tests.Support
 
             // Act
             Extensions se = new();
-            string? supportedExts = "";
-
-            switch (extensionType)
+            string? supportedExts =
+            extensionType switch
             {
-                case (int)ExtensionTypes.CONTAINER:
-                    supportedExts = se.SupportedContainerExts;
-                    break;
-                case (int)ExtensionTypes.VIDEO:
-                    supportedExts = se.SupportedVideoExts;
-                    break;
-                case (int)ExtensionTypes.AUDIO:
-                    supportedExts = se.SupportedAudioExts;
-                    break;
-            }
+                (int)ExtensionTypes.CONTAINER => se.SupportedContainerExts,
+                (int)ExtensionTypes.VIDEO     => se.SupportedVideoExts,
+                (int)ExtensionTypes.AUDIO     => se.SupportedAudioExts,
+                _                             => null
+            };
 
             // Assert
             Assert.Matches(expectedPattern, supportedExts);
         }
 
-        [Theory(DisplayName = "Check Filter Extension Type Strings For Regex Pattern \"EXT1 EXT2\"")]
+        [Theory (DisplayName = "Check Filter Extension Type Strings For Regex Pattern \"EXT1 EXT2\"")]
         [InlineData((int)ExtensionTypes.CONTAINER)]
         [InlineData((int)ExtensionTypes.VIDEO)]
         [InlineData((int)ExtensionTypes.AUDIO)]
@@ -143,20 +137,14 @@ namespace SimpleAVSGenerator.Core.Tests.Support
 
             // Act
             Extensions se = new();
-            string? filterExts = "";
-
-            switch (extensionType)
+            string? filterExts =
+            extensionType switch
             {
-                case (int)ExtensionTypes.CONTAINER:
-                    filterExts = se.FilterContainerExts;
-                    break;
-                case (int)ExtensionTypes.VIDEO:
-                    filterExts = se.FilterVideoExts;
-                    break;
-                case (int)ExtensionTypes.AUDIO:
-                    filterExts = se.FilterAudioExts;
-                    break;
-            }
+                (int)ExtensionTypes.CONTAINER => se.FilterContainerExts,
+                (int)ExtensionTypes.VIDEO     => se.FilterVideoExts,
+                (int)ExtensionTypes.AUDIO     => se.FilterAudioExts,
+                _                             => null
+            };
 
             // Assert
             Assert.Matches(expectedPattern, filterExts);
