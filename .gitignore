@@ -1,5 +1,6 @@
 # Folders
 .vs/
+.vscode/
 build/
 publish/
 
@@ -9,8 +10,8 @@ SimpleAVSGenerator/obj/
 SimpleAVSGenerator.Core/bin/
 SimpleAVSGenerator.Core/obj/
 
-SimpleAVSGenerator.Core.Tests/bin
-SimpleAVSGenerator.Core.Tests/obj
+SimpleAVSGenerator.Core.Tests/bin/
+SimpleAVSGenerator.Core.Tests/obj/
 
 # File extensions
 *.exe
