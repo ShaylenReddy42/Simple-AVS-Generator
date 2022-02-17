@@ -18,52 +18,51 @@
 
 using SimpleAVSGenerator.Core.Support;
 
-namespace SimpleAVSGenerator.Core
+namespace SimpleAVSGenerator.Core;
+
+public class Common
 {
-    public class Common
+    public string FileName { get; private set; }
+    public string FileExt { get; private set; }
+    public string FileNameOnly { get; private set; }
+    public int FileType { get; private set; }
+
+    public string OutputDir { get; set; } = "";
+
+    public bool IsSupportedByMP4Box { get; private set; }
+
+    public string ScriptFile => $@"{OutputDir}Script.avs";
+
+    //AVSMeter Properties
+    public string AVSMeterScriptFile => $"{OutputDir}AVSMeter.cmd";
+    public string AVSMeterScriptContent => $"AVSMeter64 \"%~dp0Script.avs\" -i -l";
+
+    //Video Properties
+    public bool Video { get; set; } = default;
+    public int VideoCodec { get; set; }
+    public int SourceFPS { get; set; }
+    public int KeyframeIntervalInSeconds { get; set; }
+    public bool NeedsToBeResized { get; set; } = default;
+    public string VideoExtension { get; set; } = "";
+
+    //Audio Properties
+    public bool Audio { get; set; } = default;
+    public int AudioCodec { get; set; }
+    public int AudioBitrate { get; set; }
+    public string AudioLanguage { get; set; } = "";
+    public string AudioExtension { get; set; } = "";
+
+    public int? OutputContainer { get; set; }
+    public bool MuxOriginalVideo { get; set; } = default;
+
+    public Common(string fileName)
     {
-        public string FileName { get; private set; }
-        public string FileExt { get; private set; }
-        public string FileNameOnly { get; private set; }
-        public int FileType { get; private set; }
+        FileName = fileName;
+        FileExt = Path.GetExtension(FileName);
+        FileNameOnly = Path.GetFileNameWithoutExtension(FileName);
 
-        public string OutputDir { get; set; } = "";
-
-        public bool IsSupportedByMP4Box { get; private set; }
-
-        public string ScriptFile => $@"{OutputDir}Script.avs";
-
-        //AVSMeter Properties
-        public string AVSMeterScriptFile => $"{OutputDir}AVSMeter.cmd";
-        public string AVSMeterScriptContent => $"AVSMeter64 \"%~dp0Script.avs\" -i -l";
-
-        //Video Properties
-        public bool Video { get; set; } = default;
-        public int VideoCodec { get; set; }
-        public int SourceFPS { get; set; }
-        public int KeyframeIntervalInSeconds { get; set; }
-        public bool NeedsToBeResized { get; set; } = default;
-        public string VideoExtension { get; set; } = "";
-
-        //Audio Properties
-        public bool Audio { get; set; } = default;
-        public int AudioCodec { get; set; }
-        public int AudioBitrate { get; set; }
-        public string AudioLanguage { get; set; } = "";
-        public string AudioExtension { get; set; } = "";
-
-        public int? OutputContainer { get; set; }
-        public bool MuxOriginalVideo { get; set; } = default;
-
-        public Common(string fileName)
-        {
-            FileName = fileName;
-            FileExt = Path.GetExtension(FileName);
-            FileNameOnly = Path.GetFileNameWithoutExtension(FileName);
-
-            Extensions se = new();
-            FileType = se.DetermineInputFileType(FileExt);
-            IsSupportedByMP4Box = se.IsSupportedByMP4Box(FileExt);
-        }
+        Extensions se = new();
+        FileType = se.DetermineInputFileType(FileExt);
+        IsSupportedByMP4Box = se.IsSupportedByMP4Box(FileExt);
     }
 }

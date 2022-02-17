@@ -16,32 +16,31 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  ******************************************************************************/
 
-namespace SimpleAVSGenerator.Core.Support
+namespace SimpleAVSGenerator.Core.Support;
+
+public class Video
 {
-    public class Video
+    public static object[,] sourceFPS =
     {
-        public static object[,] sourceFPS =
-        {
-            { 24, "23.976 / 24" },
-            { 25, "25"          },
-            { 30, "29.97 / 30"  },
-            { 60, "59.94"       }
-        };
+        { 24, "23.976 / 24" },
+        { 25, "25"          },
+        { 30, "29.97 / 30"  },
+        { 60, "59.94"       }
+    };
 
-        public static object[,] keyframeInterval =
-        {
-            {  2, "2 Seconds"  },
-            {  5, "5 Seconds"  },
-            { 10, "10 Seconds" }
-        };
+    public static object[,] keyframeInterval =
+    {
+        {  2, "2 Seconds"  },
+        {  5, "5 Seconds"  },
+        { 10, "10 Seconds" }
+    };
 
-        public static string[,] outputVideoCodecs =
-        {
-            { ".265", "HEVC"         },
-            { ".ivf", "AV1"          },
-            { ".264", "AVC"          },
-            { ".264", "WhatsApp"     },
-            {     "", "Mux Original" }
-        };
-    }
+    public static string[,] outputVideoCodecs =
+    {
+        { ".265", "HEVC"         },
+        { ".ivf", "AV1"          },
+        { ".264", "AVC"          },
+        { ".264", "WhatsApp"     },
+        {     "", "Mux Original" }
+    };
 }

@@ -18,79 +18,78 @@
 
 using System.Text;
 
-namespace SimpleAVSGenerator.Core
+namespace SimpleAVSGenerator.Core;
+
+public class AviSynthScript
 {
-    public class AviSynthScript
+    private Common _common;
+    
+    public bool CreateAviSynthScript { get; private set; } = default;
+    public string AVSScriptFile { get; set; }
+    public string AVSScriptContent { get; private set; } = "";
+
+    public AviSynthScript(Common common)
     {
-        private Common _common;
+        _common = common;
+
+        AVSScriptFile = _common.ScriptFile;
+    }
+
+    public void SetScriptContent()
+    {
+        StringBuilder sb = new();
         
-        public bool CreateAviSynthScript { get; private set; } = default;
-        public string AVSScriptFile { get; set; }
-        public string AVSScriptContent { get; private set; } = "";
+        sb.Append($"i = \"{_common.FileName}\"\r\n\r\n");
 
-        public AviSynthScript(Common common)
+        if (_common.Video is true && _common.MuxOriginalVideo is false)
         {
-            _common = common;
-
-            AVSScriptFile = _common.ScriptFile;
+            sb.Append("v = LWLibavVideoSource(i).ConvertBits(8).ConvertToYV12()#.ShowFrameNumber()\r\n\r\n");
+            sb.Append(ResizeVideo());
         }
 
-        public void SetScriptContent()
+        if (_common.Audio is true)
         {
-            StringBuilder sb = new();
-            
-            sb.Append($"i = \"{_common.FileName}\"\r\n\r\n");
-
-            if (_common.Video is true && _common.MuxOriginalVideo is false)
-            {
-                sb.Append("v = LWLibavVideoSource(i).ConvertBits(8).ConvertToYV12()#.ShowFrameNumber()\r\n\r\n");
-                sb.Append(ResizeVideo());
-            }
-
-            if (_common.Audio is true)
-            {
-                sb.Append("a = LWLibavAudioSource(i).ConvertAudioToFloat()\r\n\r\n");
-                sb.Append("a = Normalize(a, 1.0)\r\n\r\n");
-                sb.Append("a = ConvertAudioTo16Bit(a)\r\n\r\n");
-            }
-
-            if ((_common.Video is true && _common.MuxOriginalVideo is false) && _common.Audio is true)
-            {
-                sb.Append("o = AudioDub(v, a)\r\n\r\n");
-                sb.Append("o = ConvertAudioTo16Bit(o)\r\n\r\n");
-                sb.Append("o");
-
-                CreateAviSynthScript = true;
-            }
-            else if ((_common.Video is true && _common.MuxOriginalVideo is false) && _common.Audio is false)
-            {
-                sb.Append("v");
-
-                CreateAviSynthScript = true;
-            }
-            else if (_common.Audio is true && (_common.Video is false || (_common.Video is true && _common.MuxOriginalVideo is true)))
-            {
-                sb.Append("a");
-
-                CreateAviSynthScript = true;
-            }
-
-            AVSScriptContent = sb.ToString();
+            sb.Append("a = LWLibavAudioSource(i).ConvertAudioToFloat()\r\n\r\n");
+            sb.Append("a = Normalize(a, 1.0)\r\n\r\n");
+            sb.Append("a = ConvertAudioTo16Bit(a)\r\n\r\n");
         }
 
-        string ResizeVideo()
+        if ((_common.Video is true && _common.MuxOriginalVideo is false) && _common.Audio is true)
         {
-            StringBuilder sb = new();
+            sb.Append("o = AudioDub(v, a)\r\n\r\n");
+            sb.Append("o = ConvertAudioTo16Bit(o)\r\n\r\n");
+            sb.Append("o");
 
-            sb.Append("# Calculate the target height based on a target width\r\n");
-            sb.Append("aspectRatio  = float(Width(v)) / float(Height(v))\r\n");
-            sb.Append($"targetWidth  = {(_common.NeedsToBeResized ? "640" : "Width(v)")}\r\n");
-            sb.Append("targetHeight = int(targetWidth / aspectRatio)\r\n");
-            sb.Append("targetHeight = targetHeight + ((targetHeight % 2 != 0) ? 1 : 0)\r\n\r\n");
-            
-            sb.Append("v = Spline36Resize(v, targetWidth, targetHeight)\r\n\r\n");
-            
-            return sb.ToString();
+            CreateAviSynthScript = true;
         }
+        else if ((_common.Video is true && _common.MuxOriginalVideo is false) && _common.Audio is false)
+        {
+            sb.Append("v");
+
+            CreateAviSynthScript = true;
+        }
+        else if (_common.Audio is true && (_common.Video is false || (_common.Video is true && _common.MuxOriginalVideo is true)))
+        {
+            sb.Append("a");
+
+            CreateAviSynthScript = true;
+        }
+
+        AVSScriptContent = sb.ToString();
+    }
+
+    string ResizeVideo()
+    {
+        StringBuilder sb = new();
+
+        sb.Append("# Calculate the target height based on a target width\r\n");
+        sb.Append("aspectRatio  = float(Width(v)) / float(Height(v))\r\n");
+        sb.Append($"targetWidth  = {(_common.NeedsToBeResized ? "640" : "Width(v)")}\r\n");
+        sb.Append("targetHeight = int(targetWidth / aspectRatio)\r\n");
+        sb.Append("targetHeight = targetHeight + ((targetHeight % 2 != 0) ? 1 : 0)\r\n\r\n");
+        
+        sb.Append("v = Spline36Resize(v, targetWidth, targetHeight)\r\n\r\n");
+        
+        return sb.ToString();
     }
 }
