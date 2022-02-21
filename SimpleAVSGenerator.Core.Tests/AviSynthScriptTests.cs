@@ -10,13 +10,13 @@ public class AviSynthScriptTests
     public static IEnumerable<object[]> AviSynthScript_CheckScriptContentForVariousUseCases_TestData =
     new[]
     {
-        new object[] { @"C:\Users\User\Desktop\Sample1.mp4", true, false, true,  true,   "o" },
-        new object[] { @"C:\Users\User\Desktop\Sample2.mp4", true, false, false, true,   "v" },
-        new object[] { @"C:\Users\User\Desktop\Sample3.mp4", true, true,  true,  true,   "a" },
-        new object[] { @"C:\Users\User\Desktop\Sample4.mp4", true, true,  false, false, "\n" },
-        new object[] { @"C:\Users\User\Desktop\Sample5.264", true, false, false, true,   "v" },
-        new object[] { @"C:\Users\User\Desktop\Sample6.264", true, true,  false, false, "\n" },
-        new object[] { @"C:\Users\User\Desktop\Sample7.m4a", false, false, true, true,   "a" }
+        new object[] { @"C:\Users\User\Desktop\Sample1.mp4", true, false, true,  true,   "o", 21 },
+        new object[] { @"C:\Users\User\Desktop\Sample2.mp4", true, false, false, true,   "v", 13 },
+        new object[] { @"C:\Users\User\Desktop\Sample3.mp4", true, true,  true,  true,   "a", 9  },
+        new object[] { @"C:\Users\User\Desktop\Sample4.mp4", true, true,  false, false, "\n", 3  },
+        new object[] { @"C:\Users\User\Desktop\Sample5.264", true, false, false, true,   "v", 13 },
+        new object[] { @"C:\Users\User\Desktop\Sample6.264", true, true,  false, false, "\n", 3  },
+        new object[] { @"C:\Users\User\Desktop\Sample7.m4a", false, false, true, true,   "a", 9  }
     };
 
     [Theory (DisplayName = "Validate Script Content For Various Use Cases")]
@@ -28,28 +28,32 @@ public class AviSynthScriptTests
         bool muxOriginalVideo,
         bool audio,
         bool expectedCreateAviSynthScript,
-        string expectedEndsWith
+        string expectedEndsWith,
+        int expectedLineCount
     )
     {
         // Arrange
-        object[] expectedOutput = new object[] { expectedCreateAviSynthScript, expectedEndsWith };
+        object[] expectedOutput = new object[] { expectedCreateAviSynthScript, expectedEndsWith, expectedLineCount };
         
+        Common common = new(fileName)
+        {
+            OutputDir = @"C:\Users\User\Desktop\Temp\Sample\",
+            Video = video,
+            MuxOriginalVideo = muxOriginalVideo,
+            Audio = audio
+        };
+
         // Act
-        string noImpactOutputDir = @"C:\Users\User\Desktop\Temp\Sample\";
-
-        Common common = new(fileName);
-        common.OutputDir = noImpactOutputDir;
-        common.Video = video;
-        common.MuxOriginalVideo = muxOriginalVideo;
-        common.Audio = audio;
-
         AviSynthScript script = new(common);
         script.SetScriptContent();
 
         bool actualCreateAviSynthScript = script.CreateAviSynthScript;
         string actualEndsWith = script.AVSScriptContent.Substring(script.AVSScriptContent.Length - 1);
+        // Split the string using the line feed character which creates a string array
+        // and get the length of the array
+        int actualLineCount = (script.AVSScriptContent.Split('\n')).Length;
         
-        object[] actualOutput = new object[] { actualCreateAviSynthScript, actualEndsWith };
+        object[] actualOutput = new object[] { actualCreateAviSynthScript, actualEndsWith, actualLineCount };
 
         // Assert
         Assert.Equal(expectedOutput, actualOutput);
@@ -74,12 +78,14 @@ public class AviSynthScriptTests
         // Arrange
         // Since this test validates contents of a string, there's no expected values
 
-        // Act
-        Common common = new(@"C:\Users\User\Desktop\Sample.mp4");
-        common.OutputDir = @"C:\Users\User\Desktop\Temp\Sample\";
-        common.Video = true;
-        common.NeedsToBeResized = needsToBeResized;
+        Common common = new(@"C:\Users\User\Desktop\Sample.mp4")
+        {
+            OutputDir = @"C:\Users\User\Desktop\Temp\Sample\",
+            Video = true,
+            NeedsToBeResized = needsToBeResized
+        };
 
+        // Act
         AviSynthScript script = new(common);
         script.SetScriptContent();
 

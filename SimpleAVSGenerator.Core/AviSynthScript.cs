@@ -51,7 +51,6 @@ public class AviSynthScript
         {
             sb.Append("a = LWLibavAudioSource(i).ConvertAudioToFloat()\r\n\r\n");
             sb.Append("a = Normalize(a, 1.0)\r\n\r\n");
-            sb.Append("a = ConvertAudioTo16Bit(a)\r\n\r\n");
         }
 
         if ((_common.Video is true && _common.MuxOriginalVideo is false) && _common.Audio is true)
@@ -70,6 +69,7 @@ public class AviSynthScript
         }
         else if (_common.Audio is true && (_common.Video is false || (_common.Video is true && _common.MuxOriginalVideo is true)))
         {
+            sb.Append("a = ConvertAudioTo16Bit(a)\r\n\r\n");
             sb.Append("a");
 
             CreateAviSynthScript = true;
