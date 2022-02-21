@@ -214,7 +214,7 @@ public partial class MainForm : Form
                                          : cbxMKV.Checked ? (int)OutputContainers.MKV
                                          : null;
 
-            input.CreateScripts();
+            input.CreateScripts(out string scriptsCreated);
 
             New();
         }

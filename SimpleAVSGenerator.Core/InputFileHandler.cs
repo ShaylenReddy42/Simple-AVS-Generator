@@ -34,16 +34,31 @@ public class InputFileHandler
         sw.Close();
     }
 
-    public void CreateScripts()
+    public void CreateScripts(out string scriptsCreated)
     {
+        // scriptsCreated is a variable that will be used for testing this function
+        // Result could be in variable length, containing characters to indicated
+        // which scripts were created e.g. svac
+        // Key:
+        // s indicates that the AviSynth script is created
+        // v indicates that the Video Encoder script is created
+        // a indicates that the Audio Encoder script is created
+        // c indicates that the Container Muxing script is created
+        
+        scriptsCreated = "";
+        
         AviSynthScript script = new(common);
         
         script.SetScriptContent();
         if (script.CreateAviSynthScript is true)
         {
+#if DEBUG
+            scriptsCreated += "s";
+#else
             WriteFile(script.AVSScriptFile, script.AVSScriptContent);
 
             WriteFile(common.AVSMeterScriptFile, common.AVSMeterScriptContent);
+#endif
         }
 
         OutputScripts output = new(common);
@@ -51,19 +66,31 @@ public class InputFileHandler
         output.ConfigureVideoScript();
         if (output.VideoEncoderScriptFile is not null && output.VideoEncoderScriptContent is not null)
         {
+#if DEBUG
+            scriptsCreated += "v";
+#else
             WriteFile(output.VideoEncoderScriptFile, output.VideoEncoderScriptContent);
+#endif
         }
 
         output.ConfigureAudioScript();
         if (output.AudioEncoderScriptFile is not null && output.AudioEncoderScriptContent is not null)
         {
+#if DEBUG
+            scriptsCreated += "a";
+#else
             WriteFile(output.AudioEncoderScriptFile, output.AudioEncoderScriptContent);
+#endif
         }
 
         output.ConfigureContainerScript();
         if (output.ContainerScriptFile is not null && output.ContainerScriptContent is not null)
         {
+#if DEBUG
+            scriptsCreated += "c";
+#else
             WriteFile(output.ContainerScriptFile, output.ContainerScriptContent);
+#endif
         }
     }
 }
