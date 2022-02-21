@@ -18,7 +18,7 @@ public class InputFileHandlerTests
         new object?[] { false, false, true, null                     , "sa"   },
     };
 
-    [Theory]
+    [Theory (DisplayName = "Validate Which Scripts Were Created")]
     [MemberData(nameof(CreateScripts_ValidateWhichScriptsWereCreated_TestData))]
     public void CreateScripts_ValidateWhichScriptsWereCreated
     (
