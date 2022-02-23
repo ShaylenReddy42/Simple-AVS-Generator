@@ -13,9 +13,12 @@ public class InputFileHandlerTests
     public static IEnumerable<object?[]> CreateScripts_ValidateWhichScriptsWereCreated_TestData =
     new[]
     {
-        new object?[] { true,  false, true, (int)OutputContainers.MP4, "svac" },
-        new object?[] { true,  true,  true, (int)OutputContainers.MP4, "sac"  },
-        new object?[] { false, false, true, null                     , "sa"   },
+        new object?[] { true,  false, true,  (int)OutputContainers.MP4, "svac" },
+        new object?[] { true,  false, false, (int)OutputContainers.MP4, "svc"  },
+        new object?[] { true,  false, false, null,                      "sv"   },
+        new object?[] { true,  true,  false, (int)OutputContainers.MP4, "c"    },
+        new object?[] { true,  true,  true,  (int)OutputContainers.MP4, "sac"  },
+        new object?[] { false, false, true,  null,                      "sa"   }
     };
 
     [Theory (DisplayName = "Validate Which Scripts Were Created")]
