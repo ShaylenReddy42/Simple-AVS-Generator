@@ -7,7 +7,7 @@ namespace SimpleAVSGenerator.Core.Tests;
 public class OutputScriptsTests
 {
     // VideoCodec | Expected video encoder
-    public static IEnumerable<object[]> ConfigureVideoScript_ValidateWhichEncoderIsUsed_TestData =
+    public static IEnumerable<object[]> ConfigureVideoScript_ValidateWhichVideoEncoderIsUsed_TestData =
     new[]
     {
         new object[] { (int)VideoCodecs.HEVC,     "x265"   },
@@ -17,8 +17,8 @@ public class OutputScriptsTests
     };
 
     [Theory (DisplayName = "Validate Which Video Encoder is Used")]
-    [MemberData(nameof(ConfigureVideoScript_ValidateWhichEncoderIsUsed_TestData))]
-    public void ConfigureVideoScript_ValidateWhichEncoderIsUsed
+    [MemberData(nameof(ConfigureVideoScript_ValidateWhichVideoEncoderIsUsed_TestData))]
+    public void ConfigureVideoScript_ValidateWhichVideoEncoderIsUsed
     (
         int videoCodec,
         string expectedVideoEncoder
@@ -55,7 +55,7 @@ public class OutputScriptsTests
         new object[] { (int)VideoCodecs.WhatsApp, 60, 10, "-I 600"            }
     };
 
-    [Theory(DisplayName = "Validate Keyframe Interval In Frames")]
+    [Theory (DisplayName = "Validate Keyframe Interval In Frames")]
     [MemberData(nameof(ConfigureVideoScript_ValidateKeyframeIntervalInFrames_TestData))]
     public void ConfigureVideoScript_ValidateKeyframeIntervalInFrames
     (
@@ -87,7 +87,7 @@ public class OutputScriptsTests
     }
 
     // VideoCodec | Expected filename ending
-    public static IEnumerable<object[]> ConfigureVideoScript_ValidateTheScriptFilename_TestData =
+    public static IEnumerable<object[]> ConfigureVideoScript_ValidateTheVideoScriptFilename_TestData =
     new[]
     {
         new object[] { (int)VideoCodecs.HEVC,     "Encode Video [HEVC].cmd"     },
@@ -96,9 +96,9 @@ public class OutputScriptsTests
         new object[] { (int)VideoCodecs.WhatsApp, "Encode Video [WhatsApp].cmd" }
     };
 
-    [Theory(DisplayName = "Validate The End Of The Script Filename")]
-    [MemberData(nameof(ConfigureVideoScript_ValidateTheScriptFilename_TestData))]
-    public void ConfigureVideoScript_ValidateTheScriptFilename
+    [Theory (DisplayName = "Validate The Video Script Filename")]
+    [MemberData(nameof(ConfigureVideoScript_ValidateTheVideoScriptFilename_TestData))]
+    public void ConfigureVideoScript_ValidateTheVideoScriptFilename
     (
         int videoCodec,
         string expectedEndsWith
@@ -123,5 +123,81 @@ public class OutputScriptsTests
 
         // Assert
         Assert.Equal($"{common.OutputDir}{expectedEndsWith}", videoEncoderScriptFile);
+    }
+
+    // AudioCodec | AudioExtension | Expected audio encoder
+    public static IEnumerable<object[]> ConfigureAudioScript_ValidateWhichAudioEncoderIsUsed_TestData =
+    new[]
+    {
+        new object[] { (int)AudioCodecs.AAC_LC, ".m4a", "qaac64"      },
+        new object[] { (int)AudioCodecs.AAC_HE, ".m4a", "qaac64 --he" },
+        new object[] { (int)AudioCodecs.OPUS,   ".ogg", "opusenc"     }
+    };
+
+    [Theory (DisplayName = "Validate Which Audio Encoder Is Used")]
+    [MemberData(nameof(ConfigureAudioScript_ValidateWhichAudioEncoderIsUsed_TestData))]
+    public void ConfigureAudioScript_ValidateWhichAudioEncoderIsUsed
+    (
+        int audioCodec,
+        string audioExtension,
+        string expectedAudioEncoder
+    )
+    {
+        // Arrange
+        Common common = new(@"C:\Users\User\Desktop\Sample.m4a")
+        {
+            OutputDir = @"C:\Users\User\Desktop\Temp\Sample\",
+            Audio = true,
+            AudioCodec = audioCodec,
+            AudioBitrate = 128,
+            AudioExtension = audioExtension
+        };
+
+        // Act
+        OutputScripts output = new(common);
+        output.ConfigureAudioScript();
+
+        string? audioEncoderScriptContent = output.AudioEncoderScriptContent;
+
+        // Assert
+        Assert.Contains(expectedAudioEncoder, audioEncoderScriptContent);
+    }
+
+    // AudioCodec | AudioExtension | Expected filename ending
+    public static IEnumerable<object[]> ConfigureAudioScript_ValidateTheAudioScriptFilename_TestData =
+    new[]
+    {
+        new object[] { (int)AudioCodecs.AAC_LC, ".m4a", "Encode Audio [AAC-LC].cmd" },
+        new object[] { (int)AudioCodecs.AAC_HE, ".m4a", "Encode Audio [AAC-HE].cmd" },
+        new object[] { (int)AudioCodecs.OPUS,   ".ogg", "Encode Audio [OPUS].cmd"   }
+    };
+
+    [Theory (DisplayName = "Validate The Audio Script Filename")]
+    [MemberData(nameof(ConfigureAudioScript_ValidateTheAudioScriptFilename_TestData))]
+    public void ConfigureAudioScript_ValidateTheAudioScriptFilename
+    (
+        int audioCodec,
+        string audioExtension,
+        string expectedEndsWith
+    )
+    {
+        // Arrange
+        Common common = new(@"C:\Users\User\Desktop\Sample.m4a")
+        {
+            OutputDir = @"C:\Users\User\Desktop\Temp\Sample\",
+            Audio = true,
+            AudioCodec = audioCodec,
+            AudioBitrate = 128,
+            AudioExtension = audioExtension
+        };
+
+        // Act
+        OutputScripts output = new(common);
+        output.ConfigureAudioScript();
+
+        string? audioEncoderScriptFile = output.AudioEncoderScriptFile;
+
+        // Assert
+        Assert.Equal($"{common.OutputDir}{expectedEndsWith}", audioEncoderScriptFile);
     }
 }
