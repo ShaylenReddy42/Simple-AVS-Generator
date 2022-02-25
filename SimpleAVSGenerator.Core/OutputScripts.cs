@@ -20,7 +20,7 @@ using static SimpleAVSGenerator.Core.Enums;
 
 namespace SimpleAVSGenerator.Core;
 
-internal class OutputScripts
+public class OutputScripts
 {
     private Common _common;
     
@@ -68,9 +68,9 @@ internal class OutputScripts
             }
             else if (_common.VideoCodec == (int)VideoCodecs.WhatsApp)
             {
-                vEncoder += "x264 --profile baseline --preset veryslow --crf 26 -i 1 --ref 1 --deblock -2:-1 ";
+                vEncoder += $"x264 --profile baseline --preset veryslow --crf 26 -i 1 -I {GetKeyframeIntervalInFrames()} --ref 1 --deblock -2:-1 ";
                 vEncoder += "--aud --no-mbtree --demuxer y4m --frames 0 -o \"%~dp0Video.264\" -";
-                vCmdFile += "Encode Video [AVC].cmd";
+                vCmdFile += "Encode Video [WhatsApp].cmd";
             }
 
             VideoEncoderScriptFile = vCmdFile;
