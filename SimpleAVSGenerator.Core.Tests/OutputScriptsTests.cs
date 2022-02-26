@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using Xunit;
-using static SimpleAVSGenerator.Core.Enums;
 
 namespace SimpleAVSGenerator.Core.Tests;
 
@@ -10,17 +9,17 @@ public class OutputScriptsTests
     public static IEnumerable<object[]> ConfigureVideoScript_ValidateWhichVideoEncoderIsUsed_TestData =
     new[]
     {
-        new object[] { (int)VideoCodecs.HEVC,     "x265"   },
-        new object[] { (int)VideoCodecs.AV1,      "aomenc" },
-        new object[] { (int)VideoCodecs.AVC,      "x264"   },
-        new object[] { (int)VideoCodecs.WhatsApp, "x264"   }
+        new object[] { "HEVC",     "x265"   },
+        new object[] { "AV1",      "aomenc" },
+        new object[] { "AVC",      "x264"   },
+        new object[] { "WhatsApp", "x264"   }
     };
 
-    [Theory (DisplayName = "Validate Which Video Encoder is Used")]
+    [Theory (DisplayName = "Validate Which Video Encoder Is Used")]
     [MemberData(nameof(ConfigureVideoScript_ValidateWhichVideoEncoderIsUsed_TestData))]
     public void ConfigureVideoScript_ValidateWhichVideoEncoderIsUsed
     (
-        int videoCodec,
+        string videoCodec,
         string expectedVideoEncoder
     )
     {
@@ -49,17 +48,17 @@ public class OutputScriptsTests
     public static IEnumerable<object[]> ConfigureVideoScript_ValidateKeyframeIntervalInFrames_TestData =
     new[]
     {
-        new object[] { (int)VideoCodecs.HEVC,     24, 2,  "-I 48"             },
-        new object[] { (int)VideoCodecs.AV1,      25, 5,  "--kf-max-dist=125" },
-        new object[] { (int)VideoCodecs.AVC,      30, 10, "-I 300"            },
-        new object[] { (int)VideoCodecs.WhatsApp, 60, 10, "-I 600"            }
+        new object[] { "HEVC",     24, 2,  "-I 48"             },
+        new object[] { "AV1",      25, 5,  "--kf-max-dist=125" },
+        new object[] { "AVC",      30, 10, "-I 300"            },
+        new object[] { "WhatsApp", 60, 10, "-I 600"            }
     };
 
     [Theory (DisplayName = "Validate Keyframe Interval In Frames")]
     [MemberData(nameof(ConfigureVideoScript_ValidateKeyframeIntervalInFrames_TestData))]
     public void ConfigureVideoScript_ValidateKeyframeIntervalInFrames
     (
-        int videoCodec,
+        string videoCodec,
         int sourceFPS,
         int keyframeIntervalInSeconds,
         string expectedStringInScriptContent
@@ -90,17 +89,17 @@ public class OutputScriptsTests
     public static IEnumerable<object[]> ConfigureVideoScript_ValidateTheVideoScriptFilename_TestData =
     new[]
     {
-        new object[] { (int)VideoCodecs.HEVC,     "Encode Video [HEVC].cmd"     },
-        new object[] { (int)VideoCodecs.AV1,      "Encode Video [AV1].cmd"      },
-        new object[] { (int)VideoCodecs.AVC,      "Encode Video [AVC].cmd"      },
-        new object[] { (int)VideoCodecs.WhatsApp, "Encode Video [WhatsApp].cmd" }
+        new object[] { "HEVC",     "Encode Video [HEVC].cmd"     },
+        new object[] { "AV1",      "Encode Video [AV1].cmd"      },
+        new object[] { "AVC",      "Encode Video [AVC].cmd"      },
+        new object[] { "WhatsApp", "Encode Video [WhatsApp].cmd" }
     };
 
     [Theory (DisplayName = "Validate The Video Script Filename")]
     [MemberData(nameof(ConfigureVideoScript_ValidateTheVideoScriptFilename_TestData))]
     public void ConfigureVideoScript_ValidateTheVideoScriptFilename
     (
-        int videoCodec,
+        string videoCodec,
         string expectedEndsWith
     )
     {
@@ -129,16 +128,16 @@ public class OutputScriptsTests
     public static IEnumerable<object[]> ConfigureAudioScript_ValidateWhichAudioEncoderIsUsed_TestData =
     new[]
     {
-        new object[] { (int)AudioCodecs.AAC_LC, ".m4a", "qaac64"      },
-        new object[] { (int)AudioCodecs.AAC_HE, ".m4a", "qaac64 --he" },
-        new object[] { (int)AudioCodecs.OPUS,   ".ogg", "opusenc"     }
+        new object[] { "AAC-LC", ".m4a", "qaac64"      },
+        new object[] { "AAC-HE", ".m4a", "qaac64 --he" },
+        new object[] { "OPUS",   ".ogg", "opusenc"     }
     };
 
     [Theory (DisplayName = "Validate Which Audio Encoder Is Used")]
     [MemberData(nameof(ConfigureAudioScript_ValidateWhichAudioEncoderIsUsed_TestData))]
     public void ConfigureAudioScript_ValidateWhichAudioEncoderIsUsed
     (
-        int audioCodec,
+        string audioCodec,
         string audioExtension,
         string expectedAudioEncoder
     )
@@ -167,16 +166,16 @@ public class OutputScriptsTests
     public static IEnumerable<object[]> ConfigureAudioScript_ValidateTheAudioScriptFilename_TestData =
     new[]
     {
-        new object[] { (int)AudioCodecs.AAC_LC, ".m4a", "Encode Audio [AAC-LC].cmd" },
-        new object[] { (int)AudioCodecs.AAC_HE, ".m4a", "Encode Audio [AAC-HE].cmd" },
-        new object[] { (int)AudioCodecs.OPUS,   ".ogg", "Encode Audio [OPUS].cmd"   }
+        new object[] { "AAC-LC", ".m4a", "Encode Audio [AAC-LC].cmd" },
+        new object[] { "AAC-HE", ".m4a", "Encode Audio [AAC-HE].cmd" },
+        new object[] { "OPUS",   ".ogg", "Encode Audio [OPUS].cmd"   }
     };
 
     [Theory (DisplayName = "Validate The Audio Script Filename")]
     [MemberData(nameof(ConfigureAudioScript_ValidateTheAudioScriptFilename_TestData))]
     public void ConfigureAudioScript_ValidateTheAudioScriptFilename
     (
-        int audioCodec,
+        string audioCodec,
         string audioExtension,
         string expectedEndsWith
     )

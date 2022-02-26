@@ -20,21 +20,20 @@ namespace SimpleAVSGenerator.Core.Support;
 
 public class Audio
 {
-    public static string [,] languages =
+    public static Dictionary<string, string> languagesDictionary = new()
     {
-        //ISO 639-2 language code | Name of language in English
-        { "eng", "English"      },
-        { "hin", "Hindi"        },
-        { "jpn", "Japanese"     },
-        { "tam", "Tamil"        },
-        { "und", "Undetermined" }
+        { "English",      "eng" },
+        { "Hindi",        "hin" },
+        { "Japanese",     "jpn" },
+        { "Tamil",        "tam" },
+        { "Undetermined", "und" }
     };
 
-    public static string [,] outputAudioCodecs =
+    public static Dictionary<string, string> outputAudioCodecsDictionary = new()
     {
-        { ".m4a", "AAC-LC" },
-        { ".m4a", "AAC-HE" },
-        { ".ogg", "OPUS"   }
+        { "AAC-LC", ".m4a" },
+        { "AAC-HE", ".m4a" },
+        { "OPUS",   ".ogg" }
     };
 
     public static string [] outputAudioChannels =
@@ -44,46 +43,65 @@ public class Audio
         "Surround 7.1"
     };
 
-    /**
-     * A 3D array containing sane audio bitrates
-     * for each codec and their channel layouts
-     * 
-     * 1st Dimension: Codec [AAC-LC, AAC-HE, OPUS]
-     * 2nd Dimension: Channels [2, 5.1, 7.1]
-     * 3rd Dimension: List of sane bitrates
-     */
-    public static int [,,] selectableAudioBitrates =
+    public static Dictionary<string, Dictionary<string, object[]>> selectableAudioBitratesDictionary = new()
     {
-        //AAC-LC
-        {
-            {  96, 112, 128, 144, 160, 192 }, //2 Channels
-            { 192, 224, 256, 288, 320, 384 }, //5.1 Channels
-            { 384, 448, 512, 576, 640, 768 }  //7.1 Channels
+        { 
+            "AAC-LC",  
+            new()
+            {
+                { "Stereo",       new object[] {  96, 112, 128, 144, 160, 192 } },
+                { "Surround 5.1", new object[] { 192, 224, 256, 288, 320, 384 } },
+                { "Surround 7.1", new object[] { 384, 448, 512, 576, 640, 768 } }
+            }
         },
-
-        //AAC-HE
         {
-            {  32,  40,  48,  56,  64,  80 }, //2 Channels
-            {  80,  96, 112, 128, 160, 192 }, //5.1 Channels
-            { 112, 128, 160, 192, 224, 256 }  //7.1 Channels
+            "AAC-HE",
+            new()
+            {
+                { "Stereo",       new object[] {  32,  40,  48,  56,  64,  80 } },
+                { "Surround 5.1", new object[] {  80,  96, 112, 128, 160, 192 } },
+                { "Surround 7.1", new object[] { 112, 128, 160, 192, 224, 256 } }
+            }
         },
-
-        //OPUS
         {
-            {  96, 112, 128, 144, 160, 192 }, //2 Channels
-            { 144, 160, 192, 224, 256, 288 }, //5.1 Channels
-            { 256, 288, 320, 384, 448, 576 }  //7.1 Channels
+            "OPUS",
+            new()
+            {
+                { "Stereo",       new object[] {  96, 112, 128, 144, 160, 192 } },
+                { "Surround 5.1", new object[] { 144, 160, 192, 224, 256, 288 } },
+                { "Surround 7.1", new object[] { 256, 288, 320, 384, 448, 576 } }
+            }
         }
     };
 
-    /**
-     * 1st Dimension: Codec [AAC-LC, AAC-HE, OPUS]
-     * 2nd Dimension: Channels [2, 5.1, 7.1]
-     */
-    public static int [,] defaultAudioBitrates =
+    public static Dictionary<string, Dictionary<string, int>> defaultAudioBitratesDictionary = new()
     {
-        { 128, 384, 512 }, //AAC-LC
-        {  80, 192, 256 }, //AAC-HE
-        {  96, 288, 384 }  //OPUS
+        {
+            "AAC-LC",
+            new()
+            {
+                { "Stereo",       128 },
+                { "Surround 5.1", 384 },
+                { "Surround 7.1", 512 }
+            }
+        },
+        {
+            "AAC-HE",
+            new()
+            {
+                { "Stereo",        80 },
+                { "Surround 5.1", 192 },
+                { "Surround 7.1", 256 }
+            }
+        },
+        {
+            "OPUS",
+            new()
+            {
+                { "Stereo",        96 },
+                { "Surround 5.1", 288 },
+                { "Surround 7.1", 384 }
+            }
+        }
     };
 }

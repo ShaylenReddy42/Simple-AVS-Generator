@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using Xunit;
-using static SimpleAVSGenerator.Core.Enums;
 using static SimpleAVSGenerator.Core.Support.Video;
 using static SimpleAVSGenerator.Core.Support.Audio;
 
@@ -13,12 +12,12 @@ public class InputFileHandlerTests
     public static IEnumerable<object?[]> CreateScripts_ValidateWhichScriptsWereCreated_TestData =
     new[]
     {
-        new object?[] { true,  false, true,  (int)OutputContainers.MP4, "svac" },
-        new object?[] { true,  false, false, (int)OutputContainers.MP4, "svc"  },
-        new object?[] { true,  false, false, null,                      "sv"   },
-        new object?[] { true,  true,  false, (int)OutputContainers.MP4, "c"    },
-        new object?[] { true,  true,  true,  (int)OutputContainers.MP4, "sac"  },
-        new object?[] { false, false, true,  null,                      "sa"   }
+        new object?[] { true,  false, true,  "MP4", "svac" },
+        new object?[] { true,  false, false, "MP4", "svc"  },
+        new object?[] { true,  false, false, null,  "sv"   },
+        new object?[] { true,  true,  false, "MP4", "c"    },
+        new object?[] { true,  true,  true,  "MP4", "sac"  },
+        new object?[] { false, false, true,  null,  "sa"   }
     };
 
     [Theory (DisplayName = "Validate Which Scripts Were Created")]
@@ -28,7 +27,7 @@ public class InputFileHandlerTests
         bool video,
         bool muxOriginalVideo,
         bool audio,
-        int? outputContainer,
+        string? outputContainer,
         string expectedScriptsCreated
     )
     {
@@ -39,16 +38,16 @@ public class InputFileHandlerTests
 
         input.common.Video = video;
         input.common.MuxOriginalVideo = muxOriginalVideo;
-        input.common.VideoCodec = (int)VideoCodecs.AVC;
+        input.common.VideoCodec = "AVC";
         input.common.SourceFPS = 24;
         input.common.KeyframeIntervalInSeconds = 2;
-        input.common.VideoExtension = outputVideoCodecs[(int)VideoCodecs.AVC, 0];
+        input.common.VideoExtension = outputVideoCodecsDictionary["AVC"];
 
         input.common.Audio = audio;
-        input.common.AudioCodec = (int)AudioCodecs.AAC_LC;
+        input.common.AudioCodec = "AAC-LC";
         input.common.AudioBitrate = 128;
-        input.common.AudioLanguage = languages[0, 0];
-        input.common.AudioExtension = outputAudioCodecs[(int)AudioCodecs.AAC_LC, 0];
+        input.common.AudioLanguage = languagesDictionary["English"];
+        input.common.AudioExtension = ".m4a";
 
         input.common.OutputContainer = outputContainer;
 

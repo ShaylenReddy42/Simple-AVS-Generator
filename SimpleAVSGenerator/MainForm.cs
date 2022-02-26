@@ -21,7 +21,6 @@ using System.Diagnostics;
 using SimpleAVSGenerator.Core;
 using SimpleAVSGenerator.Core.Support;
 
-using static SimpleAVSGenerator.Core.Enums;
 using static SimpleAVSGenerator.Core.Support.Video;
 using static SimpleAVSGenerator.Core.Support.Audio;
 
@@ -58,29 +57,19 @@ public partial class MainForm : Form
     #region Methods
     void PopulateComboBoxes()
     {
-        for (int i = 0; i < outputVideoCodecs.GetLength(0); i++)
-            cmbVideoCodec.Items.Add(outputVideoCodecs[i, 1]);
-
+        cmbVideoCodec.Items.AddRange(outputVideoCodecsDictionary.Keys.ToArray());
         cmbVideoCodec.SelectedIndex = 0;
 
-        for (int i = 0; i < outputAudioCodecs.GetLength(0); i++)
-            cmbAudioCodec.Items.Add(outputAudioCodecs[i, 1]);
-
+        cmbAudioCodec.Items.AddRange(outputAudioCodecsDictionary.Keys.ToArray());
         cmbAudioCodec.SelectedIndex = 0;
 
-        for (int i = 0; i < sourceFPS.GetLength(0); i++)
-            cmbSourceFPS.Items.Add(sourceFPS[i, 1]);
-
+        cmbSourceFPS.Items.AddRange(sourceFPSDictionary.Keys.ToArray());
         cmbSourceFPS.SelectedIndex = 0;
 
-        for (int i = 0; i < keyframeInterval.GetLength(0); i++)
-            cmbKeyframeInterval.Items.Add(keyframeInterval[i, 1]);
-
+        cmbKeyframeInterval.Items.AddRange(keyframeIntervalDictionary.Keys.ToArray());
         cmbKeyframeInterval.SelectedIndex = 0;
 
-        for (int i = 0; i < languages.GetLength(0); i++)
-            cmbLanguage.Items.Add(languages[i, 1]);
-
+        cmbLanguage.Items.AddRange(languagesDictionary.Keys.ToArray());
         cmbLanguage.SelectedIndex = 0;
 
         cmbChannels.Items.AddRange(outputAudioChannels);
@@ -93,25 +82,26 @@ public partial class MainForm : Form
     {
         cmbBitrate.Items.Clear();
 
-        int audioCodec    = cmbAudioCodec.SelectedIndex,
-            audioChannels = cmbChannels.SelectedIndex == -1 ? 0 : cmbChannels.SelectedIndex;
+        string? audioCodec    = (string)cmbAudioCodec.SelectedItem,
+                audioChannels = (string)cmbChannels.SelectedItem ?? "Stereo";
 
-        for (int i = 0; i < selectableAudioBitrates.GetLength(2); i++)
-            cmbBitrate.Items.Add(selectableAudioBitrates[audioCodec, audioChannels, i]);
+        Dictionary<string, object[]> audioCodecBitratesDictionary = selectableAudioBitratesDictionary[audioCodec];
+        cmbBitrate.Items.AddRange(audioCodecBitratesDictionary[audioChannels]);
 
-        cmbBitrate.SelectedItem = defaultAudioBitrates[audioCodec, audioChannels];
+        Dictionary<string, int> audioCodecDefaultAudioBitrateDictionary = defaultAudioBitratesDictionary[audioCodec];
+        cmbBitrate.SelectedItem = audioCodecDefaultAudioBitrateDictionary[audioChannels];
     }
 
     void EnableUI()
     {
-        int? type = input?.common.FileType;
+        string? type = input?.common.FileType;
         
-        cbxVideo.Enabled = type != (int)ExtensionTypes.AUDIO;
-        cbxVideo.Checked = type == (int)ExtensionTypes.VIDEO;
-        cbxAudio.Enabled = type != (int)ExtensionTypes.VIDEO;
-        cbxAudio.Checked = type == (int)ExtensionTypes.AUDIO;
-        cbxMP4.Enabled   = type != (int)ExtensionTypes.AUDIO;
-        cbxMKV.Enabled   = type != (int)ExtensionTypes.AUDIO;
+        cbxVideo.Enabled = type != "AUDIO";
+        cbxVideo.Checked = type == "VIDEO";
+        cbxAudio.Enabled = type != "VIDEO";
+        cbxAudio.Checked = type == "AUDIO";
+        cbxMP4.Enabled   = type != "AUDIO";
+        cbxMKV.Enabled   = type != "AUDIO";
     }
 
     void New()
@@ -197,21 +187,21 @@ public partial class MainForm : Form
             Directory.CreateDirectory(input.common.OutputDir);
 
             input.common.Video = cbxVideo.Checked;
-            input.common.MuxOriginalVideo = cmbVideoCodec.SelectedIndex == (int)VideoCodecs.Original;
-            input.common.VideoCodec = cmbVideoCodec.SelectedIndex;
-            input.common.SourceFPS = (int)sourceFPS[cmbSourceFPS.SelectedIndex, 0];
-            input.common.KeyframeIntervalInSeconds = (int)keyframeInterval[cmbKeyframeInterval.SelectedIndex, 0];
-            input.common.NeedsToBeResized = cmbVideoCodec.SelectedIndex == (int)VideoCodecs.WhatsApp;
-            input.common.VideoExtension = outputVideoCodecs[cmbVideoCodec.SelectedIndex, 0];
+            input.common.MuxOriginalVideo = (string)cmbVideoCodec.SelectedItem == "Mux Original";
+            input.common.VideoCodec = (string)cmbVideoCodec.SelectedItem;
+            input.common.SourceFPS = sourceFPSDictionary[(string)cmbSourceFPS.SelectedItem];
+            input.common.KeyframeIntervalInSeconds = keyframeIntervalDictionary[(string)cmbKeyframeInterval.SelectedItem];
+            input.common.NeedsToBeResized = (string)cmbVideoCodec.SelectedItem == "WhatsApp";
+            input.common.VideoExtension = outputVideoCodecsDictionary[(string)cmbVideoCodec.SelectedItem];
             
             input.common.Audio = cbxAudio.Checked;
-            input.common.AudioCodec = cmbAudioCodec.SelectedIndex;
+            input.common.AudioCodec = (string)cmbAudioCodec.SelectedItem;
             input.common.AudioBitrate = (int)cmbBitrate.SelectedItem;
-            input.common.AudioLanguage = languages[cmbLanguage.SelectedIndex, 0];
-            input.common.AudioExtension = outputAudioCodecs[cmbAudioCodec.SelectedIndex, 0];
+            input.common.AudioLanguage = languagesDictionary[(string)cmbLanguage.SelectedItem];
+            input.common.AudioExtension = outputAudioCodecsDictionary[(string)cmbAudioCodec.SelectedItem];
             
-            input.common.OutputContainer = cbxMP4.Checked ? (int)OutputContainers.MP4
-                                         : cbxMKV.Checked ? (int)OutputContainers.MKV
+            input.common.OutputContainer = cbxMP4.Checked ? "MP4"
+                                         : cbxMKV.Checked ? "MKV"
                                          : null;
 
             input.CreateScripts(out string scriptsCreated);
@@ -288,7 +278,7 @@ public partial class MainForm : Form
     
     private void cmbVideoCodec_SelectedIndexChanged(object sender, EventArgs e)
     {
-        if (cmbVideoCodec.SelectedIndex == (int) VideoCodecs.Original && input?.common.IsSupportedByMP4Box is false)
+        if ((string)cmbVideoCodec.SelectedItem == "Mux Original" && input?.common.IsSupportedByMP4Box is false)
         {
             cbxMP4.Enabled = false;
             cbxMP4.Checked = false;

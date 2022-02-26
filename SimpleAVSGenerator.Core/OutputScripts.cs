@@ -16,8 +16,6 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  ******************************************************************************/
 
-using static SimpleAVSGenerator.Core.Enums;
-
 namespace SimpleAVSGenerator.Core;
 
 public class OutputScripts
@@ -48,25 +46,25 @@ public class OutputScripts
                     vEncoder = "",
                     vCmdFile = _common.OutputDir;
 
-            if (_common.VideoCodec == (int)VideoCodecs.HEVC)
+            if (_common.VideoCodec == "HEVC")
             {
                 vEncoder += $"x265 --profile main --preset slower --crf 26 -i 1 -I {GetKeyframeIntervalInFrames()} --hist-scenecut --hist-threshold 0.02 ";
                 vEncoder += "--fades --aq-mode 4 --aq-motion --aud --no-open-gop --y4m -f 0 - \"%~dp0Video.265\"";
                 vCmdFile += "Encode Video [HEVC].cmd";
             }
-            else if (_common.VideoCodec == (int)VideoCodecs.AV1)
+            else if (_common.VideoCodec == "AV1")
             {
                 vEncoder += "aomenc --passes=1 --end-usage=q --cq-level=32 --target-bitrate=0 ";
                 vEncoder += $"--enable-fwd-kf=1 --kf-max-dist={GetKeyframeIntervalInFrames()} --verbose --ivf -o \"%~dp0Video.ivf\" -";
                 vCmdFile += "Encode Video [AV1].cmd";
             }
-            else if (_common.VideoCodec == (int)VideoCodecs.AVC)
+            else if (_common.VideoCodec == "AVC")
             {
                 vEncoder += $"x264 --preset veryslow --crf 26 -i 1 -I {GetKeyframeIntervalInFrames()} --bframes 3 --deblock -2:-1 --aq-mode 3 ";
                 vEncoder += "--aud --no-mbtree --demuxer y4m --frames 0 -o \"%~dp0Video.264\" -";
                 vCmdFile += "Encode Video [AVC].cmd";
             }
-            else if (_common.VideoCodec == (int)VideoCodecs.WhatsApp)
+            else if (_common.VideoCodec == "WhatsApp")
             {
                 vEncoder += $"x264 --profile baseline --preset veryslow --crf 26 -i 1 -I {GetKeyframeIntervalInFrames()} --ref 1 --deblock -2:-1 ";
                 vEncoder += "--aud --no-mbtree --demuxer y4m --frames 0 -o \"%~dp0Video.264\" -";
@@ -86,13 +84,13 @@ public class OutputScripts
                     aEncoder = "",
                     aCmdFile = _common.OutputDir;
 
-            if (_common.AudioCodec == (int)AudioCodecs.AAC_LC)
+            if (_common.AudioCodec == "AAC-LC")
             {
                 aEncoder += $"qaac64 --abr {_common.AudioBitrate} --ignorelength --no-delay ";
                 aEncoder += $"-o \"%~dp0{_common.FileNameOnly}{_common.AudioExtension}\" - ";
                 aCmdFile += "Encode Audio [AAC-LC].cmd";
             }
-            else if (_common.AudioCodec == (int)AudioCodecs.AAC_HE)
+            else if (_common.AudioCodec == "AAC-HE")
             {
                 aEncoder += $"qaac64 --he --abr {_common.AudioBitrate} --ignorelength ";
                 aEncoder += $"-o \"%~dp0{_common.FileNameOnly}{_common.AudioExtension}\" - ";
@@ -115,7 +113,7 @@ public class OutputScripts
         string? outputFileName = _common.OutputDir,
                 fileContents = null;
 
-        if (_common.OutputContainer == (int)OutputContainers.MP4)
+        if (_common.OutputContainer == "MP4")
         {
             string mp4V = _common.MuxOriginalVideo is false
                         ? $"-add \"%~dp0Video{_common.VideoExtension}\":name="
@@ -126,7 +124,7 @@ public class OutputScripts
             outputFileName += $"MP4 Mux{(_common.MuxOriginalVideo ? " [Original Video]" : "")}.cmd";
             fileContents = $"mp4box {mp4V} {mp4A} {newmp4}";
         }
-        else if (_common.OutputContainer == (int)OutputContainers.MKV)
+        else if (_common.OutputContainer == "MKV")
         {
             string mkvO = $"-o \"%~dp0{_common.FileNameOnly}.mkv\"",
                    mkvV = _common.MuxOriginalVideo is false

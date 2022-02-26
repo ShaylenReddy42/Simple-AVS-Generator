@@ -20,27 +20,27 @@ namespace SimpleAVSGenerator.Core.Support;
 
 public class Video
 {
-    public static object[,] sourceFPS =
+    public static Dictionary<string, int> sourceFPSDictionary = new()
     {
-        { 24, "23.976 / 24" },
-        { 25, "25"          },
-        { 30, "29.97 / 30"  },
-        { 60, "59.94"       }
+        { "23.976 / 24", 24 },
+        { "25",          25 },
+        { "29.97 / 30",  30 },
+        { "59.94 / 60",  60 }
     };
 
-    public static object[,] keyframeInterval =
+    public static Dictionary<string, int> keyframeIntervalDictionary = new()
     {
-        {  2, "2 Seconds"  },
-        {  5, "5 Seconds"  },
-        { 10, "10 Seconds" }
+        { "2 Seconds",   2 },
+        { "5 Seconds",   5 },
+        { "10 Seconds", 10 }
     };
 
-    public static string[,] outputVideoCodecs =
+    public static Dictionary<string, string> outputVideoCodecsDictionary = new()
     {
-        { ".265", "HEVC"         },
-        { ".ivf", "AV1"          },
-        { ".264", "AVC"          },
-        { ".264", "WhatsApp"     },
-        {     "", "Mux Original" }
+        { "HEVC",         ".265" },
+        { "AV1",          ".ivf" },
+        { "AVC",          ".264" },
+        { "WhatsApp",     ".264" },
+        { "Mux Original", ""     }
     };
 }

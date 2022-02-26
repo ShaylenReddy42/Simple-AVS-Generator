@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using Xunit;
-using static SimpleAVSGenerator.Core.Enums;
 using SimpleAVSGenerator.Core.Support;
 
 namespace SimpleAVSGenerator.Core.Tests.Support;
@@ -11,9 +10,9 @@ public class ExtensionsTests
     public static IEnumerable<object[]> DetermineInputFileType_ValidateFileTypeIsCorrect_TestData =
     new[]
     {
-        new object[] { ".mp4", (int)ExtensionTypes.CONTAINER },
-        new object[] { ".264", (int)ExtensionTypes.VIDEO     },
-        new object[] { ".m4a", (int)ExtensionTypes.AUDIO     }
+        new object[] { ".mp4", "CONTAINER" },
+        new object[] { ".264", "VIDEO"     },
+        new object[] { ".m4a", "AUDIO"     }
     };
 
     [Theory (DisplayName = "Validate That Input File Type Is Set Correctly")]
@@ -21,7 +20,7 @@ public class ExtensionsTests
     public void DetermineInputFileType_ValidateFileTypeIsCorrect
     (
         string fileExt,
-        int expectedFileType
+        string expectedFileType
     )
     {
         // Arrange
@@ -29,7 +28,7 @@ public class ExtensionsTests
 
         // Act
         Extensions se = new();
-        int actualFileType = se.DetermineInputFileType(fileExt);
+        string actualFileType = se.DetermineInputFileType(fileExt);
 
         // Assert
         Assert.Equal(expectedFileType, actualFileType);
@@ -64,10 +63,10 @@ public class ExtensionsTests
     }
 
     [Theory (DisplayName = "Check Supported Extension Type Strings For Regex Pattern \"*.ext1;*.ext2\"")]
-    [InlineData((int)ExtensionTypes.CONTAINER)]
-    [InlineData((int)ExtensionTypes.VIDEO)]
-    [InlineData((int)ExtensionTypes.AUDIO)]
-    public void SupportedExtensionType_CheckPatternForMatch(int extensionType)
+    [InlineData("CONTAINER")]
+    [InlineData("VIDEO")]
+    [InlineData("AUDIO")]
+    public void SupportedExtensionType_CheckPatternForMatch(string extensionType)
     {
         // Arrange
         // This pattern was a little difficult to set up
@@ -97,10 +96,10 @@ public class ExtensionsTests
         string? supportedExts =
         extensionType switch
         {
-            (int)ExtensionTypes.CONTAINER => se.SupportedContainerExts,
-            (int)ExtensionTypes.VIDEO     => se.SupportedVideoExts,
-            (int)ExtensionTypes.AUDIO     => se.SupportedAudioExts,
-            _                             => null
+            "CONTAINER" => se.SupportedContainerExts,
+            "VIDEO"     => se.SupportedVideoExts,
+            "AUDIO"     => se.SupportedAudioExts,
+            _           => null
         };
 
         // Assert
@@ -108,10 +107,10 @@ public class ExtensionsTests
     }
 
     [Theory (DisplayName = "Check Filter Extension Type Strings For Regex Pattern \"EXT1 EXT2\"")]
-    [InlineData((int)ExtensionTypes.CONTAINER)]
-    [InlineData((int)ExtensionTypes.VIDEO)]
-    [InlineData((int)ExtensionTypes.AUDIO)]
-    public void FilterExtensionType_CheckPatternForMatch(int extensionType)
+    [InlineData("CONTAINER")]
+    [InlineData("VIDEO")]
+    [InlineData("AUDIO")]
+    public void FilterExtensionType_CheckPatternForMatch(string extensionType)
     {
         // Arrange
         // This pattern was a little similar to the previous but with a new challenge
@@ -140,10 +139,10 @@ public class ExtensionsTests
         string? filterExts =
         extensionType switch
         {
-            (int)ExtensionTypes.CONTAINER => se.FilterContainerExts,
-            (int)ExtensionTypes.VIDEO     => se.FilterVideoExts,
-            (int)ExtensionTypes.AUDIO     => se.FilterAudioExts,
-            _                             => null
+            "CONTAINER" => se.FilterContainerExts,
+            "VIDEO"     => se.FilterVideoExts,
+            "AUDIO"     => se.FilterAudioExts,
+            _           => null
         };
 
         // Assert

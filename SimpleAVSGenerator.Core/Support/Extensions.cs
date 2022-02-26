@@ -13,10 +13,8 @@
  * 
  * You should have received a copy of the GNU General Public License along
  * with this program; if not, write to the Free Software Foundation, Inc.,
- * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+ * 51 Franklin Street, Fifth FlooR", Boston, MA 02110-1301 USA.
  ******************************************************************************/
-
-using static SimpleAVSGenerator.Core.Enums;
 
 namespace SimpleAVSGenerator.Core.Support;
 
@@ -31,73 +29,73 @@ public class Extensions
     public string? FilterAudioExts { get; private set; }
 
     // ExtensionType | FileExtension | IsSupportedByMP4Box
-    private object[,] extensions =
+    private readonly object[,] extensions =
     {
-        { ExtensionTypes.CONTAINER, ".3gp",  true  },
-        { ExtensionTypes.CONTAINER, ".3g2",  true  },
-        { ExtensionTypes.CONTAINER, ".asf",  false },
-        { ExtensionTypes.CONTAINER, ".avi",  true  },
-        { ExtensionTypes.CONTAINER, ".flv",  false },
-        { ExtensionTypes.CONTAINER, ".mp4",  true  },
-        { ExtensionTypes.CONTAINER, ".m4v",  true  },
-        { ExtensionTypes.CONTAINER, ".mkv",  false },
-        { ExtensionTypes.CONTAINER, ".mov",  false },
-        { ExtensionTypes.CONTAINER, ".m2t",  true  },
-        { ExtensionTypes.CONTAINER, ".m2ts", true  },
-        { ExtensionTypes.CONTAINER, ".mxf",  false },
-        { ExtensionTypes.CONTAINER, ".ogm",  false },
-        { ExtensionTypes.CONTAINER, ".rm",   false },
-        { ExtensionTypes.CONTAINER, ".rmvb", false },
-        { ExtensionTypes.CONTAINER, ".ts",   true  },
-        { ExtensionTypes.CONTAINER, ".wmv",  false },
+        { "CONTAINER", ".3gp",  true  },
+        { "CONTAINER", ".3g2",  true  },
+        { "CONTAINER", ".asf",  false },
+        { "CONTAINER", ".avi",  true  },
+        { "CONTAINER", ".flv",  false },
+        { "CONTAINER", ".mp4",  true  },
+        { "CONTAINER", ".m4v",  true  },
+        { "CONTAINER", ".mkv",  false },
+        { "CONTAINER", ".mov",  false },
+        { "CONTAINER", ".m2t",  true  },
+        { "CONTAINER", ".m2ts", true  },
+        { "CONTAINER", ".mxf",  false },
+        { "CONTAINER", ".ogm",  false },
+        { "CONTAINER", ".rm",   false },
+        { "CONTAINER", ".rmvb", false },
+        { "CONTAINER", ".ts",   true  },
+        { "CONTAINER", ".wmv",  false },
 
-        { ExtensionTypes.VIDEO,     ".263",  true  },
-        { ExtensionTypes.VIDEO,     ".h263", true  },
-        { ExtensionTypes.VIDEO,     ".264",  true  },
-        { ExtensionTypes.VIDEO,     ".h264", true  },
-        { ExtensionTypes.VIDEO,     ".265",  true  },
-        { ExtensionTypes.VIDEO,     ".h265", true  },
-        { ExtensionTypes.VIDEO,     ".hevc", true  },
-        { ExtensionTypes.VIDEO,     ".y4m",  false },
+        { "VIDEO",     ".263",  true  },
+        { "VIDEO",     ".h263", true  },
+        { "VIDEO",     ".264",  true  },
+        { "VIDEO",     ".h264", true  },
+        { "VIDEO",     ".265",  true  },
+        { "VIDEO",     ".h265", true  },
+        { "VIDEO",     ".hevc", true  },
+        { "VIDEO",     ".y4m",  false },
 
-        { ExtensionTypes.AUDIO,     ".aa3",  false },
-        { ExtensionTypes.AUDIO,     ".aac",  true  },
-        { ExtensionTypes.AUDIO,     ".aif",  false },
-        { ExtensionTypes.AUDIO,     ".ac3",  true  },
-        { ExtensionTypes.AUDIO,     ".ape",  false },
-        { ExtensionTypes.AUDIO,     ".dts",  false },
-        { ExtensionTypes.AUDIO,     ".flac", true  },
-        { ExtensionTypes.AUDIO,     ".m1a",  true  },
-        { ExtensionTypes.AUDIO,     ".m2a",  true  },
-        { ExtensionTypes.AUDIO,     ".mp2",  true  },
-        { ExtensionTypes.AUDIO,     ".mp3",  true  },
-        { ExtensionTypes.AUDIO,     ".m4a",  true  },
-        { ExtensionTypes.AUDIO,     ".oma",  false },
-        { ExtensionTypes.AUDIO,     ".opus", true  },
-        { ExtensionTypes.AUDIO,     ".thd",  false },
-        { ExtensionTypes.AUDIO,     ".tta",  false },
-        { ExtensionTypes.AUDIO,     ".wav",  true  },
-        { ExtensionTypes.AUDIO,     ".wma",  false }
+        { "AUDIO",     ".aa3",  false },
+        { "AUDIO",     ".aac",  true  },
+        { "AUDIO",     ".aif",  false },
+        { "AUDIO",     ".ac3",  true  },
+        { "AUDIO",     ".ape",  false },
+        { "AUDIO",     ".dts",  false },
+        { "AUDIO",     ".flac", true  },
+        { "AUDIO",     ".m1a",  true  },
+        { "AUDIO",     ".m2a",  true  },
+        { "AUDIO",     ".mp2",  true  },
+        { "AUDIO",     ".mp3",  true  },
+        { "AUDIO",     ".m4a",  true  },
+        { "AUDIO",     ".oma",  false },
+        { "AUDIO",     ".opus", true  },
+        { "AUDIO",     ".thd",  false },
+        { "AUDIO",     ".tta",  false },
+        { "AUDIO",     ".wav",  true  },
+        { "AUDIO",     ".wma",  false }
     };
 
     public Extensions()
     {
-        SetSupportFor((int)ExtensionTypes.CONTAINER);
-        SetSupportFor((int)ExtensionTypes.VIDEO);
-        SetSupportFor((int)ExtensionTypes.AUDIO);
+        SetSupportFor("CONTAINER");
+        SetSupportFor("VIDEO");
+        SetSupportFor("AUDIO");
 
-        SetFilterFor((int)ExtensionTypes.CONTAINER);
-        SetFilterFor((int)ExtensionTypes.VIDEO);
-        SetFilterFor((int)ExtensionTypes.AUDIO);
+        SetFilterFor("CONTAINER");
+        SetFilterFor("VIDEO");
+        SetFilterFor("AUDIO");
     }
 
-    private void SetSupportFor(int fileType)
+    private void SetSupportFor(string fileType)
     {
         string support = "";
 
         for (int i = 0; i < extensions.GetLength(0); i++)
         {
-            if ((int)extensions[i, 0] == fileType)
+            if ((string)extensions[i, 0] == fileType)
             {
                 support += $"*{extensions[i, 1]};";
             }
@@ -107,25 +105,25 @@ public class Extensions
 
         switch (fileType)
         {
-            case (int)ExtensionTypes.CONTAINER:
+            case "CONTAINER":
                 SupportedContainerExts = support;
                 break;
-            case (int)ExtensionTypes.VIDEO:
+            case "VIDEO":
                 SupportedVideoExts = support;
                 break;
-            case (int)ExtensionTypes.AUDIO:
+            case "AUDIO":
                 SupportedAudioExts = support;
                 break;
         }
     }
 
-    private void SetFilterFor(int fileType)
+    private void SetFilterFor(string fileType)
     {
         string filter = "";
         
         for (int i = 0; i < extensions.GetLength(0); i++)
         {
-            if ((int)extensions[i, 0] == fileType)
+            if ((string)extensions[i, 0] == fileType)
             {
                 filter += $"{extensions[i, 1].ToString()?.Substring(1).ToUpper()} ";
             }
@@ -135,27 +133,27 @@ public class Extensions
 
         switch (fileType)
         {
-            case (int)ExtensionTypes.CONTAINER:
+            case "CONTAINER":
                 FilterContainerExts = filter;
                 break;
-            case (int)ExtensionTypes.VIDEO:
+            case "VIDEO":
                 FilterVideoExts = filter;
                 break;
-            case (int)ExtensionTypes.AUDIO:
+            case "AUDIO":
                 FilterAudioExts = filter;
                 break;
         }
     }
 
-    public int DetermineInputFileType(string fileExt)
+    public string DetermineInputFileType(string fileExt)
     {
-        int ext = default;
+        string ext = string.Empty;
         
         for (int i = 0; i < extensions.GetLength(0); i++)
         {
             if (fileExt.Equals((string)extensions[i,1], StringComparison.OrdinalIgnoreCase))
             {
-                ext = (int)extensions[i,0];
+                ext = (string)extensions[i,0];
             }
         }
 

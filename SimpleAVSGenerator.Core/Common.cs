@@ -25,9 +25,9 @@ public class Common
     public string FileName { get; private set; }
     public string FileExt { get; private set; }
     public string FileNameOnly { get; private set; }
-    public int FileType { get; private set; }
+    public string FileType { get; private set; }
 
-    public string OutputDir { get; set; } = "";
+    public string OutputDir { get; set; } = string.Empty;
 
     public bool IsSupportedByMP4Box { get; private set; }
 
@@ -39,20 +39,20 @@ public class Common
 
     //Video Properties
     public bool Video { get; set; } = default;
-    public int VideoCodec { get; set; }
+    public string VideoCodec { get; set; } = string.Empty;
     public int SourceFPS { get; set; }
     public int KeyframeIntervalInSeconds { get; set; }
     public bool NeedsToBeResized { get; set; } = default;
-    public string VideoExtension { get; set; } = "";
+    public string VideoExtension { get; set; } = string.Empty;
 
     //Audio Properties
     public bool Audio { get; set; } = default;
-    public int AudioCodec { get; set; }
+    public string AudioCodec { get; set; } = string.Empty;
     public int AudioBitrate { get; set; }
-    public string AudioLanguage { get; set; } = "";
-    public string AudioExtension { get; set; } = "";
+    public string AudioLanguage { get; set; } = string.Empty;
+    public string AudioExtension { get; set; } = string.Empty;
 
-    public int? OutputContainer { get; set; }
+    public string? OutputContainer { get; set; }
     public bool MuxOriginalVideo { get; set; } = default;
 
     public Common(string fileName)
