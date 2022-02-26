@@ -1,6 +1,9 @@
 ﻿using System.Collections.Generic;
 using Xunit;
 
+using static SimpleAVSGenerator.Core.Support.Video;
+using static SimpleAVSGenerator.Core.Support.Audio;
+
 namespace SimpleAVSGenerator.Core.Tests;
 
 public class OutputScriptsTests
@@ -198,5 +201,196 @@ public class OutputScriptsTests
 
         // Assert
         Assert.Equal($"{common.OutputDir}{expectedEndsWith}", audioEncoderScriptFile);
+    }
+
+    [Theory (DisplayName = "Validate Which Multiplexer Is Used")]
+    // OutputContainer | Expected multiplexer
+    [InlineData("MP4", "mp4box")]
+    [InlineData("MKV", "mkvmerge")]
+    public void ConfigureContainerScript_ValidateWhichMultiplexerIsUsed
+    (
+        string outputContainer,
+        string expectedMultiplexer
+    )
+    {
+        // Arrange
+        Common common = new(@"C:\Users\User\Desktop\Sample.mp4")
+        {
+            OutputContainer = outputContainer
+        };
+
+        // Act
+        OutputScripts output = new(common);
+        output.ConfigureContainerScript();
+
+        string? containerScriptContent = output.ContainerScriptContent;
+
+        // Assert
+        Assert.Contains(expectedMultiplexer, containerScriptContent);
+    }
+
+    // Filename | Video | MuxOriginalVideo | VideoCodec | OutputContainer | Expected string in script
+    public static IEnumerable<object[]> ConfigureContainerScript_ValidateVideoStringInScript_TestData =
+    new[]
+    {
+        new object[] { @"C:\Users\User\Desktop\Sample.mp4", true, false, "HEVC",         "MP4", $"-add \"%~dp0Video.265\":name="                       },
+        new object[] { @"C:\Users\User\Desktop\Sample.mp4", true, false, "AV1",          "MP4", $"-add \"%~dp0Video.ivf\":name="                       },
+        new object[] { @"C:\Users\User\Desktop\Sample.mp4", true, false, "AVC",          "MP4", $"-add \"%~dp0Video.264\":name="                       },
+        new object[] { @"C:\Users\User\Desktop\Sample.mp4", true, true,  "Mux Original", "MP4", $"-add \"C:\\Users\\User\\Desktop\\Sample.mp4\"#video" },
+        new object[] { @"C:\Users\User\Desktop\Sample.mp4", true, false, "HEVC",         "MKV", $"\"%~dp0Video.265\""                                  },
+        new object[] { @"C:\Users\User\Desktop\Sample.mp4", true, false, "AV1",          "MKV", $"\"%~dp0Video.ivf\""                                  },
+        new object[] { @"C:\Users\User\Desktop\Sample.mp4", true, false, "AVC",          "MKV", $"\"%~dp0Video.264\""                                  },
+        new object[] { @"C:\Users\User\Desktop\Sample.mp4", true, true,  "Mux Original", "MKV", $"--no-audio \"C:\\Users\\User\\Desktop\\Sample.mp4\"" }
+    };
+
+    [Theory (DisplayName = "Validate Video String In Script")]
+    [MemberData (nameof(ConfigureContainerScript_ValidateVideoStringInScript_TestData))]
+    public void ConfigureContainerScript_ValidateVideoStringInScript
+    (
+        string fileName,
+        bool video,
+        bool muxOriginalVideo,
+        string videoCodec,
+        string outputContainer,
+        string expectedVideoStringInScript
+    )
+    {
+        // Arrange
+        Common common = new(fileName)
+        {
+            OutputDir = @"C:\Users\User\Desktop\Temp\Sample\",
+            Video = video,
+            MuxOriginalVideo = muxOriginalVideo,
+            VideoCodec = videoCodec,
+            VideoExtension = outputVideoCodecsDictionary[videoCodec],
+            OutputContainer = outputContainer
+        };
+
+        // Act
+        OutputScripts output = new(common);
+        output.ConfigureContainerScript();
+
+        string? containerScriptContent = output.ContainerScriptContent;
+
+        // Assert
+        Assert.Contains(expectedVideoStringInScript, containerScriptContent);
+    }
+
+    // Filename | AudioCodec | AudioLanguageKey | OutputContainer | Expected string in script
+    public static IEnumerable<object[]> ConfigureContainerScript_ValidateAudioStringInScript_TestData =
+    new[]
+    {
+        new object[] { @"C:\Users\User\Desktop\Sample.mp4", "AAC-LC", "English",  "MP4", $"-add \"%~dp0Sample.m4a\":name=:lang=eng" },
+        new object[] { @"C:\Users\User\Desktop\Sample.mp4", "AAC-HE", "Hindi",    "MP4", $"-add \"%~dp0Sample.m4a\":name=:lang=hin" },
+        new object[] { @"C:\Users\User\Desktop\Sample.mp4", "OPUS",   "Japanese", "MP4", $"-add \"%~dp0Sample.ogg\":name=:lang=jpn" },
+        new object[] { @"C:\Users\User\Desktop\Sample.mp4", "AAC-LC", "English",  "MKV", $"--language 0:eng \"%~dp0Sample.m4a\""    },
+        new object[] { @"C:\Users\User\Desktop\Sample.mp4", "AAC-HE", "Hindi",    "MKV", $"--language 0:hin \"%~dp0Sample.m4a\""    },
+        new object[] { @"C:\Users\User\Desktop\Sample.mp4", "OPUS",   "Japanese", "MKV", $"--language 0:jpn \"%~dp0Sample.ogg\""    }
+    };
+
+    [Theory (DisplayName = "Validate Audio String In Script")]
+    [MemberData(nameof(ConfigureContainerScript_ValidateAudioStringInScript_TestData))]
+    public void ConfigureContainerScript_ValidateAudioStringInScript
+    (
+        string fileName,
+        string audioCodec,
+        string audioLanguageKey,
+        string outputContainer,
+        string expectedAudioStringInScript
+    )
+    {
+        // Arrange
+        Common common = new(fileName)
+        {
+            OutputDir = @"C:\Users\User\Desktop\Temp\Sample\",
+            Video = true,
+            MuxOriginalVideo = false,
+            VideoCodec = "HEVC",
+            VideoExtension = outputVideoCodecsDictionary["HEVC"],
+            Audio = true,
+            AudioCodec = audioCodec,
+            AudioExtension = outputAudioCodecsDictionary[audioCodec],
+            AudioLanguage = languagesDictionary[audioLanguageKey],
+            OutputContainer = outputContainer
+        };
+
+        // Act
+        OutputScripts output = new(common);
+        output.ConfigureContainerScript();
+
+        string? containerScriptContent = output.ContainerScriptContent;
+
+        // Assert
+        Assert.Contains(expectedAudioStringInScript, containerScriptContent);
+    }
+
+    // Filename | OutputContainer | Expected string in script
+    public static IEnumerable<object[]> ConfigureContainerScript_ValidateOutputFileStringInScript_TestData =
+    new[]
+    {
+        new object[] { @"C:\Users\User\Desktop\Sample.mp4", "MP4", $"-new \"%~dp0Sample.mp4\"" },
+        new object[] { @"C:\Users\User\Desktop\Sample.mp4", "MKV", $"-o \"%~dp0Sample.mkv\""   },
+    };
+
+    [Theory (DisplayName = "Validate Output File String In Script")]
+    [MemberData(nameof(ConfigureContainerScript_ValidateOutputFileStringInScript_TestData))]
+    public void ConfigureContainerScript_ValidateOutputFileStringInScript
+    (
+        string fileName,
+        string outputContainer,
+        string expectedOutputFileStringInScript
+    )
+    {
+        // Arrange
+        Common common = new(fileName)
+        {
+            OutputContainer = outputContainer
+        };
+
+        // Act
+        OutputScripts output = new(common);
+        output.ConfigureContainerScript();
+
+        string? containerScriptContent = output.ContainerScriptContent;
+
+        // Assert
+        Assert.Contains(expectedOutputFileStringInScript, containerScriptContent);
+    }
+
+    // MuxOriginalVideo | OutputContainer | Expected filename ending
+    public static IEnumerable<object[]> ConfigureContainerScript_ValidateTheContainerScriptFilename_TestData =
+    new[]
+    {
+        new object[] { false, "MP4", $"MP4 Mux.cmd"                  },
+        new object[] { true,  "MP4", $"MP4 Mux [Original Video].cmd" },
+        new object[] { false, "MKV", $"MKV Mux.cmd"                  },
+        new object[] { true,  "MKV", $"MKV Mux [Original Video].cmd" }
+    };
+
+    [Theory (DisplayName = "Validate The Container Script Filename")]
+    [MemberData(nameof(ConfigureContainerScript_ValidateTheContainerScriptFilename_TestData))]
+    public void ConfigureContainerScript_ValidateTheContainerScriptFilename
+    (
+        bool muxOriginalVideo,
+        string outputContainer,
+        string expectedEndsWith
+    )
+    {
+        // Arrange
+        Common common = new(@"C:\Users\User\Desktop\Sample.mp4")
+        {
+            OutputDir = @"C:\Users\User\Desktop\Temp\Sample\",
+            MuxOriginalVideo = muxOriginalVideo,
+            OutputContainer = outputContainer
+        };
+
+        // Act
+        OutputScripts output = new(common);
+        output.ConfigureContainerScript();
+
+        string? containerScriptFile = output.ContainerScriptFile;
+
+        // Assert
+        Assert.Equal($"{common.OutputDir}{expectedEndsWith}", containerScriptFile);
     }
 }
