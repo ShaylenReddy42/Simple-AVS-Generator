@@ -125,7 +125,7 @@ public class Extensions
         {
             if ((string)extensions[i, 0] == fileType)
             {
-                filter += $"{extensions[i, 1].ToString()?.Substring(1).ToUpper()} ";
+                filter += $"{extensions[i, 1].ToString()?[1..].ToUpper()} ";
             }
         }
 

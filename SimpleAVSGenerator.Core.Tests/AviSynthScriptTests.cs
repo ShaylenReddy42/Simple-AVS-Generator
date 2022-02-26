@@ -10,13 +10,13 @@ public class AviSynthScriptTests
     public static IEnumerable<object[]> AviSynthScript_CheckScriptContentForVariousUseCases_TestData =
     new[]
     {
-        new object[] { @"C:\Users\User\Desktop\Sample1.mp4", true, false, true,  true,   "o", 21 },
-        new object[] { @"C:\Users\User\Desktop\Sample2.mp4", true, false, false, true,   "v", 13 },
-        new object[] { @"C:\Users\User\Desktop\Sample3.mp4", true, true,  true,  true,   "a", 9  },
-        new object[] { @"C:\Users\User\Desktop\Sample4.mp4", true, true,  false, false, "\n", 3  },
-        new object[] { @"C:\Users\User\Desktop\Sample5.264", true, false, false, true,   "v", 13 },
-        new object[] { @"C:\Users\User\Desktop\Sample6.264", true, true,  false, false, "\n", 3  },
-        new object[] { @"C:\Users\User\Desktop\Sample7.m4a", false, false, true, true,   "a", 9  }
+        new object[] { @"C:\Users\User\Desktop\Sample1.mp4", true, false, true,  true,   'o', 21 },
+        new object[] { @"C:\Users\User\Desktop\Sample2.mp4", true, false, false, true,   'v', 13 },
+        new object[] { @"C:\Users\User\Desktop\Sample3.mp4", true, true,  true,  true,   'a', 9  },
+        new object[] { @"C:\Users\User\Desktop\Sample4.mp4", true, true,  false, false, '\n', 3  },
+        new object[] { @"C:\Users\User\Desktop\Sample5.264", true, false, false, true,   'v', 13 },
+        new object[] { @"C:\Users\User\Desktop\Sample6.264", true, true,  false, false, '\n', 3  },
+        new object[] { @"C:\Users\User\Desktop\Sample7.m4a", false, false, true, true,   'a', 9  }
     };
 
     [Theory (DisplayName = "Validate Script Content For Various Use Cases")]
@@ -28,7 +28,7 @@ public class AviSynthScriptTests
         bool muxOriginalVideo,
         bool audio,
         bool expectedCreateAviSynthScript,
-        string expectedEndsWith,
+        char expectedEndsWith,
         int expectedLineCount
     )
     {
@@ -48,7 +48,7 @@ public class AviSynthScriptTests
         script.SetScriptContent();
 
         bool actualCreateAviSynthScript = script.CreateAviSynthScript;
-        string actualEndsWith = script.AVSScriptContent.Substring(script.AVSScriptContent.Length - 1);
+        char actualEndsWith = script.AVSScriptContent[^1];
         // Split the string using the line feed character which creates a string array
         // and get the length of the array
         int actualLineCount = (script.AVSScriptContent.Split('\n')).Length;
