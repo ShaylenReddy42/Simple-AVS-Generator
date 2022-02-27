@@ -37,7 +37,7 @@
 using System.Collections.Generic;
 using Xunit;
 
-namespace SimpleAVSGenerator.Core.Tests;
+namespace SimpleAVSGeneratorCore.Tests;
 
 public class CommonTests
 {

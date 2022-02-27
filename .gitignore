@@ -7,11 +7,11 @@ publish/
 SimpleAVSGenerator/bin/
 SimpleAVSGenerator/obj/
 
-SimpleAVSGenerator.Core/bin/
-SimpleAVSGenerator.Core/obj/
+SimpleAVSGeneratorCore/bin/
+SimpleAVSGeneratorCore/obj/
 
-SimpleAVSGenerator.Core.Tests/bin/
-SimpleAVSGenerator.Core.Tests/obj/
+SimpleAVSGeneratorCore.Tests/bin/
+SimpleAVSGeneratorCore.Tests/obj/
 
 # File extensions
 *.exe

@@ -10,7 +10,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\SimpleAVSGenerator.Core\SimpleAVSGenerator.Core.csproj" />
+    <ProjectReference Include="..\SimpleAVSGeneratorCore\SimpleAVSGeneratorCore.csproj" />
   </ItemGroup>
 
   <ItemGroup>

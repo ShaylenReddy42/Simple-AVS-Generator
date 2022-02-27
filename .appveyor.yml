@@ -11,7 +11,7 @@ build_script:
     - cmd: build.cmd
 
 test_script:
-    - cmd: dotnet test -c Debug "SimpleAVSGenerator.Core.Tests\SimpleAVSGenerator.Core.Tests.csproj"
+    - cmd: dotnet test -c Debug "SimpleAVSGeneratorCore.Tests\SimpleAVSGeneratorCore.Tests.csproj"
 
 artifacts:
     - path: "publish\\Simple AVS Generator.exe"

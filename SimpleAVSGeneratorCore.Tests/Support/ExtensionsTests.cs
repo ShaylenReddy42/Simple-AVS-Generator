@@ -19,9 +19,9 @@
 using System.Collections.Generic;
 using Xunit;
 
-using SimpleAVSGenerator.Core.Support;
+using SimpleAVSGeneratorCore.Support;
 
-namespace SimpleAVSGenerator.Core.Tests.Support;
+namespace SimpleAVSGeneratorCore.Tests.Support;
 
 public class ExtensionsTests
 {

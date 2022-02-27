@@ -19,10 +19,10 @@
 using System.Collections.Generic;
 using Xunit;
 
-using static SimpleAVSGenerator.Core.Support.Video;
-using static SimpleAVSGenerator.Core.Support.Audio;
+using static SimpleAVSGeneratorCore.Support.Video;
+using static SimpleAVSGeneratorCore.Support.Audio;
 
-namespace SimpleAVSGenerator.Core.Tests;
+namespace SimpleAVSGeneratorCore.Tests;
 
 public class InputFileHandlerTests
 {

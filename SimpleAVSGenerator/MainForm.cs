@@ -18,11 +18,11 @@
 
 using System.Diagnostics;
 
-using SimpleAVSGenerator.Core;
-using SimpleAVSGenerator.Core.Support;
+using SimpleAVSGeneratorCore;
+using SimpleAVSGeneratorCore.Support;
 
-using static SimpleAVSGenerator.Core.Support.Video;
-using static SimpleAVSGenerator.Core.Support.Audio;
+using static SimpleAVSGeneratorCore.Support.Video;
+using static SimpleAVSGeneratorCore.Support.Audio;
 
 namespace SimpleAVSGenerator;
 
