@@ -247,7 +247,7 @@ public class OutputScriptsTests
         Assert.Contains(expectedMultiplexer, containerScriptContent);
     }
 
-    // Filename | Video | MuxOriginalVideo | VideoCodec | OutputContainer | Expected string in script
+    // Filename | MuxOriginalVideo | VideoCodec | OutputContainer | Expected string in script
     public static IEnumerable<object[]> ConfigureContainerScript_ValidateVideoStringInScript_TestData =
     new[]
     {
