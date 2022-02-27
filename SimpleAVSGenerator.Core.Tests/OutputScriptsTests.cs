@@ -251,14 +251,14 @@ public class OutputScriptsTests
     public static IEnumerable<object[]> ConfigureContainerScript_ValidateVideoStringInScript_TestData =
     new[]
     {
-        new object[] { @"C:\Users\User\Desktop\Sample.mp4", true, false, "HEVC",         "MP4", $"-add \"%~dp0Video.265\":name="                       },
-        new object[] { @"C:\Users\User\Desktop\Sample.mp4", true, false, "AV1",          "MP4", $"-add \"%~dp0Video.ivf\":name="                       },
-        new object[] { @"C:\Users\User\Desktop\Sample.mp4", true, false, "AVC",          "MP4", $"-add \"%~dp0Video.264\":name="                       },
-        new object[] { @"C:\Users\User\Desktop\Sample.mp4", true, true,  "Mux Original", "MP4", $"-add \"C:\\Users\\User\\Desktop\\Sample.mp4\"#video" },
-        new object[] { @"C:\Users\User\Desktop\Sample.mp4", true, false, "HEVC",         "MKV", $"\"%~dp0Video.265\""                                  },
-        new object[] { @"C:\Users\User\Desktop\Sample.mp4", true, false, "AV1",          "MKV", $"\"%~dp0Video.ivf\""                                  },
-        new object[] { @"C:\Users\User\Desktop\Sample.mp4", true, false, "AVC",          "MKV", $"\"%~dp0Video.264\""                                  },
-        new object[] { @"C:\Users\User\Desktop\Sample.mp4", true, true,  "Mux Original", "MKV", $"--no-audio \"C:\\Users\\User\\Desktop\\Sample.mp4\"" }
+        new object[] { @"C:\Users\User\Desktop\Sample.mp4", false, "HEVC",         "MP4", $"-add \"%~dp0Video.265\":name="                       },
+        new object[] { @"C:\Users\User\Desktop\Sample.mp4", false, "AV1",          "MP4", $"-add \"%~dp0Video.ivf\":name="                       },
+        new object[] { @"C:\Users\User\Desktop\Sample.mp4", false, "AVC",          "MP4", $"-add \"%~dp0Video.264\":name="                       },
+        new object[] { @"C:\Users\User\Desktop\Sample.mp4", true,  "Mux Original", "MP4", $"-add \"C:\\Users\\User\\Desktop\\Sample.mp4\"#video" },
+        new object[] { @"C:\Users\User\Desktop\Sample.mp4", false, "HEVC",         "MKV", $"\"%~dp0Video.265\""                                  },
+        new object[] { @"C:\Users\User\Desktop\Sample.mp4", false, "AV1",          "MKV", $"\"%~dp0Video.ivf\""                                  },
+        new object[] { @"C:\Users\User\Desktop\Sample.mp4", false, "AVC",          "MKV", $"\"%~dp0Video.264\""                                  },
+        new object[] { @"C:\Users\User\Desktop\Sample.mp4", true,  "Mux Original", "MKV", $"--no-audio \"C:\\Users\\User\\Desktop\\Sample.mp4\"" }
     };
 
     [Theory(DisplayName = "Validate Video String In Script")]
@@ -266,7 +266,6 @@ public class OutputScriptsTests
     public void ConfigureContainerScript_ValidateVideoStringInScript
     (
         string fileName,
-        bool video,
         bool muxOriginalVideo,
         string videoCodec,
         string outputContainer,
@@ -277,7 +276,7 @@ public class OutputScriptsTests
         Common common = new(fileName)
         {
             OutputDir = @"C:\Users\User\Desktop\Temp\Sample\",
-            Video = video,
+            Video = true,
             MuxOriginalVideo = muxOriginalVideo,
             VideoCodec = videoCodec,
             VideoExtension = outputVideoCodecsDictionary[videoCodec],
