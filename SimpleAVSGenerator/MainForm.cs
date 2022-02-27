@@ -36,9 +36,13 @@ public partial class MainForm : Form
 
         if (Properties.Settings.Default.Location.X <= 0 ||
             Properties.Settings.Default.Location.Y <= 0)
+        {
             this.StartPosition = FormStartPosition.CenterScreen;
+        }
         else
+        {
             this.DataBindings.Add("Location", Properties.Settings.Default, "Location", true, DataSourceUpdateMode.OnPropertyChanged);
+        }
 
         txbOutFile.Text = home;
         PopulateComboBoxes();
@@ -88,20 +92,20 @@ public partial class MainForm : Form
         Dictionary<string, object[]> audioCodecBitratesDictionary = selectableAudioBitratesDictionary[audioCodec];
         cmbBitrate.Items.AddRange(audioCodecBitratesDictionary[audioChannels]);
 
-        Dictionary<string, int> audioCodecDefaultAudioBitrateDictionary = defaultAudioBitratesDictionary[audioCodec];
-        cmbBitrate.SelectedItem = audioCodecDefaultAudioBitrateDictionary[audioChannels];
+        Dictionary<string, int> audioCodecDefaultAudioBitratesDictionary = defaultAudioBitratesDictionary[audioCodec];
+        cmbBitrate.SelectedItem = audioCodecDefaultAudioBitratesDictionary[audioChannels];
     }
 
     void EnableUI()
     {
         string? type = input?.common.FileType;
         
-        cbxVideo.Enabled = type != "AUDIO";
-        cbxVideo.Checked = type == "VIDEO";
-        cbxAudio.Enabled = type != "VIDEO";
-        cbxAudio.Checked = type == "AUDIO";
-        cbxMP4.Enabled   = type != "AUDIO";
-        cbxMKV.Enabled   = type != "AUDIO";
+        cbxVideo.Enabled = type is not "AUDIO";
+        cbxVideo.Checked = type is "VIDEO";
+        cbxAudio.Enabled = type is not "VIDEO";
+        cbxAudio.Checked = type is "AUDIO";
+        cbxMP4.Enabled   = type is not "AUDIO";
+        cbxMKV.Enabled   = type is not "AUDIO";
     }
 
     void New()
@@ -187,11 +191,11 @@ public partial class MainForm : Form
             Directory.CreateDirectory(input.common.OutputDir);
 
             input.common.Video = cbxVideo.Checked;
-            input.common.MuxOriginalVideo = (string)cmbVideoCodec.SelectedItem == "Mux Original";
+            input.common.MuxOriginalVideo = (string)cmbVideoCodec.SelectedItem is "Mux Original";
             input.common.VideoCodec = (string)cmbVideoCodec.SelectedItem;
             input.common.SourceFPS = sourceFPSDictionary[(string)cmbSourceFPS.SelectedItem];
             input.common.KeyframeIntervalInSeconds = keyframeIntervalDictionary[(string)cmbKeyframeInterval.SelectedItem];
-            input.common.NeedsToBeResized = (string)cmbVideoCodec.SelectedItem == "WhatsApp";
+            input.common.NeedsToBeResized = (string)cmbVideoCodec.SelectedItem is "WhatsApp";
             input.common.VideoExtension = outputVideoCodecsDictionary[(string)cmbVideoCodec.SelectedItem];
             
             input.common.Audio = cbxAudio.Checked;
@@ -224,7 +228,7 @@ public partial class MainForm : Form
 
     private void MainForm_MouseMove(object sender, MouseEventArgs e)
     {
-        if (dragging)
+        if (dragging is true)
         {
             Point dif = Point.Subtract(Cursor.Position, new Size(dragCursorPoint));
             this.Location = Point.Add(dragFormPoint, new Size(dif));
@@ -278,7 +282,7 @@ public partial class MainForm : Form
     
     private void cmbVideoCodec_SelectedIndexChanged(object sender, EventArgs e)
     {
-        if ((string)cmbVideoCodec.SelectedItem == "Mux Original" && input?.common.IsSupportedByMP4Box is false)
+        if ((string)cmbVideoCodec.SelectedItem is "Mux Original" && input?.common.IsSupportedByMP4Box is false)
         {
             cbxMP4.Enabled = false;
             cbxMP4.Checked = false;
@@ -294,14 +298,18 @@ public partial class MainForm : Form
 
     private void cbxMP4_CheckedChanged(object sender, EventArgs e)
     {
-        if (cbxMP4.Checked)
+        if (cbxMP4.Checked is true)
+        {
             cbxMKV.Checked = false;
+        }
     }
 
     private void cbxMKV_CheckedChanged(object sender, EventArgs e)
     {
-        if (cbxMKV.Checked)
+        if (cbxMKV.Checked is true)
+        {
             cbxMP4.Checked = false;
+        }
     }
 
     private void lblClose_MouseEnter(object sender, EventArgs e)

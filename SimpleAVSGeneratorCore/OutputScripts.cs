@@ -45,22 +45,22 @@ public class OutputScripts
             string? vPipe = "avs2pipemod -y4mp \"%~dp0Script.avs\" | ",
                     vEncoder = "";
 
-            if (_common.VideoCodec == "HEVC")
+            if (_common.VideoCodec is "HEVC")
             {
                 vEncoder += $"x265 --profile main --preset slower --crf 26 -i 1 -I {GetKeyframeIntervalInFrames()} --hist-scenecut --hist-threshold 0.02 ";
                 vEncoder += "--fades --aq-mode 4 --aq-motion --aud --no-open-gop --y4m -f 0 - \"%~dp0Video.265\"";
             }
-            else if (_common.VideoCodec == "AV1")
+            else if (_common.VideoCodec is "AV1")
             {
                 vEncoder += "aomenc --passes=1 --end-usage=q --cq-level=32 --target-bitrate=0 ";
                 vEncoder += $"--enable-fwd-kf=1 --kf-max-dist={GetKeyframeIntervalInFrames()} --verbose --ivf -o \"%~dp0Video.ivf\" -";
             }
-            else if (_common.VideoCodec == "AVC")
+            else if (_common.VideoCodec is "AVC")
             {
                 vEncoder += $"x264 --preset veryslow --crf 26 -i 1 -I {GetKeyframeIntervalInFrames()} --bframes 3 --deblock -2:-1 --aq-mode 3 ";
                 vEncoder += "--aud --no-mbtree --demuxer y4m --frames 0 -o \"%~dp0Video.264\" -";
             }
-            else if (_common.VideoCodec == "WhatsApp")
+            else if (_common.VideoCodec is "WhatsApp")
             {
                 vEncoder += $"x264 --profile baseline --preset veryslow --crf 26 -i 1 -I {GetKeyframeIntervalInFrames()} --ref 1 --deblock -2:-1 ";
                 vEncoder += "--aud --no-mbtree --demuxer y4m --frames 0 -o \"%~dp0Video.264\" -";
@@ -78,17 +78,17 @@ public class OutputScripts
             string? aPipe = "avs2pipemod -wav=16bit \"%~dp0Script.avs\" | ",
                     aEncoder = "";
 
-            if (_common.AudioCodec == "AAC-LC")
+            if (_common.AudioCodec is "AAC-LC")
             {
                 aEncoder += $"qaac64 --abr {_common.AudioBitrate} --ignorelength --no-delay ";
                 aEncoder += $"-o \"%~dp0{_common.FileNameOnly}{_common.AudioExtension}\" - ";
             }
-            else if (_common.AudioCodec == "AAC-HE")
+            else if (_common.AudioCodec is "AAC-HE")
             {
                 aEncoder += $"qaac64 --he --abr {_common.AudioBitrate} --ignorelength ";
                 aEncoder += $"-o \"%~dp0{_common.FileNameOnly}{_common.AudioExtension}\" - ";
             }
-            else if (_common.AudioCodec == "OPUS")
+            else if (_common.AudioCodec is "OPUS")
             {
                 aEncoder += $"opusenc --bitrate {_common.AudioBitrate} --ignorelength ";
                 aEncoder += $"- \"%~dp0{_common.FileNameOnly}{_common.AudioExtension}\"";
@@ -103,7 +103,7 @@ public class OutputScripts
     {
         string? fileContents = null;
 
-        if (_common.OutputContainer == "MP4")
+        if (_common.OutputContainer is "MP4")
         {
             string mp4V = _common.MuxOriginalVideo is false
                         ? $"-add \"%~dp0Video{_common.VideoExtension}\":name="
@@ -113,7 +113,7 @@ public class OutputScripts
 
             fileContents = $"mp4box {mp4V} {mp4A} {newmp4}";
         }
-        else if (_common.OutputContainer == "MKV")
+        else if (_common.OutputContainer is "MKV")
         {
             string mkvO = $"-o \"%~dp0{_common.FileNameOnly}.mkv\"",
                    mkvV = _common.MuxOriginalVideo is false

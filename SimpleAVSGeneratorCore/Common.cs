@@ -58,7 +58,7 @@ public class Common
     public Common(string fileName)
     {
         FileName = fileName;
-        FileExt = Path.GetExtension(FileName);
+        FileExt = Path.GetExtension(FileName).ToLower();
         FileNameOnly = Path.GetFileNameWithoutExtension(FileName);
 
         Extensions se = new();

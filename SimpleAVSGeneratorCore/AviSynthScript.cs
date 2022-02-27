@@ -26,7 +26,7 @@ public class AviSynthScript
     
     public bool CreateAviSynthScript { get; private set; } = default;
     public string AVSScriptFile { get; set; }
-    public string AVSScriptContent { get; private set; } = "";
+    public string AVSScriptContent { get; private set; } = string.Empty;
 
     public AviSynthScript(Common common)
     {

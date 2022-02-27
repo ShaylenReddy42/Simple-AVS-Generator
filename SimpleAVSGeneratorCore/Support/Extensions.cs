@@ -91,7 +91,7 @@ public class Extensions
 
     private void SetSupportFor(string fileType)
     {
-        string support = "";
+        string support = string.Empty;
 
         for (int i = 0; i < extensions.GetLength(0); i++)
         {
@@ -119,7 +119,7 @@ public class Extensions
 
     private void SetFilterFor(string fileType)
     {
-        string filter = "";
+        string filter = string.Empty;
         
         for (int i = 0; i < extensions.GetLength(0); i++)
         {
@@ -147,17 +147,18 @@ public class Extensions
 
     public string DetermineInputFileType(string fileExt)
     {
-        string ext = string.Empty;
+        string fileType = string.Empty;
         
         for (int i = 0; i < extensions.GetLength(0); i++)
         {
-            if (fileExt.Equals((string)extensions[i,1], StringComparison.OrdinalIgnoreCase))
+            if ((string)extensions[i, 1] == fileExt)
             {
-                ext = (string)extensions[i,0];
+                fileType = (string)extensions[i, 0];
+                break;
             }
         }
 
-        return ext;
+        return fileType;
     }
 
     public bool IsSupportedByMP4Box(string fileExt)
@@ -166,9 +167,10 @@ public class Extensions
 
         for (int i = 0; i < extensions.GetLength(0); i++)
         {
-            if (fileExt.Equals((string)extensions[i, 1], StringComparison.OrdinalIgnoreCase))
+            if ((string)extensions[i, 1] == fileExt)
             {
                 supported = (bool)extensions[i, 2];
+                break;
             }
         }
 
