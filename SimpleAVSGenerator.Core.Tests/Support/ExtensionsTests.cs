@@ -1,5 +1,24 @@
-﻿using System.Collections.Generic;
+﻿/******************************************************************************
+ * Copyright (C) 2022 Shaylen Reddy
+ * 
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License along
+ * with this program; if not, write to the Free Software Foundation, Inc.,
+ * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+ ******************************************************************************/
+
+using System.Collections.Generic;
 using Xunit;
+
 using SimpleAVSGenerator.Core.Support;
 
 namespace SimpleAVSGenerator.Core.Tests.Support;
@@ -15,7 +34,7 @@ public class ExtensionsTests
         new object[] { ".m4a", "AUDIO"     }
     };
 
-    [Theory (DisplayName = "Validate That Input File Type Is Set Correctly")]
+    [Theory(DisplayName = "Validate That Input File Type Is Set Correctly")]
     [MemberData(nameof(DetermineInputFileType_ValidateFileTypeIsCorrect_TestData))]
     public void DetermineInputFileType_ValidateFileTypeIsCorrect
     (
@@ -34,16 +53,17 @@ public class ExtensionsTests
         Assert.Equal(expectedFileType, actualFileType);
     }
 
+    // FileExt | Expected IsSupportedByMP4Box
     public static IEnumerable<object[]> IsSupportedByMP4Box_ValidateSupport_TestData =
     new[]
     {
         new object[] { ".mp4", true  },
         new object[] { ".mkv", false },
         new object[] { ".264", true  },
-        new object[] { ".m4a", true  },
+        new object[] { ".m4a", true  }
     };
 
-    [Theory (DisplayName = "Validate That MP4Box Support Is Set Correctly")]
+    [Theory(DisplayName = "Validate That MP4Box Support Is Set Correctly")]
     [MemberData(nameof(IsSupportedByMP4Box_ValidateSupport_TestData))]
     public void IsSupportedByMP4Box_ValidateSupport
     (
@@ -62,7 +82,7 @@ public class ExtensionsTests
         Assert.Equal(expectedIsSupportedByMP4Box, actualIsSupportedByMP4Box);
     }
 
-    [Theory (DisplayName = "Check Supported Extension Type Strings For Regex Pattern \"*.ext1;*.ext2\"")]
+    [Theory(DisplayName = "Check Supported Extension Type Strings For Regex Pattern \"*.ext1;*.ext2\"")]
     [InlineData("CONTAINER")]
     [InlineData("VIDEO")]
     [InlineData("AUDIO")]
@@ -106,7 +126,7 @@ public class ExtensionsTests
         Assert.Matches(expectedPattern, supportedExts);
     }
 
-    [Theory (DisplayName = "Check Filter Extension Type Strings For Regex Pattern \"EXT1 EXT2\"")]
+    [Theory(DisplayName = "Check Filter Extension Type Strings For Regex Pattern \"EXT1 EXT2\"")]
     [InlineData("CONTAINER")]
     [InlineData("VIDEO")]
     [InlineData("AUDIO")]

@@ -1,4 +1,40 @@
-﻿using System.Collections.Generic;
+﻿/******************************************************************************
+ * Copyright (C) 2022 Shaylen Reddy
+ * 
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License along
+ * with this program; if not, write to the Free Software Foundation, Inc.,
+ * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+ ******************************************************************************/
+
+/******************************************************************************
+ * Copyright (C) 2022 Shaylen Reddy
+ * 
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License along
+ * with this program; if not, write to the Free Software Foundation, Inc.,
+ * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+ ******************************************************************************/
+
+using System.Collections.Generic;
 using Xunit;
 
 namespace SimpleAVSGenerator.Core.Tests;
@@ -15,7 +51,7 @@ public class CommonTests
         new object[] { @"C:\Users\User\Desktop\Sample4.m4a", ".m4a", "Sample4", "AUDIO",     true  }
     };
 
-    [Theory (DisplayName = "Check If Properties Are Set Accurately")]
+    [Theory(DisplayName = "Check If Properties Are Set Accurately")]
     [MemberData(nameof(Common_CheckIfPropertiesAreSetAccurately_TestData))]
     public void Common_CheckIfPropertiesAreSetAccurately
     (
@@ -34,7 +70,7 @@ public class CommonTests
         string actualFileName     = common.FileName,
                actualFileExt      = common.FileExt,
                actualFileNameOnly = common.FileNameOnly,
-               actualFileType = common.FileType;
+               actualFileType     = common.FileType;
         bool actualIsSupportedByMP4Box = common.IsSupportedByMP4Box;
 
         object[] actualProperties = { actualFileName, actualFileExt, actualFileNameOnly, actualFileType, actualIsSupportedByMP4Box };

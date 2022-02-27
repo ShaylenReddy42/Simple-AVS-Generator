@@ -1,4 +1,22 @@
-﻿using System.Collections.Generic;
+﻿/******************************************************************************
+ * Copyright (C) 2022 Shaylen Reddy
+ * 
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License along
+ * with this program; if not, write to the Free Software Foundation, Inc.,
+ * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+ ******************************************************************************/
+
+using System.Collections.Generic;
 using Xunit;
 
 using static SimpleAVSGenerator.Core.Support.Video;
@@ -18,7 +36,7 @@ public class OutputScriptsTests
         new object[] { "WhatsApp", "x264"   }
     };
 
-    [Theory (DisplayName = "Validate Which Video Encoder Is Used")]
+    [Theory(DisplayName = "Validate Which Video Encoder Is Used")]
     [MemberData(nameof(ConfigureVideoScript_ValidateWhichVideoEncoderIsUsed_TestData))]
     public void ConfigureVideoScript_ValidateWhichVideoEncoderIsUsed
     (
@@ -57,7 +75,7 @@ public class OutputScriptsTests
         new object[] { "WhatsApp", 60, 10, "-I 600"            }
     };
 
-    [Theory (DisplayName = "Validate Keyframe Interval In Frames")]
+    [Theory(DisplayName = "Validate Keyframe Interval In Frames")]
     [MemberData(nameof(ConfigureVideoScript_ValidateKeyframeIntervalInFrames_TestData))]
     public void ConfigureVideoScript_ValidateKeyframeIntervalInFrames
     (
@@ -98,7 +116,7 @@ public class OutputScriptsTests
         new object[] { "WhatsApp", "Encode Video [WhatsApp].cmd" }
     };
 
-    [Theory (DisplayName = "Validate The Video Script Filename")]
+    [Theory(DisplayName = "Validate The Video Script Filename")]
     [MemberData(nameof(ConfigureVideoScript_ValidateTheVideoScriptFilename_TestData))]
     public void ConfigureVideoScript_ValidateTheVideoScriptFilename
     (
@@ -136,7 +154,7 @@ public class OutputScriptsTests
         new object[] { "OPUS",   ".ogg", "opusenc"     }
     };
 
-    [Theory (DisplayName = "Validate Which Audio Encoder Is Used")]
+    [Theory(DisplayName = "Validate Which Audio Encoder Is Used")]
     [MemberData(nameof(ConfigureAudioScript_ValidateWhichAudioEncoderIsUsed_TestData))]
     public void ConfigureAudioScript_ValidateWhichAudioEncoderIsUsed
     (
@@ -174,7 +192,7 @@ public class OutputScriptsTests
         new object[] { "OPUS",   ".ogg", "Encode Audio [OPUS].cmd"   }
     };
 
-    [Theory (DisplayName = "Validate The Audio Script Filename")]
+    [Theory(DisplayName = "Validate The Audio Script Filename")]
     [MemberData(nameof(ConfigureAudioScript_ValidateTheAudioScriptFilename_TestData))]
     public void ConfigureAudioScript_ValidateTheAudioScriptFilename
     (
@@ -203,7 +221,7 @@ public class OutputScriptsTests
         Assert.Equal($"{common.OutputDir}{expectedEndsWith}", audioEncoderScriptFile);
     }
 
-    [Theory (DisplayName = "Validate Which Multiplexer Is Used")]
+    [Theory(DisplayName = "Validate Which Multiplexer Is Used")]
     // OutputContainer | Expected multiplexer
     [InlineData("MP4", "mp4box")]
     [InlineData("MKV", "mkvmerge")]
@@ -243,8 +261,8 @@ public class OutputScriptsTests
         new object[] { @"C:\Users\User\Desktop\Sample.mp4", true, true,  "Mux Original", "MKV", $"--no-audio \"C:\\Users\\User\\Desktop\\Sample.mp4\"" }
     };
 
-    [Theory (DisplayName = "Validate Video String In Script")]
-    [MemberData (nameof(ConfigureContainerScript_ValidateVideoStringInScript_TestData))]
+    [Theory(DisplayName = "Validate Video String In Script")]
+    [MemberData(nameof(ConfigureContainerScript_ValidateVideoStringInScript_TestData))]
     public void ConfigureContainerScript_ValidateVideoStringInScript
     (
         string fileName,
@@ -288,7 +306,7 @@ public class OutputScriptsTests
         new object[] { @"C:\Users\User\Desktop\Sample.mp4", "OPUS",   "Japanese", "MKV", $"--language 0:jpn \"%~dp0Sample.ogg\""    }
     };
 
-    [Theory (DisplayName = "Validate Audio String In Script")]
+    [Theory(DisplayName = "Validate Audio String In Script")]
     [MemberData(nameof(ConfigureContainerScript_ValidateAudioStringInScript_TestData))]
     public void ConfigureContainerScript_ValidateAudioStringInScript
     (
@@ -332,7 +350,7 @@ public class OutputScriptsTests
         new object[] { @"C:\Users\User\Desktop\Sample.mp4", "MKV", $"-o \"%~dp0Sample.mkv\""   },
     };
 
-    [Theory (DisplayName = "Validate Output File String In Script")]
+    [Theory(DisplayName = "Validate Output File String In Script")]
     [MemberData(nameof(ConfigureContainerScript_ValidateOutputFileStringInScript_TestData))]
     public void ConfigureContainerScript_ValidateOutputFileStringInScript
     (
@@ -367,7 +385,7 @@ public class OutputScriptsTests
         new object[] { true,  "MKV", $"MKV Mux [Original Video].cmd" }
     };
 
-    [Theory (DisplayName = "Validate The Container Script Filename")]
+    [Theory(DisplayName = "Validate The Container Script Filename")]
     [MemberData(nameof(ConfigureContainerScript_ValidateTheContainerScriptFilename_TestData))]
     public void ConfigureContainerScript_ValidateTheContainerScriptFilename
     (
