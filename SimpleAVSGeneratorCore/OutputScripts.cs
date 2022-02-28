@@ -25,8 +25,8 @@ public class OutputScripts
 {
     private Common _common;
 
-    private int? _SourceFPS;
-    private int? _KeyframeIntervalInSeconds;
+    private int? _SourceFPS { get; set; }
+    private int? _KeyframeIntervalInSeconds { get; set; }
     
     private string _AudioLanguage { get; set; }
 
