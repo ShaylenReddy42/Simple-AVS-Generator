@@ -89,11 +89,10 @@ public partial class MainForm : Form
         string? audioCodec    = (string)cmbAudioCodec.SelectedItem,
                 audioChannels = (string)cmbChannels.SelectedItem ?? "Stereo";
 
-        Dictionary<string, object[]> audioCodecBitratesDictionary = selectableAudioBitratesDictionary[audioCodec];
-        cmbBitrate.Items.AddRange(audioCodecBitratesDictionary[audioChannels]);
+        (object[] selectableAudioBitrates, int defaultAudioBitrate) = GetSelectableAndDefaultAudioBitrates(audioCodec, audioChannels);
 
-        Dictionary<string, int> audioCodecDefaultAudioBitratesDictionary = defaultAudioBitratesDictionary[audioCodec];
-        cmbBitrate.SelectedItem = audioCodecDefaultAudioBitratesDictionary[audioChannels];
+        cmbBitrate.Items.AddRange(selectableAudioBitrates);
+        cmbBitrate.SelectedItem = defaultAudioBitrate;
     }
 
     void EnableUI()

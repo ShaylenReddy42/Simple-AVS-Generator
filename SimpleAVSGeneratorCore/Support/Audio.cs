@@ -36,14 +36,14 @@ public class Audio
         { "OPUS",   ".ogg" }
     };
 
-    public static string [] outputAudioChannels =
+    public static string[] outputAudioChannels =
     {
         "Stereo",
         "Surround 5.1",
         "Surround 7.1"
     };
 
-    public static Dictionary<string, Dictionary<string, object[]>> selectableAudioBitratesDictionary = new()
+    private static Dictionary<string, Dictionary<string, object[]>> selectableAudioBitratesDictionary = new()
     {
         { 
             "AAC-LC",  
@@ -74,7 +74,7 @@ public class Audio
         }
     };
 
-    public static Dictionary<string, Dictionary<string, int>> defaultAudioBitratesDictionary = new()
+    private static Dictionary<string, Dictionary<string, int>> defaultAudioBitratesDictionary = new()
     {
         {
             "AAC-LC",
@@ -104,4 +104,12 @@ public class Audio
             }
         }
     };
+
+    public static (object[], int) GetSelectableAndDefaultAudioBitrates(string audioCodec, string audioChannels)
+    {
+        Dictionary<string, object[]> audioCodecBitratesDictionary = selectableAudioBitratesDictionary[audioCodec];
+        Dictionary<string, int> audioCodecDefaultAudioBitratesDictionary = defaultAudioBitratesDictionary[audioCodec];
+
+        return (audioCodecBitratesDictionary[audioChannels], audioCodecDefaultAudioBitratesDictionary[audioChannels]);
+    }
 }
