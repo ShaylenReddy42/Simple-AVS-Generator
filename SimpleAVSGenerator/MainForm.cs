@@ -191,8 +191,8 @@ public partial class MainForm : Form
 
             input.common.Video = cbxVideo.Checked;
             input.common.VideoCodec = (string)cmbVideoCodec.SelectedItem;
-            input.common.SourceFPS = sourceFPSDictionary[(string)cmbSourceFPS.SelectedItem];
-            input.common.KeyframeIntervalInSeconds = keyframeIntervalDictionary[(string)cmbKeyframeInterval.SelectedItem];
+            input.common.SourceFPS = (string)cmbSourceFPS.SelectedItem;
+            input.common.KeyframeIntervalInSeconds = (string)cmbKeyframeInterval.SelectedItem;
             
             input.common.Audio = cbxAudio.Checked;
             input.common.AudioCodec = (string)cmbAudioCodec.SelectedItem;

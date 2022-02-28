@@ -54,8 +54,8 @@ public class InputFileHandlerTests
 
         input.common.Video = video;
         input.common.VideoCodec = videoCodec;
-        input.common.SourceFPS = 24;
-        input.common.KeyframeIntervalInSeconds = 2;
+        input.common.SourceFPS = "25";
+        input.common.KeyframeIntervalInSeconds = "2 Seconds";
 
         input.common.Audio = audio;
         input.common.AudioCodec = "AAC-LC";

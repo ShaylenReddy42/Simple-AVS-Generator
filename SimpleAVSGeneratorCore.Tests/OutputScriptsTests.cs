@@ -47,8 +47,8 @@ public class OutputScriptsTests
             OutputDir = @"C:\Users\User\Desktop\Temp\Sample\",
             Video = true,
             VideoCodec = videoCodec,
-            SourceFPS = 24,
-            KeyframeIntervalInSeconds = 2
+            SourceFPS = "25",
+            KeyframeIntervalInSeconds = "2 Seconds"
         };
         
         // Act
@@ -65,10 +65,10 @@ public class OutputScriptsTests
     public static IEnumerable<object[]> ConfigureVideoScript_ValidateKeyframeIntervalInFrames_TestData =
     new[]
     {
-        new object[] { "HEVC",     24, 2,  "-I 48"             },
-        new object[] { "AV1",      25, 5,  "--kf-max-dist=125" },
-        new object[] { "AVC",      30, 10, "-I 300"            },
-        new object[] { "WhatsApp", 60, 10, "-I 600"            }
+        new object[] { "HEVC",     "23.976 / 24", "2 Seconds",  "-I 48"             },
+        new object[] { "AV1",      "25",          "5 Seconds",  "--kf-max-dist=125" },
+        new object[] { "AVC",      "29.97 / 30",  "10 Seconds", "-I 300"            },
+        new object[] { "WhatsApp", "59.94 / 60",  "10 Seconds", "-I 600"            }
     };
 
     [Theory(DisplayName = "Validate Keyframe Interval In Frames")]
@@ -76,8 +76,8 @@ public class OutputScriptsTests
     public void ConfigureVideoScript_ValidateKeyframeIntervalInFrames
     (
         string videoCodec,
-        int sourceFPS,
-        int keyframeIntervalInSeconds,
+        string sourceFPS,
+        string keyframeIntervalInSeconds,
         string expectedStringInScriptContent
     )
     {
@@ -125,8 +125,8 @@ public class OutputScriptsTests
             OutputDir = @"C:\Users\User\Desktop\Temp\Sample\",
             Video = true,
             VideoCodec = videoCodec,
-            SourceFPS = 24,
-            KeyframeIntervalInSeconds = 2
+            SourceFPS = "25",
+            KeyframeIntervalInSeconds = "2 Seconds"
         };
 
         // Act

@@ -43,8 +43,8 @@ public class Common
     public bool Video { get; set; } = default;
     public string VideoCodec { get; set; } = string.Empty;
     public bool MuxOriginalVideo => VideoCodec is "Mux Original";
-    public int SourceFPS { get; set; }
-    public int KeyframeIntervalInSeconds { get; set; }
+    public string SourceFPS { get; set; } = string.Empty;
+    public string KeyframeIntervalInSeconds { get; set; } = string.Empty;
     public bool NeedsToBeResized => VideoCodec is "WhatsApp";
     public string VideoExtension => VideoCodec is not "" ? outputVideoCodecsDictionary[VideoCodec] : string.Empty; 
 

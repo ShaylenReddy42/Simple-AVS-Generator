@@ -16,6 +16,7 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  ******************************************************************************/
 
+using static SimpleAVSGeneratorCore.Support.Video;
 using static SimpleAVSGeneratorCore.Support.Audio;
 
 namespace SimpleAVSGeneratorCore;
@@ -24,6 +25,9 @@ public class OutputScripts
 {
     private Common _common;
 
+    private int? _SourceFPS;
+    private int? _KeyframeIntervalInSeconds;
+    
     private string _AudioLanguage { get; set; }
 
     public string? VideoEncoderScriptFile { get; private set; }
@@ -38,17 +42,21 @@ public class OutputScripts
     public OutputScripts(Common common)
     {
         _common = common;
+
+        _SourceFPS = _common.SourceFPS is not "" ? sourceFPSDictionary[_common.SourceFPS] : null;
+        _KeyframeIntervalInSeconds = _common.KeyframeIntervalInSeconds is not "" ? keyframeIntervalDictionary[_common.KeyframeIntervalInSeconds] : null;
+
         _AudioLanguage = _common.AudioLanguage is not "" ? languagesDictionary[_common.AudioLanguage] : string.Empty;
     }
 
-    private int GetKeyframeIntervalInFrames() { return _common.SourceFPS * _common.KeyframeIntervalInSeconds; }
+    private int? GetKeyframeIntervalInFrames() { return _SourceFPS * _KeyframeIntervalInSeconds; }
 
     public void ConfigureVideoScript()
     {
         if (_common.Video is true && _common.MuxOriginalVideo is false)
         {
-            string? vPipe = "avs2pipemod -y4mp \"%~dp0Script.avs\" | ",
-                    vEncoder = "";
+            string vPipe    = "avs2pipemod -y4mp \"%~dp0Script.avs\" | ",
+                   vEncoder = string.Empty;
 
             if (_common.VideoCodec is "HEVC")
             {
@@ -80,8 +88,8 @@ public class OutputScripts
     {
         if (_common.Audio is true)
         {
-            string? aPipe = "avs2pipemod -wav=16bit \"%~dp0Script.avs\" | ",
-                    aEncoder = "";
+            string aPipe    = "avs2pipemod -wav=16bit \"%~dp0Script.avs\" | ",
+                   aEncoder = string.Empty;
 
             if (_common.AudioCodec is "AAC-LC")
             {
@@ -106,7 +114,7 @@ public class OutputScripts
 
     public void ConfigureContainerScript()
     {
-        string? fileContents = null;
+        string? fileContent = null;
 
         if (_common.OutputContainer is "MP4")
         {
@@ -116,7 +124,7 @@ public class OutputScripts
                    mp4A = _common.Audio ? $"-add \"%~dp0{_common.FileNameOnly}{_common.AudioExtension}\":name=:lang={_AudioLanguage}" : "",
                    newmp4 = $"-new \"%~dp0{_common.FileNameOnly}.mp4\"";
 
-            fileContents = $"mp4box {mp4V} {mp4A} {newmp4}";
+            fileContent = $"mp4box {mp4V} {mp4A} {newmp4}";
         }
         else if (_common.OutputContainer is "MKV")
         {
@@ -126,12 +134,12 @@ public class OutputScripts
                         : $"--no-audio \"{_common.FileName}\"",
                    mkvA = _common.Audio ? $"--language 0:{_AudioLanguage} \"%~dp0{_common.FileNameOnly}{_common.AudioExtension}\"" : "";
 
-            fileContents = $"mkvmerge {mkvO} {mkvV} {mkvA}";
+            fileContent = $"mkvmerge {mkvO} {mkvV} {mkvA}";
         }
 
         ContainerScriptFile = _common.OutputContainer is not null
                             ? $"{_common.OutputDir}{_common.OutputContainer} Mux{(_common.MuxOriginalVideo ? " [Original Video]" : "")}.cmd"
                             : null;
-        ContainerScriptContent = fileContents;
+        ContainerScriptContent = fileContent;
     }
 }
