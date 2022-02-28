@@ -19,7 +19,6 @@
 using System.Collections.Generic;
 using Xunit;
 
-using static SimpleAVSGeneratorCore.Support.Video;
 using static SimpleAVSGeneratorCore.Support.Audio;
 
 namespace SimpleAVSGeneratorCore.Tests;
@@ -145,13 +144,13 @@ public class OutputScriptsTests
         Assert.Equal($"{common.OutputDir}{expectedEndsWith}", videoEncoderScriptFile);
     }
 
-    // AudioCodec | AudioExtension | Expected audio encoder
+    // AudioCodec | Expected audio encoder
     public static IEnumerable<object[]> ConfigureAudioScript_ValidateWhichAudioEncoderIsUsed_TestData =
     new[]
     {
-        new object[] { "AAC-LC", ".m4a", "qaac64"      },
-        new object[] { "AAC-HE", ".m4a", "qaac64 --he" },
-        new object[] { "OPUS",   ".ogg", "opusenc"     }
+        new object[] { "AAC-LC", "qaac64"      },
+        new object[] { "AAC-HE", "qaac64 --he" },
+        new object[] { "OPUS",   "opusenc"     }
     };
 
     [Theory(DisplayName = "Validate Which Audio Encoder Is Used")]
@@ -159,7 +158,6 @@ public class OutputScriptsTests
     public void ConfigureAudioScript_ValidateWhichAudioEncoderIsUsed
     (
         string audioCodec,
-        string audioExtension,
         string expectedAudioEncoder
     )
     {
@@ -169,8 +167,7 @@ public class OutputScriptsTests
             OutputDir = @"C:\Users\User\Desktop\Temp\Sample\",
             Audio = true,
             AudioCodec = audioCodec,
-            AudioBitrate = 128,
-            AudioExtension = audioExtension
+            AudioBitrate = 128
         };
 
         // Act
@@ -183,13 +180,13 @@ public class OutputScriptsTests
         Assert.Contains(expectedAudioEncoder, audioEncoderScriptContent);
     }
 
-    // AudioCodec | AudioExtension | Expected filename ending
+    // AudioCodec | Expected filename ending
     public static IEnumerable<object[]> ConfigureAudioScript_ValidateTheAudioScriptFilename_TestData =
     new[]
     {
-        new object[] { "AAC-LC", ".m4a", "Encode Audio [AAC-LC].cmd" },
-        new object[] { "AAC-HE", ".m4a", "Encode Audio [AAC-HE].cmd" },
-        new object[] { "OPUS",   ".ogg", "Encode Audio [OPUS].cmd"   }
+        new object[] { "AAC-LC", "Encode Audio [AAC-LC].cmd" },
+        new object[] { "AAC-HE", "Encode Audio [AAC-HE].cmd" },
+        new object[] { "OPUS",   "Encode Audio [OPUS].cmd"   }
     };
 
     [Theory(DisplayName = "Validate The Audio Script Filename")]
@@ -197,7 +194,6 @@ public class OutputScriptsTests
     public void ConfigureAudioScript_ValidateTheAudioScriptFilename
     (
         string audioCodec,
-        string audioExtension,
         string expectedEndsWith
     )
     {
@@ -207,8 +203,7 @@ public class OutputScriptsTests
             OutputDir = @"C:\Users\User\Desktop\Temp\Sample\",
             Audio = true,
             AudioCodec = audioCodec,
-            AudioBitrate = 128,
-            AudioExtension = audioExtension
+            AudioBitrate = 128
         };
 
         // Act
@@ -279,7 +274,6 @@ public class OutputScriptsTests
             Video = true,
             MuxOriginalVideo = muxOriginalVideo,
             VideoCodec = videoCodec,
-            VideoExtension = outputVideoCodecsDictionary[videoCodec],
             OutputContainer = outputContainer
         };
 
@@ -323,10 +317,8 @@ public class OutputScriptsTests
             Video = true,
             MuxOriginalVideo = false,
             VideoCodec = "HEVC",
-            VideoExtension = outputVideoCodecsDictionary["HEVC"],
             Audio = true,
             AudioCodec = audioCodec,
-            AudioExtension = outputAudioCodecsDictionary[audioCodec],
             AudioLanguage = languagesDictionary[audioLanguageKey],
             OutputContainer = outputContainer
         };

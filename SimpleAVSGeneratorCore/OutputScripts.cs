@@ -16,12 +16,15 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  ******************************************************************************/
 
+using static SimpleAVSGeneratorCore.Support.Video;
+using static SimpleAVSGeneratorCore.Support.Audio;
+
 namespace SimpleAVSGeneratorCore;
 
 public class OutputScripts
 {
     private Common _common;
-    
+
     public string? VideoEncoderScriptFile { get; private set; }
     public string? VideoEncoderScriptContent { get; private set; }
 
@@ -48,22 +51,22 @@ public class OutputScripts
             if (_common.VideoCodec is "HEVC")
             {
                 vEncoder += $"x265 --profile main --preset slower --crf 26 -i 1 -I {GetKeyframeIntervalInFrames()} --hist-scenecut --hist-threshold 0.02 ";
-                vEncoder += "--fades --aq-mode 4 --aq-motion --aud --no-open-gop --y4m -f 0 - \"%~dp0Video.265\"";
+                vEncoder += $"--fades --aq-mode 4 --aq-motion --aud --no-open-gop --y4m -f 0 - \"%~dp0Video{_common.VideoExtension}\"";
             }
             else if (_common.VideoCodec is "AV1")
             {
                 vEncoder += "aomenc --passes=1 --end-usage=q --cq-level=32 --target-bitrate=0 ";
-                vEncoder += $"--enable-fwd-kf=1 --kf-max-dist={GetKeyframeIntervalInFrames()} --verbose --ivf -o \"%~dp0Video.ivf\" -";
+                vEncoder += $"--enable-fwd-kf=1 --kf-max-dist={GetKeyframeIntervalInFrames()} --verbose --ivf -o \"%~dp0Video{_common.VideoExtension}\" -";
             }
             else if (_common.VideoCodec is "AVC")
             {
                 vEncoder += $"x264 --preset veryslow --crf 26 -i 1 -I {GetKeyframeIntervalInFrames()} --bframes 3 --deblock -2:-1 --aq-mode 3 ";
-                vEncoder += "--aud --no-mbtree --demuxer y4m --frames 0 -o \"%~dp0Video.264\" -";
+                vEncoder += $"--aud --no-mbtree --demuxer y4m --frames 0 -o \"%~dp0Video{_common.VideoExtension}\" -";
             }
             else if (_common.VideoCodec is "WhatsApp")
             {
                 vEncoder += $"x264 --profile baseline --preset veryslow --crf 26 -i 1 -I {GetKeyframeIntervalInFrames()} --ref 1 --deblock -2:-1 ";
-                vEncoder += "--aud --no-mbtree --demuxer y4m --frames 0 -o \"%~dp0Video.264\" -";
+                vEncoder += $"--aud --no-mbtree --demuxer y4m --frames 0 -o \"%~dp0Video{_common.VideoExtension}\" -";
             }
 
             VideoEncoderScriptFile = $"{_common.OutputDir}Encode Video [{_common.VideoCodec}].cmd";

@@ -19,7 +19,6 @@
 using System.Collections.Generic;
 using Xunit;
 
-using static SimpleAVSGeneratorCore.Support.Video;
 using static SimpleAVSGeneratorCore.Support.Audio;
 
 namespace SimpleAVSGeneratorCore.Tests;
@@ -60,13 +59,11 @@ public class InputFileHandlerTests
         input.common.VideoCodec = "AVC";
         input.common.SourceFPS = 24;
         input.common.KeyframeIntervalInSeconds = 2;
-        input.common.VideoExtension = outputVideoCodecsDictionary["AVC"];
 
         input.common.Audio = audio;
         input.common.AudioCodec = "AAC-LC";
         input.common.AudioBitrate = 128;
         input.common.AudioLanguage = languagesDictionary["English"];
-        input.common.AudioExtension = ".m4a";
 
         input.common.OutputContainer = outputContainer;
 

@@ -17,6 +17,8 @@
  ******************************************************************************/
 
 using SimpleAVSGeneratorCore.Support;
+using static SimpleAVSGeneratorCore.Support.Video;
+using static SimpleAVSGeneratorCore.Support.Audio;
 
 namespace SimpleAVSGeneratorCore;
 
@@ -43,14 +45,14 @@ public class Common
     public int SourceFPS { get; set; }
     public int KeyframeIntervalInSeconds { get; set; }
     public bool NeedsToBeResized { get; set; } = default;
-    public string VideoExtension { get; set; } = string.Empty;
+    public string VideoExtension => VideoCodec is not "" ? outputVideoCodecsDictionary[VideoCodec] : string.Empty; 
 
     //Audio Properties
     public bool Audio { get; set; } = default;
     public string AudioCodec { get; set; } = string.Empty;
     public int AudioBitrate { get; set; }
     public string AudioLanguage { get; set; } = string.Empty;
-    public string AudioExtension { get; set; } = string.Empty;
+    public string AudioExtension => AudioCodec is not "" ? outputAudioCodecsDictionary[AudioCodec] : string.Empty;
 
     public string? OutputContainer { get; set; }
     public bool MuxOriginalVideo { get; set; } = default;

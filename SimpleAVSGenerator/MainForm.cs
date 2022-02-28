@@ -195,13 +195,11 @@ public partial class MainForm : Form
             input.common.SourceFPS = sourceFPSDictionary[(string)cmbSourceFPS.SelectedItem];
             input.common.KeyframeIntervalInSeconds = keyframeIntervalDictionary[(string)cmbKeyframeInterval.SelectedItem];
             input.common.NeedsToBeResized = (string)cmbVideoCodec.SelectedItem is "WhatsApp";
-            input.common.VideoExtension = outputVideoCodecsDictionary[(string)cmbVideoCodec.SelectedItem];
             
             input.common.Audio = cbxAudio.Checked;
             input.common.AudioCodec = (string)cmbAudioCodec.SelectedItem;
             input.common.AudioBitrate = (int)cmbBitrate.SelectedItem;
             input.common.AudioLanguage = languagesDictionary[(string)cmbLanguage.SelectedItem];
-            input.common.AudioExtension = outputAudioCodecsDictionary[(string)cmbAudioCodec.SelectedItem];
             
             input.common.OutputContainer = cbxMP4.Checked ? "MP4"
                                          : cbxMKV.Checked ? "MKV"
