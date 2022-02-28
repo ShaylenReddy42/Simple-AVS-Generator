@@ -77,40 +77,35 @@ public class AviSynthScriptTests
         Assert.Equal(expectedOutput, actualOutput);
     }
 
-    // NeedsToBeResized | String the script should contain
+    // VideoCodec | Expected string in script
     public static IEnumerable<object[]> ResizeVideo_ValidateThatTargetWidthIsSetCorrectly_TestData =
     new[]
     {
-        new object[] { true,  "targetWidth  = 640"      },
-        new object[] { false, "targetWidth  = Width(v)" }
+        new object[] { "WhatsApp", "targetWidth  = 640"      },
+        new object[] { "HEVC",     "targetWidth  = Width(v)" }
     };
 
     [Theory(DisplayName = "Validate That 'targetWidth' Is Set Correctly")]
     [MemberData(nameof(ResizeVideo_ValidateThatTargetWidthIsSetCorrectly_TestData))]
     public void ResizeVideo_ValidateThatTargetWidthIsSetCorrectly
     (
-        bool needsToBeResized,
-        string scriptContainsThisString
+        string videoCodec,
+        string expectedStringInScript
     )
     {
         // Arrange
-        // Since this test validates contents of a string, there's no expected values
-
         Common common = new(@"C:\Users\User\Desktop\Sample.mp4")
         {
             OutputDir = @"C:\Users\User\Desktop\Temp\Sample\",
             Video = true,
-            NeedsToBeResized = needsToBeResized
+            VideoCodec = videoCodec
         };
 
         // Act
         AviSynthScript script = new(common);
         script.SetScriptContent();
 
-        string outputScript = script.AVSScriptContent;
-        bool scriptDoesContainTheString = outputScript.Contains(scriptContainsThisString);
-
         // Assert
-        Assert.True(scriptDoesContainTheString);
+        Assert.Contains(expectedStringInScript, script.AVSScriptContent);
     }
 }

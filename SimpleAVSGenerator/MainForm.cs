@@ -193,7 +193,6 @@ public partial class MainForm : Form
             input.common.VideoCodec = (string)cmbVideoCodec.SelectedItem;
             input.common.SourceFPS = sourceFPSDictionary[(string)cmbSourceFPS.SelectedItem];
             input.common.KeyframeIntervalInSeconds = keyframeIntervalDictionary[(string)cmbKeyframeInterval.SelectedItem];
-            input.common.NeedsToBeResized = (string)cmbVideoCodec.SelectedItem is "WhatsApp";
             
             input.common.Audio = cbxAudio.Checked;
             input.common.AudioCodec = (string)cmbAudioCodec.SelectedItem;
