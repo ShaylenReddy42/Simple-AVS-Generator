@@ -24,17 +24,17 @@ namespace SimpleAVSGeneratorCore.Tests;
 public class AviSynthScriptTests
 {
     // Use Cases
-    // FileName | Video | Mux Original Video | Audio | CreateAviSynthScript | EndsWith
+    // FileName | Video | VideoCodec | Audio | CreateAviSynthScript | EndsWith
     public static IEnumerable<object[]> AviSynthScript_CheckScriptContentForVariousUseCases_TestData =
     new[]
     {
-        new object[] { @"C:\Users\User\Desktop\Sample1.mp4", true, false, true,  true,   'o', 21 },
-        new object[] { @"C:\Users\User\Desktop\Sample2.mp4", true, false, false, true,   'v', 13 },
-        new object[] { @"C:\Users\User\Desktop\Sample3.mp4", true, true,  true,  true,   'a', 9  },
-        new object[] { @"C:\Users\User\Desktop\Sample4.mp4", true, true,  false, false, '\n', 3  },
-        new object[] { @"C:\Users\User\Desktop\Sample5.264", true, false, false, true,   'v', 13 },
-        new object[] { @"C:\Users\User\Desktop\Sample6.264", true, true,  false, false, '\n', 3  },
-        new object[] { @"C:\Users\User\Desktop\Sample7.m4a", false, false, true, true,   'a', 9  }
+        new object[] { @"C:\Users\User\Desktop\Sample1.mp4", true,  "HEVC",         true,  true,  'o',  21 },
+        new object[] { @"C:\Users\User\Desktop\Sample2.mp4", true,  "AV1",          false, true,  'v',  13 },
+        new object[] { @"C:\Users\User\Desktop\Sample3.mp4", true,  "Mux Original", true,  true,  'a',   9 },
+        new object[] { @"C:\Users\User\Desktop\Sample4.mp4", true,  "Mux Original", false, false, '\n',  3 },
+        new object[] { @"C:\Users\User\Desktop\Sample5.264", true,  "AVC",          false, true,  'v',  13 },
+        new object[] { @"C:\Users\User\Desktop\Sample6.264", true,  "Mux Original", false, false, '\n',  3 },
+        new object[] { @"C:\Users\User\Desktop\Sample7.m4a", false, "",             true,  true,  'a',   9 }
     };
 
     [Theory(DisplayName = "Validate Script Content For Various Use Cases")]
@@ -43,7 +43,7 @@ public class AviSynthScriptTests
     (   
         string fileName,
         bool video,
-        bool muxOriginalVideo,
+        string videoCodec,
         bool audio,
         bool expectedCreateAviSynthScript,
         char expectedEndsWith,
@@ -57,7 +57,7 @@ public class AviSynthScriptTests
         {
             OutputDir = @"C:\Users\User\Desktop\Temp\Sample\",
             Video = video,
-            MuxOriginalVideo = muxOriginalVideo,
+            VideoCodec = videoCodec,
             Audio = audio
         };
 

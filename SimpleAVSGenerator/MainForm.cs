@@ -190,7 +190,6 @@ public partial class MainForm : Form
             Directory.CreateDirectory(input.common.OutputDir);
 
             input.common.Video = cbxVideo.Checked;
-            input.common.MuxOriginalVideo = (string)cmbVideoCodec.SelectedItem is "Mux Original";
             input.common.VideoCodec = (string)cmbVideoCodec.SelectedItem;
             input.common.SourceFPS = sourceFPSDictionary[(string)cmbSourceFPS.SelectedItem];
             input.common.KeyframeIntervalInSeconds = keyframeIntervalDictionary[(string)cmbKeyframeInterval.SelectedItem];

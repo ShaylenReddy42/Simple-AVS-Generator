@@ -19,8 +19,6 @@
 using System.Collections.Generic;
 using Xunit;
 
-using static SimpleAVSGeneratorCore.Support.Audio;
-
 namespace SimpleAVSGeneratorCore.Tests;
 
 public class OutputScriptsTests
@@ -48,7 +46,6 @@ public class OutputScriptsTests
         {
             OutputDir = @"C:\Users\User\Desktop\Temp\Sample\",
             Video = true,
-            MuxOriginalVideo = false,
             VideoCodec = videoCodec,
             SourceFPS = 24,
             KeyframeIntervalInSeconds = 2
@@ -89,7 +86,6 @@ public class OutputScriptsTests
         {
             OutputDir = @"C:\Users\User\Desktop\Temp\Sample\",
             Video = true,
-            MuxOriginalVideo = false,
             VideoCodec = videoCodec,
             SourceFPS = sourceFPS,
             KeyframeIntervalInSeconds = keyframeIntervalInSeconds
@@ -128,7 +124,6 @@ public class OutputScriptsTests
         {
             OutputDir = @"C:\Users\User\Desktop\Temp\Sample\",
             Video = true,
-            MuxOriginalVideo = false,
             VideoCodec = videoCodec,
             SourceFPS = 24,
             KeyframeIntervalInSeconds = 2
@@ -242,18 +237,18 @@ public class OutputScriptsTests
         Assert.Contains(expectedMultiplexer, containerScriptContent);
     }
 
-    // Filename | MuxOriginalVideo | VideoCodec | OutputContainer | Expected string in script
+    // Filename | VideoCodec | OutputContainer | Expected string in script
     public static IEnumerable<object[]> ConfigureContainerScript_ValidateVideoStringInScript_TestData =
     new[]
     {
-        new object[] { @"C:\Users\User\Desktop\Sample.mp4", false, "HEVC",         "MP4", $"-add \"%~dp0Video.265\":name="                       },
-        new object[] { @"C:\Users\User\Desktop\Sample.mp4", false, "AV1",          "MP4", $"-add \"%~dp0Video.ivf\":name="                       },
-        new object[] { @"C:\Users\User\Desktop\Sample.mp4", false, "AVC",          "MP4", $"-add \"%~dp0Video.264\":name="                       },
-        new object[] { @"C:\Users\User\Desktop\Sample.mp4", true,  "Mux Original", "MP4", $"-add \"C:\\Users\\User\\Desktop\\Sample.mp4\"#video" },
-        new object[] { @"C:\Users\User\Desktop\Sample.mp4", false, "HEVC",         "MKV", $"\"%~dp0Video.265\""                                  },
-        new object[] { @"C:\Users\User\Desktop\Sample.mp4", false, "AV1",          "MKV", $"\"%~dp0Video.ivf\""                                  },
-        new object[] { @"C:\Users\User\Desktop\Sample.mp4", false, "AVC",          "MKV", $"\"%~dp0Video.264\""                                  },
-        new object[] { @"C:\Users\User\Desktop\Sample.mp4", true,  "Mux Original", "MKV", $"--no-audio \"C:\\Users\\User\\Desktop\\Sample.mp4\"" }
+        new object[] { @"C:\Users\User\Desktop\Sample.mp4", "HEVC",         "MP4", $"-add \"%~dp0Video.265\":name="                       },
+        new object[] { @"C:\Users\User\Desktop\Sample.mp4", "AV1",          "MP4", $"-add \"%~dp0Video.ivf\":name="                       },
+        new object[] { @"C:\Users\User\Desktop\Sample.mp4", "AVC",          "MP4", $"-add \"%~dp0Video.264\":name="                       },
+        new object[] { @"C:\Users\User\Desktop\Sample.mp4", "Mux Original", "MP4", $"-add \"C:\\Users\\User\\Desktop\\Sample.mp4\"#video" },
+        new object[] { @"C:\Users\User\Desktop\Sample.mp4", "HEVC",         "MKV", $"\"%~dp0Video.265\""                                  },
+        new object[] { @"C:\Users\User\Desktop\Sample.mp4", "AV1",          "MKV", $"\"%~dp0Video.ivf\""                                  },
+        new object[] { @"C:\Users\User\Desktop\Sample.mp4", "AVC",          "MKV", $"\"%~dp0Video.264\""                                  },
+        new object[] { @"C:\Users\User\Desktop\Sample.mp4", "Mux Original", "MKV", $"--no-audio \"C:\\Users\\User\\Desktop\\Sample.mp4\"" }
     };
 
     [Theory(DisplayName = "Validate Video String In Script")]
@@ -261,7 +256,6 @@ public class OutputScriptsTests
     public void ConfigureContainerScript_ValidateVideoStringInScript
     (
         string fileName,
-        bool muxOriginalVideo,
         string videoCodec,
         string outputContainer,
         string expectedVideoStringInScript
@@ -272,7 +266,6 @@ public class OutputScriptsTests
         {
             OutputDir = @"C:\Users\User\Desktop\Temp\Sample\",
             Video = true,
-            MuxOriginalVideo = muxOriginalVideo,
             VideoCodec = videoCodec,
             OutputContainer = outputContainer
         };
@@ -315,7 +308,6 @@ public class OutputScriptsTests
         {
             OutputDir = @"C:\Users\User\Desktop\Temp\Sample\",
             Video = true,
-            MuxOriginalVideo = false,
             VideoCodec = "HEVC",
             Audio = true,
             AudioCodec = audioCodec,
@@ -366,21 +358,21 @@ public class OutputScriptsTests
         Assert.Contains(expectedOutputFileStringInScript, containerScriptContent);
     }
 
-    // MuxOriginalVideo | OutputContainer | Expected filename ending
+    // VideoCodec | OutputContainer | Expected filename ending
     public static IEnumerable<object[]> ConfigureContainerScript_ValidateTheContainerScriptFilename_TestData =
     new[]
     {
-        new object[] { false, "MP4", $"MP4 Mux.cmd"                  },
-        new object[] { true,  "MP4", $"MP4 Mux [Original Video].cmd" },
-        new object[] { false, "MKV", $"MKV Mux.cmd"                  },
-        new object[] { true,  "MKV", $"MKV Mux [Original Video].cmd" }
+        new object[] { "HEVC",         "MP4", "MP4 Mux.cmd"                  },
+        new object[] { "Mux Original", "MP4", "MP4 Mux [Original Video].cmd" },
+        new object[] { "AV1",          "MKV", "MKV Mux.cmd"                  },
+        new object[] { "Mux Original", "MKV", "MKV Mux [Original Video].cmd" }
     };
 
     [Theory(DisplayName = "Validate The Container Script Filename")]
     [MemberData(nameof(ConfigureContainerScript_ValidateTheContainerScriptFilename_TestData))]
     public void ConfigureContainerScript_ValidateTheContainerScriptFilename
     (
-        bool muxOriginalVideo,
+        string videoCodec,
         string outputContainer,
         string expectedEndsWith
     )
@@ -388,8 +380,8 @@ public class OutputScriptsTests
         // Arrange
         Common common = new(@"C:\Users\User\Desktop\Sample.mp4")
         {
+            VideoCodec = videoCodec,
             OutputDir = @"C:\Users\User\Desktop\Temp\Sample\",
-            MuxOriginalVideo = muxOriginalVideo,
             OutputContainer = outputContainer
         };
 

@@ -42,6 +42,7 @@ public class Common
     //Video Properties
     public bool Video { get; set; } = default;
     public string VideoCodec { get; set; } = string.Empty;
+    public bool MuxOriginalVideo => VideoCodec is "Mux Original";
     public int SourceFPS { get; set; }
     public int KeyframeIntervalInSeconds { get; set; }
     public bool NeedsToBeResized { get; set; } = default;
@@ -55,7 +56,6 @@ public class Common
     public string AudioExtension => AudioCodec is not "" ? outputAudioCodecsDictionary[AudioCodec] : string.Empty;
 
     public string? OutputContainer { get; set; }
-    public bool MuxOriginalVideo { get; set; } = default;
 
     public Common(string fileName)
     {

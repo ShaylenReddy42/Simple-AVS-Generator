@@ -19,23 +19,21 @@
 using System.Collections.Generic;
 using Xunit;
 
-using static SimpleAVSGeneratorCore.Support.Audio;
-
 namespace SimpleAVSGeneratorCore.Tests;
 
 public class InputFileHandlerTests
 {
 #if DEBUG
-    // Video | MuxOriginalVideo | Audio | OutputContainer | Expected scripts created
+    // Video | VideoCodec | Audio | OutputContainer | Expected scripts created
     public static IEnumerable<object?[]> CreateScripts_ValidateWhichScriptsWereCreated_TestData =
     new[]
     {
-        new object?[] { true,  false, true,  "MP4", "svac" },
-        new object?[] { true,  false, false, "MP4", "svc"  },
-        new object?[] { true,  false, false, null,  "sv"   },
-        new object?[] { true,  true,  false, "MP4", "c"    },
-        new object?[] { true,  true,  true,  "MP4", "sac"  },
-        new object?[] { false, false, true,  null,  "sa"   }
+        new object?[] { true,  "HEVC",         true,  "MP4", "svac" },
+        new object?[] { true,  "AV1",          false, "MP4", "svc"  },
+        new object?[] { true,  "AVC",          false, null,  "sv"   },
+        new object?[] { true,  "Mux Original", false, "MP4", "c"    },
+        new object?[] { true,  "Mux Original", true,  "MP4", "sac"  },
+        new object?[] { false, "",             true,  null,  "sa"   }
     };
 
     [Theory(DisplayName = "Validate Which Scripts Were Created")]
@@ -43,7 +41,7 @@ public class InputFileHandlerTests
     public void CreateScripts_ValidateWhichScriptsWereCreated
     (
         bool video,
-        bool muxOriginalVideo,
+        string videoCodec,
         bool audio,
         string? outputContainer,
         string expectedScriptsCreated
@@ -55,8 +53,7 @@ public class InputFileHandlerTests
         input.common.OutputDir = @"C:\Users\User\Desktop\Temp\Sample\";
 
         input.common.Video = video;
-        input.common.MuxOriginalVideo = muxOriginalVideo;
-        input.common.VideoCodec = "AVC";
+        input.common.VideoCodec = videoCodec;
         input.common.SourceFPS = 24;
         input.common.KeyframeIntervalInSeconds = 2;
 
