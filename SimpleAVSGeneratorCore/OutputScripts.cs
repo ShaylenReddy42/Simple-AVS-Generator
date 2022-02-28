@@ -16,7 +16,6 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  ******************************************************************************/
 
-using static SimpleAVSGeneratorCore.Support.Video;
 using static SimpleAVSGeneratorCore.Support.Audio;
 
 namespace SimpleAVSGeneratorCore;
@@ -24,6 +23,8 @@ namespace SimpleAVSGeneratorCore;
 public class OutputScripts
 {
     private Common _common;
+
+    private string _AudioLanguage { get; set; }
 
     public string? VideoEncoderScriptFile { get; private set; }
     public string? VideoEncoderScriptContent { get; private set; }
@@ -37,6 +38,7 @@ public class OutputScripts
     public OutputScripts(Common common)
     {
         _common = common;
+        _AudioLanguage = _common.AudioLanguage is not "" ? languagesDictionary[_common.AudioLanguage] : string.Empty;
     }
 
     private int GetKeyframeIntervalInFrames() { return _common.SourceFPS * _common.KeyframeIntervalInSeconds; }
@@ -111,7 +113,7 @@ public class OutputScripts
             string mp4V = _common.MuxOriginalVideo is false
                         ? $"-add \"%~dp0Video{_common.VideoExtension}\":name="
                         : $"-add \"{_common.FileName}\"#video",
-                   mp4A = _common.Audio ? $"-add \"%~dp0{_common.FileNameOnly}{_common.AudioExtension}\":name=:lang={_common.AudioLanguage}" : "",
+                   mp4A = _common.Audio ? $"-add \"%~dp0{_common.FileNameOnly}{_common.AudioExtension}\":name=:lang={_AudioLanguage}" : "",
                    newmp4 = $"-new \"%~dp0{_common.FileNameOnly}.mp4\"";
 
             fileContents = $"mp4box {mp4V} {mp4A} {newmp4}";
@@ -122,7 +124,7 @@ public class OutputScripts
                    mkvV = _common.MuxOriginalVideo is false
                         ? $"\"%~dp0Video{_common.VideoExtension}\""
                         : $"--no-audio \"{_common.FileName}\"",
-                   mkvA = _common.Audio ? $"--language 0:{_common.AudioLanguage} \"%~dp0{_common.FileNameOnly}{_common.AudioExtension}\"" : "";
+                   mkvA = _common.Audio ? $"--language 0:{_AudioLanguage} \"%~dp0{_common.FileNameOnly}{_common.AudioExtension}\"" : "";
 
             fileContents = $"mkvmerge {mkvO} {mkvV} {mkvA}";
         }

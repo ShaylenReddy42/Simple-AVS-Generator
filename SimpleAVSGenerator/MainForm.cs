@@ -199,7 +199,7 @@ public partial class MainForm : Form
             input.common.Audio = cbxAudio.Checked;
             input.common.AudioCodec = (string)cmbAudioCodec.SelectedItem;
             input.common.AudioBitrate = (int)cmbBitrate.SelectedItem;
-            input.common.AudioLanguage = languagesDictionary[(string)cmbLanguage.SelectedItem];
+            input.common.AudioLanguage = (string)cmbLanguage.SelectedItem;
             
             input.common.OutputContainer = cbxMP4.Checked ? "MP4"
                                          : cbxMKV.Checked ? "MKV"

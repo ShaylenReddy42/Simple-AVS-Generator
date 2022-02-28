@@ -319,7 +319,7 @@ public class OutputScriptsTests
             VideoCodec = "HEVC",
             Audio = true,
             AudioCodec = audioCodec,
-            AudioLanguage = languagesDictionary[audioLanguageKey],
+            AudioLanguage = audioLanguageKey,
             OutputContainer = outputContainer
         };
 

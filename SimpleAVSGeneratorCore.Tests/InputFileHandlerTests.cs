@@ -63,7 +63,7 @@ public class InputFileHandlerTests
         input.common.Audio = audio;
         input.common.AudioCodec = "AAC-LC";
         input.common.AudioBitrate = 128;
-        input.common.AudioLanguage = languagesDictionary["English"];
+        input.common.AudioLanguage = "English";
 
         input.common.OutputContainer = outputContainer;
 
