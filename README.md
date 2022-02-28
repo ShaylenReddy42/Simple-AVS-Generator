@@ -23,13 +23,15 @@ The generated AviSynth+ scripts make use of the [L-SMASH-Works plugin](https://g
 
 | Audio Encoders |
 | :---: |
-| [qaac](https://github.com/nu774/qaac/releases) |
+| [qaac](https://github.com/nu774/qaac/releases)* |
 | [opustools](https://jeremylee.sh/bins/) |
 
 | Multiplexing Tools |
 | :---: |
 | [GPAC](https://gpac.wp.imt.fr/downloads/gpac-nightly-builds/) |
 | [MKVToolNix](https://www.videohelp.com/software/MKVToolNix) |
+
+* qaac relies on CoreAudioToolbox.dll which is installed with the standalone [iTunes](https://www.videohelp.com/software/iTunes) installer
 
 ## Required Filenames in Your Path ##
 
