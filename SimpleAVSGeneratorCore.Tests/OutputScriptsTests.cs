@@ -219,6 +219,7 @@ public class OutputScriptsTests
         // Arrange
         Common common = new(@"C:\Users\User\Desktop\Sample.mp4", @"C:\Users\User\Desktop\Temp\")
         {
+            Video = true,
             OutputContainer = outputContainer
         };
 
@@ -338,6 +339,7 @@ public class OutputScriptsTests
         // Arrange
         Common common = new(fileName, @"C:\Users\User\Desktop\Temp\")
         {
+            Video = true,
             OutputContainer = outputContainer
         };
 
@@ -373,6 +375,7 @@ public class OutputScriptsTests
         // Arrange
         Common common = new(@"C:\Users\User\Desktop\Sample.mp4", @"C:\Users\User\Desktop\Temp\")
         {
+            Video = true,
             VideoCodec = videoCodec,
             OutputContainer = outputContainer
         };

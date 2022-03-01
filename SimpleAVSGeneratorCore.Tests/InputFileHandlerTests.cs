@@ -32,7 +32,10 @@ public class InputFileHandlerTests
         new object?[] { true,  "AVC",          false, null,  "sv"   },
         new object?[] { true,  "Mux Original", false, "MP4", "c"    },
         new object?[] { true,  "Mux Original", true,  "MP4", "sac"  },
-        new object?[] { false, "",             true,  null,  "sa"   }
+        new object?[] { false, "",             true,  null,  "sa"   },
+        new object?[] { false, "HEVC",         false, "MP4", ""     },
+        new object?[] { false, "Mux Original", false, "MKV", ""     },
+
     };
 
     [Theory(DisplayName = "Validate Which Scripts Were Created")]

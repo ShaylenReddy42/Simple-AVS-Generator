@@ -137,9 +137,12 @@ public class OutputScripts
             fileContent = $"mkvmerge {mkvO} {mkvV} {mkvA}";
         }
 
-        ContainerScriptFile = _common.OutputContainer is not null
-                            ? $"{_common.OutputDir}{_common.OutputContainer} Mux{(_common.MuxOriginalVideo ? " [Original Video]" : "")}.cmd"
-                            : null;
-        ContainerScriptContent = fileContent;
+        if (_common.Video is true)
+        {
+            ContainerScriptFile = _common.OutputContainer is not null
+                                ? $"{_common.OutputDir}{_common.OutputContainer} Mux{(_common.MuxOriginalVideo ? " [Original Video]" : "")}.cmd"
+                                : null;
+            ContainerScriptContent = fileContent;
+        }
     }
 }
