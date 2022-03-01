@@ -52,9 +52,8 @@ public class InputFileHandler
         script.SetScriptContent();
         if (script.CreateAviSynthScript is true)
         {
-#if DEBUG
             scriptsCreated += "s";
-#else
+#if RELEASE
             WriteFile(script.AVSScriptFile, script.AVSScriptContent);
 
             WriteFile(common.AVSMeterScriptFile, common.AVSMeterScriptContent);
@@ -66,9 +65,8 @@ public class InputFileHandler
         output.ConfigureVideoScript();
         if (output.VideoEncoderScriptFile is not null && output.VideoEncoderScriptContent is not null)
         {
-#if DEBUG
             scriptsCreated += "v";
-#else
+#if RELEASE
             WriteFile(output.VideoEncoderScriptFile, output.VideoEncoderScriptContent);
 #endif
         }
@@ -76,9 +74,8 @@ public class InputFileHandler
         output.ConfigureAudioScript();
         if (output.AudioEncoderScriptFile is not null && output.AudioEncoderScriptContent is not null)
         {
-#if DEBUG
             scriptsCreated += "a";
-#else
+#if RELEASE
             WriteFile(output.AudioEncoderScriptFile, output.AudioEncoderScriptContent);
 #endif
         }
@@ -86,9 +83,8 @@ public class InputFileHandler
         output.ConfigureContainerScript();
         if (output.ContainerScriptFile is not null && output.ContainerScriptContent is not null)
         {
-#if DEBUG
             scriptsCreated += "c";
-#else
+#if RELEASE
             WriteFile(output.ContainerScriptFile, output.ContainerScriptContent);
 #endif
         }

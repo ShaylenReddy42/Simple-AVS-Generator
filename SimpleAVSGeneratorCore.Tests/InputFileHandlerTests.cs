@@ -23,7 +23,6 @@ namespace SimpleAVSGeneratorCore.Tests;
 
 public class InputFileHandlerTests
 {
-#if DEBUG
     // Video | VideoCodec | Audio | OutputContainer | Expected scripts created
     public static IEnumerable<object?[]> CreateScripts_ValidateWhichScriptsWereCreated_TestData =
     new[]
@@ -68,5 +67,4 @@ public class InputFileHandlerTests
         // Assert
         Assert.Equal(expectedScriptsCreated, actualScriptsCreated);
     }
-#endif
 }

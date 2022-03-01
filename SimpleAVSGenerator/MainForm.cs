@@ -204,7 +204,14 @@ public partial class MainForm : Form
 
             input.CreateScripts(out string scriptsCreated);
 
-            New();
+            if (scriptsCreated is "")
+            {
+                MessageBox.Show("No scripts will be created");
+            }
+            else
+            {
+                New();
+            }
         }
         else MessageBox.Show("Please Input A File First");
     }
