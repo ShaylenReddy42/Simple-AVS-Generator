@@ -61,22 +61,22 @@ public partial class MainForm : Form
     #region Methods
     void PopulateComboBoxes()
     {
-        cmbVideoCodec.Items.AddRange(outputVideoCodecsDictionary.Keys.ToArray());
+        cmbVideoCodec.Items.AddRange(GetOutputVideoCodecs());
         cmbVideoCodec.SelectedIndex = 0;
 
-        cmbAudioCodec.Items.AddRange(outputAudioCodecsDictionary.Keys.ToArray());
+        cmbAudioCodec.Items.AddRange(GetOutputAudioCodecs());
         cmbAudioCodec.SelectedIndex = 0;
 
-        cmbSourceFPS.Items.AddRange(sourceFPSDictionary.Keys.ToArray());
+        cmbSourceFPS.Items.AddRange(GetSourceFPS());
         cmbSourceFPS.SelectedIndex = 0;
 
-        cmbKeyframeInterval.Items.AddRange(keyframeIntervalDictionary.Keys.ToArray());
+        cmbKeyframeInterval.Items.AddRange(GetKeyframeIntervals());
         cmbKeyframeInterval.SelectedIndex = 0;
 
-        cmbLanguage.Items.AddRange(languagesDictionary.Keys.ToArray());
+        cmbLanguage.Items.AddRange(GetLanguages());
         cmbLanguage.SelectedIndex = 0;
 
-        cmbChannels.Items.AddRange(outputAudioChannels);
+        cmbChannels.Items.AddRange(GetAudioChannels());
         cmbChannels.SelectedIndex = 0;
 
         SetSelectableAudioBitrates();
@@ -288,7 +288,9 @@ public partial class MainForm : Form
             cbxMKV.Checked = true;
         }
         else if (input is not null)
+        {
             cbxMP4.Enabled = true;
+        }
     }
 
     private void cmbAudioCodec_SelectedIndexChanged(object sender, EventArgs e) { SetSelectableAudioBitrates(); }

@@ -20,6 +20,13 @@ namespace SimpleAVSGeneratorCore.Support;
 
 public class Audio
 {
+    public static Dictionary<string, string> outputAudioCodecsDictionary = new()
+    {
+        { "AAC-LC", ".m4a" },
+        { "AAC-HE", ".m4a" },
+        { "OPUS",   ".ogg" }
+    };
+
     public static Dictionary<string, string> languagesDictionary = new()
     {
         { "English",      "eng" },
@@ -29,14 +36,7 @@ public class Audio
         { "Undetermined", "und" }
     };
 
-    public static Dictionary<string, string> outputAudioCodecsDictionary = new()
-    {
-        { "AAC-LC", ".m4a" },
-        { "AAC-HE", ".m4a" },
-        { "OPUS",   ".ogg" }
-    };
-
-    public static string[] outputAudioChannels =
+    private static string[] outputAudioChannels =
     {
         "Stereo",
         "Surround 5.1",
@@ -104,6 +104,21 @@ public class Audio
             }
         }
     };
+
+    public static object[] GetOutputAudioCodecs()
+    {
+        return outputAudioCodecsDictionary.Keys.ToArray();
+    }
+
+    public static object[] GetLanguages()
+    {
+        return languagesDictionary.Keys.ToArray();
+    }
+
+    public static object[] GetAudioChannels()
+    {
+        return outputAudioChannels;
+    }
 
     public static (object[], int) GetSelectableAndDefaultAudioBitrates(string audioCodec, string audioChannels)
     {

@@ -47,7 +47,9 @@ public class InputFileHandler
         
         scriptsCreated = "";
 
+#if RELEASE
         Directory.CreateDirectory(common.OutputDir);
+#endif
 
         AviSynthScript script = new(common);
         
@@ -91,9 +93,11 @@ public class InputFileHandler
 #endif
         }
 
+#if RELEASE
         if (scriptsCreated is "")
         {
             Directory.Delete(common.OutputDir);
         }
+#endif
     }
 }
