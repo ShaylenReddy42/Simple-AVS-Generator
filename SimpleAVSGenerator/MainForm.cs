@@ -156,11 +156,10 @@ public partial class MainForm : Form
             Filter = $"{filterSupportedExts}|{filterContainerExts}|{filterVideoExts}|{filterAudioExts}"
         };
 
-        input = ofd.ShowDialog() == DialogResult.OK ? new(ofd.FileName) : null;
+        input = ofd.ShowDialog() == DialogResult.OK ? new(ofd.FileName, home) : null;
 
         if (input is not null)
         {
-            input.common.OutputDir = $@"{home}{input.common.FileNameOnly}\";
             EnableUI();
 
             btnOpenFile.Enabled = false;
@@ -177,7 +176,7 @@ public partial class MainForm : Form
         if (input is not null)
         {
             FolderBrowserDialog fbd = new();
-            input.common.OutputDir = fbd.ShowDialog() == DialogResult.OK ? $@"{fbd.SelectedPath}\{input?.common.FileNameOnly}\" : input.common.OutputDir;
+            input.common.HomeDir = fbd.ShowDialog() == DialogResult.OK ? $@"{fbd.SelectedPath}\" : input.common.HomeDir;
 
             txbOutFile.Text = input?.common.ScriptFile;
         }

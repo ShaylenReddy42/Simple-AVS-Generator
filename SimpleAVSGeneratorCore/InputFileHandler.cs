@@ -22,9 +22,9 @@ public class InputFileHandler
 {
     public Common common;
     
-    public InputFileHandler(string fileName)
+    public InputFileHandler(string fileName, string home)
     {
-        common = new(fileName);
+        common = new(fileName, home);
     }
 
     private void WriteFile(string outputFileName, string fileContents)

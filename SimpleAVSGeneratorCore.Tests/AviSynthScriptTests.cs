@@ -53,9 +53,8 @@ public class AviSynthScriptTests
         // Arrange
         object[] expectedOutput = new object[] { expectedCreateAviSynthScript, expectedEndsWith, expectedLineCount };
         
-        Common common = new(fileName)
+        Common common = new(fileName, @"C:\Users\User\Desktop\Temp\")
         {
-            OutputDir = @"C:\Users\User\Desktop\Temp\Sample\",
             Video = video,
             VideoCodec = videoCodec,
             Audio = audio
@@ -94,9 +93,8 @@ public class AviSynthScriptTests
     )
     {
         // Arrange
-        Common common = new(@"C:\Users\User\Desktop\Sample.mp4")
+        Common common = new(@"C:\Users\User\Desktop\Sample.mp4", @"C:\Users\User\Desktop\Temp\")
         {
-            OutputDir = @"C:\Users\User\Desktop\Temp\Sample\",
             Video = true,
             VideoCodec = videoCodec
         };

@@ -24,12 +24,14 @@ namespace SimpleAVSGeneratorCore;
 
 public class Common
 {
+    public string HomeDir { get; set; }
+    
     public string FileName { get; private set; }
     public string FileExt { get; private set; }
     public string FileNameOnly { get; private set; }
     public string FileType { get; private set; }
 
-    public string OutputDir { get; set; } = string.Empty;
+    public string OutputDir => $@"{HomeDir}{FileNameOnly}\";
 
     public bool IsSupportedByMP4Box { get; private set; }
 
@@ -57,8 +59,10 @@ public class Common
 
     public string? OutputContainer { get; set; }
 
-    public Common(string fileName)
+    public Common(string fileName, string home)
     {
+        HomeDir = home;
+        
         FileName = fileName;
         FileExt = Path.GetExtension(FileName).ToLower();
         FileNameOnly = Path.GetFileNameWithoutExtension(FileName);

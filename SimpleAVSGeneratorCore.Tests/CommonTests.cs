@@ -48,7 +48,7 @@ public class CommonTests
         object[] expectedProperties = { fileName, fileExt, fileNameOnly, fileType, isSupportedByMP4Box };
         
         // Act
-        Common common = new(fileName);
+        Common common = new(fileName, @"C:\Users\User\Desktop\Temp\");
         string actualFileName     = common.FileName,
                actualFileExt      = common.FileExt,
                actualFileNameOnly = common.FileNameOnly,

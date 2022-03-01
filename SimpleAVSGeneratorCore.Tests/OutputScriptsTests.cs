@@ -42,9 +42,8 @@ public class OutputScriptsTests
     )
     {
         // Arrange
-        Common common = new(@"C:\Users\User\Desktop\Sample.mp4")
+        Common common = new(@"C:\Users\User\Desktop\Sample.mp4", @"C:\Users\User\Desktop\Temp\")
         {
-            OutputDir = @"C:\Users\User\Desktop\Temp\Sample\",
             Video = true,
             VideoCodec = videoCodec,
             SourceFPS = "25",
@@ -82,9 +81,8 @@ public class OutputScriptsTests
     )
     {
         // Arrange
-        Common common = new(@"C:\Users\User\Desktop\Sample.mp4")
+        Common common = new(@"C:\Users\User\Desktop\Sample.mp4", @"C:\Users\User\Desktop\Temp\")
         {
-            OutputDir = @"C:\Users\User\Desktop\Temp\Sample\",
             Video = true,
             VideoCodec = videoCodec,
             SourceFPS = sourceFPS,
@@ -120,9 +118,8 @@ public class OutputScriptsTests
     )
     {
         // Arrange
-        Common common = new(@"C:\Users\User\Desktop\Sample.mp4")
+        Common common = new(@"C:\Users\User\Desktop\Sample.mp4", @"C:\Users\User\Desktop\Temp\")
         {
-            OutputDir = @"C:\Users\User\Desktop\Temp\Sample\",
             Video = true,
             VideoCodec = videoCodec,
             SourceFPS = "25",
@@ -157,9 +154,8 @@ public class OutputScriptsTests
     )
     {
         // Arrange
-        Common common = new(@"C:\Users\User\Desktop\Sample.m4a")
+        Common common = new(@"C:\Users\User\Desktop\Sample.m4a", @"C:\Users\User\Desktop\Temp\")
         {
-            OutputDir = @"C:\Users\User\Desktop\Temp\Sample\",
             Audio = true,
             AudioCodec = audioCodec,
             AudioBitrate = 128
@@ -193,9 +189,8 @@ public class OutputScriptsTests
     )
     {
         // Arrange
-        Common common = new(@"C:\Users\User\Desktop\Sample.m4a")
+        Common common = new(@"C:\Users\User\Desktop\Sample.m4a", @"C:\Users\User\Desktop\Temp\")
         {
-            OutputDir = @"C:\Users\User\Desktop\Temp\Sample\",
             Audio = true,
             AudioCodec = audioCodec,
             AudioBitrate = 128
@@ -222,7 +217,7 @@ public class OutputScriptsTests
     )
     {
         // Arrange
-        Common common = new(@"C:\Users\User\Desktop\Sample.mp4")
+        Common common = new(@"C:\Users\User\Desktop\Sample.mp4", @"C:\Users\User\Desktop\Temp\")
         {
             OutputContainer = outputContainer
         };
@@ -262,9 +257,8 @@ public class OutputScriptsTests
     )
     {
         // Arrange
-        Common common = new(fileName)
+        Common common = new(fileName, @"C:\Users\User\Desktop\Temp\")
         {
-            OutputDir = @"C:\Users\User\Desktop\Temp\Sample\",
             Video = true,
             VideoCodec = videoCodec,
             OutputContainer = outputContainer
@@ -304,9 +298,8 @@ public class OutputScriptsTests
     )
     {
         // Arrange
-        Common common = new(fileName)
+        Common common = new(fileName, @"C:\Users\User\Desktop\Temp\")
         {
-            OutputDir = @"C:\Users\User\Desktop\Temp\Sample\",
             Video = true,
             VideoCodec = "HEVC",
             Audio = true,
@@ -343,7 +336,7 @@ public class OutputScriptsTests
     )
     {
         // Arrange
-        Common common = new(fileName)
+        Common common = new(fileName, @"C:\Users\User\Desktop\Temp\")
         {
             OutputContainer = outputContainer
         };
@@ -378,10 +371,9 @@ public class OutputScriptsTests
     )
     {
         // Arrange
-        Common common = new(@"C:\Users\User\Desktop\Sample.mp4")
+        Common common = new(@"C:\Users\User\Desktop\Sample.mp4", @"C:\Users\User\Desktop\Temp\")
         {
             VideoCodec = videoCodec,
-            OutputDir = @"C:\Users\User\Desktop\Temp\Sample\",
             OutputContainer = outputContainer
         };
 

@@ -48,9 +48,7 @@ public class InputFileHandlerTests
     )
     {
         // Arrange
-        InputFileHandler input = new(@"C:\Users\User\Desktop\Sample.mp4");
-
-        input.common.OutputDir = @"C:\Users\User\Desktop\Temp\Sample\";
+        InputFileHandler input = new(@"C:\Users\User\Desktop\Sample.mp4", @"C:\Users\User\Desktop\Temp\");
 
         input.common.Video = video;
         input.common.VideoCodec = videoCodec;
