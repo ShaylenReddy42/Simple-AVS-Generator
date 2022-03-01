@@ -186,8 +186,6 @@ public partial class MainForm : Form
     {
         if (input is not null)
         {
-            Directory.CreateDirectory(input.common.OutputDir);
-
             input.common.Video = cbxVideo.Checked;
             input.common.VideoCodec = (string)cmbVideoCodec.SelectedItem;
             input.common.SourceFPS = (string)cmbSourceFPS.SelectedItem;

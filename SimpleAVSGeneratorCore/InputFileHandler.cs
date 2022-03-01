@@ -46,7 +46,9 @@ public class InputFileHandler
         // c indicates that the Container Muxing script is created
         
         scriptsCreated = "";
-        
+
+        Directory.CreateDirectory(common.OutputDir);
+
         AviSynthScript script = new(common);
         
         script.SetScriptContent();
@@ -87,6 +89,11 @@ public class InputFileHandler
 #if RELEASE
             WriteFile(output.ContainerScriptFile, output.ContainerScriptContent);
 #endif
+        }
+
+        if (scriptsCreated is "")
+        {
+            Directory.Delete(common.OutputDir);
         }
     }
 }
