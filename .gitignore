@@ -2,6 +2,7 @@
 .vs/
 .vscode/
 build/
+CodeCoverage/
 publish/
 
 SimpleAVSGenerator/bin/
@@ -12,6 +13,7 @@ SimpleAVSGeneratorCore/obj/
 
 SimpleAVSGeneratorCore.Tests/bin/
 SimpleAVSGeneratorCore.Tests/obj/
+SimpleAVSGeneratorCore.Tests/TestResults/
 
 # File extensions
 *.exe
