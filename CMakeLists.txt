@@ -84,8 +84,8 @@ message(STATUS "Informational Version: ${INFORMATIONAL_VERSION}")
 
 configure_file("${CMAKE_SOURCE_DIR}/cmake/dotnet-publish.cmd.in" "${CMAKE_SOURCE_DIR}/dotnet-publish.cmd")
 
-option(APPVEYOR_CI "Used to write the version info to a file for AppVeyor" OFF)
+option(CI_BUILD "Used to write the version info to a file for CI" OFF)
 
-if(APPVEYOR_CI)
+if(CI_BUILD)
 	file(WRITE "${CMAKE_SOURCE_DIR}/version.txt" ${INFORMATIONAL_VERSION})
 endif()

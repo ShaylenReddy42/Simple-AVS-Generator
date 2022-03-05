@@ -1,0 +1,83 @@
+trigger:
+- '*'
+
+pool: Default
+
+variables:
+  buildConfiguration: 'Debug'
+  workDir: $(Build.SourcesDirectory)
+  testResultsDir: $(workDir)\SimpleAVSGenerator.Tests\TestResults
+
+steps:
+- task: UseDotNet@2
+  displayName: 'Use .NET Core SDK'
+  inputs:
+    version: 6.0.200
+    performMultiLevelLookup: true
+
+- task: DotNetCoreCLI@2
+  displayName: 'Restore Project Dependencies'
+  inputs:
+    command: restore
+    arguments: -c $(buildConfiguration)
+    workingDirectory: $(workDir)
+    
+- task: DotNetCoreCLI@2
+  displayName: 'Build Solution'
+  inputs:
+    command: build
+    arguments: -c $(buildConfiguration)
+    workingDirectory: $(workDir)
+
+- task: DotNetCoreCLI@2
+  displayName: 'Run Unit Tests'
+  inputs:
+   command: custom
+   custom: test
+   arguments: -c $(buildConfiguration) --results-directory "$(testResultsDir)" --collect:"XPlat Code Coverage" --logger trx
+   workingDirectory: $(workDir)
+
+- task: PublishTestResults@2
+  displayName: 'Publish Test Results'
+  inputs:
+    testResultsFormat: VSTest
+    testResultsFiles: '*.trx'
+    searchFolder: $(testResultsDir)
+
+- task: DotNetCoreCLI@2
+  displayName: 'Restore Local Tools'
+  inputs:
+    command: custom
+    custom: tool
+    arguments: restore
+    workingDirectory: $(workDir)
+
+- task: DotNetCoreCLI@2
+  displayName: 'Generate HTML Code Coverage Report'
+  inputs:
+    command: custom
+    custom: tool
+    arguments: run reportgenerator -reports:"$(testResultsDir)\*\coverage.cobertura.xml" -reporttypes:HtmlInline_AzurePipelines -targetdir:"$(workDir)\CodeCoverage"
+    workingDirectory: $(workDir)
+
+- task: PublishCodeCoverageResults@1
+  displayName: 'Publish HTML Code Coverage Report'
+  inputs:
+    codeCoverageTool: Cobertura
+    summaryFileLocation: '$(testResultsDir)\*\coverage.cobertura.xml'
+    reportDirectory: '$(workDir)\CodeCoverage'
+
+- task: CMake@1
+  displayName: 'Run CMake'
+  inputs:
+    workingDirectory: $(workDir)
+    cmakeArgs: -S . -B "$(workDir)\build" -DCI_BUILD=ON
+
+- script: CALL dotnet-publish.cmd
+  displayName: 'Publish the Final Executable'
+
+- task: PublishBuildArtifacts@1
+  displayName: 'Publish the Build Artifact'
+  inputs:
+    PathtoPublish: '$(workDir)\publish'
+    ArtifactName: 'Simple AVS Generator.exe'

@@ -1,18 +1,52 @@
 @ECHO off
 
-IF NOT EXIST "%~dp0version.txt" (
-	cmake -G "Visual Studio 17" -S . -B "%~dp0build"
-	@ECHO.
-)
+@CD "%~dp0"
 
-@CALL "%~dp0dotnet-publish.cmd"
+@ECHO Run CMake
 @ECHO.
+cmake -G "Visual Studio 17" -S . -B build
 
-@RD "%~dp0build" /S /Q
-@DEL "%~dp0dotnet-publish.cmd"
+@ECHO.
+@ECHO Restore Solution
+@ECHO.
+dotnet restore
 
-:END
+@ECHO.
+@ECHO Build Solution
+@ECHO.
+dotnet build -c Debug
 
-IF NOT EXIST "%~dp0version.txt" (
-	@PAUSE
+@ECHO.
+@ECHO Clean Older Tests If They Exist
+@ECHO.
+IF EXIST SimpleAVSGeneratorCore.Tests\TestResults (
+	@RD SimpleAVSGeneratorCore.Tests\TestResults /S /Q
 )
+
+@ECHO.
+@ECHO Run Unit Tests 
+@ECHO.
+dotnet test -c Debug --collect:"XPlat Code Coverage"
+
+@ECHO.
+@ECHO Restore Local Tools
+@ECHO.
+dotnet tool restore
+
+@ECHO.
+@ECHO Generate HTML Code Coverage Report
+@ECHO.
+dotnet tool run reportgenerator -reports:"SimpleAVSGeneratorCore.Tests\TestResults\*\*.xml" -reporttypes:HtmlInline_AzurePipelines -targetDir:"CodeCoverage"
+
+@ECHO.
+@ECHO Publish the Final Executable
+@ECHO.
+@CALL dotnet-publish.cmd
+
+@ECHO.
+@ECHO Cleanup
+@ECHO.
+@RD build /S /Q
+@DEL dotnet-publish.cmd
+
+@PAUSE
