@@ -7,6 +7,45 @@ namespace SimpleAVSGeneratorCore.Tests.Support;
 
 public class AudioTests
 {
+    [Fact(DisplayName = "Validate Audio Codecs")]
+    public void GetOutputAudioCodecs_ValidateAudioCodecs()
+    {
+        // Arrange
+        object[] expectedAudioCodecs = new object[] { "AAC-LC", "AAC-HE", "OPUS" };
+
+        // Act
+        object[] actualAudioCodecs = GetOutputAudioCodecs();
+
+        // Assert
+        Assert.Equal(expectedAudioCodecs, actualAudioCodecs);
+    }
+
+    [Fact(DisplayName = "Validate Languages")]
+    public void GetLanguages_ValidateLanguages()
+    {
+        // Arrange
+        object[] expectedLanguages = new object[] { "English", "Hindi", "Japanese", "Tamil", "Undetermined" };
+
+        // Act
+        object[] actualLanguages = GetLanguages();
+
+        // Assert
+        Assert.Equal(expectedLanguages, actualLanguages);
+    }
+
+    [Fact(DisplayName = "Validate Audio Channels")]
+    public void GetAudioChannels_ValidateAudioChannels()
+    {
+        // Arrange
+        object[] expectedAudioChannels = new object[] { "Stereo", "Surround 5.1", "Surround 7.1" };
+
+        // Act
+        object[] actualAudioChannels = GetAudioChannels();
+
+        // Assert
+        Assert.Equal(expectedAudioChannels, actualAudioChannels);
+    }
+
     // AudioCodec | AudioChannels | Expected audio bitrates | Expected default audio bitrate
     public static IEnumerable<object[]> GetSelectableAndDefaultAudioBitrates_ValidateResult_TestData =
     new[]
