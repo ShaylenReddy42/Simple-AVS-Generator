@@ -28,54 +28,356 @@ public class Extensions
     public string? FilterVideoExts { get; private set; }
     public string? FilterAudioExts { get; private set; }
 
-    // ExtensionType | FileExtension | IsSupportedByMP4Box
-    private readonly object[,] extensions =
+    private static readonly Dictionary<string, Dictionary<string, object>> supportedExtensionsDictionary =
+    new()
     {
-        { "CONTAINER", ".3gp",  true  },
-        { "CONTAINER", ".3g2",  true  },
-        { "CONTAINER", ".asf",  false },
-        { "CONTAINER", ".avi",  true  },
-        { "CONTAINER", ".flv",  false },
-        { "CONTAINER", ".mp4",  true  },
-        { "CONTAINER", ".m4v",  true  },
-        { "CONTAINER", ".mkv",  false },
-        { "CONTAINER", ".mov",  false },
-        { "CONTAINER", ".m2t",  true  },
-        { "CONTAINER", ".m2ts", true  },
-        { "CONTAINER", ".mxf",  false },
-        { "CONTAINER", ".ogm",  false },
-        { "CONTAINER", ".rm",   false },
-        { "CONTAINER", ".rmvb", false },
-        { "CONTAINER", ".ts",   true  },
-        { "CONTAINER", ".wmv",  false },
-
-        { "VIDEO",     ".263",  true  },
-        { "VIDEO",     ".h263", true  },
-        { "VIDEO",     ".264",  true  },
-        { "VIDEO",     ".h264", true  },
-        { "VIDEO",     ".265",  true  },
-        { "VIDEO",     ".h265", true  },
-        { "VIDEO",     ".hevc", true  },
-        { "VIDEO",     ".y4m",  false },
-
-        { "AUDIO",     ".aa3",  false },
-        { "AUDIO",     ".aac",  true  },
-        { "AUDIO",     ".aif",  false },
-        { "AUDIO",     ".ac3",  true  },
-        { "AUDIO",     ".ape",  false },
-        { "AUDIO",     ".dts",  false },
-        { "AUDIO",     ".flac", true  },
-        { "AUDIO",     ".m1a",  true  },
-        { "AUDIO",     ".m2a",  true  },
-        { "AUDIO",     ".mp2",  true  },
-        { "AUDIO",     ".mp3",  true  },
-        { "AUDIO",     ".m4a",  true  },
-        { "AUDIO",     ".oma",  false },
-        { "AUDIO",     ".opus", true  },
-        { "AUDIO",     ".thd",  false },
-        { "AUDIO",     ".tta",  false },
-        { "AUDIO",     ".wav",  true  },
-        { "AUDIO",     ".wma",  false }
+        /* -------- CONTAINER -------- */
+        {
+            ".3gp",
+            new()
+            {
+                { "Type",          "CONTAINER" },
+                { "MP4BoxSupport", true        }
+            }
+        },
+        {
+            ".3g2",
+            new()
+            {
+                { "Type",          "CONTAINER" },
+                { "MP4BoxSupport", true        }
+            }
+        },
+        {
+            ".asf",
+            new()
+            {
+                { "Type",          "CONTAINER" },
+                { "MP4BoxSupport", false       }
+            }
+        },
+        {
+            ".avi",
+            new()
+            {
+                { "Type",          "CONTAINER" },
+                { "MP4BoxSupport", true        }
+            }
+        },
+        {
+            ".flv",
+            new()
+            {
+                { "Type",         "CONTAINER" },
+                { "MP4BoxSupport", false      }
+            }
+        },
+        {
+            ".mp4",
+            new()
+            {
+                { "Type",          "CONTAINER" },
+                { "MP4BoxSupport", true        }
+            }
+        },
+        {
+            ".m4v",
+            new()
+            {
+                { "Type",          "CONTAINER" },
+                { "MP4BoxSupport", true        }
+            }
+        },
+        {
+            ".mkv",
+            new()
+            {
+                { "Type",          "CONTAINER" },
+                { "MP4BoxSupport", false       }
+            }
+        },
+        {
+            ".mov",
+            new()
+            {
+                { "Type",          "CONTAINER" },
+                { "MP4BoxSupport", false       }
+            }
+        },
+        {
+            ".m2t",
+            new()
+            {
+                { "Type",          "CONTAINER" },
+                { "MP4BoxSupport", true        }
+            }
+        },
+        {
+            ".m2ts",
+            new()
+            {
+                { "Type",          "CONTAINER" },
+                { "MP4BoxSupport", true        }
+            }
+        },
+        {
+            ".mxf",
+            new()
+            {
+                { "Type",          "CONTAINER" },
+                { "MP4BoxSupport", false       }
+            }
+        },
+        {
+            ".ogm",
+            new()
+            {
+                { "Type",         "CONTAINER" },
+                { "MP4BoxSupport", false      }
+            }
+        },
+        {
+            ".rm",
+            new()
+            {
+                { "Type",          "CONTAINER" },
+                { "MP4BoxSupport", false       }
+            }
+        },
+        {
+            ".rmvb",
+            new()
+            {
+                { "Type",          "CONTAINER" },
+                { "MP4BoxSupport", false       }
+            }
+        },
+        {
+            ".ts",
+            new()
+            {
+                { "Type",          "CONTAINER" },
+                { "MP4BoxSupport", true        }
+            }
+        },
+        {
+            ".wmv",
+            new()
+            {
+                { "Type",          "CONTAINER" },
+                { "MP4BoxSupport", false       }
+            }
+        },
+        /* ---------- VIDEO ---------- */
+        {
+            ".263",
+            new()
+            {
+                { "Type",          "VIDEO" },
+                { "MP4BoxSupport", true    }
+            }
+        },
+        {
+            ".h263",
+            new()
+            {
+                { "Type",          "VIDEO" },
+                { "MP4BoxSupport", true    }
+            }
+        },
+        {
+            ".264",
+            new()
+            {
+                { "Type",          "VIDEO" },
+                { "MP4BoxSupport", true    }
+            }
+        },
+        {
+            ".h264",
+            new()
+            {
+                { "Type",          "VIDEO" },
+                { "MP4BoxSupport", true    }
+            }
+        },
+        {
+            ".265",
+            new()
+            {
+                { "Type",          "VIDEO" },
+                { "MP4BoxSupport", true    }
+            }
+        },
+        {
+            ".h265",
+            new()
+            {
+                { "Type",          "VIDEO" },
+                { "MP4BoxSupport", true    }
+            }
+        },
+        {
+            ".hevc",
+            new()
+            {
+                { "Type",          "VIDEO" },
+                { "MP4BoxSupport", true    }
+            }
+        },
+        {
+            ".y4m",
+            new()
+            {
+                { "Type",          "VIDEO" },
+                { "MP4BoxSupport", false   }
+            }
+        },
+        /* ---------- AUDIO ---------- */
+        {
+            ".aa3",
+            new()
+            {
+                { "Type",          "AUDIO" },
+                { "MP4BoxSupport", false   }
+            }
+        },
+        {
+            ".aac",
+            new()
+            {
+                { "Type",          "AUDIO" },
+                { "MP4BoxSupport", true    }
+            }
+        },
+        {
+            ".aif",
+            new()
+            {
+                { "Type",          "AUDIO" },
+                { "MP4BoxSupport", false   }
+            }
+        },
+        {
+            ".ac3",
+            new()
+            {
+                { "Type",          "AUDIO" },
+                { "MP4BoxSupport", true    }
+            }
+        },
+        {
+            ".ape",
+            new()
+            {
+                { "Type",          "AUDIO" },
+                { "MP4BoxSupport", false   }
+            }
+        },
+        {
+            ".dts",
+            new()
+            {
+                { "Type",          "AUDIO" },
+                { "MP4BoxSupport", false   }
+            }
+        },
+        {
+            ".flac",
+            new()
+            {
+                { "Type",          "AUDIO" },
+                { "MP4BoxSupport", true    }
+            }
+        },
+        {
+            ".m1a",
+            new()
+            {
+                { "Type",          "AUDIO" },
+                { "MP4BoxSupport", true    }
+            }
+        },
+        {
+            ".m2a",
+            new()
+            {
+                { "Type",          "AUDIO" },
+                { "MP4BoxSupport", true    }
+            }
+        },
+        {
+            ".mp2",
+            new()
+            {
+                { "Type",          "AUDIO" },
+                { "MP4BoxSupport", true    }
+            }
+        },
+        {
+            ".mp3",
+            new()
+            {
+                { "Type",          "AUDIO" },
+                { "MP4BoxSupport", true    }
+            }
+        },
+        {
+            ".m4a",
+            new()
+            {
+                { "Type",          "AUDIO" },
+                { "MP4BoxSupport", true    }
+            }
+        },
+        {
+            ".oma",
+            new()
+            {
+                { "Type",          "AUDIO" },
+                { "MP4BoxSupport", false   }
+            }
+        },
+        {
+            ".opus",
+            new()
+            {
+                { "Type",          "AUDIO" },
+                { "MP4BoxSupport", true    }
+            }
+        },
+        {
+            ".thd",
+            new()
+            {
+                { "Type",          "AUDIO" },
+                { "MP4BoxSupport", false   }
+            }
+        },
+        {
+            ".tta",
+            new()
+            {
+                { "Type",          "AUDIO" },
+                { "MP4BoxSupport", false   }
+            }
+        },
+        {
+            ".wav",
+            new()
+            {
+                { "Type",          "AUDIO" },
+                { "MP4BoxSupport", true    }
+            }
+        },
+        {
+            ".wma",
+            new()
+            {
+                { "Type",          "AUDIO" },
+                { "MP4BoxSupport", false   }
+            }
+        }
     };
 
     public Extensions()
@@ -93,11 +395,14 @@ public class Extensions
     {
         string support = string.Empty;
 
-        for (int i = 0; i < extensions.GetLength(0); i++)
+        object[] supportedExtensionsDictionaryKeys = supportedExtensionsDictionary.Keys.ToArray();
+
+        foreach (string extension in supportedExtensionsDictionaryKeys)
         {
-            if ((string)extensions[i, 0] == fileType)
+            Dictionary<string, object> extensionDictionary = supportedExtensionsDictionary[extension];
+            if ((string)extensionDictionary["Type"] == fileType)
             {
-                support += $"*{extensions[i, 1]};";
+                support += $"*{extension};";
             }
         }
 
@@ -120,12 +425,15 @@ public class Extensions
     private void SetFilterFor(string fileType)
     {
         string filter = string.Empty;
-        
-        for (int i = 0; i < extensions.GetLength(0); i++)
+
+        object[] supportedExtensionsDictionaryKeys = supportedExtensionsDictionary.Keys.ToArray();
+
+        foreach (string extension in supportedExtensionsDictionaryKeys)
         {
-            if ((string)extensions[i, 0] == fileType)
+            Dictionary<string, object> extensionDictionary = supportedExtensionsDictionary[extension];
+            if ((string)extensionDictionary["Type"] == fileType)
             {
-                filter += $"{extensions[i, 1].ToString()?[1..].ToUpper()} ";
+                filter += $"{extension[1..].ToUpper()} ";
             }
         }
 
@@ -147,33 +455,15 @@ public class Extensions
 
     public string DetermineInputFileType(string fileExt)
     {
-        string fileType = string.Empty;
-        
-        for (int i = 0; i < extensions.GetLength(0); i++)
-        {
-            if ((string)extensions[i, 1] == fileExt)
-            {
-                fileType = (string)extensions[i, 0];
-                break;
-            }
-        }
+        Dictionary<string, object> extensionDictionary = supportedExtensionsDictionary[fileExt];
 
-        return fileType;
+        return (string)extensionDictionary["Type"];
     }
 
     public bool IsSupportedByMP4Box(string fileExt)
     {
-        bool supported = default;
+        Dictionary<string, object> extensionDictionary = supportedExtensionsDictionary[fileExt];
 
-        for (int i = 0; i < extensions.GetLength(0); i++)
-        {
-            if ((string)extensions[i, 1] == fileExt)
-            {
-                supported = (bool)extensions[i, 2];
-                break;
-            }
-        }
-
-        return supported;
+        return (bool)extensionDictionary["MP4BoxSupport"];
     }
 }
