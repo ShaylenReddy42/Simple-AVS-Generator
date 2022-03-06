@@ -114,35 +114,55 @@ public class OutputScripts
 
     public void ConfigureContainerScript()
     {
-        string? fileContent = null;
-
-        if (_common.OutputContainer is "MP4")
+        string containerTemplate = _common.OutputContainer switch
         {
-            string mp4V = _common.MuxOriginalVideo is false
-                        ? $"-add \"%~dp0Video{_common.VideoExtension}\":name="
-                        : $"-add \"{_common.FileName}\"#video",
-                   mp4A = _common.Audio ? $"-add \"%~dp0{_common.FileNameOnly}{_common.AudioExtension}\":name=:lang={_AudioLanguage}" : "",
-                   newmp4 = $"-new \"%~dp0{_common.FileNameOnly}.mp4\"";
-
-            fileContent = $"mp4box {mp4V} {mp4A} {newmp4}";
-        }
-        else if (_common.OutputContainer is "MKV")
+            "MP4" => $"mp4box $(video) $(audio) -new \"%~dp0{_common.FileNameOnly}.mp4\"",
+            "MKV" => $"mkvmerge -o \"%~dp0{_common.FileNameOnly}.mkv\" $(video) $(audio)",
+            _     => string.Empty
+        };
+        
+        string video = _common.OutputContainer switch
         {
-            string mkvO = $"-o \"%~dp0{_common.FileNameOnly}.mkv\"",
-                   mkvV = _common.MuxOriginalVideo is false
-                        ? $"\"%~dp0Video{_common.VideoExtension}\""
-                        : $"--no-audio \"{_common.FileName}\"",
-                   mkvA = _common.Audio ? $"--language 0:{_AudioLanguage} \"%~dp0{_common.FileNameOnly}{_common.AudioExtension}\"" : "";
+            "MP4" => _common.MuxOriginalVideo switch
+            {
+                true  => $"-add \"{_common.FileName}\"#video",
+                false => $"-add \"%~dp0Video{_common.VideoExtension}\":name="
+            },
+            "MKV" => _common.MuxOriginalVideo switch
+            {
+                true  => $"--no-audio \"{_common.FileName}\"",
+                false => $"\"%~dp0Video{_common.VideoExtension}\""
+            },
+            _     => string.Empty
+        };
 
-            fileContent = $"mkvmerge {mkvO} {mkvV} {mkvA}";
+        string audio = _common.OutputContainer switch
+        {
+            "MP4" => _common.Audio switch
+            {
+                true  => $"-add \"%~dp0{_common.FileNameOnly}{_common.AudioExtension}\":name=:lang={_AudioLanguage}",
+                false => string.Empty
+            },
+            "MKV" => _common.Audio switch
+            {
+                true  => $"--language 0:{_AudioLanguage} \"%~dp0{_common.FileNameOnly}{_common.AudioExtension}\"",
+                false => string.Empty
+            },
+            _     => string.Empty
+        };
+
+        if (containerTemplate is not "")
+        {
+            containerTemplate = containerTemplate.Replace("$(video)", video);
+            containerTemplate = containerTemplate.Replace("$(audio)", audio);
         }
-
+        
         if (_common.Video is true)
         {
             ContainerScriptFile = _common.OutputContainer is not null
                                 ? $"{_common.OutputDir}{_common.OutputContainer} Mux{(_common.MuxOriginalVideo ? " [Original Video]" : "")}.cmd"
                                 : null;
-            ContainerScriptContent = fileContent;
+            ContainerScriptContent = containerTemplate;
         }
     }
 }
