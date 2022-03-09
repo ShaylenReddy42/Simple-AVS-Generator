@@ -60,4 +60,29 @@ public class CommonTests
         // Assert
         Assert.Equal(expectedProperties, actualProperties);
     }
+
+    [Theory(DisplayName = "Validate AVSMeter Script File And Content")]
+    // FileName | Expected AVSMeter script file
+    [InlineData(@"C:\Users\User\Desktop\Sample1.mp4", @"C:\Users\User\Desktop\Temp\Sample1\AVSMeter.cmd")]
+    [InlineData(@"C:\Users\User\Desktop\Sample2.mp4", @"C:\Users\User\Desktop\Temp\Sample2\AVSMeter.cmd")]
+    public void ValidateAVSMeterScriptFileAndContent
+    (
+        string fileName,
+        string expectedScriptFile
+    )
+    {
+        // Arrange
+        string[] expectedScriptFileAndContent = { expectedScriptFile, $"AVSMeter64 \"%~dp0Script.avs\" -i -l" };
+
+        Common common = new(fileName, @"C:\Users\User\Desktop\Temp\");
+
+        // Act
+        string actualScriptFile    = common.AVSMeterScriptFile,
+               actualScriptContent = common.AVSMeterScriptContent;
+
+        string[] actualScriptFileAndContent = { actualScriptFile, actualScriptContent };
+
+        // Assert
+        Assert.Equal(expectedScriptFileAndContent, actualScriptFileAndContent);
+    }
 }
