@@ -25,8 +25,8 @@ public class OutputScripts
 {
     private Common _common;
 
-    private int? _SourceFPS { get; set; }
-    private int? _KeyframeIntervalInSeconds { get; set; }
+    private int _SourceFPS { get; set; }
+    private int _KeyframeIntervalInSeconds { get; set; }
     
     private string _AudioLanguage { get; set; }
 
@@ -43,13 +43,13 @@ public class OutputScripts
     {
         _common = common;
 
-        _SourceFPS = _common.SourceFPS is not "" ? sourceFPSDictionary[_common.SourceFPS] : null;
-        _KeyframeIntervalInSeconds = _common.KeyframeIntervalInSeconds is not "" ? keyframeIntervalDictionary[_common.KeyframeIntervalInSeconds] : null;
+        _SourceFPS = _common.SourceFPS is not "" ? sourceFPSDictionary[_common.SourceFPS] : 24;
+        _KeyframeIntervalInSeconds = _common.KeyframeIntervalInSeconds is not "" ? keyframeIntervalDictionary[_common.KeyframeIntervalInSeconds] : 2;
 
         _AudioLanguage = _common.AudioLanguage is not "" ? languagesDictionary[_common.AudioLanguage] : string.Empty;
     }
 
-    private int? GetKeyframeIntervalInFrames() { return _SourceFPS * _KeyframeIntervalInSeconds; }
+    private int GetKeyframeIntervalInFrames() { return _SourceFPS * _KeyframeIntervalInSeconds; }
 
     public void ConfigureVideoScript()
     {

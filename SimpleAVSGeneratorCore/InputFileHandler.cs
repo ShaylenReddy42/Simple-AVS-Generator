@@ -27,12 +27,14 @@ public class InputFileHandler
         common = new(fileName, home);
     }
 
+#if RELEASE
     private void WriteFile(string outputFileName, string fileContents)
     {
         StreamWriter sw = new StreamWriter(outputFileName);
         sw.Write($"{(outputFileName.EndsWith(".cmd") ? "@ECHO off\r\n\r\n" : "")}{fileContents}");
         sw.Close();
     }
+#endif
 
     public void CreateScripts(out string scriptsCreated)
     {
