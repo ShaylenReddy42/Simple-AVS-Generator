@@ -2,8 +2,8 @@
 
 |              | AppVeyor | Azure Pipelines |
 | :----------: | :------: | :-------------: |
-| Build Status | [![Build status](https://ci.appveyor.com/api/projects/status/85v9q2xcatmdtnv7?svg=true)](https://ci.appveyor.com/project/Shaylen/simple-avs-generator) | [![Build Status](https://dev.azure.com/Shaylen/Personal/_apis/build/status/ShaylenReddy42.Simple-AVS-Generator?branchName=master)](https://dev.azure.com/Shaylen/Personal/_build/latest?definitionId=2&branchName=master) |
-| Tests        | [![AppVeyor Tests](https://img.shields.io/appveyor/tests/Shaylen/simple-avs-generator)](https://ci.appveyor.com/project/Shaylen/simple-avs-generator/build/tests) | [![Azure-Pipelines Tests](https://img.shields.io/azure-devops/tests/Shaylen/Personal/2?compact_message)](https://dev.azure.com/Shaylen/Personal/_build/latest?definitionId=2&branchName=master) |
+| Build Status | [![AppVeyor Build](https://ci.appveyor.com/api/projects/status/85v9q2xcatmdtnv7?svg=true)](https://ci.appveyor.com/project/Shaylen/simple-avs-generator) | [![Azure Pipelines Build](https://dev.azure.com/Shaylen/Personal/_apis/build/status/ShaylenReddy42.Simple-AVS-Generator?branchName=master)](https://dev.azure.com/Shaylen/Personal/_build/latest?definitionId=2&branchName=master) |
+| Tests        | [![AppVeyor Tests](https://img.shields.io/appveyor/tests/Shaylen/simple-avs-generator)](https://ci.appveyor.com/project/Shaylen/simple-avs-generator/build/tests) | [![Azure Pipelines Tests](https://img.shields.io/azure-devops/tests/Shaylen/Personal/2)](https://dev.azure.com/Shaylen/Personal/_build/latest?definitionId=2&branchName=master) |
 
 [![Code Coverage](https://img.shields.io/azure-devops/coverage/Shaylen/Personal/2?label=Code%20Coverage)](https://dev.azure.com/Shaylen/Personal/_build/latest?definitionId=2&branchName=master)
 
