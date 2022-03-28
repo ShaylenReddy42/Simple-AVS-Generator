@@ -17,43 +17,40 @@
  ******************************************************************************/
 
 using System.Text;
+using SimpleAVSGeneratorCore.Models;
 
 namespace SimpleAVSGeneratorCore;
 
 public class AviSynthScript
 {
-    private Common _common;
-    
     public bool CreateAviSynthScript { get; private set; } = default;
-    public string AVSScriptFile { get; set; }
+    public string AVSScriptFile { get; init; }
     public string AVSScriptContent { get; private set; } = string.Empty;
 
-    public AviSynthScript(Common common)
+    public AviSynthScript(string scriptFile)
     {
-        _common = common;
-
-        AVSScriptFile = _common.ScriptFile;
+        AVSScriptFile = scriptFile;
     }
 
-    public void SetScriptContent()
+    public void SetScriptContent(FileModel fileInfo, VideoModel video, AudioModel audio)
     {
         StringBuilder sb = new();
         
-        sb.Append($"i = \"{_common.FileName}\"\r\n\r\n");
+        sb.Append($"i = \"{fileInfo.FileName}\"\r\n\r\n");
 
-        if (_common.Video is true && _common.MuxOriginalVideo is false)
+        if (video.Enabled is true && video.MuxOriginalVideo is false)
         {
             sb.Append("v = LWLibavVideoSource(i).ConvertBits(8).ConvertToYV12()#.ShowFrameNumber()\r\n\r\n");
-            sb.Append(ResizeVideo());
+            sb.Append(ResizeVideo(video));
         }
 
-        if (_common.Audio is true)
+        if (audio.Enabled is true)
         {
             sb.Append("a = LWLibavAudioSource(i).ConvertAudioToFloat()\r\n\r\n");
             sb.Append("a = Normalize(a, 1.0)\r\n\r\n");
         }
 
-        if ((_common.Video is true && _common.MuxOriginalVideo is false) && _common.Audio is true)
+        if ((video.Enabled is true && video.MuxOriginalVideo is false) && audio.Enabled is true)
         {
             sb.Append("o = AudioDub(v, a)\r\n\r\n");
             sb.Append("o = ConvertAudioTo16Bit(o)\r\n\r\n");
@@ -61,13 +58,13 @@ public class AviSynthScript
 
             CreateAviSynthScript = true;
         }
-        else if ((_common.Video is true && _common.MuxOriginalVideo is false) && _common.Audio is false)
+        else if ((video.Enabled is true && video.MuxOriginalVideo is false) && audio.Enabled is false)
         {
             sb.Append("v");
 
             CreateAviSynthScript = true;
         }
-        else if (_common.Audio is true && (_common.Video is false || (_common.Video is true && _common.MuxOriginalVideo is true)))
+        else if (audio.Enabled is true && (video.Enabled is false || (video.Enabled is true && video.MuxOriginalVideo is true)))
         {
             sb.Append("a = ConvertAudioTo16Bit(a)\r\n\r\n");
             sb.Append("a");
@@ -78,13 +75,13 @@ public class AviSynthScript
         AVSScriptContent = sb.ToString();
     }
 
-    string ResizeVideo()
+    private string ResizeVideo(VideoModel video)
     {
         StringBuilder sb = new();
 
         sb.Append("# Calculate the target height based on a target width\r\n");
         sb.Append("aspectRatio  = float(Width(v)) / float(Height(v))\r\n");
-        sb.Append($"targetWidth  = {(_common.NeedsToBeResized ? "640" : "Width(v)")}\r\n");
+        sb.Append($"targetWidth  = {(video.NeedsToBeResized ? "640" : "Width(v)")}\r\n");
         sb.Append("targetHeight = int(targetWidth / aspectRatio)\r\n");
         sb.Append("targetHeight = targetHeight + ((targetHeight % 2 != 0) ? 1 : 0)\r\n\r\n");
         

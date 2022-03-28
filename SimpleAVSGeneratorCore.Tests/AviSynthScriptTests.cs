@@ -53,16 +53,15 @@ public class AviSynthScriptTests
         // Arrange
         object[] expectedOutput = new object[] { expectedCreateAviSynthScript, expectedEndsWith, expectedLineCount };
         
-        Common common = new(fileName, @"C:\Users\User\Desktop\Temp\")
-        {
-            Video = video,
-            VideoCodec = videoCodec,
-            Audio = audio
-        };
+        InputFile input = new(fileName, @"C:\Users\User\Desktop\Temp\");
+
+        input.Video.Enabled = video;
+        input.Video.Codec = videoCodec;
+        input.Audio.Enabled = audio;
 
         // Act
-        AviSynthScript script = new(common);
-        script.SetScriptContent();
+        AviSynthScript script = new(input.ScriptFile);
+        script.SetScriptContent(input.FileInfo, input.Video, input.Audio);
 
         bool actualCreateAviSynthScript = script.CreateAviSynthScript;
         char actualEndsWith = script.AVSScriptContent[^1];
@@ -93,15 +92,14 @@ public class AviSynthScriptTests
     )
     {
         // Arrange
-        Common common = new(@"C:\Users\User\Desktop\Sample.mp4", @"C:\Users\User\Desktop\Temp\")
-        {
-            Video = true,
-            VideoCodec = videoCodec
-        };
+        InputFile input = new(@"C:\Users\User\Desktop\Sample.mp4", @"C:\Users\User\Desktop\Temp\");
+
+        input.Video.Enabled = true;
+        input.Video.Codec = videoCodec;
 
         // Act
-        AviSynthScript script = new(common);
-        script.SetScriptContent();
+        AviSynthScript script = new(input.ScriptFile);
+        script.SetScriptContent(input.FileInfo, input.Video, input.Audio);
 
         // Assert
         Assert.Contains(expectedStringInScript, script.AVSScriptContent);

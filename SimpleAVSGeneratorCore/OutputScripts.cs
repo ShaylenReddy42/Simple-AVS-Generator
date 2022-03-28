@@ -16,20 +16,12 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  ******************************************************************************/
 
-using static SimpleAVSGeneratorCore.Support.Video;
-using static SimpleAVSGeneratorCore.Support.Audio;
+using SimpleAVSGeneratorCore.Models;
 
 namespace SimpleAVSGeneratorCore;
 
 public class OutputScripts
 {
-    private Common _common;
-
-    private int _SourceFPS { get; set; }
-    private int _KeyframeIntervalInSeconds { get; set; }
-    
-    private string _AudioLanguage { get; set; }
-
     public string? VideoEncoderScriptFile { get; private set; }
     public string? VideoEncoderScriptContent { get; private set; }
 
@@ -39,113 +31,103 @@ public class OutputScripts
     public string? ContainerScriptFile { get; private set; }
     public string? ContainerScriptContent { get; private set; }
 
-    public OutputScripts(Common common)
+    public OutputScripts() {}
+
+    public void ConfigureVideoScript(FileModel fileInfo, VideoModel video, string outputDir)
     {
-        _common = common;
-
-        _SourceFPS = _common.SourceFPS is not "" ? sourceFPSDictionary[_common.SourceFPS] : 24;
-        _KeyframeIntervalInSeconds = _common.KeyframeIntervalInSeconds is not "" ? keyframeIntervalDictionary[_common.KeyframeIntervalInSeconds] : 2;
-
-        _AudioLanguage = _common.AudioLanguage is not "" ? languagesDictionary[_common.AudioLanguage] : string.Empty;
-    }
-
-    private int GetKeyframeIntervalInFrames() { return _SourceFPS * _KeyframeIntervalInSeconds; }
-
-    public void ConfigureVideoScript()
-    {
-        if (_common.Video is true && _common.MuxOriginalVideo is false)
+        if (video.Enabled is true && video.MuxOriginalVideo is false)
         {
             string vPipe    = "avs2pipemod -y4mp \"%~dp0Script.avs\" | ",
                    vEncoder = string.Empty;
 
-            if (_common.VideoCodec is "HEVC")
+            if (video.Codec is "HEVC")
             {
-                vEncoder += $"x265 --profile main --preset slower --crf 26 -i 1 -I {GetKeyframeIntervalInFrames()} --hist-scenecut --hist-threshold 0.02 ";
-                vEncoder += $"--fades --aq-mode 4 --aq-motion --aud --no-open-gop --y4m -f 0 - \"%~dp0Video{_common.VideoExtension}\"";
+                vEncoder += $"x265 --profile main --preset slower --crf 26 -i 1 -I {video.KeyframeIntervalInFrames} --hist-scenecut --hist-threshold 0.02 ";
+                vEncoder += $"--fades --aq-mode 4 --aq-motion --aud --no-open-gop --y4m -f 0 - \"%~dp0Video{video.Extension}\"";
             }
-            else if (_common.VideoCodec is "AV1")
+            else if (video.Codec is "AV1")
             {
                 vEncoder += "aomenc --passes=1 --end-usage=q --cq-level=32 --target-bitrate=0 ";
-                vEncoder += $"--enable-fwd-kf=1 --kf-max-dist={GetKeyframeIntervalInFrames()} --verbose --ivf -o \"%~dp0Video{_common.VideoExtension}\" -";
+                vEncoder += $"--enable-fwd-kf=1 --kf-max-dist={video.KeyframeIntervalInFrames} --verbose --ivf -o \"%~dp0Video{video.Extension}\" -";
             }
-            else if (_common.VideoCodec is "AVC")
+            else if (video.Codec is "AVC")
             {
-                vEncoder += $"x264 --preset veryslow --crf 26 -i 1 -I {GetKeyframeIntervalInFrames()} --bframes 3 --deblock -2:-1 --aq-mode 3 ";
-                vEncoder += $"--aud --no-mbtree --demuxer y4m --frames 0 -o \"%~dp0Video{_common.VideoExtension}\" -";
+                vEncoder += $"x264 --preset veryslow --crf 26 -i 1 -I {video.KeyframeIntervalInFrames} --bframes 3 --deblock -2:-1 --aq-mode 3 ";
+                vEncoder += $"--aud --no-mbtree --demuxer y4m --frames 0 -o \"%~dp0Video{video.Extension}\" -";
             }
-            else if (_common.VideoCodec is "WhatsApp")
+            else if (video.Codec is "WhatsApp")
             {
-                vEncoder += $"x264 --profile baseline --preset veryslow --crf 26 -i 1 -I {GetKeyframeIntervalInFrames()} --ref 1 --deblock -2:-1 ";
-                vEncoder += $"--aud --no-mbtree --demuxer y4m --frames 0 -o \"%~dp0Video{_common.VideoExtension}\" -";
+                vEncoder += $"x264 --profile baseline --preset veryslow --crf 26 -i 1 -I {video.KeyframeIntervalInFrames} --ref 1 --deblock -2:-1 ";
+                vEncoder += $"--aud --no-mbtree --demuxer y4m --frames 0 -o \"%~dp0Video{video.Extension}\" -";
             }
 
-            VideoEncoderScriptFile = $"{_common.OutputDir}Encode Video [{_common.VideoCodec}].cmd";
+            VideoEncoderScriptFile = $"{outputDir}Encode Video [{video.Codec}].cmd";
             VideoEncoderScriptContent = vPipe + vEncoder;
         }
     }
 
-    public void ConfigureAudioScript()
+    public void ConfigureAudioScript(FileModel fileInfo, AudioModel audio, string outputDir)
     {
-        if (_common.Audio is true)
+        if (audio.Enabled is true)
         {
             string aPipe    = "avs2pipemod -wav=16bit \"%~dp0Script.avs\" | ",
                    aEncoder = string.Empty;
 
-            if (_common.AudioCodec is "AAC-LC")
+            if (audio.Codec is "AAC-LC")
             {
-                aEncoder += $"qaac64 --abr {_common.AudioBitrate} --ignorelength --no-delay ";
-                aEncoder += $"-o \"%~dp0{_common.FileNameOnly}{_common.AudioExtension}\" - ";
+                aEncoder += $"qaac64 --abr {audio.Bitrate} --ignorelength --no-delay ";
+                aEncoder += $"-o \"%~dp0{fileInfo.FileNameOnly}{audio.Extension}\" - ";
             }
-            else if (_common.AudioCodec is "AAC-HE")
+            else if (audio.Codec is "AAC-HE")
             {
-                aEncoder += $"qaac64 --he --abr {_common.AudioBitrate} --ignorelength ";
-                aEncoder += $"-o \"%~dp0{_common.FileNameOnly}{_common.AudioExtension}\" - ";
+                aEncoder += $"qaac64 --he --abr {audio.Bitrate} --ignorelength ";
+                aEncoder += $"-o \"%~dp0{fileInfo.FileNameOnly}{audio.Extension}\" - ";
             }
-            else if (_common.AudioCodec is "OPUS")
+            else if (audio.Codec is "OPUS")
             {
-                aEncoder += $"opusenc --bitrate {_common.AudioBitrate} --ignorelength ";
-                aEncoder += $"- \"%~dp0{_common.FileNameOnly}{_common.AudioExtension}\"";
+                aEncoder += $"opusenc --bitrate {audio.Bitrate} --ignorelength ";
+                aEncoder += $"- \"%~dp0{fileInfo.FileNameOnly}{audio.Extension}\"";
             }
 
-            AudioEncoderScriptFile = $"{_common.OutputDir}Encode Audio [{_common.AudioCodec}].cmd";
+            AudioEncoderScriptFile = $"{outputDir}Encode Audio [{audio.Codec}].cmd";
             AudioEncoderScriptContent = aPipe + aEncoder;
         }
     }
 
-    public void ConfigureContainerScript()
+    public void ConfigureContainerScript(FileModel fileInfo, VideoModel video, AudioModel audio, string? outputContainer, string outputDir)
     {
-        string containerTemplate = _common.OutputContainer switch
+        string containerTemplate = outputContainer switch
         {
-            "MP4" => $"mp4box $(video) $(audio) -new \"%~dp0{_common.FileNameOnly}.mp4\"",
-            "MKV" => $"mkvmerge -o \"%~dp0{_common.FileNameOnly}.mkv\" $(video) $(audio)",
+            "MP4" => $"mp4box $(video) $(audio) -new \"%~dp0{fileInfo.FileNameOnly}.mp4\"",
+            "MKV" => $"mkvmerge -o \"%~dp0{fileInfo.FileNameOnly}.mkv\" $(video) $(audio)",
             _     => string.Empty
         };
         
-        string video = _common.OutputContainer switch
+        string videoTemplate = outputContainer switch
         {
-            "MP4" => _common.MuxOriginalVideo switch
+            "MP4" => video.MuxOriginalVideo switch
             {
-                true  => $"-add \"{_common.FileName}\"#video",
-                false => $"-add \"%~dp0Video{_common.VideoExtension}\":name="
+                true  => $"-add \"{fileInfo.FileName}\"#video",
+                false => $"-add \"%~dp0Video{video.Extension}\":name="
             },
-            "MKV" => _common.MuxOriginalVideo switch
+            "MKV" => video.MuxOriginalVideo switch
             {
-                true  => $"--no-audio \"{_common.FileName}\"",
-                false => $"\"%~dp0Video{_common.VideoExtension}\""
+                true  => $"--no-audio \"{fileInfo.FileName}\"",
+                false => $"\"%~dp0Video{video.Extension}\""
             },
             _     => string.Empty
         };
 
-        string audio = _common.OutputContainer switch
+        string audioTemplate = outputContainer switch
         {
-            "MP4" => _common.Audio switch
+            "MP4" => audio.Enabled switch
             {
-                true  => $"-add \"%~dp0{_common.FileNameOnly}{_common.AudioExtension}\":name=:lang={_AudioLanguage}",
+                true  => $"-add \"%~dp0{fileInfo.FileNameOnly}{audio.Extension}\":name=:lang={audio.LanguageCode}",
                 false => string.Empty
             },
-            "MKV" => _common.Audio switch
+            "MKV" => audio.Enabled switch
             {
-                true  => $"--language 0:{_AudioLanguage} \"%~dp0{_common.FileNameOnly}{_common.AudioExtension}\"",
+                true  => $"--language 0:{audio.LanguageCode} \"%~dp0{fileInfo.FileNameOnly}{audio.Extension}\"",
                 false => string.Empty
             },
             _     => string.Empty
@@ -153,14 +135,14 @@ public class OutputScripts
 
         if (containerTemplate is not "")
         {
-            containerTemplate = containerTemplate.Replace("$(video)", video);
-            containerTemplate = containerTemplate.Replace("$(audio)", audio);
+            containerTemplate = containerTemplate.Replace("$(video)", videoTemplate);
+            containerTemplate = containerTemplate.Replace("$(audio)", audioTemplate);
         }
         
-        if (_common.Video is true)
+        if (video.Enabled is true)
         {
-            ContainerScriptFile = _common.OutputContainer is not null
-                                ? $"{_common.OutputDir}{_common.OutputContainer} Mux{(_common.MuxOriginalVideo ? " [Original Video]" : "")}.cmd"
+            ContainerScriptFile = outputContainer is not null
+                                ? $"{outputDir}{outputContainer} Mux{(video.MuxOriginalVideo ? " [Original Video]" : "")}.cmd"
                                 : null;
             ContainerScriptContent = containerTemplate;
         }

@@ -42,17 +42,16 @@ public class OutputScriptsTests
     )
     {
         // Arrange
-        Common common = new(@"C:\Users\User\Desktop\Sample.mp4", @"C:\Users\User\Desktop\Temp\")
-        {
-            Video = true,
-            VideoCodec = videoCodec,
-            SourceFPS = "25",
-            KeyframeIntervalInSeconds = "2 Seconds"
-        };
+        InputFile input = new(@"C:\Users\User\Desktop\Sample.mp4", @"C:\Users\User\Desktop\Temp\");
+
+        input.Video.Enabled = true;
+        input.Video.Codec = videoCodec;
+        input.Video.SourceFPS = "25";
+        input.Video.KeyframeIntervalInSeconds = "2 Seconds";
         
         // Act
-        OutputScripts output = new(common);
-        output.ConfigureVideoScript();
+        OutputScripts output = new();
+        output.ConfigureVideoScript(input.FileInfo, input.Video, input.OutputDir);
 
         string? videoEncoderScriptContent = output.VideoEncoderScriptContent;
         
@@ -81,17 +80,16 @@ public class OutputScriptsTests
     )
     {
         // Arrange
-        Common common = new(@"C:\Users\User\Desktop\Sample.mp4", @"C:\Users\User\Desktop\Temp\")
-        {
-            Video = true,
-            VideoCodec = videoCodec,
-            SourceFPS = sourceFPS,
-            KeyframeIntervalInSeconds = keyframeIntervalInSeconds
-        };
+        InputFile input = new(@"C:\Users\User\Desktop\Sample.mp4", @"C:\Users\User\Desktop\Temp\");
+
+        input.Video.Enabled = true;
+        input.Video.Codec = videoCodec;
+        input.Video.SourceFPS = sourceFPS;
+        input.Video.KeyframeIntervalInSeconds = keyframeIntervalInSeconds;
 
         // Act
-        OutputScripts output = new(common);
-        output.ConfigureVideoScript();
+        OutputScripts output = new();
+        output.ConfigureVideoScript(input.FileInfo, input.Video, input.OutputDir);
 
         string? videoEncoderScriptContent = output.VideoEncoderScriptContent;
 
@@ -118,22 +116,21 @@ public class OutputScriptsTests
     )
     {
         // Arrange
-        Common common = new(@"C:\Users\User\Desktop\Sample.mp4", @"C:\Users\User\Desktop\Temp\")
-        {
-            Video = true,
-            VideoCodec = videoCodec,
-            SourceFPS = "25",
-            KeyframeIntervalInSeconds = "2 Seconds"
-        };
+        InputFile input = new(@"C:\Users\User\Desktop\Sample.mp4", @"C:\Users\User\Desktop\Temp\");
+
+        input.Video.Enabled = true;
+        input.Video.Codec = videoCodec;
+        input.Video.SourceFPS = "25";
+        input.Video.KeyframeIntervalInSeconds = "2 Seconds";
 
         // Act
-        OutputScripts output = new(common);
-        output.ConfigureVideoScript();
+        OutputScripts output = new();
+        output.ConfigureVideoScript(input.FileInfo, input.Video, input.OutputDir);
 
         string? videoEncoderScriptFile = output.VideoEncoderScriptFile;
 
         // Assert
-        Assert.Equal($"{common.OutputDir}{expectedEndsWith}", videoEncoderScriptFile);
+        Assert.Equal($"{input.OutputDir}{expectedEndsWith}", videoEncoderScriptFile);
     }
 
     // AudioCodec | Expected audio encoder
@@ -154,16 +151,15 @@ public class OutputScriptsTests
     )
     {
         // Arrange
-        Common common = new(@"C:\Users\User\Desktop\Sample.m4a", @"C:\Users\User\Desktop\Temp\")
-        {
-            Audio = true,
-            AudioCodec = audioCodec,
-            AudioBitrate = 128
-        };
+        InputFile input = new(@"C:\Users\User\Desktop\Sample.m4a", @"C:\Users\User\Desktop\Temp\");
+
+        input.Audio.Enabled = true;
+        input.Audio.Codec = audioCodec;
+        input.Audio.Bitrate = 128;
 
         // Act
-        OutputScripts output = new(common);
-        output.ConfigureAudioScript();
+        OutputScripts output = new();
+        output.ConfigureAudioScript(input.FileInfo, input.Audio, input.OutputDir);
 
         string? audioEncoderScriptContent = output.AudioEncoderScriptContent;
 
@@ -189,21 +185,20 @@ public class OutputScriptsTests
     )
     {
         // Arrange
-        Common common = new(@"C:\Users\User\Desktop\Sample.m4a", @"C:\Users\User\Desktop\Temp\")
-        {
-            Audio = true,
-            AudioCodec = audioCodec,
-            AudioBitrate = 128
-        };
+        InputFile input = new(@"C:\Users\User\Desktop\Sample.m4a", @"C:\Users\User\Desktop\Temp\");
+
+        input.Audio.Enabled = true;
+        input.Audio.Codec = audioCodec;
+        input.Audio.Bitrate = 128;
 
         // Act
-        OutputScripts output = new(common);
-        output.ConfigureAudioScript();
+        OutputScripts output = new();
+        output.ConfigureAudioScript(input.FileInfo, input.Audio, input.OutputDir);
 
         string? audioEncoderScriptFile = output.AudioEncoderScriptFile;
 
         // Assert
-        Assert.Equal($"{common.OutputDir}{expectedEndsWith}", audioEncoderScriptFile);
+        Assert.Equal($"{input.OutputDir}{expectedEndsWith}", audioEncoderScriptFile);
     }
 
     [Theory(DisplayName = "Validate Which Multiplexer Is Used")]
@@ -217,15 +212,16 @@ public class OutputScriptsTests
     )
     {
         // Arrange
-        Common common = new(@"C:\Users\User\Desktop\Sample.mp4", @"C:\Users\User\Desktop\Temp\")
+        InputFile input = new(@"C:\Users\User\Desktop\Sample.mp4", @"C:\Users\User\Desktop\Temp\")
         {
-            Video = true,
             OutputContainer = outputContainer
         };
 
+        input.Video.Enabled = true;
+
         // Act
-        OutputScripts output = new(common);
-        output.ConfigureContainerScript();
+        OutputScripts output = new();
+        output.ConfigureContainerScript(input.FileInfo, input.Video, input.Audio, input.OutputContainer, input.OutputDir);
 
         string? containerScriptContent = output.ContainerScriptContent;
 
@@ -258,16 +254,17 @@ public class OutputScriptsTests
     )
     {
         // Arrange
-        Common common = new(fileName, @"C:\Users\User\Desktop\Temp\")
+        InputFile input = new(fileName, @"C:\Users\User\Desktop\Temp\")
         {
-            Video = true,
-            VideoCodec = videoCodec,
             OutputContainer = outputContainer
         };
 
+        input.Video.Enabled = true;
+        input.Video.Codec = videoCodec;
+
         // Act
-        OutputScripts output = new(common);
-        output.ConfigureContainerScript();
+        OutputScripts output = new();
+        output.ConfigureContainerScript(input.FileInfo, input.Video, input.Audio, input.OutputContainer, input.OutputDir);
 
         string? containerScriptContent = output.ContainerScriptContent;
 
@@ -299,19 +296,20 @@ public class OutputScriptsTests
     )
     {
         // Arrange
-        Common common = new(fileName, @"C:\Users\User\Desktop\Temp\")
+        InputFile input = new(fileName, @"C:\Users\User\Desktop\Temp\")
         {
-            Video = true,
-            VideoCodec = "HEVC",
-            Audio = true,
-            AudioCodec = audioCodec,
-            AudioLanguage = audioLanguageKey,
             OutputContainer = outputContainer
         };
 
+        input.Video.Enabled = true;
+        input.Video.Codec = "HEVC";
+        input.Audio.Enabled = true;
+        input.Audio.Codec = audioCodec;
+        input.Audio.Language = audioLanguageKey;
+
         // Act
-        OutputScripts output = new(common);
-        output.ConfigureContainerScript();
+        OutputScripts output = new();
+        output.ConfigureContainerScript(input.FileInfo, input.Video, input.Audio, input.OutputContainer, input.OutputDir);
 
         string? containerScriptContent = output.ContainerScriptContent;
 
@@ -337,15 +335,16 @@ public class OutputScriptsTests
     )
     {
         // Arrange
-        Common common = new(fileName, @"C:\Users\User\Desktop\Temp\")
+        InputFile input = new(fileName, @"C:\Users\User\Desktop\Temp\")
         {
-            Video = true,
             OutputContainer = outputContainer
         };
 
+        input.Video.Enabled = true;
+
         // Act
-        OutputScripts output = new(common);
-        output.ConfigureContainerScript();
+        OutputScripts output = new();
+        output.ConfigureContainerScript(input.FileInfo, input.Video, input.Audio, input.OutputContainer, input.OutputDir);
 
         string? containerScriptContent = output.ContainerScriptContent;
 
@@ -373,20 +372,21 @@ public class OutputScriptsTests
     )
     {
         // Arrange
-        Common common = new(@"C:\Users\User\Desktop\Sample.mp4", @"C:\Users\User\Desktop\Temp\")
+        InputFile input = new(@"C:\Users\User\Desktop\Sample.mp4", @"C:\Users\User\Desktop\Temp\")
         {
-            Video = true,
-            VideoCodec = videoCodec,
             OutputContainer = outputContainer
         };
 
+        input.Video.Enabled = true;
+        input.Video.Codec = videoCodec;
+
         // Act
-        OutputScripts output = new(common);
-        output.ConfigureContainerScript();
+        OutputScripts output = new();
+        output.ConfigureContainerScript(input.FileInfo, input.Video, input.Audio, input.OutputContainer, input.OutputDir);
 
         string? containerScriptFile = output.ContainerScriptFile;
 
         // Assert
-        Assert.Equal($"{common.OutputDir}{expectedEndsWith}", containerScriptFile);
+        Assert.Equal($"{input.OutputDir}{expectedEndsWith}", containerScriptFile);
     }
 }

@@ -56,7 +56,7 @@ public partial class MainForm : Form
     static string home = $@"C:\Users\{Environment.UserName}\Desktop\Temp\";
 
     Extensions supportedExts = new();
-    InputFileHandler? input = null;
+    InputFile? input = null;
 
     #region Methods
     void PopulateComboBoxes()
@@ -97,7 +97,7 @@ public partial class MainForm : Form
 
     void EnableUI()
     {
-        string? type = input?.common.FileType;
+        string? type = input?.FileInfo.FileType;
         
         cbxVideo.Enabled = type is not "AUDIO";
         cbxVideo.Checked = type is "VIDEO";
@@ -167,8 +167,8 @@ public partial class MainForm : Form
             btnOutDir.Enabled = true;
         }
 
-        txbInFile.Text = input?.common.FileName;
-        txbOutFile.Text = input is not null ? input.common.ScriptFile : home;
+        txbInFile.Text = input?.FileInfo.FileName;
+        txbOutFile.Text = input is not null ? input.ScriptFile : home;
     }
 
     private void btnOut_Click(object sender, EventArgs e)
@@ -176,9 +176,9 @@ public partial class MainForm : Form
         if (input is not null)
         {
             FolderBrowserDialog fbd = new();
-            input.common.HomeDir = fbd.ShowDialog() == DialogResult.OK ? $@"{fbd.SelectedPath}\" : input.common.HomeDir;
+            input.HomeDir = fbd.ShowDialog() == DialogResult.OK ? $@"{fbd.SelectedPath}\" : input.HomeDir;
 
-            txbOutFile.Text = input?.common.ScriptFile;
+            txbOutFile.Text = input?.ScriptFile;
         }
     }
 
@@ -186,17 +186,17 @@ public partial class MainForm : Form
     {
         if (input is not null)
         {
-            input.common.Video = cbxVideo.Checked;
-            input.common.VideoCodec = (string)cmbVideoCodec.SelectedItem;
-            input.common.SourceFPS = (string)cmbSourceFPS.SelectedItem;
-            input.common.KeyframeIntervalInSeconds = (string)cmbKeyframeInterval.SelectedItem;
+            input.Video.Enabled = cbxVideo.Checked;
+            input.Video.Codec = (string)cmbVideoCodec.SelectedItem;
+            input.Video.SourceFPS = (string)cmbSourceFPS.SelectedItem;
+            input.Video.KeyframeIntervalInSeconds = (string)cmbKeyframeInterval.SelectedItem;
             
-            input.common.Audio = cbxAudio.Checked;
-            input.common.AudioCodec = (string)cmbAudioCodec.SelectedItem;
-            input.common.AudioBitrate = (int)cmbBitrate.SelectedItem;
-            input.common.AudioLanguage = (string)cmbLanguage.SelectedItem;
+            input.Audio.Enabled = cbxAudio.Checked;
+            input.Audio.Codec = (string)cmbAudioCodec.SelectedItem;
+            input.Audio.Bitrate = (int)cmbBitrate.SelectedItem;
+            input.Audio.Language = (string)cmbLanguage.SelectedItem;
             
-            input.common.OutputContainer = cbxMP4.Checked ? "MP4"
+            input.OutputContainer = cbxMP4.Checked ? "MP4"
                                          : cbxMKV.Checked ? "MKV"
                                          : null;
 
@@ -281,7 +281,7 @@ public partial class MainForm : Form
     
     private void cmbVideoCodec_SelectedIndexChanged(object sender, EventArgs e)
     {
-        if ((string)cmbVideoCodec.SelectedItem is "Mux Original" && input?.common.IsSupportedByMP4Box is false)
+        if ((string)cmbVideoCodec.SelectedItem is "Mux Original" && input?.FileInfo.IsSupportedByMP4Box is false)
         {
             cbxMP4.Enabled = false;
             cbxMP4.Checked = false;

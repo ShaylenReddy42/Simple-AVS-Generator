@@ -16,15 +16,42 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  ******************************************************************************/
 
+using SimpleAVSGeneratorCore.Models;
+using SimpleAVSGeneratorCore.Support;
+
 namespace SimpleAVSGeneratorCore;
 
-public class InputFileHandler
+public class InputFile
 {
-    public Common common;
-    
-    public InputFileHandler(string fileName, string home)
+    public FileModel FileInfo;
+
+    public string HomeDir { get; set; }
+    public string OutputDir => $@"{HomeDir}{FileInfo.FileNameOnly}\";
+
+    public string ScriptFile => $@"{OutputDir}Script.avs";
+
+    //AVSMeter Properties
+    public string AVSMeterScriptFile => $"{OutputDir}AVSMeter.cmd";
+    public string AVSMeterScriptContent => $"AVSMeter64 \"%~dp0Script.avs\" -i -l";
+
+    public VideoModel Video = new();
+
+    public AudioModel Audio = new();
+
+    public string? OutputContainer { get; set; }
+
+    public InputFile(string fileName, string home)
     {
-        common = new(fileName, home);
+        HomeDir = home;
+
+        FileInfo = new()
+        {
+            FileName = fileName
+        };
+
+        Extensions se = new();
+        FileInfo.FileType = se.DetermineInputFileType(FileInfo.FileExt);
+        FileInfo.IsSupportedByMP4Box = se.IsSupportedByMP4Box(FileInfo.FileExt);
     }
 
 #if RELEASE
@@ -50,25 +77,25 @@ public class InputFileHandler
         scriptsCreated = "";
 
 #if RELEASE
-        Directory.CreateDirectory(common.OutputDir);
+        Directory.CreateDirectory(OutputDir);
 #endif
 
-        AviSynthScript script = new(common);
+        AviSynthScript script = new(ScriptFile);
         
-        script.SetScriptContent();
+        script.SetScriptContent(FileInfo, Video, Audio);
         if (script.CreateAviSynthScript is true)
         {
             scriptsCreated += "s";
 #if RELEASE
             WriteFile(script.AVSScriptFile, script.AVSScriptContent);
 
-            WriteFile(common.AVSMeterScriptFile, common.AVSMeterScriptContent);
+            WriteFile(AVSMeterScriptFile, AVSMeterScriptContent);
 #endif
         }
 
-        OutputScripts output = new(common);
+        OutputScripts output = new();
 
-        output.ConfigureVideoScript();
+        output.ConfigureVideoScript(FileInfo, Video, OutputDir);
         if (output.VideoEncoderScriptFile is not null && output.VideoEncoderScriptContent is not null)
         {
             scriptsCreated += "v";
@@ -77,7 +104,7 @@ public class InputFileHandler
 #endif
         }
 
-        output.ConfigureAudioScript();
+        output.ConfigureAudioScript(FileInfo, Audio, OutputDir);
         if (output.AudioEncoderScriptFile is not null && output.AudioEncoderScriptContent is not null)
         {
             scriptsCreated += "a";
@@ -86,7 +113,7 @@ public class InputFileHandler
 #endif
         }
 
-        output.ConfigureContainerScript();
+        output.ConfigureContainerScript(FileInfo, Video, Audio, OutputContainer, OutputDir);
         if (output.ContainerScriptFile is not null && output.ContainerScriptContent is not null)
         {
             scriptsCreated += "c";
@@ -98,7 +125,7 @@ public class InputFileHandler
 #if RELEASE
         if (scriptsCreated is "")
         {
-            Directory.Delete(common.OutputDir);
+            Directory.Delete(OutputDir);
         }
 #endif
     }
