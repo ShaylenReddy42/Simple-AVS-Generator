@@ -161,6 +161,14 @@ public class Extensions
             }
         },
         {
+            ".webm",
+            new()
+            {
+                { "Type",          "CONTAINER" },
+                { "MP4BoxSupport", false       }
+            }
+        },
+        {
             ".wmv",
             new()
             {
@@ -219,6 +227,22 @@ public class Extensions
         },
         {
             ".hevc",
+            new()
+            {
+                { "Type",          "VIDEO" },
+                { "MP4BoxSupport", true    }
+            }
+        },
+        {
+            ".ivf",
+            new()
+            {
+                { "Type",          "VIDEO" },
+                { "MP4BoxSupport", true    }
+            }
+        },
+        {
+            ".obu",
             new()
             {
                 { "Type",          "VIDEO" },

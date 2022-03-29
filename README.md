@@ -13,7 +13,7 @@ This project was created to make my life easier
 
 It creates scripts to re-encode videos using [AviSynth+](https://github.com/AviSynth/AviSynthPlus/releases)
 
-The generated AviSynth+ scripts make use of the [L-SMASH-Works plugin](https://github.com/HolyWu/L-SMASH-Works/releases) which must be placed in the relevant AviSynth+ plugin folders [plugins+ for the 32bit dll and plugins64+ for the 64bit]
+The generated AviSynth+ scripts make use of the [L-SMASH-Works plugin](https://github.com/HomeOfAviSynthPlusEvolution/L-SMASH-Works/releases) which must be placed in the relevant AviSynth+ plugin folders [plugins+ for the 32bit dll and plugins64+ for the 64bit]
 
 ## Tools Required in Your Path ##
 
