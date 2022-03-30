@@ -44,28 +44,11 @@ steps:
     testResultsFiles: '*.trx'
     searchFolder: $(testResultsDir)
 
-- task: DotNetCoreCLI@2
-  displayName: 'Restore Local Tools'
-  inputs:
-    command: custom
-    custom: tool
-    arguments: restore
-    workingDirectory: $(workDir)
-
-- task: DotNetCoreCLI@2
-  displayName: 'Generate HTML Code Coverage Report'
-  inputs:
-    command: custom
-    custom: tool
-    arguments: run reportgenerator -reports:"$(testResultsDir)\*\coverage.cobertura.xml" -reporttypes:HtmlInline_AzurePipelines -targetdir:"$(workDir)\CodeCoverage"
-    workingDirectory: $(workDir)
-
 - task: PublishCodeCoverageResults@1
   displayName: 'Publish HTML Code Coverage Report'
   inputs:
     codeCoverageTool: Cobertura
     summaryFileLocation: '$(testResultsDir)\*\coverage.cobertura.xml'
-    reportDirectory: '$(workDir)\CodeCoverage'
 
 - task: CMake@1
   displayName: 'Run CMake'
