@@ -37,19 +37,6 @@ public class VideoTests
         Assert.Equal(expectedVideoCodecs, actualVideoCodecs);
     }
 
-    [Fact(DisplayName = "Validate Source FPS")]
-    public void GetSourceFPS_ValidateSourceFPS()
-    {
-        // Arrange
-        object[] expectedSourceFPS = new object[] { "23.976 / 24", "25", "29.97 / 30", "59.94 / 60" };
-
-        // Act
-        object[] actualSourceFPS = GetSourceFPS();
-
-        // Assert
-        Assert.Equal(expectedSourceFPS, actualSourceFPS);
-    }
-
     [Fact(DisplayName = "Validate Keyframe Intervals In Seconds")]
     public void GetKeyframeIntervals_ValidateKeyframeIntervalsInSeconds()
     {

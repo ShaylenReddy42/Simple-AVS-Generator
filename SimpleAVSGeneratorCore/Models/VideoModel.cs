@@ -25,8 +25,9 @@ public class VideoModel
     public bool Enabled { get; set; } = default;
     public string Codec { get; set; } = string.Empty;
     public bool MuxOriginalVideo => Codec is "Mux Original";
-    public string SourceFPS { get; set; } = "23.976 / 24";
-    public int RoundedFPS => sourceFPSDictionary[SourceFPS];
+    public decimal SourceFPS { get; init; }
+    public int RoundedFPS => (int)Math.Round(SourceFPS);
+    public int SourceFrameCount { get; init; }
     public string KeyframeIntervalInSeconds { get; set; } = "2 Seconds";
     public int KeyframeIntervalInFrames => RoundedFPS * keyframeIntervalDictionary[KeyframeIntervalInSeconds];
     public bool NeedsToBeResized => Codec is "WhatsApp";

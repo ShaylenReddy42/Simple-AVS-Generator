@@ -36,40 +36,33 @@ public class Audio
         { "Undetermined", "und" }
     };
 
-    private static string[] outputAudioChannels =
-    {
-        "Stereo",
-        "Surround 5.1",
-        "Surround 7.1"
-    };
-
     private static Dictionary<string, Dictionary<string, object[]>> selectableAudioBitratesDictionary = new()
     {
         { 
             "AAC-LC",  
             new()
             {
-                { "Stereo",       new object[] {  96, 112, 128, 144, 160, 192 } },
-                { "Surround 5.1", new object[] { 192, 224, 256, 288, 320, 384 } },
-                { "Surround 7.1", new object[] { 384, 448, 512, 576, 640, 768 } }
+                { "2.0", new object[] {  96, 112, 128, 144, 160, 192 } },
+                { "5.1", new object[] { 192, 224, 256, 288, 320, 384 } },
+                { "7.1", new object[] { 384, 448, 512, 576, 640, 768 } }
             }
         },
         {
             "AAC-HE",
             new()
             {
-                { "Stereo",       new object[] {  32,  40,  48,  56,  64,  80 } },
-                { "Surround 5.1", new object[] {  80,  96, 112, 128, 160, 192 } },
-                { "Surround 7.1", new object[] { 112, 128, 160, 192, 224, 256 } }
+                { "2.0", new object[] {  32,  40,  48,  56,  64,  80 } },
+                { "5.1", new object[] {  80,  96, 112, 128, 160, 192 } },
+                { "7.1", new object[] { 112, 128, 160, 192, 224, 256 } }
             }
         },
         {
             "OPUS",
             new()
             {
-                { "Stereo",       new object[] {  96, 112, 128, 144, 160, 192 } },
-                { "Surround 5.1", new object[] { 144, 160, 192, 224, 256, 288 } },
-                { "Surround 7.1", new object[] { 256, 288, 320, 384, 448, 576 } }
+                { "2.0", new object[] {  96, 112, 128, 144, 160, 192 } },
+                { "5.1", new object[] { 144, 160, 192, 224, 256, 288 } },
+                { "7.1", new object[] { 256, 288, 320, 384, 448, 576 } }
             }
         }
     };
@@ -80,27 +73,27 @@ public class Audio
             "AAC-LC",
             new()
             {
-                { "Stereo",       128 },
-                { "Surround 5.1", 384 },
-                { "Surround 7.1", 512 }
+                { "2.0", 128 },
+                { "5.1", 384 },
+                { "7.1", 512 }
             }
         },
         {
             "AAC-HE",
             new()
             {
-                { "Stereo",        80 },
-                { "Surround 5.1", 192 },
-                { "Surround 7.1", 256 }
+                { "2.0",  80 },
+                { "5.1", 192 },
+                { "7.1", 256 }
             }
         },
         {
             "OPUS",
             new()
             {
-                { "Stereo",        96 },
-                { "Surround 5.1", 288 },
-                { "Surround 7.1", 384 }
+                { "2.0",  96 },
+                { "5.1", 288 },
+                { "7.1", 384 }
             }
         }
     };
@@ -113,11 +106,6 @@ public class Audio
     public static object[] GetLanguages()
     {
         return languagesDictionary.Keys.ToArray();
-    }
-
-    public static object[] GetAudioChannels()
-    {
-        return outputAudioChannels;
     }
 
     public static (object[], int) GetSelectableAndDefaultAudioBitrates(string audioCodec, string audioChannels)

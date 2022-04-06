@@ -43,7 +43,7 @@ public class OutputScripts
             if (video.Codec is "HEVC")
             {
                 vEncoder += $"x265 --profile main --preset slower --crf 26 -i 1 -I {video.KeyframeIntervalInFrames} --hist-scenecut --hist-threshold 0.02 ";
-                vEncoder += $"--fades --aq-mode 4 --aq-motion --aud --no-open-gop --y4m -f 0 - \"%~dp0Video{video.Extension}\"";
+                vEncoder += $"--fades --aq-mode 4 --aq-motion --aud --no-open-gop --y4m --frames {video.SourceFrameCount} - \"%~dp0Video{video.Extension}\"";
             }
             else if (video.Codec is "AV1")
             {
@@ -53,12 +53,12 @@ public class OutputScripts
             else if (video.Codec is "AVC")
             {
                 vEncoder += $"x264 --preset veryslow --crf 26 -i 1 -I {video.KeyframeIntervalInFrames} --bframes 3 --deblock -2:-1 --aq-mode 3 ";
-                vEncoder += $"--aud --no-mbtree --demuxer y4m --frames 0 -o \"%~dp0Video{video.Extension}\" -";
+                vEncoder += $"--aud --no-mbtree --demuxer y4m --frames {video.SourceFrameCount} -o \"%~dp0Video{video.Extension}\" -";
             }
             else if (video.Codec is "WhatsApp")
             {
                 vEncoder += $"x264 --profile baseline --preset veryslow --crf 26 -i 1 -I {video.KeyframeIntervalInFrames} --ref 1 --deblock -2:-1 ";
-                vEncoder += $"--aud --no-mbtree --demuxer y4m --frames 0 -o \"%~dp0Video{video.Extension}\" -";
+                vEncoder += $"--aud --no-mbtree --demuxer y4m --frames {video.SourceFrameCount} -o \"%~dp0Video{video.Extension}\" -";
             }
 
             VideoEncoderScriptFile = $"{outputDir}Encode Video [{video.Codec}].cmd";

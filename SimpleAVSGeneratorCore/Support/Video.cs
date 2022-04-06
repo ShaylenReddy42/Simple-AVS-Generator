@@ -29,14 +29,6 @@ public class Video
         { "Mux Original", ""     }
     };
 
-    public static Dictionary<string, int> sourceFPSDictionary = new()
-    {
-        { "23.976 / 24", 24 },
-        { "25",          25 },
-        { "29.97 / 30",  30 },
-        { "59.94 / 60",  60 }
-    };
-
     public static Dictionary<string, int> keyframeIntervalDictionary = new()
     {
         { "2 Seconds",   2 },
@@ -47,11 +39,6 @@ public class Video
     public static object[] GetOutputVideoCodecs()
     {
         return outputVideoCodecsDictionary.Keys.ToArray();
-    }
-
-    public static object[] GetSourceFPS()
-    {
-        return sourceFPSDictionary.Keys.ToArray();
     }
 
     public static object[] GetKeyframeIntervals()

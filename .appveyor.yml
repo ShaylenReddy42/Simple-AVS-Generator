@@ -9,9 +9,10 @@ before_build:
 
 build_script:
     - cmd: dotnet-publish.cmd
+    - ps: Compress-Archive -Path ".\publish\*" -DestinationPath ".\publish\Simple AVS Generator.zip"
 
 test_script:
     - cmd: dotnet test -c Debug "SimpleAVSGeneratorCore.Tests\SimpleAVSGeneratorCore.Tests.csproj"
 
 artifacts:
-    - path: "publish\\Simple AVS Generator.exe"
+    - path: "publish\\Simple AVS Generator.zip"

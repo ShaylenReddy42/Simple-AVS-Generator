@@ -16,8 +16,10 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  ******************************************************************************/
 
+using System.Globalization;
 using SimpleAVSGeneratorCore.Models;
 using SimpleAVSGeneratorCore.Support;
+using MediaInfo;
 
 namespace SimpleAVSGeneratorCore;
 
@@ -34,24 +36,106 @@ public class InputFile
     public string AVSMeterScriptFile => $"{OutputDir}AVSMeter.cmd";
     public string AVSMeterScriptContent => $"AVSMeter64 \"%~dp0Script.avs\" -i -l";
 
-    public VideoModel Video = new();
+    public VideoModel Video;
 
-    public AudioModel Audio = new();
+    public AudioModel Audio;
 
     public string? OutputContainer { get; set; }
 
+    private MediaInfo.MediaInfo MI = new();
+
+#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
     public InputFile(string fileName, string home)
+#pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
     {
         HomeDir = home;
 
+        string fileExt = Path.GetExtension(fileName);
+
+        Extensions exts = new();
+
         FileInfo = new()
         {
-            FileName = fileName
+            FileName = fileName,
+            FileType = exts.DetermineInputFileType(fileExt),
+            IsSupportedByMP4Box = exts.IsSupportedByMP4Box(fileExt)
         };
 
-        Extensions se = new();
-        FileInfo.FileType = se.DetermineInputFileType(FileInfo.FileExt);
-        FileInfo.IsSupportedByMP4Box = se.IsSupportedByMP4Box(FileInfo.FileExt);
+#if RELEASE
+        MI.Open(FileInfo.FileName);
+
+        if (FileInfo.FileType is "CONTAINER")
+        {
+            Video = new()
+            {
+                SourceFPS = decimal.Parse(MI.Get(StreamKind.Video, 0, "FrameRate"), CultureInfo.InvariantCulture),
+                SourceFrameCount = int.Parse(MI.Get(StreamKind.Video, 0, "FrameCount"))
+            };
+
+            Audio = new()
+            {
+                SourceChannels = GetSimpleAudioChannelLayout()
+            };
+        }
+        else if (FileInfo.FileType is "VIDEO")
+        {
+            Video = new()
+            {
+                SourceFPS = decimal.Parse(MI.Get(StreamKind.Video, 0, "FrameRate"), CultureInfo.InvariantCulture),
+                SourceFrameCount = int.Parse(MI.Get(StreamKind.Video, 0, "FrameCount"))
+            };
+
+            Audio = new()
+            {
+                SourceChannels = "2.0"
+            };
+        }
+        else if (FileInfo.FileType is "AUDIO")
+        {
+            Video = new()
+            {
+                SourceFPS = 23.976M,
+                SourceFrameCount = 0
+            };
+
+            Audio = new()
+            {
+                SourceChannels = GetSimpleAudioChannelLayout()
+            };
+        }
+#elif DEBUG
+        Video = new()
+        {
+            SourceFPS = 23.976M
+        };
+        
+        Audio = new()
+        {
+            SourceChannels = "2.0"
+        };
+#endif
+    }
+
+    private string GetSimpleAudioChannelLayout()
+    {
+        // Ensures the value from MediaInfo e.g. 2/0/0 or 3/2/0.1 or 3/2/2.1 returns 2.0, 5.1 or 7.1 respectively
+        // Those are channel positions. (Front/Rear/LFE) or (Front/Side/Rear+LFE)
+        // Since this is a private method and is based on what's detected by MediaInfo,
+        // I cannot add tests for this because it's not accessible
+
+        string channelPositions = MI.Get(StreamKind.Audio, 0, "ChannelPositions/String2");
+        channelPositions = channelPositions is "" ? MI.Get(StreamKind.Audio, 0, "Channels") : channelPositions;
+
+        double channelLayout = 0.0;
+
+        foreach (string ch in channelPositions.Split('/'))
+        {
+            channelLayout += double.Parse(ch, CultureInfo.InvariantCulture);
+        }
+
+        string sChannelLayout = $"{channelLayout:0.0}".Replace(',', '.');
+
+        return sChannelLayout;
     }
 
 #if RELEASE

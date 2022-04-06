@@ -8,9 +8,9 @@
   </PropertyGroup>
 
   <!-- Manually added PropertyGroup for reducing files created during publishing -->
-  <PropertyGroup>
-    <DebugType>embedded</DebugType>
-  </PropertyGroup>
+	<PropertyGroup>
+		<DebugType>embedded</DebugType>
+	</PropertyGroup>
 
   <!-- Manually added PropertyGroup for versioning the library -->
   <PropertyGroup>
@@ -25,5 +25,9 @@
     <InformationalVersion>$(InformationalVersion)</InformationalVersion>
     <NeutralLanguage>en</NeutralLanguage>
   </PropertyGroup>
+  
+  <ItemGroup>
+    <PackageReference Include="MediaInfo.Wrapper.Core" Version="21.9.2" />
+  </ItemGroup>
 
 </Project>

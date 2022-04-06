@@ -51,26 +51,13 @@ public class AudioTests
         Assert.Equal(expectedLanguages, actualLanguages);
     }
 
-    [Fact(DisplayName = "Validate Audio Channels")]
-    public void GetAudioChannels_ValidateAudioChannels()
-    {
-        // Arrange
-        object[] expectedAudioChannels = new object[] { "Stereo", "Surround 5.1", "Surround 7.1" };
-
-        // Act
-        object[] actualAudioChannels = GetAudioChannels();
-
-        // Assert
-        Assert.Equal(expectedAudioChannels, actualAudioChannels);
-    }
-
     // AudioCodec | AudioChannels | Expected audio bitrates | Expected default audio bitrate
     public static IEnumerable<object[]> GetSelectableAndDefaultAudioBitrates_ValidateResult_TestData =
     new[]
     {
-        new object[] { "AAC-LC", "Stereo",       new object[] {  96, 112, 128, 144, 160, 192 }, 128 },
-        new object[] { "AAC-HE", "Surround 5.1", new object[] {  80,  96, 112, 128, 160, 192 }, 192 },
-        new object[] { "OPUS",   "Surround 7.1", new object[] { 256, 288, 320, 384, 448, 576 }, 384 }
+        new object[] { "AAC-LC", "2.0", new object[] {  96, 112, 128, 144, 160, 192 }, 128 },
+        new object[] { "AAC-HE", "5.1", new object[] {  80,  96, 112, 128, 160, 192 }, 192 },
+        new object[] { "OPUS",   "7.1", new object[] { 256, 288, 320, 384, 448, 576 }, 384 }
     };
 
     [Theory(DisplayName = "Validate Whether Returned Audio Bitrates And Default Is Correct")]

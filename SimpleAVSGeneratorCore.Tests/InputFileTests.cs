@@ -77,7 +77,7 @@ public class InputFileTests
         InputFile input = new(fileName, @"C:\Users\User\Desktop\Temp\");
 
         // Act
-        string actualScriptFile = input.AVSMeterScriptFile,
+        string actualScriptFile    = input.AVSMeterScriptFile,
                actualScriptContent = input.AVSMeterScriptContent;
 
         string[] actualScriptFileAndContent = { actualScriptFile, actualScriptContent };
@@ -117,7 +117,6 @@ public class InputFileTests
 
         input.Video.Enabled = video;
         input.Video.Codec = videoCodec;
-        input.Video.SourceFPS = "25";
         input.Video.KeyframeIntervalInSeconds = "2 Seconds";
 
         input.Audio.Enabled = audio;

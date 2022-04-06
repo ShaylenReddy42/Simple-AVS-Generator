@@ -59,8 +59,15 @@ steps:
 - script: CALL dotnet-publish.cmd
   displayName: 'Publish the Final Executable'
 
+- task: ArchiveFiles@2
+  displayName: 'Archive Build Artifacts'
+  inputs:
+    rootFolderOrFile: '$(workDir)\publish'
+    includeRootFolder: false
+    archiveType: zip
+    archiveFile: '$(Build.ArtifactStagingDirectory)\Simple AVS Generator.zip'
+
 - task: PublishBuildArtifacts@1
   displayName: 'Publish the Build Artifact'
   inputs:
-    PathtoPublish: '$(workDir)\publish'
-    ArtifactName: 'Simple AVS Generator.exe'
+    ArtifactName: 'Simple AVS Generator'

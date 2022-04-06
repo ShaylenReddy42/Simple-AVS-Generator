@@ -67,17 +67,11 @@ public partial class MainForm : Form
         cmbAudioCodec.Items.AddRange(GetOutputAudioCodecs());
         cmbAudioCodec.SelectedIndex = 0;
 
-        cmbSourceFPS.Items.AddRange(GetSourceFPS());
-        cmbSourceFPS.SelectedIndex = 0;
-
         cmbKeyframeInterval.Items.AddRange(GetKeyframeIntervals());
         cmbKeyframeInterval.SelectedIndex = 0;
 
         cmbLanguage.Items.AddRange(GetLanguages());
         cmbLanguage.SelectedIndex = 0;
-
-        cmbChannels.Items.AddRange(GetAudioChannels());
-        cmbChannels.SelectedIndex = 0;
 
         SetSelectableAudioBitrates();
     }
@@ -87,7 +81,7 @@ public partial class MainForm : Form
         cmbBitrate.Items.Clear();
 
         string? audioCodec    = (string)cmbAudioCodec.SelectedItem,
-                audioChannels = (string)cmbChannels.SelectedItem ?? "Stereo";
+                audioChannels = input?.Audio.SourceChannels ?? "2.0";
 
         (object[] selectableAudioBitrates, int defaultAudioBitrate) = GetSelectableAndDefaultAudioBitrates(audioCodec, audioChannels);
 
@@ -105,6 +99,8 @@ public partial class MainForm : Form
         cbxAudio.Checked = type is "AUDIO";
         cbxMP4.Enabled   = type is not "AUDIO";
         cbxMKV.Enabled   = type is not "AUDIO";
+
+        SetSelectableAudioBitrates();
     }
 
     void New()
@@ -117,7 +113,6 @@ public partial class MainForm : Form
         cbxVideo.Enabled = false;
 
         cmbVideoCodec.SelectedIndex = 0;
-        cmbSourceFPS.SelectedIndex = 0;
         cmbKeyframeInterval.SelectedIndex = 0;
 
         cbxAudio.Enabled = false;
@@ -125,7 +120,6 @@ public partial class MainForm : Form
 
         cmbAudioCodec.SelectedIndex = 0;
         cmbLanguage.SelectedIndex = 0;
-        cmbChannels.SelectedIndex = 0;
 
         cbxMP4.Enabled = false;
         cbxMP4.Checked = false;
@@ -188,7 +182,6 @@ public partial class MainForm : Form
         {
             input.Video.Enabled = cbxVideo.Checked;
             input.Video.Codec = (string)cmbVideoCodec.SelectedItem;
-            input.Video.SourceFPS = (string)cmbSourceFPS.SelectedItem;
             input.Video.KeyframeIntervalInSeconds = (string)cmbKeyframeInterval.SelectedItem;
             
             input.Audio.Enabled = cbxAudio.Checked;
@@ -266,7 +259,6 @@ public partial class MainForm : Form
                       && !cbxMKV.Checked;
 
         cmbVideoCodec.Enabled = cbxVideo.Checked;
-        cmbSourceFPS.Enabled = cbxVideo.Checked;
         cmbKeyframeInterval.Enabled = cbxVideo.Checked;
     }
 
@@ -275,7 +267,6 @@ public partial class MainForm : Form
         cmbAudioCodec.Enabled = cbxAudio.Checked;
 
         cmbLanguage.Enabled = cbxAudio.Checked;
-        cmbChannels.Enabled = cbxAudio.Checked;
         cmbBitrate.Enabled = cbxAudio.Checked;
     }
     
@@ -294,8 +285,6 @@ public partial class MainForm : Form
     }
 
     private void cmbAudioCodec_SelectedIndexChanged(object sender, EventArgs e) { SetSelectableAudioBitrates(); }
-
-    private void cmbChannels_SelectedIndexChanged(object sender, EventArgs e) { SetSelectableAudioBitrates(); }
 
     private void cbxMP4_CheckedChanged(object sender, EventArgs e)
     {

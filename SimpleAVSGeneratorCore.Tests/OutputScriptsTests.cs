@@ -46,7 +46,6 @@ public class OutputScriptsTests
 
         input.Video.Enabled = true;
         input.Video.Codec = videoCodec;
-        input.Video.SourceFPS = "25";
         input.Video.KeyframeIntervalInSeconds = "2 Seconds";
         
         // Act
@@ -57,44 +56,6 @@ public class OutputScriptsTests
         
         // Assert
         Assert.Contains(expectedVideoEncoder, videoEncoderScriptContent);
-    }
-
-    // VideoCodec | SourceFPS | KeyframeIntervalInSeconds | Expected string in script content
-    public static IEnumerable<object[]> ConfigureVideoScript_ValidateKeyframeIntervalInFrames_TestData =
-    new[]
-    {
-        new object[] { "HEVC",     "23.976 / 24", "2 Seconds",  "-I 48"             },
-        new object[] { "AV1",      "25",          "5 Seconds",  "--kf-max-dist=125" },
-        new object[] { "AVC",      "29.97 / 30",  "10 Seconds", "-I 300"            },
-        new object[] { "WhatsApp", "59.94 / 60",  "10 Seconds", "-I 600"            }
-    };
-
-    [Theory(DisplayName = "Validate Keyframe Interval In Frames")]
-    [MemberData(nameof(ConfigureVideoScript_ValidateKeyframeIntervalInFrames_TestData))]
-    public void ConfigureVideoScript_ValidateKeyframeIntervalInFrames
-    (
-        string videoCodec,
-        string sourceFPS,
-        string keyframeIntervalInSeconds,
-        string expectedStringInScriptContent
-    )
-    {
-        // Arrange
-        InputFile input = new(@"C:\Users\User\Desktop\Sample.mp4", @"C:\Users\User\Desktop\Temp\");
-
-        input.Video.Enabled = true;
-        input.Video.Codec = videoCodec;
-        input.Video.SourceFPS = sourceFPS;
-        input.Video.KeyframeIntervalInSeconds = keyframeIntervalInSeconds;
-
-        // Act
-        OutputScripts output = new();
-        output.ConfigureVideoScript(input.FileInfo, input.Video, input.OutputDir);
-
-        string? videoEncoderScriptContent = output.VideoEncoderScriptContent;
-
-        // Assert
-        Assert.Contains(expectedStringInScriptContent, videoEncoderScriptContent);
     }
 
     // VideoCodec | Expected filename ending
@@ -120,8 +81,6 @@ public class OutputScriptsTests
 
         input.Video.Enabled = true;
         input.Video.Codec = videoCodec;
-        input.Video.SourceFPS = "25";
-        input.Video.KeyframeIntervalInSeconds = "2 Seconds";
 
         // Act
         OutputScripts output = new();
