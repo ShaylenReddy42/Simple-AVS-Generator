@@ -23,7 +23,6 @@ namespace SimpleAVSGeneratorCore.Models;
 public class AudioModel
 {
     public bool Enabled { get; set; } = default;
-
     public string? SourceChannels { get; init; }
     public string Codec { get; set; } = string.Empty;
     public int Bitrate { get; set; }
