@@ -91,16 +91,17 @@ public partial class MainForm : Form
 
     void EnableUI()
     {
-        string? type = input?.FileInfo.FileType;
-        
-        cbxVideo.Enabled = type is not "AUDIO";
-        cbxVideo.Checked = type is "VIDEO";
-        cbxAudio.Enabled = type is not "VIDEO";
-        cbxAudio.Checked = type is "AUDIO";
-        cbxMP4.Enabled   = type is not "AUDIO";
-        cbxMKV.Enabled   = type is not "AUDIO";
+        if (input is not null)
+        {
+            cbxVideo.Enabled = input.FileInfo.HasVideo;
+            cbxVideo.Checked = input.FileInfo.HasVideo;
+            cbxAudio.Enabled = input.FileInfo.HasAudio;
+            cbxAudio.Checked = input.FileInfo.HasAudio;
+            cbxMP4.Enabled   = input.FileInfo.HasVideo;
+            cbxMKV.Enabled   = input.FileInfo.HasVideo;
 
-        SetSelectableAudioBitrates();
+            SetSelectableAudioBitrates();
+        }
     }
 
     void New()

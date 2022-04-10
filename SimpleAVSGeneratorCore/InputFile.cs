@@ -50,56 +50,49 @@ public class InputFile
     {
         HomeDir = home;
 
-        string fileExt = Path.GetExtension(fileName);
+        MI.Open(fileName);
 
+        string fileExt = Path.GetExtension(fileName);
         Extensions exts = new();
 
         FileInfo = new()
         {
             FileName = fileName,
             FileType = exts.DetermineInputFileType(fileExt),
-            IsSupportedByMP4Box = exts.IsSupportedByMP4Box(fileExt)
+            IsSupportedByMP4Box = exts.IsSupportedByMP4Box(fileExt),
+            HasVideo = MI.Get(StreamKind.General, 0, "VideoCount") is not "",
+            HasAudio = MI.Get(StreamKind.General, 0, "AudioCount") is not ""
         };
         
-        MI.Open(FileInfo.FileName);
-
-        if (FileInfo.FileType is "CONTAINER")
+        if (FileInfo.HasVideo is true)
         {
             Video = new()
             {
                 SourceFPS = decimal.Parse(MI.Get(StreamKind.Video, 0, "FrameRate"), CultureInfo.InvariantCulture),
-                SourceFrameCount = int.Parse(MI.Get(StreamKind.Video, 0, "FrameCount"))
-            };
-
-            Audio = new()
-            {
-                SourceChannels = GetSimpleAudioChannelLayout()
+                SourceFrameCount = FileInfo.FileType is "CONTAINER" ? int.Parse(MI.Get(StreamKind.Video, 0, "FrameCount")) : 0
             };
         }
-        else if (FileInfo.FileType is "VIDEO")
-        {
-            Video = new()
-            {
-                SourceFPS = decimal.Parse(MI.Get(StreamKind.Video, 0, "FrameRate"), CultureInfo.InvariantCulture),
-                SourceFrameCount = int.Parse(MI.Get(StreamKind.Video, 0, "FrameCount"))
-            };
-
-            Audio = new()
-            {
-                SourceChannels = "2.0"
-            };
-        }
-        else if (FileInfo.FileType is "AUDIO")
+        else
         {
             Video = new()
             {
                 SourceFPS = 23.976M,
                 SourceFrameCount = 0
             };
+        }
 
+        if (FileInfo.HasAudio is true)
+        {
             Audio = new()
             {
                 SourceChannels = GetSimpleAudioChannelLayout()
+            };
+        }
+        else
+        {
+            Audio = new()
+            {
+                SourceChannels = "2.0"
             };
         }
     }

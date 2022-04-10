@@ -29,4 +29,7 @@ public class FileModel
     public string FileType { get; init; }
 #pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
     public bool IsSupportedByMP4Box { get; set; } = default;
+
+    public bool HasVideo { get; init; }
+    public bool HasAudio { get; init; }
 }
