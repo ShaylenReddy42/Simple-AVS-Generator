@@ -57,7 +57,7 @@ public class AudioTests
     {
         new object[] { "AAC-LC", "2.0", new object[] {  96, 112, 128, 144, 160, 192 }, 128 },
         new object[] { "AAC-HE", "5.1", new object[] {  80,  96, 112, 128, 160, 192 }, 192 },
-        new object[] { "OPUS",   "7.1", new object[] { 256, 288, 320, 384, 448, 576 }, 384 }
+        new object[] { "OPUS",   "7.1", new object[] { 256, 288, 320, 384, 448, 512 }, 320 }
     };
 
     [Theory(DisplayName = "Validate Whether Returned Audio Bitrates And Default Is Correct")]
