@@ -27,10 +27,10 @@ public class InputFileTests
     public static IEnumerable<object[]> InputFileHandler_CheckIfPropertiesAreSetAccurately_TestData =>
     new[]
     {
-        new object[] { @"C:\Users\User\Desktop\Sample1.mp4", ".mp4", "Sample1", "CONTAINER", true  },
-        new object[] { @"C:\Users\User\Desktop\Sample2.mkv", ".mkv", "Sample2", "CONTAINER", false },
-        new object[] { @"C:\Users\User\Desktop\Sample3.265", ".265", "Sample3", "VIDEO",     true  },
-        new object[] { @"C:\Users\User\Desktop\Sample4.m4a", ".m4a", "Sample4", "AUDIO",     true  }
+        new object[] { @"Samples\Sample.mp4",  ".mp4", "Sample",  "CONTAINER", true  },
+        new object[] { @"Samples\Sample1.mkv", ".mkv", "Sample1", "CONTAINER", false },
+        new object[] { @"Samples\Sample.265",  ".265", "Sample",  "VIDEO",     true  },
+        new object[] { @"Samples\Sample.m4a",  ".m4a", "Sample",  "AUDIO",     true  }
     };
 
     [Theory(DisplayName = "Check If Properties Are Set Accurately")]
@@ -63,8 +63,8 @@ public class InputFileTests
 
     [Theory(DisplayName = "Validate AVSMeter Script File And Content")]
     // FileName | Expected AVSMeter script file
-    [InlineData(@"C:\Users\User\Desktop\Sample1.mp4", @"C:\Users\User\Desktop\Temp\Sample1\AVSMeter.cmd")]
-    [InlineData(@"C:\Users\User\Desktop\Sample2.mp4", @"C:\Users\User\Desktop\Temp\Sample2\AVSMeter.cmd")]
+    [InlineData(@"Samples\Sample.mp4",  @"C:\Users\User\Desktop\Temp\Sample\AVSMeter.cmd")]
+    [InlineData(@"Samples\Sample1.mkv", @"C:\Users\User\Desktop\Temp\Sample1\AVSMeter.cmd")]
     public void ValidateAVSMeterScriptFileAndContent
     (
         string fileName,
@@ -113,7 +113,7 @@ public class InputFileTests
     )
     {
         // Arrange
-        InputFile input = new(@"C:\Users\User\Desktop\Sample.mp4", @"C:\Users\User\Desktop\Temp\");
+        InputFile input = new(@"Samples\Sample.mp4", @"C:\Users\User\Desktop\Temp\");
 
         input.Video.Enabled = video;
         input.Video.Codec = videoCodec;

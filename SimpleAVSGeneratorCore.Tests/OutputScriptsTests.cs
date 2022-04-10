@@ -42,7 +42,7 @@ public class OutputScriptsTests
     )
     {
         // Arrange
-        InputFile input = new(@"C:\Users\User\Desktop\Sample.mp4", @"C:\Users\User\Desktop\Temp\");
+        InputFile input = new(@"Samples\Sample.mp4", @"C:\Users\User\Desktop\Temp\");
 
         input.Video.Enabled = true;
         input.Video.Codec = videoCodec;
@@ -77,7 +77,7 @@ public class OutputScriptsTests
     )
     {
         // Arrange
-        InputFile input = new(@"C:\Users\User\Desktop\Sample.mp4", @"C:\Users\User\Desktop\Temp\");
+        InputFile input = new(@"Samples\Sample.mp4", @"C:\Users\User\Desktop\Temp\");
 
         input.Video.Enabled = true;
         input.Video.Codec = videoCodec;
@@ -110,7 +110,7 @@ public class OutputScriptsTests
     )
     {
         // Arrange
-        InputFile input = new(@"C:\Users\User\Desktop\Sample.m4a", @"C:\Users\User\Desktop\Temp\");
+        InputFile input = new(@"Samples\Sample.m4a", @"C:\Users\User\Desktop\Temp\");
 
         input.Audio.Enabled = true;
         input.Audio.Codec = audioCodec;
@@ -144,7 +144,7 @@ public class OutputScriptsTests
     )
     {
         // Arrange
-        InputFile input = new(@"C:\Users\User\Desktop\Sample.m4a", @"C:\Users\User\Desktop\Temp\");
+        InputFile input = new(@"Samples\Sample.m4a", @"C:\Users\User\Desktop\Temp\");
 
         input.Audio.Enabled = true;
         input.Audio.Codec = audioCodec;
@@ -171,7 +171,7 @@ public class OutputScriptsTests
     )
     {
         // Arrange
-        InputFile input = new(@"C:\Users\User\Desktop\Sample.mp4", @"C:\Users\User\Desktop\Temp\")
+        InputFile input = new(@"Samples\Sample.mp4", @"C:\Users\User\Desktop\Temp\")
         {
             OutputContainer = outputContainer
         };
@@ -188,32 +188,31 @@ public class OutputScriptsTests
         Assert.Contains(expectedMultiplexer, containerScriptContent);
     }
 
-    // Filename | VideoCodec | OutputContainer | Expected string in script
+    // VideoCodec | OutputContainer | Expected string in script
     public static IEnumerable<object[]> ConfigureContainerScript_ValidateVideoStringInScript_TestData =
     new[]
     {
-        new object[] { @"C:\Users\User\Desktop\Sample.mp4", "HEVC",         "MP4", $"-add \"%~dp0Video.265\":name="                       },
-        new object[] { @"C:\Users\User\Desktop\Sample.mp4", "AV1",          "MP4", $"-add \"%~dp0Video.ivf\":name="                       },
-        new object[] { @"C:\Users\User\Desktop\Sample.mp4", "AVC",          "MP4", $"-add \"%~dp0Video.264\":name="                       },
-        new object[] { @"C:\Users\User\Desktop\Sample.mp4", "Mux Original", "MP4", $"-add \"C:\\Users\\User\\Desktop\\Sample.mp4\"#video" },
-        new object[] { @"C:\Users\User\Desktop\Sample.mp4", "HEVC",         "MKV", $"\"%~dp0Video.265\""                                  },
-        new object[] { @"C:\Users\User\Desktop\Sample.mp4", "AV1",          "MKV", $"\"%~dp0Video.ivf\""                                  },
-        new object[] { @"C:\Users\User\Desktop\Sample.mp4", "AVC",          "MKV", $"\"%~dp0Video.264\""                                  },
-        new object[] { @"C:\Users\User\Desktop\Sample.mp4", "Mux Original", "MKV", $"--no-audio \"C:\\Users\\User\\Desktop\\Sample.mp4\"" }
+        new object[] { "HEVC",         "MP4", $"-add \"%~dp0Video.265\":name="      },
+        new object[] { "AV1",          "MP4", $"-add \"%~dp0Video.ivf\":name="      },
+        new object[] { "AVC",          "MP4", $"-add \"%~dp0Video.264\":name="      },
+        new object[] { "Mux Original", "MP4", $"-add \"Samples\\Sample.mp4\"#video" },
+        new object[] { "HEVC",         "MKV", $"\"%~dp0Video.265\""                 },
+        new object[] { "AV1",          "MKV", $"\"%~dp0Video.ivf\""                 },
+        new object[] { "AVC",          "MKV", $"\"%~dp0Video.264\""                 },
+        new object[] { "Mux Original", "MKV", $"--no-audio \"Samples\\Sample.mp4\"" }
     };
 
     [Theory(DisplayName = "Validate Video String In Script")]
     [MemberData(nameof(ConfigureContainerScript_ValidateVideoStringInScript_TestData))]
     public void ConfigureContainerScript_ValidateVideoStringInScript
     (
-        string fileName,
         string videoCodec,
         string outputContainer,
         string expectedVideoStringInScript
     )
     {
         // Arrange
-        InputFile input = new(fileName, @"C:\Users\User\Desktop\Temp\")
+        InputFile input = new(@"Samples\Sample.mp4", @"C:\Users\User\Desktop\Temp\")
         {
             OutputContainer = outputContainer
         };
@@ -231,23 +230,22 @@ public class OutputScriptsTests
         Assert.Contains(expectedVideoStringInScript, containerScriptContent);
     }
 
-    // Filename | AudioCodec | AudioLanguageKey | OutputContainer | Expected string in script
+    // AudioCodec | AudioLanguageKey | OutputContainer | Expected string in script
     public static IEnumerable<object[]> ConfigureContainerScript_ValidateAudioStringInScript_TestData =
     new[]
     {
-        new object[] { @"C:\Users\User\Desktop\Sample.mp4", "AAC-LC", "English",  "MP4", $"-add \"%~dp0Sample.m4a\":name=:lang=eng" },
-        new object[] { @"C:\Users\User\Desktop\Sample.mp4", "AAC-HE", "Hindi",    "MP4", $"-add \"%~dp0Sample.m4a\":name=:lang=hin" },
-        new object[] { @"C:\Users\User\Desktop\Sample.mp4", "OPUS",   "Japanese", "MP4", $"-add \"%~dp0Sample.ogg\":name=:lang=jpn" },
-        new object[] { @"C:\Users\User\Desktop\Sample.mp4", "AAC-LC", "English",  "MKV", $"--language 0:eng \"%~dp0Sample.m4a\""    },
-        new object[] { @"C:\Users\User\Desktop\Sample.mp4", "AAC-HE", "Hindi",    "MKV", $"--language 0:hin \"%~dp0Sample.m4a\""    },
-        new object[] { @"C:\Users\User\Desktop\Sample.mp4", "OPUS",   "Japanese", "MKV", $"--language 0:jpn \"%~dp0Sample.ogg\""    }
+        new object[] { "AAC-LC", "English",  "MP4", $"-add \"%~dp0Sample.m4a\":name=:lang=eng" },
+        new object[] { "AAC-HE", "Hindi",    "MP4", $"-add \"%~dp0Sample.m4a\":name=:lang=hin" },
+        new object[] { "OPUS",   "Japanese", "MP4", $"-add \"%~dp0Sample.ogg\":name=:lang=jpn" },
+        new object[] { "AAC-LC", "English",  "MKV", $"--language 0:eng \"%~dp0Sample.m4a\""    },
+        new object[] { "AAC-HE", "Hindi",    "MKV", $"--language 0:hin \"%~dp0Sample.m4a\""    },
+        new object[] { "OPUS",   "Japanese", "MKV", $"--language 0:jpn \"%~dp0Sample.ogg\""    }
     };
 
     [Theory(DisplayName = "Validate Audio String In Script")]
     [MemberData(nameof(ConfigureContainerScript_ValidateAudioStringInScript_TestData))]
     public void ConfigureContainerScript_ValidateAudioStringInScript
     (
-        string fileName,
         string audioCodec,
         string audioLanguageKey,
         string outputContainer,
@@ -255,7 +253,7 @@ public class OutputScriptsTests
     )
     {
         // Arrange
-        InputFile input = new(fileName, @"C:\Users\User\Desktop\Temp\")
+        InputFile input = new(@"Samples\Sample.mp4", @"C:\Users\User\Desktop\Temp\")
         {
             OutputContainer = outputContainer
         };
@@ -276,25 +274,24 @@ public class OutputScriptsTests
         Assert.Contains(expectedAudioStringInScript, containerScriptContent);
     }
 
-    // Filename | OutputContainer | Expected string in script
+    // OutputContainer | Expected string in script
     public static IEnumerable<object[]> ConfigureContainerScript_ValidateOutputFileStringInScript_TestData =
     new[]
     {
-        new object[] { @"C:\Users\User\Desktop\Sample.mp4", "MP4", $"-new \"%~dp0Sample.mp4\"" },
-        new object[] { @"C:\Users\User\Desktop\Sample.mp4", "MKV", $"-o \"%~dp0Sample.mkv\""   },
+        new object[] { "MP4", $"-new \"%~dp0Sample.mp4\"" },
+        new object[] { "MKV", $"-o \"%~dp0Sample.mkv\""   },
     };
 
     [Theory(DisplayName = "Validate Output File String In Script")]
     [MemberData(nameof(ConfigureContainerScript_ValidateOutputFileStringInScript_TestData))]
     public void ConfigureContainerScript_ValidateOutputFileStringInScript
     (
-        string fileName,
         string outputContainer,
         string expectedOutputFileStringInScript
     )
     {
         // Arrange
-        InputFile input = new(fileName, @"C:\Users\User\Desktop\Temp\")
+        InputFile input = new(@"Samples\Sample.mp4", @"C:\Users\User\Desktop\Temp\")
         {
             OutputContainer = outputContainer
         };
@@ -331,7 +328,7 @@ public class OutputScriptsTests
     )
     {
         // Arrange
-        InputFile input = new(@"C:\Users\User\Desktop\Sample.mp4", @"C:\Users\User\Desktop\Temp\")
+        InputFile input = new(@"Samples\Sample.mp4", @"C:\Users\User\Desktop\Temp\")
         {
             OutputContainer = outputContainer
         };

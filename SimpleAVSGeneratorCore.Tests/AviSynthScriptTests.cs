@@ -28,13 +28,13 @@ public class AviSynthScriptTests
     public static IEnumerable<object[]> AviSynthScript_CheckScriptContentForVariousUseCases_TestData =
     new[]
     {
-        new object[] { @"C:\Users\User\Desktop\Sample1.mp4", true,  "HEVC",         true,  true,  'o',  21 },
-        new object[] { @"C:\Users\User\Desktop\Sample2.mp4", true,  "AV1",          false, true,  'v',  13 },
-        new object[] { @"C:\Users\User\Desktop\Sample3.mp4", true,  "Mux Original", true,  true,  'a',   9 },
-        new object[] { @"C:\Users\User\Desktop\Sample4.mp4", true,  "Mux Original", false, false, '\n',  3 },
-        new object[] { @"C:\Users\User\Desktop\Sample5.264", true,  "AVC",          false, true,  'v',  13 },
-        new object[] { @"C:\Users\User\Desktop\Sample6.264", true,  "Mux Original", false, false, '\n',  3 },
-        new object[] { @"C:\Users\User\Desktop\Sample7.m4a", false, "",             true,  true,  'a',   9 }
+        new object[] { @"Samples\Sample.mp4", true,  "HEVC",         true,  true,  'o',  21 },
+        new object[] { @"Samples\Sample.mp4", true,  "AV1",          false, true,  'v',  13 },
+        new object[] { @"Samples\Sample.mp4", true,  "Mux Original", true,  true,  'a',   9 },
+        new object[] { @"Samples\Sample.mp4", true,  "Mux Original", false, false, '\n',  3 },
+        new object[] { @"Samples\Sample.265", true,  "AVC",          false, true,  'v',  13 },
+        new object[] { @"Samples\Sample.265", true,  "Mux Original", false, false, '\n',  3 },
+        new object[] { @"Samples\Sample.m4a", false, "",             true,  true,  'a',   9 }
     };
 
     [Theory(DisplayName = "Validate Script Content For Various Use Cases")]
@@ -92,7 +92,7 @@ public class AviSynthScriptTests
     )
     {
         // Arrange
-        InputFile input = new(@"C:\Users\User\Desktop\Sample.mp4", @"C:\Users\User\Desktop\Temp\");
+        InputFile input = new(@"Samples\Sample.mp4", @"C:\Users\User\Desktop\Temp\");
 
         input.Video.Enabled = true;
         input.Video.Codec = videoCodec;

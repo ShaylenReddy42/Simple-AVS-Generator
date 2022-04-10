@@ -25,4 +25,10 @@
     <ProjectReference Include="..\SimpleAVSGeneratorCore\SimpleAVSGeneratorCore.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="Samples\*">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>

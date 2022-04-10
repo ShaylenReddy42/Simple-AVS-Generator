@@ -60,8 +60,7 @@ public class InputFile
             FileType = exts.DetermineInputFileType(fileExt),
             IsSupportedByMP4Box = exts.IsSupportedByMP4Box(fileExt)
         };
-
-#if RELEASE
+        
         MI.Open(FileInfo.FileName);
 
         if (FileInfo.FileType is "CONTAINER")
@@ -103,17 +102,6 @@ public class InputFile
                 SourceChannels = GetSimpleAudioChannelLayout()
             };
         }
-#elif DEBUG
-        Video = new()
-        {
-            SourceFPS = 23.976M
-        };
-        
-        Audio = new()
-        {
-            SourceChannels = "2.0"
-        };
-#endif
     }
 
     private string GetSimpleAudioChannelLayout()
