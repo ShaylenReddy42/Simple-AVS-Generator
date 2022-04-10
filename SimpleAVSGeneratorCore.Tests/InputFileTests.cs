@@ -86,6 +86,26 @@ public class InputFileTests
         Assert.Equal(expectedScriptFileAndContent, actualScriptFileAndContent);
     }
 
+    [Theory(DisplayName = "Validate Simple Audio Channel Layout")]
+    // FileName | Expected audio channel layout
+    [InlineData(@"Samples\Sample.mp3", "2.0")]
+    [InlineData(@"Samples\Sample.m4a", "2.0")]
+    public void ValidateSimpleAudioChannelLayout
+    (
+        string fileName,
+        string expectedAudioChannelLayout
+    )
+    {
+        // Arrange
+        // Nothing to do here
+
+        // Act
+        InputFile input = new(fileName, @"C:\Users\User\Desktop\Temp\");
+
+        // Assert
+        Assert.Equal(expectedAudioChannelLayout, input.Audio.SourceChannels);
+    }
+
     // Video | VideoCodec | Audio | OutputContainer | Expected scripts created
     public static IEnumerable<object?[]> CreateScripts_ValidateWhichScriptsWereCreated_TestData =
     new[]
