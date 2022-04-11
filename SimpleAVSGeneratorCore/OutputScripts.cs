@@ -80,7 +80,7 @@ public class OutputScripts
             }
             else if (audio.Codec is "AAC-HE")
             {
-                aEncoder += $"qaac64 --he --abr {audio.Bitrate} --ignorelength ";
+                aEncoder += $"qaac64 --he{(audio.SourceChannels is "7.1" ? " --chanmask 0xff " : " ")}--abr {audio.Bitrate} --ignorelength ";
                 aEncoder += $"-o \"%~dp0{fileInfo.FileNameOnly}{audio.Extension}\" - ";
             }
             else if (audio.Codec is "OPUS")

@@ -116,7 +116,20 @@ public class InputFile
 
         string sChannelLayout = $"{channelLayout:0.0}".Replace(',', '.');
 
-        return sChannelLayout;
+        // DTS:X is an 8 Channel Object-Based track
+        // Ran into this bug and went down a rabbit hole
+        // AAC-HE has to force a different channel mask
+        // to even support 7.1 [0xff or 3/4/0.1]
+        // instead of [0x63f or 3/2/2.1]
+        // These hex values are from the research
+        // 8.0 will be treated like 7.1
+        // AAC-LC and OPUS creates a 7.1 [3/2/2.1]
+        // track from the 8.0 without tampering
+        return sChannelLayout switch
+        {
+            "8.0" => "7.1",
+            _     => sChannelLayout
+        };
     }
 
 #if RELEASE

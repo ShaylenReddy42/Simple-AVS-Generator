@@ -126,6 +126,26 @@ public class OutputScriptsTests
         Assert.Contains(expectedAudioEncoder, audioEncoderScriptContent);
     }
 
+    [Fact(DisplayName = "Check Audio Channel Mask for AAC-HE 7.1")]
+    public void CheckAudioChannelMask()
+    {
+        // Arrange
+        InputFile input = new(@"Samples\Sample DTS_X.mkv", @"C:\Users\User\Desktop\Temp\");
+
+        input.Audio.Enabled = true;
+        input.Audio.Codec = "AAC-HE";
+        input.Audio.Bitrate = 256;
+
+        // Act
+        OutputScripts output = new();
+        output.ConfigureAudioScript(input.FileInfo, input.Audio, input.OutputDir);
+
+        string? audioEncoderScriptContent = output.AudioEncoderScriptContent;
+
+        // Assert
+        Assert.Contains("qaac64 --he --chanmask 0xff ", audioEncoderScriptContent);
+    }
+
     // AudioCodec | Expected filename ending
     public static IEnumerable<object[]> ConfigureAudioScript_ValidateTheAudioScriptFilename_TestData =
     new[]

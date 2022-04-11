@@ -88,8 +88,9 @@ public class InputFileTests
 
     [Theory(DisplayName = "Validate Simple Audio Channel Layout")]
     // FileName | Expected audio channel layout
-    [InlineData(@"Samples\Sample.mp3", "2.0")]
-    [InlineData(@"Samples\Sample.m4a", "2.0")]
+    [InlineData(@"Samples\Sample.mp3",       "2.0")]
+    [InlineData(@"Samples\Sample.m4a",       "2.0")]
+    [InlineData(@"Samples\Sample DTS_X.mkv", "7.1")] // This is an 8.0 track mapped to 7.1
     public void ValidateSimpleAudioChannelLayout
     (
         string fileName,
