@@ -23,7 +23,6 @@ IF EXIST SimpleAVSGeneratorCore.Tests\TestResults (
 	@RD SimpleAVSGeneratorCore.Tests\TestResults /S /Q
 )
 
-@ECHO.
 @ECHO Run Unit Tests 
 @ECHO.
 dotnet test -c Debug --collect:"XPlat Code Coverage"
