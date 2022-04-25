@@ -16,6 +16,8 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  ******************************************************************************/
 
+using System.Text;
+
 namespace SimpleAVSGeneratorCore.Support;
 
 public class Extensions
@@ -417,7 +419,7 @@ public class Extensions
 
     private void SetSupportFor(string fileType)
     {
-        string support = string.Empty;
+        StringBuilder sbSupport = new();
 
         object[] supportedExtensionsDictionaryKeys = supportedExtensionsDictionary.Keys.ToArray();
 
@@ -426,11 +428,11 @@ public class Extensions
             Dictionary<string, object> extensionDictionary = supportedExtensionsDictionary[extension];
             if ((string)extensionDictionary["Type"] == fileType)
             {
-                support += $"*{extension};";
+                sbSupport.Append($"*{extension};");
             }
         }
 
-        support = support.Remove(support.LastIndexOf(";"));
+        string support = sbSupport.ToString()[0..^1];
 
         switch (fileType)
         {
@@ -448,7 +450,7 @@ public class Extensions
 
     private void SetFilterFor(string fileType)
     {
-        string filter = string.Empty;
+        StringBuilder sbFilter = new();
 
         object[] supportedExtensionsDictionaryKeys = supportedExtensionsDictionary.Keys.ToArray();
 
@@ -457,11 +459,11 @@ public class Extensions
             Dictionary<string, object> extensionDictionary = supportedExtensionsDictionary[extension];
             if ((string)extensionDictionary["Type"] == fileType)
             {
-                filter += $"{extension[1..].ToUpper()} ";
+                sbFilter.Append($"{extension[1..].ToUpper()} ");
             }
         }
 
-        filter = filter.Remove(filter.LastIndexOf(" "));
+        string filter = sbFilter.ToString()[0..^1];
 
         switch (fileType)
         {

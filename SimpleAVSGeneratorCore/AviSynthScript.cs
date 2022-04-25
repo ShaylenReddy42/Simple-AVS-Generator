@@ -54,20 +54,20 @@ public class AviSynthScript
         {
             sb.Append("o = AudioDub(v, a)\r\n\r\n");
             sb.Append("o = ConvertAudioTo16Bit(o)\r\n\r\n");
-            sb.Append("o");
+            sb.Append('o');
 
             CreateAviSynthScript = true;
         }
         else if ((video.Enabled is true && video.MuxOriginalVideo is false) && audio.Enabled is false)
         {
-            sb.Append("v");
+            sb.Append('v');
 
             CreateAviSynthScript = true;
         }
         else if ((audio.Enabled is true && video.Enabled is false) || (audio.Enabled is true && video.Enabled is true && video.MuxOriginalVideo is true))
         {
             sb.Append("a = ConvertAudioTo16Bit(a)\r\n\r\n");
-            sb.Append("a");
+            sb.Append('a');
 
             CreateAviSynthScript = true;
         }
