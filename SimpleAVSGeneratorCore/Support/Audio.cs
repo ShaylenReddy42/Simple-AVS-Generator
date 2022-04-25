@@ -18,7 +18,7 @@
 
 namespace SimpleAVSGeneratorCore.Support;
 
-public class Audio
+public static class Audio
 {
     public static Dictionary<string, string> outputAudioCodecsDictionary = new()
     {
