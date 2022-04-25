@@ -12,7 +12,7 @@ steps:
 - task: UseDotNet@2
   displayName: 'Use .NET Core SDK'
   inputs:
-    version: 6.0.200
+    version: 6.0.202
     performMultiLevelLookup: true
 
 - task: DotNetCoreCLI@2
@@ -22,6 +22,15 @@ steps:
     arguments: -c $(buildConfiguration)
     workingDirectory: $(workDir)
     
+- task: SonarCloudPrepare@1
+  displayName: 'Prepare SonarCloud for Analysis'
+  inputs:
+    SonarCloud: 'SonarCloud'
+    organization: 'shaylenreddy42'
+    scannerMode: 'MSBuild'
+    projectKey: 'ShaylenReddy42_Simple-AVS-Generator'
+    projectName: 'Simple-AVS-Generator'
+
 - task: DotNetCoreCLI@2
   displayName: 'Build Solution'
   inputs:
@@ -49,6 +58,22 @@ steps:
   inputs:
     codeCoverageTool: Cobertura
     summaryFileLocation: '$(testResultsDir)\*\coverage.cobertura.xml'
+
+- task: SonarCloudAnalyze@1
+  displayName: 'Run SonarCloud Analysis'
+
+- task: SonarCloudPublish@1
+  displayName: 'Publish SonarCloud Quality Gate Result'
+  inputs:
+    pollingTimeoutSec: '300'
+    
+- task: BuildQualityChecks@8
+  displayName: 'Build Quality Checks'
+  inputs:
+    checkCoverage: true
+    coverageFailOption: 'fixed'
+    coverageType: 'lines'
+    coverageThreshold: '90'
 
 - task: CMake@1
   displayName: 'Run CMake'
