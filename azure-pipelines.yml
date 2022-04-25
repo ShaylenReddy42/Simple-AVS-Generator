@@ -30,7 +30,7 @@ steps:
     scannerMode: 'MSBuild'
     projectKey: 'ShaylenReddy42_Simple-AVS-Generator'
     projectName: 'Simple-AVS-Generator'
-    extraProperties: sonar.cs.xunit.reportsPath=$(testResultsDir)\**\coverage.cobertura.xml
+    extraProperties: sonar.cobertura.reportPath=$(testResultsDir)\**\coverage.cobertura.xml
 
 - task: DotNetCoreCLI@2
   displayName: 'Build Solution'
