@@ -24,8 +24,8 @@ namespace SimpleAVSGeneratorCore.Tests;
 public class AviSynthScriptTests
 {
     // Use Cases
-    // FileName | Video | VideoCodec | Audio | CreateAviSynthScript | EndsWith
-    public static IEnumerable<object[]> AviSynthScript_CheckScriptContentForVariousUseCases_TestData =
+    // FileName | Video | VideoCodec | Audio | CreateAviSynthScript | EndsWith | LineCount
+    public static readonly IEnumerable<object[]> AviSynthScript_CheckScriptContentForVariousUseCases_TestData =
     new[]
     {
         new object[] { @"Samples\Sample.mp4", true,  "HEVC",         true,  true,  'o',  21 },
@@ -76,7 +76,7 @@ public class AviSynthScriptTests
     }
 
     // VideoCodec | Expected string in script
-    public static IEnumerable<object[]> ResizeVideo_ValidateThatTargetWidthIsSetCorrectly_TestData =
+    public static readonly IEnumerable<object[]> ResizeVideo_ValidateThatTargetWidthIsSetCorrectly_TestData =
     new[]
     {
         new object[] { "WhatsApp", "targetWidth  = 640"      },

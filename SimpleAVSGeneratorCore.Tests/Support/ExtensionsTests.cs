@@ -26,7 +26,7 @@ namespace SimpleAVSGeneratorCore.Tests.Support;
 public class ExtensionsTests
 {
     // FileExt | Expected FileType
-    public static IEnumerable<object[]> DetermineInputFileType_ValidateFileTypeIsCorrect_TestData =
+    public static readonly IEnumerable<object[]> DetermineInputFileType_ValidateFileTypeIsCorrect_TestData =
     new[]
     {
         new object[] { ".mp4", "CONTAINER" },

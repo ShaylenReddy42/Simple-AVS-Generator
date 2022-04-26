@@ -52,7 +52,7 @@ public class AudioTests
     }
 
     // AudioCodec | AudioChannels | Expected audio bitrates | Expected default audio bitrate
-    public static IEnumerable<object[]> GetSelectableAndDefaultAudioBitrates_ValidateResult_TestData =
+    public static readonly IEnumerable<object[]> GetSelectableAndDefaultAudioBitrates_ValidateResult_TestData =
     new[]
     {
         new object[] { "AAC-LC", "2.0", new object[] {  96, 112, 128, 144, 160, 192 }, 128 },

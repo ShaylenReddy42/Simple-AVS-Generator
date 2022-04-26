@@ -24,7 +24,7 @@ namespace SimpleAVSGeneratorCore.Tests;
 public class InputFileTests
 {
     // FileName | FileExt | FileNameOnly | FileType | IsSupportedByMP4Box
-    public static IEnumerable<object[]> InputFileHandler_CheckIfPropertiesAreSetAccurately_TestData =>
+    public static readonly IEnumerable<object[]> InputFile_CheckIfPropertiesAreSetAccurately_TestData =
     new[]
     {
         new object[] { @"Samples\Sample.mp4",  ".mp4", "Sample",  "CONTAINER", true  },
@@ -34,8 +34,8 @@ public class InputFileTests
     };
 
     [Theory(DisplayName = "Check If Properties Are Set Accurately")]
-    [MemberData(nameof(InputFileHandler_CheckIfPropertiesAreSetAccurately_TestData))]
-    public void InputFileHandler_CheckIfPropertiesAreSetAccurately
+    [MemberData(nameof(InputFile_CheckIfPropertiesAreSetAccurately_TestData))]
+    public void InputFile_CheckIfPropertiesAreSetAccurately
     (
         string fileName,
         string fileExt,
@@ -108,7 +108,7 @@ public class InputFileTests
     }
 
     // Video | VideoCodec | Audio | OutputContainer | Expected scripts created
-    public static IEnumerable<object?[]> CreateScripts_ValidateWhichScriptsWereCreated_TestData =
+    public static readonly IEnumerable<object?[]> CreateScripts_ValidateWhichScriptsWereCreated_TestData =
     new[]
     {
         new object?[] { true,  "HEVC",         true,  "MP4", "svac" },

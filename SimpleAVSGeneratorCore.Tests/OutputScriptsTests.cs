@@ -24,7 +24,7 @@ namespace SimpleAVSGeneratorCore.Tests;
 public class OutputScriptsTests
 {
     // VideoCodec | Expected video encoder
-    public static IEnumerable<object[]> ConfigureVideoScript_ValidateWhichVideoEncoderIsUsed_TestData =
+    public static readonly IEnumerable<object[]> ConfigureVideoScript_ValidateWhichVideoEncoderIsUsed_TestData =
     new[]
     {
         new object[] { "HEVC",     "x265"   },
@@ -59,7 +59,7 @@ public class OutputScriptsTests
     }
 
     // VideoCodec | Expected filename ending
-    public static IEnumerable<object[]> ConfigureVideoScript_ValidateTheVideoScriptFilename_TestData =
+    public static readonly IEnumerable<object[]> ConfigureVideoScript_ValidateTheVideoScriptFilename_TestData =
     new[]
     {
         new object[] { "HEVC",     "Encode Video [HEVC].cmd"     },
@@ -93,7 +93,7 @@ public class OutputScriptsTests
     }
 
     // AudioCodec | Expected audio encoder
-    public static IEnumerable<object[]> ConfigureAudioScript_ValidateWhichAudioEncoderIsUsed_TestData =
+    public static readonly IEnumerable<object[]> ConfigureAudioScript_ValidateWhichAudioEncoderIsUsed_TestData =
     new[]
     {
         new object[] { "AAC-LC", "qaac64"      },
@@ -147,7 +147,7 @@ public class OutputScriptsTests
     }
 
     // AudioCodec | Expected filename ending
-    public static IEnumerable<object[]> ConfigureAudioScript_ValidateTheAudioScriptFilename_TestData =
+    public static readonly IEnumerable<object[]> ConfigureAudioScript_ValidateTheAudioScriptFilename_TestData =
     new[]
     {
         new object[] { "AAC-LC", "Encode Audio [AAC-LC].cmd" },
@@ -209,7 +209,7 @@ public class OutputScriptsTests
     }
 
     // VideoCodec | OutputContainer | Expected string in script
-    public static IEnumerable<object[]> ConfigureContainerScript_ValidateVideoStringInScript_TestData =
+    public static readonly IEnumerable<object[]> ConfigureContainerScript_ValidateVideoStringInScript_TestData =
     new[]
     {
         new object[] { "HEVC",         "MP4", $"-add \"%~dp0Video.265\":name="      },
@@ -251,7 +251,7 @@ public class OutputScriptsTests
     }
 
     // AudioCodec | AudioLanguageKey | OutputContainer | Expected string in script
-    public static IEnumerable<object[]> ConfigureContainerScript_ValidateAudioStringInScript_TestData =
+    public static readonly IEnumerable<object[]> ConfigureContainerScript_ValidateAudioStringInScript_TestData =
     new[]
     {
         new object[] { "AAC-LC", "English",  "MP4", $"-add \"%~dp0Sample.m4a\":name=:lang=eng" },
@@ -295,7 +295,7 @@ public class OutputScriptsTests
     }
 
     // OutputContainer | Expected string in script
-    public static IEnumerable<object[]> ConfigureContainerScript_ValidateOutputFileStringInScript_TestData =
+    public static readonly IEnumerable<object[]> ConfigureContainerScript_ValidateOutputFileStringInScript_TestData =
     new[]
     {
         new object[] { "MP4", $"-new \"%~dp0Sample.mp4\"" },
@@ -329,7 +329,7 @@ public class OutputScriptsTests
     }
 
     // VideoCodec | OutputContainer | Expected filename ending
-    public static IEnumerable<object[]> ConfigureContainerScript_ValidateTheContainerScriptFilename_TestData =
+    public static readonly IEnumerable<object[]> ConfigureContainerScript_ValidateTheContainerScriptFilename_TestData =
     new[]
     {
         new object[] { "HEVC",         "MP4", "MP4 Mux.cmd"                  },
