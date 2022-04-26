@@ -41,7 +41,14 @@ public class AviSynthScript
         if (video.Enabled is true && video.MuxOriginalVideo is false)
         {
             sb.Append("v = LWLibavVideoSource(i).ConvertBits(8).ConvertToYV12()#.ShowFrameNumber()\r\n\r\n");
-            sb.Append(ResizeVideo(video));
+            
+            sb.Append("# Calculate the target height based on a target width\r\n");
+            sb.Append("aspectRatio  = float(Width(v)) / float(Height(v))\r\n");
+            sb.Append($"targetWidth  = {(video.NeedsToBeResized ? "640" : "Width(v)")}\r\n");
+            sb.Append("targetHeight = int(targetWidth / aspectRatio)\r\n");
+            sb.Append("targetHeight = targetHeight + ((targetHeight % 2 != 0) ? 1 : 0)\r\n\r\n");
+
+            sb.Append("v = Spline36Resize(v, targetWidth, targetHeight)\r\n\r\n");
         }
 
         if (audio.Enabled is true)
@@ -73,20 +80,5 @@ public class AviSynthScript
         }
 
         AVSScriptContent = sb.ToString();
-    }
-
-    private string ResizeVideo(VideoModel video)
-    {
-        StringBuilder sb = new();
-
-        sb.Append("# Calculate the target height based on a target width\r\n");
-        sb.Append("aspectRatio  = float(Width(v)) / float(Height(v))\r\n");
-        sb.Append($"targetWidth  = {(video.NeedsToBeResized ? "640" : "Width(v)")}\r\n");
-        sb.Append("targetHeight = int(targetWidth / aspectRatio)\r\n");
-        sb.Append("targetHeight = targetHeight + ((targetHeight % 2 != 0) ? 1 : 0)\r\n\r\n");
-        
-        sb.Append("v = Spline36Resize(v, targetWidth, targetHeight)\r\n\r\n");
-        
-        return sb.ToString();
     }
 }
