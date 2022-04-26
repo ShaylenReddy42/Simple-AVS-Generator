@@ -54,7 +54,7 @@ public class ExtensionsTests
     }
 
     // FileExt | Expected IsSupportedByMP4Box
-    public static IEnumerable<object[]> IsSupportedByMP4Box_ValidateSupport_TestData =
+    public static readonly IEnumerable<object[]> IsSupportedByMP4Box_ValidateSupport_TestData =
     new[]
     {
         new object[] { ".mp4", true  },
