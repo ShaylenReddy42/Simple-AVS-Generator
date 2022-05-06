@@ -173,7 +173,7 @@ public partial class MainForm : Form
             FolderBrowserDialog fbd = new();
             input.HomeDir = fbd.ShowDialog() == DialogResult.OK ? $@"{fbd.SelectedPath}\" : input.HomeDir;
 
-            txbOutFile.Text = input?.ScriptFile;
+            txbOutFile.Text = input.ScriptFile;
         }
     }
 
@@ -191,8 +191,8 @@ public partial class MainForm : Form
             input.Audio.Language = (string)cmbLanguage.SelectedItem;
             
             input.OutputContainer = cbxMP4.Checked ? "MP4"
-                                         : cbxMKV.Checked ? "MKV"
-                                         : null;
+                                  : cbxMKV.Checked ? "MKV"
+                                  : null;
 
             input.CreateScripts(out string scriptsCreated);
 

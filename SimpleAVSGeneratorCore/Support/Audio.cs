@@ -20,14 +20,14 @@ namespace SimpleAVSGeneratorCore.Support;
 
 public static class Audio
 {
-    public static Dictionary<string, string> outputAudioCodecsDictionary = new()
+    public static readonly Dictionary<string, string> outputAudioCodecsDictionary = new()
     {
         { "AAC-LC", ".m4a" },
         { "AAC-HE", ".m4a" },
         { "OPUS",   ".ogg" }
     };
 
-    public static Dictionary<string, string> languagesDictionary = new()
+    public static readonly Dictionary<string, string> languagesDictionary = new()
     {
         { "English",      "eng" },
         { "Hindi",        "hin" },

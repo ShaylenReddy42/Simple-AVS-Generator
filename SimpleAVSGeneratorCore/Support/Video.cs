@@ -20,7 +20,7 @@ namespace SimpleAVSGeneratorCore.Support;
 
 public static class Video
 {
-    public static Dictionary<string, string> outputVideoCodecsDictionary = new()
+    public static readonly Dictionary<string, string> outputVideoCodecsDictionary = new()
     {
         { "HEVC",         ".265" },
         { "AV1",          ".ivf" },
@@ -29,7 +29,7 @@ public static class Video
         { "Mux Original", ""     }
     };
 
-    public static Dictionary<string, int> keyframeIntervalDictionary = new()
+    public static readonly Dictionary<string, int> keyframeIntervalDictionary = new()
     {
         { "2 Seconds",   2 },
         { "5 Seconds",   5 },
