@@ -31,7 +31,7 @@ public static class Video
         { "Mux Original", ""     }
     };
 
-    public static ImmutableDictionary<string, string> idOutputVideoCodecsDictionary = outputVideoCodecsDictionary.ToImmutableDictionary();
+    public static readonly ImmutableDictionary<string, string> idOutputVideoCodecsDictionary = outputVideoCodecsDictionary.ToImmutableDictionary();
 
     private static Dictionary<string, int> keyframeIntervalDictionary = new()
     {
@@ -40,7 +40,7 @@ public static class Video
         { "10 Seconds", 10 }
     };
 
-    public static ImmutableDictionary<string, int> idKeyframeIntervalDictionary = keyframeIntervalDictionary.ToImmutableDictionary();
+    public static readonly ImmutableDictionary<string, int> idKeyframeIntervalDictionary = keyframeIntervalDictionary.ToImmutableDictionary();
 
     public static object[] GetOutputVideoCodecs()
     {

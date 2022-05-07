@@ -29,7 +29,7 @@ public static class Audio
         { "OPUS",   ".ogg" }
     };
 
-    public static ImmutableDictionary<string, string> idOutputAudioCodecsDictionary = outputAudioCodecsDictionary.ToImmutableDictionary();
+    public static readonly ImmutableDictionary<string, string> idOutputAudioCodecsDictionary = outputAudioCodecsDictionary.ToImmutableDictionary();
 
     private static Dictionary<string, string> languagesDictionary = new()
     {
@@ -40,7 +40,7 @@ public static class Audio
         { "Undetermined", "und" }
     };
 
-    public static ImmutableDictionary<string, string> idLanguagesDictionary = languagesDictionary.ToImmutableDictionary();
+    public static readonly ImmutableDictionary<string, string> idLanguagesDictionary = languagesDictionary.ToImmutableDictionary();
 
     private static Dictionary<string, Dictionary<string, object[]>> selectableAudioBitratesDictionary = new()
     {
