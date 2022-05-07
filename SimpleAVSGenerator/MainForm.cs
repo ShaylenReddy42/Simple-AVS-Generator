@@ -173,7 +173,7 @@ public partial class MainForm : Form
             FolderBrowserDialog fbd = new();
             input.HomeDir = fbd.ShowDialog() == DialogResult.OK ? $@"{fbd.SelectedPath}\" : input.HomeDir;
 
-            txbOutFile.Text = input.ScriptFile;
+            txbOutFile.Text = input?.ScriptFile;
         }
     }
 
