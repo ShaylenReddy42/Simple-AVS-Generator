@@ -16,11 +16,13 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  ******************************************************************************/
 
+using System.Collections.Immutable;
+
 namespace SimpleAVSGeneratorCore.Support;
 
 public static class Video
 {
-    internal static Dictionary<string, string> outputVideoCodecsDictionary = new()
+    private static Dictionary<string, string> outputVideoCodecsDictionary = new()
     {
         { "HEVC",         ".265" },
         { "AV1",          ".ivf" },
@@ -29,12 +31,16 @@ public static class Video
         { "Mux Original", ""     }
     };
 
-    internal static Dictionary<string, int> keyframeIntervalDictionary = new()
+    public static ImmutableDictionary<string, string> idOutputVideoCodecsDictionary = outputVideoCodecsDictionary.ToImmutableDictionary();
+
+    private static Dictionary<string, int> keyframeIntervalDictionary = new()
     {
         { "2 Seconds",   2 },
         { "5 Seconds",   5 },
         { "10 Seconds", 10 }
     };
+
+    public static ImmutableDictionary<string, int> idKeyframeIntervalDictionary = keyframeIntervalDictionary.ToImmutableDictionary();
 
     public static object[] GetOutputVideoCodecs()
     {

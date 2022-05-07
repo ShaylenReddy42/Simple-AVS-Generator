@@ -29,7 +29,7 @@ public class VideoModel
     public int RoundedFPS => (int)Math.Round(SourceFPS);
     public int SourceFrameCount { get; init; }
     public string KeyframeIntervalInSeconds { get; set; } = "2 Seconds";
-    public int KeyframeIntervalInFrames => RoundedFPS * keyframeIntervalDictionary[KeyframeIntervalInSeconds];
+    public int KeyframeIntervalInFrames => RoundedFPS * idKeyframeIntervalDictionary[KeyframeIntervalInSeconds];
     public bool NeedsToBeResized => Codec is "WhatsApp";
-    public string Extension => Codec is not "" ? outputVideoCodecsDictionary[Codec] : string.Empty;
+    public string Extension => Codec is not "" ? idOutputVideoCodecsDictionary[Codec] : string.Empty;
 }

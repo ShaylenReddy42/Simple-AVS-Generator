@@ -27,6 +27,6 @@ public class AudioModel
     public string Codec { get; set; } = string.Empty;
     public int Bitrate { get; set; }
     public string Language { get; set; } = "Undetermined";
-    public string LanguageCode => languagesDictionary[Language];
-    public string Extension => Codec is not "" ? outputAudioCodecsDictionary[Codec] : string.Empty;
+    public string LanguageCode => idLanguagesDictionary[Language];
+    public string Extension => Codec is not "" ? idOutputAudioCodecsDictionary[Codec] : string.Empty;
 }

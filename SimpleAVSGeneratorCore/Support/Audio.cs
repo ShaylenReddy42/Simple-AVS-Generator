@@ -16,18 +16,22 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  ******************************************************************************/
 
+using System.Collections.Immutable;
+
 namespace SimpleAVSGeneratorCore.Support;
 
 public static class Audio
 {
-    internal static Dictionary<string, string> outputAudioCodecsDictionary = new()
+    private static Dictionary<string, string> outputAudioCodecsDictionary = new()
     {
         { "AAC-LC", ".m4a" },
         { "AAC-HE", ".m4a" },
         { "OPUS",   ".ogg" }
     };
 
-    internal static Dictionary<string, string> languagesDictionary = new()
+    public static ImmutableDictionary<string, string> idOutputAudioCodecsDictionary = outputAudioCodecsDictionary.ToImmutableDictionary();
+
+    private static Dictionary<string, string> languagesDictionary = new()
     {
         { "English",      "eng" },
         { "Hindi",        "hin" },
@@ -35,6 +39,8 @@ public static class Audio
         { "Tamil",        "tam" },
         { "Undetermined", "und" }
     };
+
+    public static ImmutableDictionary<string, string> idLanguagesDictionary = languagesDictionary.ToImmutableDictionary();
 
     private static Dictionary<string, Dictionary<string, object[]>> selectableAudioBitratesDictionary = new()
     {
