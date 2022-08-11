@@ -42,13 +42,7 @@ public static class Video
 
     public static readonly ImmutableDictionary<string, int> idKeyframeIntervalDictionary = keyframeIntervalDictionary.ToImmutableDictionary();
 
-    public static object[] GetOutputVideoCodecs()
-    {
-        return outputVideoCodecsDictionary.Keys.ToArray();
-    }
+    public static object[] GetOutputVideoCodecs() => outputVideoCodecsDictionary.Keys.ToArray();
 
-    public static object[] GetKeyframeIntervals()
-    {
-        return keyframeIntervalDictionary.Keys.ToArray();
-    }
+    public static object[] GetKeyframeIntervals() => keyframeIntervalDictionary.Keys.ToArray();
 }

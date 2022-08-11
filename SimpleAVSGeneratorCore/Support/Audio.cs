@@ -110,15 +110,9 @@ public static class Audio
         }
     };
 
-    public static object[] GetOutputAudioCodecs()
-    {
-        return outputAudioCodecsDictionary.Keys.ToArray();
-    }
+    public static object[] GetOutputAudioCodecs() => outputAudioCodecsDictionary.Keys.ToArray();
 
-    public static object[] GetLanguages()
-    {
-        return languagesDictionary.Keys.ToArray();
-    }
+    public static object[] GetLanguages() => languagesDictionary.Keys.ToArray();
 
     public static (object[], int) GetSelectableAndDefaultAudioBitrates(string audioCodec, string audioChannels)
     {
