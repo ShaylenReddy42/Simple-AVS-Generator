@@ -18,7 +18,7 @@
     <AssemblyTitle>Core Library for Simple AVS Generator</AssemblyTitle>
     <AssemblyDescription>Core Library for Simple AVS Generator</AssemblyDescription>
     <Authors>Shaylen Reddy</Authors>
-    <Copyright>Shaylen Reddy: GPLv2</Copyright>
+    <Copyright>Shaylen Reddy: MIT License</Copyright>
 
     <AssemblyVersion>$(FileVersion)</AssemblyVersion>
     <FileVersion>$(FileVersion)</FileVersion>

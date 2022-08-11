@@ -41,7 +41,7 @@
     <Product>Simple AVS Generator</Product>
     <AssemblyDescription>Simple AVS Generator</AssemblyDescription>
     <Authors>Shaylen Reddy</Authors>
-    <Copyright>Shaylen Reddy: GPLv2</Copyright>
+    <Copyright>Shaylen Reddy: MIT License</Copyright>
 
     <AssemblyName>Simple AVS Generator</AssemblyName>
     <AssemblyVersion>$(FileVersion)</AssemblyVersion>
