@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using SimpleAVSGeneratorCore.Models;
+using System.Text;
 
 namespace SimpleAVSGeneratorCore.Support;
 
@@ -12,380 +13,57 @@ public class Extensions
     public string? FilterVideoExts { get; private set; }
     public string? FilterAudioExts { get; private set; }
 
-    private static readonly Dictionary<string, Dictionary<string, object>> supportedExtensionsDictionary =
-    new()
+    private static readonly List<SupportedExtension> supportedExtensions = new()
     {
         /* -------- CONTAINER -------- */
-        {
-            ".3gp",
-            new()
-            {
-                { "Type",          "CONTAINER" },
-                { "MP4BoxSupport", true        }
-            }
-        },
-        {
-            ".3g2",
-            new()
-            {
-                { "Type",          "CONTAINER" },
-                { "MP4BoxSupport", true        }
-            }
-        },
-        {
-            ".asf",
-            new()
-            {
-                { "Type",          "CONTAINER" },
-                { "MP4BoxSupport", false       }
-            }
-        },
-        {
-            ".avi",
-            new()
-            {
-                { "Type",          "CONTAINER" },
-                { "MP4BoxSupport", true        }
-            }
-        },
-        {
-            ".flv",
-            new()
-            {
-                { "Type",         "CONTAINER" },
-                { "MP4BoxSupport", false      }
-            }
-        },
-        {
-            ".mp4",
-            new()
-            {
-                { "Type",          "CONTAINER" },
-                { "MP4BoxSupport", true        }
-            }
-        },
-        {
-            ".m4v",
-            new()
-            {
-                { "Type",          "CONTAINER" },
-                { "MP4BoxSupport", true        }
-            }
-        },
-        {
-            ".mkv",
-            new()
-            {
-                { "Type",          "CONTAINER" },
-                { "MP4BoxSupport", false       }
-            }
-        },
-        {
-            ".mov",
-            new()
-            {
-                { "Type",          "CONTAINER" },
-                { "MP4BoxSupport", false       }
-            }
-        },
-        {
-            ".m2t",
-            new()
-            {
-                { "Type",          "CONTAINER" },
-                { "MP4BoxSupport", true        }
-            }
-        },
-        {
-            ".m2ts",
-            new()
-            {
-                { "Type",          "CONTAINER" },
-                { "MP4BoxSupport", true        }
-            }
-        },
-        {
-            ".mxf",
-            new()
-            {
-                { "Type",          "CONTAINER" },
-                { "MP4BoxSupport", false       }
-            }
-        },
-        {
-            ".ogm",
-            new()
-            {
-                { "Type",         "CONTAINER" },
-                { "MP4BoxSupport", false      }
-            }
-        },
-        {
-            ".rm",
-            new()
-            {
-                { "Type",          "CONTAINER" },
-                { "MP4BoxSupport", false       }
-            }
-        },
-        {
-            ".rmvb",
-            new()
-            {
-                { "Type",          "CONTAINER" },
-                { "MP4BoxSupport", false       }
-            }
-        },
-        {
-            ".ts",
-            new()
-            {
-                { "Type",          "CONTAINER" },
-                { "MP4BoxSupport", true        }
-            }
-        },
-        {
-            ".webm",
-            new()
-            {
-                { "Type",          "CONTAINER" },
-                { "MP4BoxSupport", false       }
-            }
-        },
-        {
-            ".wmv",
-            new()
-            {
-                { "Type",          "CONTAINER" },
-                { "MP4BoxSupport", false       }
-            }
-        },
+        new SupportedExtension(extension: ".3gp", type: "CONTAINER", mp4boxSupport: true),
+        new SupportedExtension(".3g2",  "CONTAINER", true),
+        new SupportedExtension(".asf",  "CONTAINER", false),
+        new SupportedExtension(".avi",  "CONTAINER", true),
+        new SupportedExtension(".flv",  "CONTAINER", false),
+        new SupportedExtension(".mp4",  "CONTAINER", true),
+        new SupportedExtension(".m4v",  "CONTAINER", true),
+        new SupportedExtension(".mkv",  "CONTAINER", false),
+        new SupportedExtension(".mov",  "CONTAINER", false),
+        new SupportedExtension(".m2t",  "CONTAINER", true),
+        new SupportedExtension(".m2ts", "CONTAINER", true),
+        new SupportedExtension(".mxf",  "CONTAINER", false),
+        new SupportedExtension(".ogm",  "CONTAINER", false),
+        new SupportedExtension(".rm",   "CONTAINER", false),
+        new SupportedExtension(".rmvb", "CONTAINER", false),
+        new SupportedExtension(".ts",   "CONTAINER", true),
+        new SupportedExtension(".webm", "CONTAINER", false),
+        new SupportedExtension(".wmv",  "CONTAINER", false),
         /* ---------- VIDEO ---------- */
-        {
-            ".263",
-            new()
-            {
-                { "Type",          "VIDEO" },
-                { "MP4BoxSupport", true    }
-            }
-        },
-        {
-            ".h263",
-            new()
-            {
-                { "Type",          "VIDEO" },
-                { "MP4BoxSupport", true    }
-            }
-        },
-        {
-            ".264",
-            new()
-            {
-                { "Type",          "VIDEO" },
-                { "MP4BoxSupport", true    }
-            }
-        },
-        {
-            ".h264",
-            new()
-            {
-                { "Type",          "VIDEO" },
-                { "MP4BoxSupport", true    }
-            }
-        },
-        {
-            ".265",
-            new()
-            {
-                { "Type",          "VIDEO" },
-                { "MP4BoxSupport", true    }
-            }
-        },
-        {
-            ".h265",
-            new()
-            {
-                { "Type",          "VIDEO" },
-                { "MP4BoxSupport", true    }
-            }
-        },
-        {
-            ".hevc",
-            new()
-            {
-                { "Type",          "VIDEO" },
-                { "MP4BoxSupport", true    }
-            }
-        },
-        {
-            ".ivf",
-            new()
-            {
-                { "Type",          "VIDEO" },
-                { "MP4BoxSupport", true    }
-            }
-        },
-        {
-            ".obu",
-            new()
-            {
-                { "Type",          "VIDEO" },
-                { "MP4BoxSupport", true    }
-            }
-        },
-        {
-            ".y4m",
-            new()
-            {
-                { "Type",          "VIDEO" },
-                { "MP4BoxSupport", false   }
-            }
-        },
+        new SupportedExtension(extension: ".263", type: "VIDEO", mp4boxSupport: true),
+        new SupportedExtension(".h263", "VIDEO", true),
+        new SupportedExtension(".264",  "VIDEO", true),
+        new SupportedExtension(".h264", "VIDEO", true),
+        new SupportedExtension(".265",  "VIDEO", true),
+        new SupportedExtension(".h265", "VIDEO", true),
+        new SupportedExtension(".hevc", "VIDEO", true),
+        new SupportedExtension(".ivf",  "VIDEO", true),
+        new SupportedExtension(".obu",  "VIDEO", true),
+        new SupportedExtension(".y4m",  "VIDEO", true),
         /* ---------- AUDIO ---------- */
-        {
-            ".aa3",
-            new()
-            {
-                { "Type",          "AUDIO" },
-                { "MP4BoxSupport", false   }
-            }
-        },
-        {
-            ".aac",
-            new()
-            {
-                { "Type",          "AUDIO" },
-                { "MP4BoxSupport", true    }
-            }
-        },
-        {
-            ".aif",
-            new()
-            {
-                { "Type",          "AUDIO" },
-                { "MP4BoxSupport", false   }
-            }
-        },
-        {
-            ".ac3",
-            new()
-            {
-                { "Type",          "AUDIO" },
-                { "MP4BoxSupport", true    }
-            }
-        },
-        {
-            ".ape",
-            new()
-            {
-                { "Type",          "AUDIO" },
-                { "MP4BoxSupport", false   }
-            }
-        },
-        {
-            ".dts",
-            new()
-            {
-                { "Type",          "AUDIO" },
-                { "MP4BoxSupport", false   }
-            }
-        },
-        {
-            ".flac",
-            new()
-            {
-                { "Type",          "AUDIO" },
-                { "MP4BoxSupport", true    }
-            }
-        },
-        {
-            ".m1a",
-            new()
-            {
-                { "Type",          "AUDIO" },
-                { "MP4BoxSupport", true    }
-            }
-        },
-        {
-            ".m2a",
-            new()
-            {
-                { "Type",          "AUDIO" },
-                { "MP4BoxSupport", true    }
-            }
-        },
-        {
-            ".mp2",
-            new()
-            {
-                { "Type",          "AUDIO" },
-                { "MP4BoxSupport", true    }
-            }
-        },
-        {
-            ".mp3",
-            new()
-            {
-                { "Type",          "AUDIO" },
-                { "MP4BoxSupport", true    }
-            }
-        },
-        {
-            ".m4a",
-            new()
-            {
-                { "Type",          "AUDIO" },
-                { "MP4BoxSupport", true    }
-            }
-        },
-        {
-            ".oma",
-            new()
-            {
-                { "Type",          "AUDIO" },
-                { "MP4BoxSupport", false   }
-            }
-        },
-        {
-            ".opus",
-            new()
-            {
-                { "Type",          "AUDIO" },
-                { "MP4BoxSupport", true    }
-            }
-        },
-        {
-            ".thd",
-            new()
-            {
-                { "Type",          "AUDIO" },
-                { "MP4BoxSupport", false   }
-            }
-        },
-        {
-            ".tta",
-            new()
-            {
-                { "Type",          "AUDIO" },
-                { "MP4BoxSupport", false   }
-            }
-        },
-        {
-            ".wav",
-            new()
-            {
-                { "Type",          "AUDIO" },
-                { "MP4BoxSupport", true    }
-            }
-        },
-        {
-            ".wma",
-            new()
-            {
-                { "Type",          "AUDIO" },
-                { "MP4BoxSupport", false   }
-            }
-        }
+        new SupportedExtension(extension: ".aa3", type: "AUDIO", mp4boxSupport: false),
+        new SupportedExtension(".aac",  "AUDIO", true),
+        new SupportedExtension(".aif",  "AUDIO", false),
+        new SupportedExtension(".ac3",  "AUDIO", true),
+        new SupportedExtension(".ape",  "AUDIO", false),
+        new SupportedExtension(".dts",  "AUDIO", false),
+        new SupportedExtension(".flac", "AUDIO", true),
+        new SupportedExtension(".m1a",  "AUDIO", true),
+        new SupportedExtension(".m2a",  "AUDIO", true),
+        new SupportedExtension(".mp2",  "AUDIO", true),
+        new SupportedExtension(".mp3",  "AUDIO", true),
+        new SupportedExtension(".m4a",  "AUDIO", true),
+        new SupportedExtension(".oma",  "AUDIO", false),
+        new SupportedExtension(".opus", "AUDIO", true),
+        new SupportedExtension(".thd",  "AUDIO", false),
+        new SupportedExtension(".tta",  "AUDIO", false),
+        new SupportedExtension(".wav",  "AUDIO", true),
+        new SupportedExtension(".wma",  "AUDIO", false)
     };
 
     public Extensions()
@@ -403,16 +81,12 @@ public class Extensions
     {
         StringBuilder sbSupport = new();
 
-        object[] supportedExtensionsDictionaryKeys = supportedExtensionsDictionary.Keys.ToArray();
+        List<SupportedExtension> temp = 
+            supportedExtensions
+                .Where(ext => ext.Type == fileType)
+                .ToList();
 
-        foreach (string extension in supportedExtensionsDictionaryKeys)
-        {
-            Dictionary<string, object> extensionDictionary = supportedExtensionsDictionary[extension];
-            if ((string)extensionDictionary["Type"] == fileType)
-            {
-                sbSupport.Append($"*{extension};");
-            }
-        }
+        temp.ForEach(ext => sbSupport.Append($"*{ext.Extension};"));
 
         string support = sbSupport.ToString()[0..^1];
 
@@ -434,16 +108,12 @@ public class Extensions
     {
         StringBuilder sbFilter = new();
 
-        object[] supportedExtensionsDictionaryKeys = supportedExtensionsDictionary.Keys.ToArray();
+        List<SupportedExtension> temp =
+            supportedExtensions
+                .Where(ext => ext.Type == fileType)
+                .ToList();
 
-        foreach (string extension in supportedExtensionsDictionaryKeys)
-        {
-            Dictionary<string, object> extensionDictionary = supportedExtensionsDictionary[extension];
-            if ((string)extensionDictionary["Type"] == fileType)
-            {
-                sbFilter.Append($"{extension[1..].ToUpper()} ");
-            }
-        }
+        temp.ForEach(ext => sbFilter.Append($"{ext.Extension[1..].ToUpper()} "));
 
         string filter = sbFilter.ToString()[0..^1];
 
@@ -461,17 +131,9 @@ public class Extensions
         }
     }
 
-    public string DetermineInputFileType(string fileExt)
-    {
-        Dictionary<string, object> extensionDictionary = supportedExtensionsDictionary[fileExt];
+    public string DetermineInputFileType(string fileExt) =>
+        supportedExtensions.Single(ext => ext.Extension == fileExt).Type;
 
-        return (string)extensionDictionary["Type"];
-    }
-
-    public bool IsSupportedByMP4Box(string fileExt)
-    {
-        Dictionary<string, object> extensionDictionary = supportedExtensionsDictionary[fileExt];
-
-        return (bool)extensionDictionary["MP4BoxSupport"];
-    }
+    public bool IsSupportedByMP4Box(string fileExt) =>
+        supportedExtensions.Single(ext => ext.Extension == fileExt).MP4BoxSupport;
 }
