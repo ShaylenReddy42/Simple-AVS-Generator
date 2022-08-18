@@ -6,11 +6,6 @@ public class SupportedExtension
     public string Type { get; private set; }
     public bool MP4BoxSupport { get; private set; }
 
-    public SupportedExtension(
-        string extension,
-        string type,
-        bool mp4boxSupport)
-    {
+    public SupportedExtension(string extension, string type, bool mp4boxSupport) =>
         (Extension, Type, MP4BoxSupport) = (extension, type, mp4boxSupport);
-    }
 }

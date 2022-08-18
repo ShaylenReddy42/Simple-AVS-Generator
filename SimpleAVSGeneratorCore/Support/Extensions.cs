@@ -81,12 +81,10 @@ public class Extensions
     {
         StringBuilder sbSupport = new();
 
-        List<SupportedExtension> temp = 
-            supportedExtensions
-                .Where(ext => ext.Type == fileType)
-                .ToList();
-
-        temp.ForEach(ext => sbSupport.Append($"*{ext.Extension};"));
+        supportedExtensions
+            .Where(ext => ext.Type == fileType)
+            .ToList()
+            .ForEach(ext => sbSupport.Append($"*{ext.Extension};"));
 
         string support = sbSupport.ToString()[0..^1];
 
@@ -108,12 +106,10 @@ public class Extensions
     {
         StringBuilder sbFilter = new();
 
-        List<SupportedExtension> temp =
-            supportedExtensions
-                .Where(ext => ext.Type == fileType)
-                .ToList();
-
-        temp.ForEach(ext => sbFilter.Append($"{ext.Extension[1..].ToUpper()} "));
+        supportedExtensions
+            .Where(ext => ext.Type == fileType)
+            .ToList()
+            .ForEach(ext => sbFilter.Append($"{ext.Extension[1..].ToUpper()} "));
 
         string filter = sbFilter.ToString()[0..^1];
 
