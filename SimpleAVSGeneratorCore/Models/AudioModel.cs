@@ -10,5 +10,6 @@ public class AudioModel
     public int Bitrate { get; set; }
     public string Language { get; set; } = "Undetermined";
     public string LanguageCode => idLanguagesDictionary[Language];
-    public string Extension => Codec is not "" ? idOutputAudioCodecsDictionary[Codec] : string.Empty;
+    public string Extension => 
+        Codec is not "" ? supportedOutputAudios.First(audio => audio.Codec == Codec).Extension : string.Empty;
 }

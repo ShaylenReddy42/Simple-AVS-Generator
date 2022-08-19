@@ -1,18 +1,10 @@
-﻿using System.Collections.Immutable;
+﻿using SimpleAVSGeneratorCore.Models;
+using System.Collections.Immutable;
 
 namespace SimpleAVSGeneratorCore.Support;
 
 public static class Audio
 {
-    private static Dictionary<string, string> outputAudioCodecsDictionary = new()
-    {
-        { "AAC-LC", ".m4a" },
-        { "AAC-HE", ".m4a" },
-        { "OPUS",   ".ogg" }
-    };
-
-    public static readonly ImmutableDictionary<string, string> idOutputAudioCodecsDictionary = outputAudioCodecsDictionary.ToImmutableDictionary();
-
     private static Dictionary<string, string> languagesDictionary = new()
     {
         { "English",      "eng" },
@@ -24,83 +16,35 @@ public static class Audio
 
     public static readonly ImmutableDictionary<string, string> idLanguagesDictionary = languagesDictionary.ToImmutableDictionary();
 
-    private static Dictionary<string, Dictionary<string, object[]>> selectableAudioBitratesDictionary = new()
+    public static readonly List<SupportedOutputAudio> supportedOutputAudios = new()
     {
-        { 
-            "AAC-LC",  
-            new()
-            {
-                { "1.0", new object[] {  48,  56,  64,  72,  80,  96 } },
-                { "2.0", new object[] {  96, 112, 128, 144, 160, 192 } },
-                { "5.1", new object[] { 192, 224, 256, 288, 320, 384 } },
-                { "7.1", new object[] { 384, 448, 512, 576, 640, 768 } }
-            }
-        },
-        {
-            "AAC-HE",
-            new()
-            {
-                { "1.0", new object[] {  16,  20,  24,  28,  32,  40 } },
-                { "2.0", new object[] {  32,  40,  48,  56,  64,  80 } },
-                { "5.1", new object[] {  80,  96, 112, 128, 160, 192 } },
-                { "7.1", new object[] { 112, 128, 160, 192, 224, 256 } }
-            }
-        },
-        {
-            "OPUS",
-            new()
-            {
-                { "1.0", new object[] {  36,  40,  48,  56,  64,  72 } },
-                { "2.0", new object[] {  72,  80,  96, 112, 128, 144 } },
-                { "5.1", new object[] { 160, 192, 224, 240, 256, 288 } },
-                { "7.1", new object[] { 256, 288, 320, 384, 448, 512 } }
-            }
-        }
+        new SupportedOutputAudio(codec: "AAC-LC", channels: "1.0", bitrates: new object[] { 48,  56,  64,  72,  80,  96 }, defaultBitrate: 64),
+        new SupportedOutputAudio("AAC-LC", "2.0", new object[] {  96, 112, 128, 144, 160, 192 }, 128),
+        new SupportedOutputAudio("AAC-LC", "5.1", new object[] { 192, 224, 256, 288, 320, 384 }, 384),
+        new SupportedOutputAudio("AAC-LC", "7.1", new object[] { 384, 448, 512, 576, 640, 768 }, 512),
+
+        new SupportedOutputAudio(codec: "AAC-HE", channels: "1.0", bitrates: new object[] { 16,  20,  24,  28,  32,  40 }, defaultBitrate: 40),
+        new SupportedOutputAudio("AAC-HE", "2.0", new object[] {  32,  40,  48,  56,  64,  80 },  80),
+        new SupportedOutputAudio("AAC-HE", "5.1", new object[] {  80,  96, 112, 128, 160, 192 }, 192),
+        new SupportedOutputAudio("AAC-HE", "7.1", new object[] { 112, 128, 160, 192, 224, 256 }, 256),
+
+        new SupportedOutputAudio(codec: "OPUS",   channels: "1.0", bitrates: new object[] { 36,  40,  48,  56,  64,  72 }, defaultBitrate: 40),
+        new SupportedOutputAudio("OPUS",   "2.0", new object[] {  72,  80,  96, 112, 128, 144 },  80),
+        new SupportedOutputAudio("OPUS",   "5.1", new object[] { 160, 192, 224, 240, 256, 288 }, 240),
+        new SupportedOutputAudio("OPUS",   "7.1", new object[] { 256, 288, 320, 384, 448, 512 }, 320),
     };
 
-    private static Dictionary<string, Dictionary<string, int>> defaultAudioBitratesDictionary = new()
-    {
-        {
-            "AAC-LC",
-            new()
-            {
-                { "1.0",  64 },
-                { "2.0", 128 },
-                { "5.1", 384 },
-                { "7.1", 512 }
-            }
-        },
-        {
-            "AAC-HE",
-            new()
-            {
-                { "1.0",  40 },
-                { "2.0",  80 },
-                { "5.1", 192 },
-                { "7.1", 256 }
-            }
-        },
-        {
-            "OPUS",
-            new()
-            {
-                { "1.0",  40 },
-                { "2.0",  80 },
-                { "5.1", 240 },
-                { "7.1", 320 }
-            }
-        }
-    };
-
-    public static object[] GetOutputAudioCodecs() => outputAudioCodecsDictionary.Keys.ToArray();
+    public static object[] GetOutputAudioCodecs() => 
+        supportedOutputAudios.Select(audio => audio.Codec).Distinct().ToArray();
 
     public static object[] GetLanguages() => languagesDictionary.Keys.ToArray();
 
     public static (object[], int) GetSelectableAndDefaultAudioBitrates(string audioCodec, string audioChannels)
     {
-        Dictionary<string, object[]> audioCodecBitratesDictionary = selectableAudioBitratesDictionary[audioCodec];
-        Dictionary<string, int> audioCodecDefaultAudioBitratesDictionary = defaultAudioBitratesDictionary[audioCodec];
+        var supportedOutputAudio =
+            supportedOutputAudios
+                .Single(audio => audio.Codec == audioCodec && audio.Channels == audioChannels);
 
-        return (audioCodecBitratesDictionary[audioChannels], audioCodecDefaultAudioBitratesDictionary[audioChannels]);
+        return (supportedOutputAudio.Bitrates, supportedOutputAudio.DefaultBitrate);
     }
 }
