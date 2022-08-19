@@ -11,5 +11,5 @@ public class AudioModel
     public string Language { get; set; } = "Undetermined";
     public string LanguageCode => idLanguagesDictionary[Language];
     public string Extension => 
-        Codec is not "" ? supportedOutputAudios.First(audio => audio.Codec == Codec).Extension : string.Empty;
+        Codec is not "" ? idSupportedOutputAudios.First(audio => audio.Codec == Codec).Extension : string.Empty;
 }

@@ -5,7 +5,7 @@ namespace SimpleAVSGeneratorCore.Support;
 
 public static class Audio
 {
-    private static Dictionary<string, string> languagesDictionary = new()
+    private static readonly Dictionary<string, string> languagesDictionary = new()
     {
         { "English",      "eng" },
         { "Hindi",        "hin" },
@@ -16,7 +16,7 @@ public static class Audio
 
     public static readonly ImmutableDictionary<string, string> idLanguagesDictionary = languagesDictionary.ToImmutableDictionary();
 
-    public static readonly List<SupportedOutputAudio> supportedOutputAudios = new()
+    private static readonly List<SupportedOutputAudio> supportedOutputAudios = new()
     {
         new SupportedOutputAudio(codec: "AAC-LC", channels: "1.0", bitrates: new object[] { 48,  56,  64,  72,  80,  96 }, defaultBitrate: 64),
         new SupportedOutputAudio("AAC-LC", "2.0", new object[] {  96, 112, 128, 144, 160, 192 }, 128),
@@ -33,6 +33,8 @@ public static class Audio
         new SupportedOutputAudio("OPUS",   "5.1", new object[] { 160, 192, 224, 240, 256, 288 }, 240),
         new SupportedOutputAudio("OPUS",   "7.1", new object[] { 256, 288, 320, 384, 448, 512 }, 320),
     };
+
+    public static readonly ImmutableList<SupportedOutputAudio> idSupportedOutputAudios = supportedOutputAudios.ToImmutableList();
 
     public static object[] GetOutputAudioCodecs() => 
         supportedOutputAudios.Select(audio => audio.Codec).Distinct().ToArray();
