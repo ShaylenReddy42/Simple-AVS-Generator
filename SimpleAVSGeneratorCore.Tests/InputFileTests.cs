@@ -60,7 +60,7 @@ public class InputFileTests
 
         // Act
         string actualScriptFile    = input.AVSMeterScriptFile,
-               actualScriptContent = input.AVSMeterScriptContent;
+               actualScriptContent = InputFile.AVSMeterScriptContent;
 
         string[] actualScriptFileAndContent = { actualScriptFile, actualScriptContent };
 

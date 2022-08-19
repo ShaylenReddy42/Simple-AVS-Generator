@@ -127,9 +127,9 @@ public class Extensions
         }
     }
 
-    public string DetermineInputFileType(string fileExt) =>
+    public static string DetermineInputFileType(string fileExt) =>
         supportedExtensions.Single(ext => ext.Extension == fileExt).Type;
 
-    public bool IsSupportedByMP4Box(string fileExt) =>
+    public static bool IsSupportedByMP4Box(string fileExt) =>
         supportedExtensions.Single(ext => ext.Extension == fileExt).MP4BoxSupport;
 }

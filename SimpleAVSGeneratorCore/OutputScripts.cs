@@ -123,8 +123,10 @@ public class OutputScripts
         
         if (video.Enabled is true)
         {
+            string original = video.MuxOriginalVideo ? " [Original Video]" : "";
+
             ContainerScriptFile = outputContainer is not null
-                                ? $"{outputDir}{outputContainer} Mux{(video.MuxOriginalVideo ? " [Original Video]" : "")}.cmd"
+                                ? $"{outputDir}{outputContainer} Mux{original}.cmd"
                                 : null;
             ContainerScriptContent = containerTemplate;
         }

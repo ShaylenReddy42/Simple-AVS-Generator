@@ -28,8 +28,7 @@ public class ExtensionsTests
         // Expected result is passed as a parameter
 
         // Act
-        Extensions se = new();
-        string actualFileType = se.DetermineInputFileType(fileExt);
+        string actualFileType = Extensions.DetermineInputFileType(fileExt);
 
         // Assert
         Assert.Equal(expectedFileType, actualFileType);
@@ -57,8 +56,7 @@ public class ExtensionsTests
         // Expected result is passed as a parameter
 
         // Act
-        Extensions se = new();
-        bool actualIsSupportedByMP4Box = se.IsSupportedByMP4Box(fileExt);
+        bool actualIsSupportedByMP4Box = Extensions.IsSupportedByMP4Box(fileExt);
 
         // Assert
         Assert.Equal(expectedIsSupportedByMP4Box, actualIsSupportedByMP4Box);

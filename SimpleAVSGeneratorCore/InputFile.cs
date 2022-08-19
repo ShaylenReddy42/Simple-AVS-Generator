@@ -16,7 +16,7 @@ public class InputFile
 
     //AVSMeter Properties
     public string AVSMeterScriptFile => $"{OutputDir}AVSMeter.cmd";
-    public string AVSMeterScriptContent => $"AVSMeter64 \"%~dp0Script.avs\" -i -l";
+    public static string AVSMeterScriptContent => $"AVSMeter64 \"%~dp0Script.avs\" -i -l";
 
     public VideoModel Video;
 
@@ -24,7 +24,7 @@ public class InputFile
 
     public string? OutputContainer { get; set; }
 
-    private MediaInfo.MediaInfo MI = new();
+    private readonly MediaInfo.MediaInfo mediaInfo = new();
 
 #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
     public InputFile(string fileName, string home)
@@ -32,26 +32,25 @@ public class InputFile
     {
         HomeDir = home;
 
-        MI.Open(fileName);
+        mediaInfo.Open(fileName);
 
         string fileExt = Path.GetExtension(fileName);
-        Extensions exts = new();
 
         FileInfo = new()
         {
             FileName = fileName,
-            FileType = exts.DetermineInputFileType(fileExt),
-            IsSupportedByMP4Box = exts.IsSupportedByMP4Box(fileExt),
-            HasVideo = MI.Get(StreamKind.General, 0, "VideoCount") is not "",
-            HasAudio = MI.Get(StreamKind.General, 0, "AudioCount") is not ""
+            FileType = Extensions.DetermineInputFileType(fileExt),
+            IsSupportedByMP4Box = Extensions.IsSupportedByMP4Box(fileExt),
+            HasVideo = mediaInfo.Get(StreamKind.General, 0, "VideoCount") is not "",
+            HasAudio = mediaInfo.Get(StreamKind.General, 0, "AudioCount") is not ""
         };
         
         if (FileInfo.HasVideo is true)
         {
             Video = new()
             {
-                SourceFPS = decimal.Parse(MI.Get(StreamKind.Video, 0, "FrameRate"), CultureInfo.InvariantCulture),
-                SourceFrameCount = FileInfo.FileType is "CONTAINER" ? int.Parse(MI.Get(StreamKind.Video, 0, "FrameCount")) : 0
+                SourceFPS = decimal.Parse(mediaInfo.Get(StreamKind.Video, 0, "FrameRate"), CultureInfo.InvariantCulture),
+                SourceFrameCount = FileInfo.FileType is "CONTAINER" ? int.Parse(mediaInfo.Get(StreamKind.Video, 0, "FrameCount")) : 0
             };
         }
         else
@@ -86,8 +85,8 @@ public class InputFile
         // Since this is a private method and is based on what's detected by MediaInfo,
         // I cannot add tests for this because it's not accessible
 
-        string channelPositions = MI.Get(StreamKind.Audio, 0, "ChannelPositions/String2");
-        channelPositions = channelPositions is "" ? MI.Get(StreamKind.Audio, 0, "Channels") : channelPositions;
+        string channelPositions = mediaInfo.Get(StreamKind.Audio, 0, "ChannelPositions/String2");
+        channelPositions = channelPositions is "" ? mediaInfo.Get(StreamKind.Audio, 0, "Channels") : channelPositions;
 
         double channelLayout = 0.0;
 
