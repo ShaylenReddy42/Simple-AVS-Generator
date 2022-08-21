@@ -8,7 +8,7 @@ before_build:
     - cmd: 'appveyor UpdateBuild -Version "v%version% | %APPVEYOR_JOB_ID%"'
 
 build_script:
-    - cmd: dotnet-publish.cmd
+    - cmd: dotnet publish "SimpleAVSGenerator\SimpleAVSGenerator.csproj" -c Release -o publish
     - ps: Compress-Archive -Path ".\publish\*" -DestinationPath ".\publish\Simple AVS Generator.zip"
 
 test_script:
