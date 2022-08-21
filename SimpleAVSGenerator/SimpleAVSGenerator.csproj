@@ -7,6 +7,7 @@
     <Nullable>enable</Nullable>
     <UseWindowsForms>true</UseWindowsForms>
     <ImplicitUsings>enable</ImplicitUsings>
+	<GenerateAssemblyInfo>false</GenerateAssemblyInfo>
   </PropertyGroup>
 
   <ItemGroup>
@@ -34,20 +35,6 @@
     <PublishSingleFile>true</PublishSingleFile>
     <RuntimeIdentifier>win-x64</RuntimeIdentifier>
     <SelfContained>false</SelfContained>
-  </PropertyGroup>
-
-  <!-- Manually added PropertyGroup for versioning the executable -->
-  <PropertyGroup>
-    <Product>Simple AVS Generator</Product>
-    <AssemblyDescription>Simple AVS Generator</AssemblyDescription>
-    <Authors>Shaylen Reddy</Authors>
-    <Copyright>Shaylen Reddy: MIT License</Copyright>
-
-    <AssemblyName>Simple AVS Generator</AssemblyName>
-    <AssemblyVersion>$(FileVersion)</AssemblyVersion>
-    <FileVersion>$(FileVersion)</FileVersion>
-    <InformationalVersion>$(InformationalVersion)</InformationalVersion>
-    <NeutralLanguage>en</NeutralLanguage>
   </PropertyGroup>
 
 </Project>

@@ -1,1 +1,0 @@
-dotnet publish "%~dp0SimpleAVSGenerator\SimpleAVSGenerator.csproj" -o publish -c Release -p:FileVersion="@FILE_VERSION@" -p:InformationalVersion="@INFORMATIONAL_VERSION@"

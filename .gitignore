@@ -20,4 +20,4 @@ SimpleAVSGeneratorCore.Tests/TestResults/
 *.user
 
 # Files
-dotnet-publish.cmd
+AssemblyInfo.cs

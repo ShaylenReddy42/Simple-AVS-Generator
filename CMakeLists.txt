@@ -64,7 +64,13 @@ set(INFORMATIONAL_VERSION "${TAG}+${REVISION}-${COMMIT_ID}")
 message(STATUS "File Version: ${FILE_VERSION}")
 message(STATUS "Informational Version: ${INFORMATIONAL_VERSION}")
 
-configure_file("${CMAKE_SOURCE_DIR}/cmake/dotnet-publish.cmd.in" "${CMAKE_SOURCE_DIR}/dotnet-publish.cmd")
+configure_file(
+	"${CMAKE_SOURCE_DIR}/cmake/SimpleAVSGenerator.AssemblyInfo.cs.in" 
+	"${CMAKE_SOURCE_DIR}/SimpleAVSGenerator/Properties/AssemblyInfo.cs")
+
+configure_file(
+	"${CMAKE_SOURCE_DIR}/cmake/SimpleAVSGeneratorCore.AssemblyInfo.cs.in" 
+	"${CMAKE_SOURCE_DIR}/SimpleAVSGeneratorCore/Properties/AssemblyInfo.cs")
 
 option(CI_BUILD "Used to write the version info to a file for CI" OFF)
 

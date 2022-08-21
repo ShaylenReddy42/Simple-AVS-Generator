@@ -40,12 +40,11 @@ dotnet tool run reportgenerator -reports:"SimpleAVSGeneratorCore.Tests\TestResul
 @ECHO.
 @ECHO Publish the Final Executable
 @ECHO.
-@CALL dotnet-publish.cmd
+dotnet publish SimpleAVSGenerator\SimpleAVSGenerator.csproj -c Release -o publish
 
 @ECHO.
 @ECHO Cleanup
 @ECHO.
 @RD build /S /Q
-@DEL dotnet-publish.cmd
 
 @PAUSE

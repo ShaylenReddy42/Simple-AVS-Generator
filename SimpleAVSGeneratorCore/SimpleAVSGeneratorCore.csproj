@@ -1,29 +1,16 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
     <RootNamespace>SimpleAVSGeneratorCore</RootNamespace>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+	<GenerateAssemblyInfo>false</GenerateAssemblyInfo>
   </PropertyGroup>
 
   <!-- Manually added PropertyGroup for reducing files created during publishing -->
-	<PropertyGroup>
-		<DebugType>embedded</DebugType>
-	</PropertyGroup>
-
-  <!-- Manually added PropertyGroup for versioning the library -->
   <PropertyGroup>
-    <Product>Core Library for Simple AVS Generator</Product>
-    <AssemblyTitle>Core Library for Simple AVS Generator</AssemblyTitle>
-    <AssemblyDescription>Core Library for Simple AVS Generator</AssemblyDescription>
-    <Authors>Shaylen Reddy</Authors>
-    <Copyright>Shaylen Reddy: MIT License</Copyright>
-
-    <AssemblyVersion>$(FileVersion)</AssemblyVersion>
-    <FileVersion>$(FileVersion)</FileVersion>
-    <InformationalVersion>$(InformationalVersion)</InformationalVersion>
-    <NeutralLanguage>en</NeutralLanguage>
+    <DebugType>embedded</DebugType>
   </PropertyGroup>
   
   <ItemGroup>

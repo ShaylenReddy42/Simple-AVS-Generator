@@ -12,8 +12,14 @@ steps:
 - task: UseDotNet@2
   displayName: 'Use .NET Core SDK'
   inputs:
-    version: 6.0.202
+    version: 6.0.400
     performMultiLevelLookup: true
+
+- task: CMake@1
+  displayName: 'Run CMake'
+  inputs:
+    workingDirectory: $(workDir)
+    cmakeArgs: -S . -B "$(workDir)\build" -DCI_BUILD=ON
 
 - task: DotNetCoreCLI@2
   displayName: 'Restore Project Dependencies'
@@ -75,19 +81,14 @@ steps:
     coverageType: 'lines'
     coverageThreshold: '90'
 
-- task: CMake@1
-  displayName: 'Run CMake'
-  inputs:
-    workingDirectory: $(workDir)
-    cmakeArgs: -S . -B "$(workDir)\build" -DCI_BUILD=ON
-
-- script: CALL dotnet-publish.cmd
+- script: dotnet publish -c Release -o publish
   displayName: 'Publish the Final Executable'
+  workingDirectory: '$(workDir)\SimpleAVSGenerator'
 
 - task: ArchiveFiles@2
   displayName: 'Archive Build Artifacts'
   inputs:
-    rootFolderOrFile: '$(workDir)\publish'
+    rootFolderOrFile: '$(workDir)\SimpleAVSGenerator\publish'
     includeRootFolder: false
     archiveType: zip
     archiveFile: '$(Build.ArtifactStagingDirectory)\Simple AVS Generator.zip'
