@@ -16,7 +16,7 @@ public class InputFile
 
     //AVSMeter Properties
     public string AVSMeterScriptFile => $"{OutputDir}AVSMeter.cmd";
-    public static string AVSMeterScriptContent => $@"AVSMeter64 ""%~dp0Script.avs"" -i -l";
+    public static string AVSMeterScriptContent => @"AVSMeter64 ""%~dp0Script.avs"" -i -l";
 
     public VideoModel Video { get; }
 

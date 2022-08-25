@@ -19,11 +19,11 @@ public partial class MainForm : Form
         if (Properties.Settings.Default.Location.X <= 0 ||
             Properties.Settings.Default.Location.Y <= 0)
         {
-            this.StartPosition = FormStartPosition.CenterScreen;
+            StartPosition = FormStartPosition.CenterScreen;
         }
         else
         {
-            this.DataBindings.Add("Location", Properties.Settings.Default, "Location", true, DataSourceUpdateMode.OnPropertyChanged);
+            DataBindings.Add("Location", Properties.Settings.Default, "Location", true, DataSourceUpdateMode.OnPropertyChanged);
         }
 
         txbOutFile.Text = home;
@@ -210,10 +210,8 @@ public partial class MainForm : Form
         }
     }
 
-    private void MainForm_MouseUp(object sender, MouseEventArgs e)
-    {
+    private void MainForm_MouseUp(object sender, MouseEventArgs e) => 
         dragging = false;
-    }
 
     private void MainForm_Deactivate(object sender, EventArgs e)
     {
@@ -269,50 +267,37 @@ public partial class MainForm : Form
 
     private void cmbAudioCodec_SelectedIndexChanged(object sender, EventArgs e) { SetSelectableAudioBitrates(); }
 
-    private void cbxMP4_CheckedChanged(object sender, EventArgs e)
-    {
-        if (cbxMP4.Checked is true)
+    private void cbxMP4_CheckedChanged(object sender, EventArgs e) =>
+        cbxMKV.Checked = cbxMP4.Checked switch
         {
-            cbxMKV.Checked = false;
-        }
-    }
+            true  => false,
+            false => cbxMKV.Checked
+        };
 
-    private void cbxMKV_CheckedChanged(object sender, EventArgs e)
-    {
-        if (cbxMKV.Checked is true)
+    private void cbxMKV_CheckedChanged(object sender, EventArgs e) =>
+        cbxMP4.Checked = cbxMKV.Checked switch
         {
-            cbxMP4.Checked = false;
-        }
-    }
+            true  => false,
+            false => cbxMP4.Checked
+        };
 
-    private void lblClose_MouseEnter(object sender, EventArgs e)
-    {
+    private void lblClose_MouseEnter(object sender, EventArgs e) =>
         lblClose.BackColor = Color.Red;
-    }
 
-    private void lblClose_MouseLeave(object sender, EventArgs e)
-    {
+    private void lblClose_MouseLeave(object sender, EventArgs e) =>
         lblClose.BackColor = Color.FromArgb(40, 40, 40);
-    }
 
-    private void lblClose_Click(object sender, EventArgs e)
-    {
+    private void lblClose_Click(object sender, EventArgs e) =>
         Application.Exit();
-    }
 
-    private void lblMinimize_MouseEnter(object sender, EventArgs e)
-    {
+    private void lblMinimize_MouseEnter(object sender, EventArgs e) =>
         lblMinimize.BackColor = Color.FromArgb(60, 60, 60);
-    }
 
-    private void lblMinimize_MouseLeave(object sender, EventArgs e)
-    {
+    private void lblMinimize_MouseLeave(object sender, EventArgs e) =>
         lblMinimize.BackColor = Color.FromArgb(40, 40, 40);
-    }
 
-    private void lblMinimize_Click(object sender, EventArgs e)
-    {
-        this.WindowState = FormWindowState.Minimized;
-    }
+    private void lblMinimize_Click(object sender, EventArgs e) =>
+        WindowState = FormWindowState.Minimized;
+
     #endregion ComponentEvents
 }
