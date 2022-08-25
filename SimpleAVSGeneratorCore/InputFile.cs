@@ -16,7 +16,7 @@ public class InputFile
 
     //AVSMeter Properties
     public string AVSMeterScriptFile => $"{OutputDir}AVSMeter.cmd";
-    public static string AVSMeterScriptContent => $"AVSMeter64 \"%~dp0Script.avs\" -i -l";
+    public static string AVSMeterScriptContent => $@"AVSMeter64 ""%~dp0Script.avs"" -i -l";
 
     public VideoModel Video { get; }
 
@@ -43,37 +43,31 @@ public class InputFile
             HasAudio = mediaInfo.Get(StreamKind.General, 0, "AudioCount") is not ""
         };
         
-        if (FileInfo.HasVideo is true)
+        Video = FileInfo.HasVideo switch
         {
-            Video = new()
+            true  => new()
             {
                 SourceFPS = decimal.Parse(mediaInfo.Get(StreamKind.Video, 0, "FrameRate"), CultureInfo.InvariantCulture),
                 SourceFrameCount = FileInfo.FileType is "CONTAINER" ? int.Parse(mediaInfo.Get(StreamKind.Video, 0, "FrameCount")) : 0
-            };
-        }
-        else
-        {
-            Video = new()
+            },
+            false => new()
             {
                 SourceFPS = 23.976M,
                 SourceFrameCount = 0
-            };
-        }
+            }
+        };
 
-        if (FileInfo.HasAudio is true)
+        Audio = FileInfo.HasAudio switch
         {
-            Audio = new()
+            true  => new()
             {
                 SourceChannels = GetSimpleAudioChannelLayout()
-            };
-        }
-        else
-        {
-            Audio = new()
+            },
+            false => new()
             {
                 SourceChannels = "2.0"
-            };
-        }
+            }
+        };
     }
 
     private string GetSimpleAudioChannelLayout()
