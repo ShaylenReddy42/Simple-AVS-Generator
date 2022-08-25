@@ -88,14 +88,10 @@ public class InputFile
         string channelPositions = mediaInfo.Get(StreamKind.Audio, 0, "ChannelPositions/String2");
         channelPositions = channelPositions is "" ? mediaInfo.Get(StreamKind.Audio, 0, "Channels") : channelPositions;
 
-        double channelLayout = 0.0;
-
-        foreach (string ch in channelPositions.Split('/'))
-        {
-            channelLayout += double.Parse(ch, CultureInfo.InvariantCulture);
-        }
-
-        string sChannelLayout = $"{channelLayout:0.0}".Replace(',', '.');
+        string channelLayout = 
+            channelPositions.Split('/')
+                .Sum(ch => double.Parse(ch, CultureInfo.InvariantCulture))
+                .ToString("0.0", CultureInfo.InvariantCulture);
 
         // DTS:X is an 8 Channel Object-Based track
         // Ran into this bug and went down a rabbit hole
@@ -106,10 +102,10 @@ public class InputFile
         // 8.0 will be treated like 7.1
         // AAC-LC and OPUS creates a 7.1 [3/2/2.1]
         // track from the 8.0 without tampering
-        return sChannelLayout switch
+        return channelLayout switch
         {
             "8.0" => "7.1",
-            _     => sChannelLayout
+            _     => channelLayout
         };
     }
 
