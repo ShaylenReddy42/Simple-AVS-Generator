@@ -7,7 +7,7 @@ namespace SimpleAVSGeneratorCore;
 
 public class InputFile
 {
-    public FileModel FileInfo;
+    public FileModel FileInfo { get; }
 
     public string HomeDir { get; set; }
     public string OutputDir => $@"{HomeDir}{FileInfo.FileNameOnly}\";
@@ -18,17 +18,15 @@ public class InputFile
     public string AVSMeterScriptFile => $"{OutputDir}AVSMeter.cmd";
     public static string AVSMeterScriptContent => $"AVSMeter64 \"%~dp0Script.avs\" -i -l";
 
-    public VideoModel Video;
+    public VideoModel Video { get; }
 
-    public AudioModel Audio;
+    public AudioModel Audio { get; }
 
     public string? OutputContainer { get; set; }
 
     private readonly MediaInfo.MediaInfo mediaInfo = new();
 
-#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
     public InputFile(string fileName, string home)
-#pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
     {
         HomeDir = home;
 
