@@ -172,9 +172,15 @@ public partial class MainForm : Form
             input.Audio.Bitrate = (int)cmbBitrate.SelectedItem;
             input.Audio.Language = (string)cmbLanguage.SelectedItem;
             
-            input.OutputContainer = cbxMP4.Checked ? "MP4"
-                                  : cbxMKV.Checked ? "MKV"
-                                  : null;
+            input.OutputContainer = cbxMP4.Checked switch
+            {
+                true  => "MP4",
+                false => cbxMKV.Checked switch
+                {
+                    true  => "MKV",
+                    false => null
+                }
+            };
 
             input.CreateScripts(out string scriptsCreated);
 
@@ -265,7 +271,8 @@ public partial class MainForm : Form
         }
     }
 
-    private void cmbAudioCodec_SelectedIndexChanged(object sender, EventArgs e) { SetSelectableAudioBitrates(); }
+    private void cmbAudioCodec_SelectedIndexChanged(object sender, EventArgs e) => 
+        SetSelectableAudioBitrates();
 
     private void cbxMP4_CheckedChanged(object sender, EventArgs e) =>
         cbxMKV.Checked = cbxMP4.Checked switch
