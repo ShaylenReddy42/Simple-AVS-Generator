@@ -115,11 +115,10 @@ public class OutputScripts
             _     => string.Empty
         };
 
-        if (containerTemplate is not "")
-        {
-            containerTemplate = containerTemplate.Replace("$(video)", videoTemplate);
-            containerTemplate = containerTemplate.Replace("$(audio)", audioTemplate);
-        }
+        containerTemplate = 
+            containerTemplate
+                .Replace("$(video)", videoTemplate)
+                .Replace("$(audio)", audioTemplate);
         
         if (video.Enabled is true)
         {
