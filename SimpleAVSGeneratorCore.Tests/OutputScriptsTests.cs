@@ -32,7 +32,7 @@ public class OutputScriptsTests
         
         // Act
         OutputScripts output = new();
-        output.ConfigureVideoScript(input.FileInfo, input.Video, input.OutputDir);
+        output.ConfigureVideoScript(input.Video, input.OutputDir);
 
         string? videoEncoderScriptContent = output.VideoEncoderScriptContent;
         
@@ -66,7 +66,7 @@ public class OutputScriptsTests
 
         // Act
         OutputScripts output = new();
-        output.ConfigureVideoScript(input.FileInfo, input.Video, input.OutputDir);
+        output.ConfigureVideoScript(input.Video, input.OutputDir);
 
         string? videoEncoderScriptFile = output.VideoEncoderScriptFile;
 

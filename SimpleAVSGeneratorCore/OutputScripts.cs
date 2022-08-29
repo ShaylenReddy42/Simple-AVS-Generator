@@ -15,7 +15,7 @@ public class OutputScripts
 
     public OutputScripts() {}
 
-    public void ConfigureVideoScript(FileModel fileInfo, VideoModel video, string outputDir)
+    public void ConfigureVideoScript(VideoModel video, string outputDir)
     {
         if (video.Enabled is true && video.MuxOriginalVideo is false)
         {

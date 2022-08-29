@@ -142,7 +142,7 @@ public class InputFile
 
         OutputScripts output = new();
 
-        output.ConfigureVideoScript(FileInfo, Video, OutputDir);
+        output.ConfigureVideoScript(Video, OutputDir);
         if (output.VideoEncoderScriptFile is not null && output.VideoEncoderScriptContent is not null)
         {
             scriptsCreated += "v";
