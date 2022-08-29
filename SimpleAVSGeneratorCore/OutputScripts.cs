@@ -78,6 +78,11 @@ public class OutputScripts
 
     public void ConfigureContainerScript(FileModel fileInfo, VideoModel video, AudioModel audio, string? outputContainer, string outputDir)
     {
+        if (video.Enabled is false)
+        {
+            return;
+        }
+        
         string containerTemplate = outputContainer switch
         {
             "MP4" => $@"mp4box $(video) $(audio) -new ""%~dp0{fileInfo.FileNameOnly}.mp4""",
@@ -119,15 +124,12 @@ public class OutputScripts
             containerTemplate
                 .Replace("$(video)", videoTemplate)
                 .Replace("$(audio)", audioTemplate);
-        
-        if (video.Enabled is true)
-        {
-            string original = video.MuxOriginalVideo ? " [Original Video]" : "";
 
-            ContainerScriptFile = outputContainer is not null
-                                ? $"{outputDir}{outputContainer} Mux{original}.cmd"
-                                : null;
-            ContainerScriptContent = containerTemplate;
-        }
+        string original = video.MuxOriginalVideo ? " [Original Video]" : "";
+
+        ContainerScriptFile = outputContainer is not null
+                            ? $"{outputDir}{outputContainer} Mux{original}.cmd"
+                            : null;
+        ContainerScriptContent = containerTemplate;
     }
 }
