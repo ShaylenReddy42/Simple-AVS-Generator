@@ -1,10 +1,10 @@
-﻿using System.Diagnostics;
-
-using SimpleAVSGeneratorCore;
+﻿using SimpleAVSGeneratorCore;
 using SimpleAVSGeneratorCore.Support;
 
 using static SimpleAVSGeneratorCore.Support.Video;
 using static SimpleAVSGeneratorCore.Support.Audio;
+
+using System.Reflection;
 
 namespace SimpleAVSGenerator;
 
@@ -14,7 +14,10 @@ public partial class MainForm : Form
     {
         InitializeComponent();
 
-        lbltitle.Text += $" v{FileVersionInfo.GetVersionInfo(Application.ExecutablePath).ProductVersion}";
+        var informationalVersion = typeof(MainForm).Assembly.GetCustomAttribute<AssemblyInformationalVersionAttribute>()?.InformationalVersion
+                                ?? "0.0.0+0-unknown";
+
+        lbltitle.Text += $" v{informationalVersion}";
 
         if (Properties.Settings.Default.Location.X <= 0 ||
             Properties.Settings.Default.Location.Y <= 0)
