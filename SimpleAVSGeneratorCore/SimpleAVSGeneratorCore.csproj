@@ -14,7 +14,7 @@
   </PropertyGroup>
   
   <ItemGroup>
-    <PackageReference Include="MediaInfo.Wrapper.Core" Version="21.9.2" />
+    <PackageReference Include="MediaInfo.Wrapper.Core" Version="21.9.3" />
   </ItemGroup>
 
 </Project>
