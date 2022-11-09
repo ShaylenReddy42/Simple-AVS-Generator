@@ -5,7 +5,7 @@
     <RootNamespace>SimpleAVSGeneratorCore</RootNamespace>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-	<GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
   </PropertyGroup>
 
   <!-- Manually added PropertyGroup for reducing files created during publishing -->
