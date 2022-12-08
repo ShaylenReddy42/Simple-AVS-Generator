@@ -24,7 +24,7 @@ public class OutputScripts
 
             if (video.Codec is "HEVC")
             {
-                vEncoder += $"x265 --profile main --preset slower --crf 26 -i 1 -I {video.KeyframeIntervalInFrames} --hist-scenecut --hist-threshold 0.02 ";
+                vEncoder += $"x265 --profile main --preset slower --crf 26 -i 1 -I {video.KeyframeIntervalInFrames} --hist-scenecut ";
                 vEncoder += $@"--fades --aq-mode 4 --aq-motion --aud --no-open-gop --y4m --frames {video.SourceFrameCount} - ""%~dp0Video{video.Extension}""";
             }
             else if (video.Codec is "AV1")
