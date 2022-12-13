@@ -1,6 +1,6 @@
 # Simple AVS Generator #
 
-[![Azure Pipelines Build](https://dev.azure.com/Shaylen/Personal/_apis/build/status/ShaylenReddy42.Simple-AVS-Generator?branchName=master)](https://dev.azure.com/Shaylen/Personal/_build/latest?definitionId=2&branchName=master) [![Azure Pipelines Tests](https://img.shields.io/azure-devops/tests/Shaylen/Personal/2)](https://dev.azure.com/Shaylen/Personal/_build/latest?definitionId=2&branchName=master) [![Code Coverage](https://img.shields.io/azure-devops/coverage/Shaylen/Personal/2?label=Code%20Coverage)](https://dev.azure.com/Shaylen/Personal/_build/latest?definitionId=2&branchName=master)
+[![Build Status](https://dev.azure.com/Shaylen/Personal/_apis/build/status/SimpleAVSGenerator?branchName=master)](https://dev.azure.com/Shaylen/Personal/_build/latest?definitionId=2&branchName=master) [![Azure Pipelines Tests](https://img.shields.io/azure-devops/tests/Shaylen/Personal/2)](https://dev.azure.com/Shaylen/Personal/_build/latest?definitionId=2&branchName=master) [![Code Coverage](https://img.shields.io/azure-devops/coverage/Shaylen/Personal/2?label=Code%20Coverage)](https://dev.azure.com/Shaylen/Personal/_build/latest?definitionId=2&branchName=master)
 
 [![SonarCloud](https://sonarcloud.io/images/project_badges/sonarcloud-black.svg)](https://sonarcloud.io/summary/new_code?id=ShaylenReddy42_Simple-AVS-Generator)
 
