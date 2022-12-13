@@ -66,11 +66,11 @@ message(STATUS "Informational Version: ${INFORMATIONAL_VERSION}")
 
 configure_file(
 	"${CMAKE_SOURCE_DIR}/cmake/SimpleAVSGenerator.AssemblyInfo.cs.in" 
-	"${CMAKE_SOURCE_DIR}/SimpleAVSGenerator/Properties/AssemblyInfo.cs")
+	"${CMAKE_SOURCE_DIR}/src/SimpleAVSGenerator/Properties/AssemblyInfo.cs")
 
 configure_file(
 	"${CMAKE_SOURCE_DIR}/cmake/SimpleAVSGeneratorCore.AssemblyInfo.cs.in" 
-	"${CMAKE_SOURCE_DIR}/SimpleAVSGeneratorCore/Properties/AssemblyInfo.cs")
+	"${CMAKE_SOURCE_DIR}/src/SimpleAVSGeneratorCore/Properties/AssemblyInfo.cs")
 
 option(CI_BUILD "Used to write the version info to a file for CI" OFF)
 

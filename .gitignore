@@ -5,15 +5,15 @@ build/
 CodeCoverage/
 publish/
 
-SimpleAVSGenerator/bin/
-SimpleAVSGenerator/obj/
+src/SimpleAVSGenerator/bin/
+src/SimpleAVSGenerator/obj/
 
-SimpleAVSGeneratorCore/bin/
-SimpleAVSGeneratorCore/obj/
+src/SimpleAVSGeneratorCore/bin/
+src/SimpleAVSGeneratorCore/obj/
 
-SimpleAVSGeneratorCore.Tests/bin/
-SimpleAVSGeneratorCore.Tests/obj/
-SimpleAVSGeneratorCore.Tests/TestResults/
+src/SimpleAVSGeneratorCore.Tests/bin/
+src/SimpleAVSGeneratorCore.Tests/obj/
+src/SimpleAVSGeneratorCore.Tests/TestResults/
 
 # File extensions
 *.exe

@@ -5,8 +5,8 @@ pool: Default
 
 variables:
   buildConfiguration: 'Debug'
-  workDir: $(Build.SourcesDirectory)
-  testResultsDir: $(workDir)\SimpleAVSGenerator.Tests\TestResults
+  workDir: '$(Build.SourcesDirectory)\src'
+  testResultsDir: '$(workDir)\SimpleAVSGenerator.Tests\TestResults'
 
 steps:
 - task: UseDotNet@2
@@ -18,15 +18,15 @@ steps:
 - task: CMake@1
   displayName: 'Run CMake'
   inputs:
-    cmakeArgs: -S . -B "$(workDir)\build" -DCI_BUILD=ON
-    workingDirectory: $(workDir)
+    cmakeArgs: -S . -B "build" -DCI_BUILD=ON
+    workingDirectory: $(Build.SourcesDirectory)
 
 - task: DotNetCoreCLI@2
   displayName: 'Restore Project Dependencies'
   inputs:
     command: restore
     arguments: -c $(buildConfiguration)
-    workingDirectory: $(workDir)
+    projects: '$(Build.SourcesDirectory)/src/Simple AVS Generator.sln'
     
 - task: SonarCloudPrepare@1
   displayName: 'Prepare SonarCloud for Analysis'
@@ -42,7 +42,7 @@ steps:
   inputs:
     command: build
     arguments: -c $(buildConfiguration)
-    workingDirectory: $(workDir)
+    projects: '$(Build.SourcesDirectory)/src/Simple AVS Generator.sln'
 
 - task: DotNetCoreCLI@2
   displayName: 'Run Unit Tests'
