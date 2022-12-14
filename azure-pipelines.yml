@@ -1,7 +1,10 @@
 trigger:
   paths:
     include:
-      - src/*
+      - src
+  tags:
+    include:
+      - "*"
 
 pool: Default
 
