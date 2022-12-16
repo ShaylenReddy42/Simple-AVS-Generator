@@ -5,16 +5,6 @@ build/
 CodeCoverage/
 publish/
 
-src/SimpleAVSGenerator/bin/
-src/SimpleAVSGenerator/obj/
-
-src/SimpleAVSGeneratorCore/bin/
-src/SimpleAVSGeneratorCore/obj/
-
-src/SimpleAVSGeneratorCore.Tests/bin/
-src/SimpleAVSGeneratorCore.Tests/obj/
-src/SimpleAVSGeneratorCore.Tests/TestResults/
-
 # File extensions
 *.exe
 *.iss

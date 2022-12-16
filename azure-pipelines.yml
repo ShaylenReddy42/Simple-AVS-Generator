@@ -115,6 +115,7 @@ steps:
   inputs:
     Contents: '$(Build.SourcesDirectory)\installer\*'
     TargetFolder: '$(Build.ArtifactStagingDirectory)'
+    flattenFolders: true
     
 - task: PublishBuildArtifacts@1
   displayName: 'Publish Build Artifacts'

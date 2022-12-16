@@ -1,0 +1,10 @@
+# Folders
+.vs/
+.vscode/
+
+bin/
+obj/
+TestResults/
+
+# Files
+AssemblyInfo.cs
