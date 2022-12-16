@@ -51,6 +51,11 @@ The generated AviSynth+ scripts make use of the [L-SMASH-Works plugin](https://g
 | GPAC        | mp4box.exe      |
 | MKVToolNix  | mkvmerge.exe    |
 
+## Tips
+
+* Personally, I use [PotPlayer](https://www.videohelp.com/software/PotPlayer) to play the scripts
+* If for some reason the scripts were originally playing and it doesn't anymore, a Windows update probably caused that, reinstall AviSynth+ to get it to play again
+
 ## Required setup
 
 * [Visual Studio 2022](https://visualstudio.microsoft.com/vs/community/) 17.4 or later
