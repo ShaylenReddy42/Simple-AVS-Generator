@@ -17,6 +17,7 @@ src/SimpleAVSGeneratorCore.Tests/TestResults/
 
 # File extensions
 *.exe
+*.iss
 *.user
 
 # Files

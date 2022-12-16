@@ -1,10 +1,10 @@
-# Simple AVS Generator #
+# Simple AVS Generator
 
 [![Build Status](https://dev.azure.com/Shaylen/Personal/_apis/build/status/SimpleAVSGenerator?branchName=master)](https://dev.azure.com/Shaylen/Personal/_build/latest?definitionId=2&branchName=master) [![Azure Pipelines Tests](https://img.shields.io/azure-devops/tests/Shaylen/Personal/2)](https://dev.azure.com/Shaylen/Personal/_build/latest?definitionId=2&branchName=master) [![Code Coverage](https://img.shields.io/azure-devops/coverage/Shaylen/Personal/2?label=Code%20Coverage)](https://dev.azure.com/Shaylen/Personal/_build/latest?definitionId=2&branchName=master)
 
 [![SonarCloud](https://sonarcloud.io/images/project_badges/sonarcloud-black.svg)](https://sonarcloud.io/summary/new_code?id=ShaylenReddy42_Simple-AVS-Generator)
 
-## What's This Project For? ##
+## What's the purpose of this project ?
 
 This project was created to make my life easier
 
@@ -12,7 +12,7 @@ It creates scripts to re-encode videos using [AviSynth+](https://github.com/AviS
 
 The generated AviSynth+ scripts make use of the [L-SMASH-Works plugin](https://github.com/HomeOfAviSynthPlusEvolution/L-SMASH-Works/releases) which must be placed in the relevant AviSynth+ plugin folders [plugins+ for the 32bit dll and plugins64+ for the 64bit]
 
-## Tools Required in Your Path ##
+## Tools required in your path
 
 | AviSynth+ |
 | :---: |
@@ -37,7 +37,7 @@ The generated AviSynth+ scripts make use of the [L-SMASH-Works plugin](https://g
 
 * qaac relies on CoreAudioToolbox.dll which is installed with the standalone [iTunes](https://www.videohelp.com/software/iTunes) installer
 
-## Required Filenames in Your Path ##
+## Required filenames in your path
 
 | Tool        | Filename        |
 | :---------: | :-------------: |
@@ -51,12 +51,17 @@ The generated AviSynth+ scripts make use of the [L-SMASH-Works plugin](https://g
 | GPAC        | mp4box.exe      |
 | MKVToolNix  | mkvmerge.exe    |
 
-## Required Setup ##
+## Required setup
 
 * [Visual Studio 2022](https://visualstudio.microsoft.com/vs/community/) 17.4 or later
 * [.NET SDK](https://dotnet.microsoft.com/en-us/download/dotnet/7.0) 7.0.100
 * [CMake](https://cmake.org/download/) 3.21.4 or later
+* [Inno Setup](https://jrsoftware.org/isdl.php) 6.2.1 or later
 
-## Build Instructions ##
+## Build instructions
 
-Run `build.cmd` and the resulting executable will be in the publish folder
+Run `scripts/build.cmd` and the resulting executable will be in the publish folder at the root of the repository
+
+## Optionally create an installer after building
+
+Run `scripts/create-installer.cmd` and the installer will be in the installer folder at the root of the repository

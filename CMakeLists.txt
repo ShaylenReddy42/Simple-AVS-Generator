@@ -72,6 +72,10 @@ configure_file(
 	"${CMAKE_SOURCE_DIR}/cmake/SimpleAVSGeneratorCore.AssemblyInfo.cs.in" 
 	"${CMAKE_SOURCE_DIR}/src/SimpleAVSGeneratorCore/Properties/AssemblyInfo.cs")
 
+configure_file(
+	"${CMAKE_SOURCE_DIR}/cmake/installer.iss.in" 
+	"${CMAKE_SOURCE_DIR}/scripts/installer.iss")
+
 option(CI_BUILD "Used to write the version info to a file for CI" OFF)
 
 if(CI_BUILD)

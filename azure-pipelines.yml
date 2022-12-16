@@ -96,8 +96,19 @@ steps:
     rootFolderOrFile: '$(workDir)\SimpleAVSGenerator\publish'
     includeRootFolder: false
     archiveType: zip
-    archiveFile: '$(Build.ArtifactStagingDirectory)\Simple AVS Generator.zip'
+    archiveFile: '$(Build.ArtifactStagingDirectory)\SimpleAVSGenerator-Win64-Portable.zip'
 
+- task: BatchScript@1
+  displayName: 'Create Installer'
+  inputs:
+    filename: '$(Build.SourcesDirectory)\scripts\create-installer.cmd'
+
+- task: CopyFiles@2
+  displayName: 'Copy Installer to the Artifact Staging Directory'
+  inputs:
+    Contents: '$(Build.SourcesDirectory)\installer\*.exe'
+    TargetFolder: '$(Build.ArtifactStagingDirectory)'
+    
 - task: PublishBuildArtifacts@1
   displayName: 'Publish Build Artifacts'
   
