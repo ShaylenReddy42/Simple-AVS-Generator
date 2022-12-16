@@ -103,6 +103,7 @@ steps:
   inputs:
     Contents: '$(workDir)\SimpleAVSGenerator\publish\*'
     TargetFolder: '$(Build.SourcesDirectory)\publish'
+    flattenFolders: true
 
 - task: BatchScript@1
   displayName: 'Create Installer'
