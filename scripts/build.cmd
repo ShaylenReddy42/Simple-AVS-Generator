@@ -44,7 +44,7 @@ dotnet tool run reportgenerator -reports:"SimpleAVSGeneratorCore.Tests\TestResul
 ECHO.
 ECHO Publish the Final Executable
 ECHO.
-dotnet publish SimpleAVSGenerator\SimpleAVSGenerator.csproj -c Release -o "..\publish"
+dotnet publish SimpleAVSGenerator\SimpleAVSGenerator.csproj -c Release -r win-x64 --self-contained -o "..\publish"
 
 CD ..
 

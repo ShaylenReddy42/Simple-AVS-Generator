@@ -89,24 +89,9 @@ steps:
     coverageType: 'lines'
     coverageThreshold: '90'
 
-- script: dotnet publish -c Release -o publish
+- script: dotnet publish -c Release -r win-x64 --self-contained -o "..\..\publish"
   displayName: 'Publish the Final Executable'
   workingDirectory: '$(workDir)\SimpleAVSGenerator'
-
-- task: ArchiveFiles@2
-  displayName: 'Archive Build Artifacts'
-  inputs:
-    rootFolderOrFile: '$(workDir)\SimpleAVSGenerator\publish'
-    includeRootFolder: false
-    archiveType: zip
-    archiveFile: '$(Build.ArtifactStagingDirectory)\SimpleAVSGenerator-Win64-Portable.zip'
-
-- task: CopyFiles@2
-  displayName: 'Copy to a Root Publish Directory for Installer'
-  inputs:
-    Contents: '$(workDir)\SimpleAVSGenerator\publish\*'
-    TargetFolder: '$(Build.SourcesDirectory)\publish'
-    flattenFolders: true
 
 - task: BatchScript@1
   displayName: 'Create Installer'

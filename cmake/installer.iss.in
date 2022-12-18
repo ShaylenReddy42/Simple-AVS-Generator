@@ -5,8 +5,6 @@
 #define MyAppExeName "SimpleAVSGenerator.exe"
 
 [Setup]
-; NOTE: The value of AppId uniquely identifies this application. Do not use the same AppId value in installers for other applications.
-; (To generate a new GUID, click Tools | Generate GUID inside the IDE.)
 AppId=((BDD7D2F6-4F67-4AC3-B23B-79FDFE5CBE81}
 AppName={#MyAppName}
 AppVersion={#MyAppVersion}
@@ -20,7 +18,7 @@ DisableProgramGroupPage=yes
 LicenseFile=..\COPYING
 
 OutputDir=..\installer
-OutputBaseFilename=SimpleAVSGeneratorSetup-v{#MyAppInformationalVersion}-Win64-Installer
+OutputBaseFilename=SimpleAVSGeneratorSetup-v{#MyAppInformationalVersion}-Win64-SC-Installer
 Compression=lzma
 SolidCompression=yes
 WizardStyle=modern

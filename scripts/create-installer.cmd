@@ -18,11 +18,12 @@ IF EXIST "%ISCC%" (
 )
 
 ECHO Creating installer
+ECHO.
 
 "%ISCC%" installer.iss
 
 ECHO.
-ECHO Installer was created at the installer directory at the root of the repository
+ECHO The installer was created in the installer directory at the root of the repository
 ECHO.
 
 :END
