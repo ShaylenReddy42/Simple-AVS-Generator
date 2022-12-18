@@ -22,7 +22,7 @@ public class AviSynthScript
 
         if (video.Enabled is true && video.MuxOriginalVideo is false)
         {
-            sb.Append("v = LWLibavVideoSource(i).ConvertBits(8).ConvertToYV12()#.ShowFrameNumber()\r\n\r\n");
+            sb.Append("v = LWLibavVideoSource(i, cachedir=\".\").ConvertBits(8).ConvertToYV12()#.ShowFrameNumber()\r\n\r\n");
             
             sb.Append("# Calculate the target height based on a target width\r\n");
             sb.Append("aspectRatio  = float(Width(v)) / float(Height(v))\r\n");
@@ -35,7 +35,7 @@ public class AviSynthScript
 
         if (audio.Enabled is true)
         {
-            sb.Append("a = LWLibavAudioSource(i).ConvertAudioToFloat()\r\n\r\n");
+            sb.Append("a = LWLibavAudioSource(i, cachedir=\".\").ConvertAudioToFloat()\r\n\r\n");
             sb.Append("a = Normalize(a, 1.0)\r\n\r\n");
         }
 
