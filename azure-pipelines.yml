@@ -121,6 +121,4 @@ steps:
     releaseNotesSource: filePath
     releaseNotesFilePath: '$(Build.SourcesDirectory)/docs/releases/v$(Build.SourceBranchName).md'
     assets: '$(Build.ArtifactStagingDirectory)/*'
-    addChangeLog: true
-    changeLogCompareToRelease: lastFullRelease
-    changeLogType: commitBased
+    addChangeLog: false
