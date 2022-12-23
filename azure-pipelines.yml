@@ -20,7 +20,7 @@ steps:
 - task: UseDotNet@2
   displayName: 'Use .NET Core SDK'
   inputs:
-    version: 7.0.100
+    version: 7.0.101
     performMultiLevelLookup: true
 
 - task: CMake@1
