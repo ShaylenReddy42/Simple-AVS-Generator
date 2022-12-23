@@ -14,42 +14,19 @@ The generated AviSynth+ scripts make use of the [L-SMASH-Works plugin](https://g
 
 ## Tools required in your path
 
-| AviSynth+ |
-| :---: |
-| [avs2pipemod](https://github.com/chikuzen/avs2pipemod/releases) | 
-| [AVSMeter64](https://www.videohelp.com/software/AVSMeter) |
-
-| Video Encoders |
-| :---: |
-| [x264](https://www.videohelp.com/software/x264-Encoder) |
-| [x265](https://jeremylee.sh/bins/) |
-| [AOM-AV1](https://jeremylee.sh/bins/) |
-
-| Audio Encoders |
-| :---: |
-| [qaac](https://github.com/nu774/qaac/releases)* |
-| [opustools](https://jeremylee.sh/bins/) |
-
-| Multiplexing Tools |
-| :---: |
-| [GPAC](https://gpac.wp.imt.fr/downloads/gpac-nightly-builds/) |
-| [MKVToolNix](https://www.videohelp.com/software/MKVToolNix) |
+| Tool | Category | Filename |
+| :--: | :------: | :------: |
+| [avs2pipemod](https://github.com/chikuzen/avs2pipemod/releases) | AviSynth+          | avs2pipemod.exe |
+| [AVSMeter](https://www.videohelp.com/software/AVSMeter)         | AviSynth+          | AVSMeter64.exe  |
+| [x264](https://www.videohelp.com/software/x264-Encoder)         | Video Encoders     | x264.exe        |
+| [x265](https://jeremylee.sh/bins/x265.7z)                       | Video Encoders     | x265.exe        |
+| [AOM](https://jeremylee.sh/bins/aom.7z)                         | Video Encoders     | aomenc.exe      |
+| [qaac](https://github.com/nu774/qaac/releases)*                 | Audio Encoders     | qaac64.exe      |
+| [opustools](https://jeremylee.sh/bins/opus.7z)                  | Audio Encoders     | opusenc.exe     |
+| [GPAC](https://gpac.wp.imt.fr/downloads/gpac-nightly-builds/)   | Multiplexing Tools | mp4box.exe      |
+| [MKVToolNix](https://www.videohelp.com/software/MKVToolNix)     | Multiplexing Tools | mkvmerge.exe    |
 
 * qaac relies on CoreAudioToolbox.dll which is installed with the standalone [iTunes](https://www.videohelp.com/software/iTunes) installer
-
-## Required filenames in your path
-
-| Tool        | Filename        |
-| :---------: | :-------------: |
-| avs2pipemod | avs2pipemod.exe |
-| AVSMeter    | AVSMeter64.exe  |
-| x264        | x264.exe        |
-| x265        | x265.exe        |
-| AOM         | aomenc.exe      |
-| qaac        | qaac64.exe      |
-| opustools   | opusenc.exe     |
-| GPAC        | mp4box.exe      |
-| MKVToolNix  | mkvmerge.exe    |
 
 ## Tips
 
