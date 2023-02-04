@@ -73,9 +73,7 @@ public class InputFile
     private string GetSimpleAudioChannelLayout()
     {
         // Ensures the value from MediaInfo e.g. 2/0/0 or 3/2/0.1 or 3/2/2.1 returns 2.0, 5.1 or 7.1 respectively
-        // Those are channel positions. (Front/Rear/LFE) or (Front/Side/Rear+LFE)
-        // Since this is a private method and is based on what's detected by MediaInfo,
-        // I cannot add tests for this because it's not accessible
+        // Those are channel positions (Front/Side/Rear+LFE)
 
         string channelPositions = mediaInfo.Get(StreamKind.Audio, 0, "ChannelPositions/String2");
         channelPositions = channelPositions is "" ? mediaInfo.Get(StreamKind.Audio, 0, "Channels") : channelPositions;
