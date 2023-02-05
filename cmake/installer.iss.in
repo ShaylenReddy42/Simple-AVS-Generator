@@ -5,7 +5,7 @@
 #define MyAppExeName "SimpleAVSGenerator.exe"
 
 [Setup]
-AppId=((BDD7D2F6-4F67-4AC3-B23B-79FDFE5CBE81}
+AppId={{BDD7D2F6-4F67-4AC3-B23B-79FDFE5CBE81}
 AppName={#MyAppName}
 AppVersion={#MyAppVersion}
 AppVerName={#MyAppName} v{#MyAppInformationalVersion}
@@ -18,7 +18,7 @@ DisableProgramGroupPage=yes
 LicenseFile=..\COPYING
 
 OutputDir=..\installer
-OutputBaseFilename=SimpleAVSGeneratorSetup-v{#MyAppInformationalVersion}-Win64-SC-Installer
+OutputBaseFilename=SimpleAVSGeneratorSetup-v{#MyAppInformationalVersion}-Win64
 Compression=lzma
 SolidCompression=yes
 WizardStyle=modern
