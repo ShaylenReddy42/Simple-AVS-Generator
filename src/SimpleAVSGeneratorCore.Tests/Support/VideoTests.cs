@@ -1,6 +1,4 @@
-﻿using Xunit;
-
-using static SimpleAVSGeneratorCore.Support.Video;
+﻿using static SimpleAVSGeneratorCore.Support.Video;
 
 namespace SimpleAVSGeneratorCore.Tests.Support;
 

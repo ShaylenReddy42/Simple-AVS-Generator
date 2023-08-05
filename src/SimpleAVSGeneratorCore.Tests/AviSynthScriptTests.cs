@@ -1,36 +1,31 @@
-﻿using System.Collections.Generic;
-using Xunit;
-
-namespace SimpleAVSGeneratorCore.Tests;
+﻿namespace SimpleAVSGeneratorCore.Tests;
 
 public class AviSynthScriptTests
 {
     // Use Cases
     // FileName | Video | VideoCodec | Audio | CreateAviSynthScript | EndsWith | LineCount
-    public static readonly IEnumerable<object[]> AviSynthScript_CheckScriptContentForVariousUseCases_TestData =
-    new[]
-    {
-        new object[] { @"Samples\Sample.mp4", true,  "HEVC",         true,  true,  'o',  21 },
-        new object[] { @"Samples\Sample.mp4", true,  "AV1",          false, true,  'v',  13 },
-        new object[] { @"Samples\Sample.mp4", true,  "Mux Original", true,  true,  'a',   9 },
-        new object[] { @"Samples\Sample.mp4", true,  "Mux Original", false, false, '\n',  3 },
-        new object[] { @"Samples\Sample.265", true,  "AVC",          false, true,  'v',  13 },
-        new object[] { @"Samples\Sample.265", true,  "Mux Original", false, false, '\n',  3 },
-        new object[] { @"Samples\Sample.m4a", false, "",             true,  true,  'a',   9 }
-    };
+    public static TheoryData<string, bool, string, bool, bool, char, int> AviSynthScript_CheckScriptContentForVariousUseCases_TestData =>
+        new()
+        {
+            { @"Samples\Sample.mp4", true,  "HEVC",         true,  true,  'o',  21 },
+            { @"Samples\Sample.mp4", true,  "AV1",          false, true,  'v',  13 },
+            { @"Samples\Sample.mp4", true,  "Mux Original", true,  true,  'a',   9 },
+            { @"Samples\Sample.mp4", true,  "Mux Original", false, false, '\n',  3 },
+            { @"Samples\Sample.265", true,  "AVC",          false, true,  'v',  13 },
+            { @"Samples\Sample.265", true,  "Mux Original", false, false, '\n',  3 },
+            { @"Samples\Sample.m4a", false, "",             true,  true,  'a',   9 }
+        };
 
     [Theory(DisplayName = "Validate Script Content For Various Use Cases")]
     [MemberData(nameof(AviSynthScript_CheckScriptContentForVariousUseCases_TestData))]
-    public void AviSynthScript_ValidateScriptContentForVariousUseCases
-    (   
+    public void AviSynthScript_ValidateScriptContentForVariousUseCases(   
         string fileName,
         bool video,
         string videoCodec,
         bool audio,
         bool expectedCreateAviSynthScript,
         char expectedEndsWith,
-        int expectedLineCount
-    )
+        int expectedLineCount)
     {
         // Arrange
         object[] expectedOutput = new object[] { expectedCreateAviSynthScript, expectedEndsWith, expectedLineCount };
@@ -58,20 +53,18 @@ public class AviSynthScriptTests
     }
 
     // VideoCodec | Expected string in script
-    public static readonly IEnumerable<object[]> ResizeVideo_ValidateThatTargetWidthIsSetCorrectly_TestData =
-    new[]
-    {
-        new object[] { "WhatsApp", "targetWidth  = 640"      },
-        new object[] { "HEVC",     "targetWidth  = Width(v)" }
-    };
+    public static TheoryData<string, string> ResizeVideo_ValidateThatTargetWidthIsSetCorrectly_TestData =>
+        new()
+        {
+            { "WhatsApp", "targetWidth  = 640"      },
+            { "HEVC",     "targetWidth  = Width(v)" }
+        };
 
     [Theory(DisplayName = "Validate That 'targetWidth' Is Set Correctly")]
     [MemberData(nameof(ResizeVideo_ValidateThatTargetWidthIsSetCorrectly_TestData))]
-    public void ResizeVideo_ValidateThatTargetWidthIsSetCorrectly
-    (
+    public void ResizeVideo_ValidateThatTargetWidthIsSetCorrectly(
         string videoCodec,
-        string expectedStringInScript
-    )
+        string expectedStringInScript)
     {
         // Arrange
         InputFile input = new(@"Samples\Sample.mp4", @"C:\Users\User\Desktop\Temp\");

@@ -1,30 +1,25 @@
-﻿using System.Collections.Generic;
-using Xunit;
-
-namespace SimpleAVSGeneratorCore.Tests;
+﻿namespace SimpleAVSGeneratorCore.Tests;
 
 public class InputFileTests
 {
     // FileName | FileExt | FileNameOnly | FileType | IsSupportedByMP4Box
-    public static readonly IEnumerable<object[]> InputFile_CheckIfPropertiesAreSetAccurately_TestData =
-    new[]
-    {
-        new object[] { @"Samples\Sample.mp4",  ".mp4", "Sample",  "CONTAINER", true  },
-        new object[] { @"Samples\Sample1.mkv", ".mkv", "Sample1", "CONTAINER", false },
-        new object[] { @"Samples\Sample.265",  ".265", "Sample",  "VIDEO",     true  },
-        new object[] { @"Samples\Sample.m4a",  ".m4a", "Sample",  "AUDIO",     true  }
-    };
+    public static TheoryData<string, string, string, string, bool> InputFile_CheckIfPropertiesAreSetAccurately_TestData =>
+        new()
+        {
+            { @"Samples\Sample.mp4",  ".mp4", "Sample",  "CONTAINER", true  },
+            { @"Samples\Sample1.mkv", ".mkv", "Sample1", "CONTAINER", false },
+            { @"Samples\Sample.265",  ".265", "Sample",  "VIDEO",     true  },
+            { @"Samples\Sample.m4a",  ".m4a", "Sample",  "AUDIO",     true  }
+        };
 
     [Theory(DisplayName = "Check If Properties Are Set Accurately")]
     [MemberData(nameof(InputFile_CheckIfPropertiesAreSetAccurately_TestData))]
-    public void InputFile_CheckIfPropertiesAreSetAccurately
-    (
+    public void InputFile_CheckIfPropertiesAreSetAccurately(
         string fileName,
         string fileExt,
         string fileNameOnly,
         string fileType,
-        bool isSupportedByMP4Box
-    )
+        bool isSupportedByMP4Box)
     {
         // Arrange
         object[] expectedProperties = { fileName, fileExt, fileNameOnly, fileType, isSupportedByMP4Box };
@@ -47,11 +42,9 @@ public class InputFileTests
     // FileName | Expected AVSMeter script file
     [InlineData(@"Samples\Sample.mp4",  @"C:\Users\User\Desktop\Temp\Sample\AVSMeter.cmd")]
     [InlineData(@"Samples\Sample1.mkv", @"C:\Users\User\Desktop\Temp\Sample1\AVSMeter.cmd")]
-    public void ValidateAVSMeterScriptFileAndContent
-    (
+    public void ValidateAVSMeterScriptFileAndContent(
         string fileName,
-        string expectedScriptFile
-    )
+        string expectedScriptFile)
     {
         // Arrange
         string[] expectedScriptFileAndContent = { expectedScriptFile, $"AVSMeter64 \"%~dp0Script.avs\" -i -l" };
@@ -73,11 +66,9 @@ public class InputFileTests
     [InlineData(@"Samples\Sample.mp3",       "2.0")]
     [InlineData(@"Samples\Sample.m4a",       "2.0")]
     [InlineData(@"Samples\Sample DTS_X.mkv", "7.1")] // This is an 8.0 track mapped to 7.1
-    public void ValidateSimpleAudioChannelLayout
-    (
+    public void ValidateSimpleAudioChannelLayout(
         string fileName,
-        string expectedAudioChannelLayout
-    )
+        string expectedAudioChannelLayout)
     {
         // Arrange
         // Nothing to do here
@@ -90,30 +81,28 @@ public class InputFileTests
     }
 
     // Video | VideoCodec | Audio | OutputContainer | Expected scripts created
-    public static readonly IEnumerable<object?[]> CreateScripts_ValidateWhichScriptsWereCreated_TestData =
-    new[]
-    {
-        new object?[] { true,  "HEVC",         true,  "MP4", "svac" },
-        new object?[] { true,  "AV1",          false, "MP4", "svc"  },
-        new object?[] { true,  "AVC",          false, null,  "sv"   },
-        new object?[] { true,  "Mux Original", false, "MP4", "c"    },
-        new object?[] { true,  "Mux Original", true,  "MP4", "sac"  },
-        new object?[] { false, "",             true,  null,  "sa"   },
-        new object?[] { false, "HEVC",         false, "MP4", ""     },
-        new object?[] { false, "Mux Original", false, "MKV", ""     }
+    public static TheoryData<bool, string, bool, string?, string> CreateScripts_ValidateWhichScriptsWereCreated_TestData =>
+        new()
+        {
+            { true,  "HEVC",         true,  "MP4", "svac" },
+            { true,  "AV1",          false, "MP4", "svc"  },
+            { true,  "AVC",          false, null,  "sv"   },
+            { true,  "Mux Original", false, "MP4", "c"    },
+            { true,  "Mux Original", true,  "MP4", "sac"  },
+            { false, "",             true,  null,  "sa"   },
+            { false, "HEVC",         false, "MP4", ""     },
+            { false, "Mux Original", false, "MKV", ""     }
 
-    };
+        };
 
     [Theory(DisplayName = "Validate Which Scripts Were Created")]
     [MemberData(nameof(CreateScripts_ValidateWhichScriptsWereCreated_TestData))]
-    public void CreateScripts_ValidateWhichScriptsWereCreated
-    (
+    public void CreateScripts_ValidateWhichScriptsWereCreated(
         bool video,
         string videoCodec,
         bool audio,
         string? outputContainer,
-        string expectedScriptsCreated
-    )
+        string expectedScriptsCreated)
     {
         // Arrange
         InputFile input = new(@"Samples\Sample.mp4", @"C:\Users\User\Desktop\Temp\");

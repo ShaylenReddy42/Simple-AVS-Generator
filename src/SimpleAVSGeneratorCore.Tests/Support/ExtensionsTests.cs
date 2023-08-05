@@ -1,28 +1,23 @@
-﻿using System.Collections.Generic;
-using Xunit;
-
-using SimpleAVSGeneratorCore.Support;
+﻿using SimpleAVSGeneratorCore.Support;
 
 namespace SimpleAVSGeneratorCore.Tests.Support;
 
 public class ExtensionsTests
 {
     // FileExt | Expected FileType
-    public static readonly IEnumerable<object[]> DetermineInputFileType_ValidateFileTypeIsCorrect_TestData =
-    new[]
-    {
-        new object[] { ".mp4", "CONTAINER" },
-        new object[] { ".264", "VIDEO"     },
-        new object[] { ".m4a", "AUDIO"     }
-    };
+    public static TheoryData<string, string> DetermineInputFileType_ValidateFileTypeIsCorrect_TestData =>
+        new()
+        {
+            { ".mp4", "CONTAINER" },
+            { ".264", "VIDEO"     },
+            { ".m4a", "AUDIO"     }
+        };
 
     [Theory(DisplayName = "Validate That Input File Type Is Set Correctly")]
     [MemberData(nameof(DetermineInputFileType_ValidateFileTypeIsCorrect_TestData))]
-    public void DetermineInputFileType_ValidateFileTypeIsCorrect
-    (
+    public void DetermineInputFileType_ValidateFileTypeIsCorrect(
         string fileExt,
-        string expectedFileType
-    )
+        string expectedFileType)
     {
         // Arrange
         // Expected result is passed as a parameter
@@ -35,22 +30,20 @@ public class ExtensionsTests
     }
 
     // FileExt | Expected IsSupportedByMP4Box
-    public static readonly IEnumerable<object[]> IsSupportedByMP4Box_ValidateSupport_TestData =
-    new[]
-    {
-        new object[] { ".mp4", true  },
-        new object[] { ".mkv", false },
-        new object[] { ".264", true  },
-        new object[] { ".m4a", true  }
-    };
+    public static TheoryData<string, bool> IsSupportedByMP4Box_ValidateSupport_TestData =>
+        new()
+        {
+            { ".mp4", true  },
+            { ".mkv", false },
+            { ".264", true  },
+            { ".m4a", true  }
+        };
 
     [Theory(DisplayName = "Validate That MP4Box Support Is Set Correctly")]
     [MemberData(nameof(IsSupportedByMP4Box_ValidateSupport_TestData))]
-    public void IsSupportedByMP4Box_ValidateSupport
-    (
+    public void IsSupportedByMP4Box_ValidateSupport(
         string fileExt,
-        bool expectedIsSupportedByMP4Box
-    )
+        bool expectedIsSupportedByMP4Box)
     {
         // Arrange
         // Expected result is passed as a parameter
