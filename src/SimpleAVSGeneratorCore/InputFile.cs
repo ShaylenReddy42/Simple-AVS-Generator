@@ -37,8 +37,8 @@ public class InputFile
         FileInfo = new()
         {
             FileName = fileName,
-            FileType = Extensions.DetermineInputFileType(fileExt),
-            IsSupportedByMP4Box = Extensions.IsSupportedByMP4Box(fileExt),
+            FileType = Extensions.DetermineInputFileTypeAsync(fileExt).GetAwaiter().GetResult(),
+            IsSupportedByMP4Box = Extensions.IsSupportedByMP4BoxAsync(fileExt).GetAwaiter().GetResult(),
             HasVideo = mediaInfo.Get(StreamKind.General, 0, "VideoCount") is not "",
             HasAudio = mediaInfo.Get(StreamKind.General, 0, "AudioCount") is not ""
         };
@@ -61,7 +61,7 @@ public class InputFile
         {
             true  => new()
             {
-                SourceChannels = GetSimpleAudioChannelLayout()
+                SourceChannels = GetSimpleAudioChannelLayoutAsync().GetAwaiter().GetResult()
             },
             false => new()
             {
@@ -70,7 +70,7 @@ public class InputFile
         };
     }
 
-    private string GetSimpleAudioChannelLayout()
+    private Task<string> GetSimpleAudioChannelLayoutAsync()
     {
         // Ensures the value from MediaInfo e.g. 2/0/0 or 3/2/0.1 or 3/2/2.1 returns 2.0, 5.1 or 7.1 respectively
         // Those are channel positions (Front/Side/Rear+LFE)
@@ -94,8 +94,8 @@ public class InputFile
         // track from the 8.0 without tampering
         return channelLayout switch
         {
-            "8.0" => "7.1",
-            _     => channelLayout
+            "8.0" => Task.FromResult("7.1"),
+            _     => Task.FromResult(channelLayout)
         };
     }
 
@@ -108,7 +108,7 @@ public class InputFile
     }
 #endif
 
-    public void CreateScripts(out string scriptsCreated)
+    public Task CreateScripts(out string scriptsCreated)
     {
         // scriptsCreated is a variable that will be used for testing this function
         // Result could be in variable length, containing characters to indicated
@@ -127,7 +127,7 @@ public class InputFile
 
         AviSynthScript script = new(ScriptFile);
         
-        script.SetScriptContent(FileInfo, Video, Audio);
+        script.SetScriptContentAsync(FileInfo, Video, Audio);
         if (script.CreateAviSynthScript is true)
         {
             scriptsCreated += "s";
@@ -140,7 +140,7 @@ public class InputFile
 
         OutputScripts output = new();
 
-        output.ConfigureVideoScript(Video, OutputDir);
+        output.ConfigureVideoScriptAsync(Video, OutputDir);
         if (output.VideoEncoderScriptFile is not null && output.VideoEncoderScriptContent is not null)
         {
             scriptsCreated += "v";
@@ -149,7 +149,7 @@ public class InputFile
 #endif
         }
 
-        output.ConfigureAudioScript(FileInfo, Audio, OutputDir);
+        output.ConfigureAudioScriptAsync(FileInfo, Audio, OutputDir);
         if (output.AudioEncoderScriptFile is not null && output.AudioEncoderScriptContent is not null)
         {
             scriptsCreated += "a";
@@ -158,7 +158,7 @@ public class InputFile
 #endif
         }
 
-        output.ConfigureContainerScript(FileInfo, Video, Audio, OutputContainer, OutputDir);
+        output.ConfigureContainerScriptAsync(FileInfo, Video, Audio, OutputContainer, OutputDir);
         if (output.ContainerScriptFile is not null && output.ContainerScriptContent is not null)
         {
             scriptsCreated += "c";
@@ -173,5 +173,7 @@ public class InputFile
             Directory.Delete(OutputDir);
         }
 #endif
+
+        return Task.CompletedTask;
     }
 }

@@ -14,7 +14,7 @@ public class OutputScriptsTests
 
     [Theory(DisplayName = "Validate Which Video Encoder Is Used")]
     [MemberData(nameof(ConfigureVideoScript_ValidateWhichVideoEncoderIsUsed_TestData))]
-    public void ConfigureVideoScript_ValidateWhichVideoEncoderIsUsed(
+    public async Task ConfigureVideoScript_ValidateWhichVideoEncoderIsUsed(
         string videoCodec,
         string expectedVideoEncoder)
     {
@@ -27,7 +27,7 @@ public class OutputScriptsTests
         
         // Act
         OutputScripts output = new();
-        output.ConfigureVideoScript(input.Video, input.OutputDir);
+        await output.ConfigureVideoScriptAsync(input.Video, input.OutputDir);
 
         string? videoEncoderScriptContent = output.VideoEncoderScriptContent;
         
@@ -59,7 +59,7 @@ public class OutputScriptsTests
 
         // Act
         OutputScripts output = new();
-        output.ConfigureVideoScript(input.Video, input.OutputDir);
+        output.ConfigureVideoScriptAsync(input.Video, input.OutputDir);
 
         string? videoEncoderScriptFile = output.VideoEncoderScriptFile;
 
@@ -91,7 +91,7 @@ public class OutputScriptsTests
 
         // Act
         OutputScripts output = new();
-        output.ConfigureAudioScript(input.FileInfo, input.Audio, input.OutputDir);
+        output.ConfigureAudioScriptAsync(input.FileInfo, input.Audio, input.OutputDir);
 
         string? audioEncoderScriptContent = output.AudioEncoderScriptContent;
 
@@ -111,7 +111,7 @@ public class OutputScriptsTests
 
         // Act
         OutputScripts output = new();
-        output.ConfigureAudioScript(input.FileInfo, input.Audio, input.OutputDir);
+        output.ConfigureAudioScriptAsync(input.FileInfo, input.Audio, input.OutputDir);
 
         string? audioEncoderScriptContent = output.AudioEncoderScriptContent;
 
@@ -143,7 +143,7 @@ public class OutputScriptsTests
 
         // Act
         OutputScripts output = new();
-        output.ConfigureAudioScript(input.FileInfo, input.Audio, input.OutputDir);
+        output.ConfigureAudioScriptAsync(input.FileInfo, input.Audio, input.OutputDir);
 
         string? audioEncoderScriptFile = output.AudioEncoderScriptFile;
 
@@ -169,7 +169,7 @@ public class OutputScriptsTests
 
         // Act
         OutputScripts output = new();
-        output.ConfigureContainerScript(input.FileInfo, input.Video, input.Audio, input.OutputContainer, input.OutputDir);
+        output.ConfigureContainerScriptAsync(input.FileInfo, input.Video, input.Audio, input.OutputContainer, input.OutputDir);
 
         string? containerScriptContent = output.ContainerScriptContent;
 
@@ -209,7 +209,7 @@ public class OutputScriptsTests
 
         // Act
         OutputScripts output = new();
-        output.ConfigureContainerScript(input.FileInfo, input.Video, input.Audio, input.OutputContainer, input.OutputDir);
+        output.ConfigureContainerScriptAsync(input.FileInfo, input.Video, input.Audio, input.OutputContainer, input.OutputDir);
 
         string? containerScriptContent = output.ContainerScriptContent;
 
@@ -251,7 +251,7 @@ public class OutputScriptsTests
 
         // Act
         OutputScripts output = new();
-        output.ConfigureContainerScript(input.FileInfo, input.Video, input.Audio, input.OutputContainer, input.OutputDir);
+        output.ConfigureContainerScriptAsync(input.FileInfo, input.Video, input.Audio, input.OutputContainer, input.OutputDir);
 
         string? containerScriptContent = output.ContainerScriptContent;
 
@@ -283,7 +283,7 @@ public class OutputScriptsTests
 
         // Act
         OutputScripts output = new();
-        output.ConfigureContainerScript(input.FileInfo, input.Video, input.Audio, input.OutputContainer, input.OutputDir);
+        output.ConfigureContainerScriptAsync(input.FileInfo, input.Video, input.Audio, input.OutputContainer, input.OutputDir);
 
         string? containerScriptContent = output.ContainerScriptContent;
 
@@ -319,7 +319,7 @@ public class OutputScriptsTests
 
         // Act
         OutputScripts output = new();
-        output.ConfigureContainerScript(input.FileInfo, input.Video, input.Audio, input.OutputContainer, input.OutputDir);
+        output.ConfigureContainerScriptAsync(input.FileInfo, input.Video, input.Audio, input.OutputContainer, input.OutputDir);
 
         string? containerScriptFile = output.ContainerScriptFile;
 

@@ -15,7 +15,7 @@ public class OutputScripts
 
     public OutputScripts() {}
 
-    public void ConfigureVideoScript(VideoModel video, string outputDir)
+    public Task ConfigureVideoScriptAsync(VideoModel video, string outputDir)
     {
         if (video.Enabled is true && video.MuxOriginalVideo is false)
         {
@@ -46,41 +46,47 @@ public class OutputScripts
             VideoEncoderScriptFile = $"{outputDir}Encode Video [{video.Codec}].cmd";
             VideoEncoderScriptContent = vPipe + vEncoder;
         }
+
+        return Task.CompletedTask;
     }
 
-    public void ConfigureAudioScript(FileModel fileInfo, AudioModel audio, string outputDir)
+    public Task ConfigureAudioScriptAsync(FileModel fileInfo, AudioModel audio, string outputDir)
     {
-        if (audio.Enabled is true)
+        if (audio.Enabled is false)
         {
-            string aPipe    = @"avs2pipemod -wav=16bit ""%~dp0Script.avs"" | ",
-                   aEncoder = string.Empty;
-
-            if (audio.Codec is "AAC-LC")
-            {
-                aEncoder += $"qaac64 --abr {audio.Bitrate} --ignorelength --no-delay ";
-                aEncoder += $@"-o ""%~dp0{fileInfo.FileNameOnly}{audio.Extension}"" - ";
-            }
-            else if (audio.Codec is "AAC-HE")
-            {
-                aEncoder += $"qaac64 --he{(audio.SourceChannels is "7.1" ? " --chanmask 0xff " : " ")}--abr {audio.Bitrate} --ignorelength ";
-                aEncoder += $@"-o ""%~dp0{fileInfo.FileNameOnly}{audio.Extension}"" - ";
-            }
-            else if (audio.Codec is "OPUS")
-            {
-                aEncoder += $"opusenc --bitrate {audio.Bitrate} --ignorelength ";
-                aEncoder += $@"- ""%~dp0{fileInfo.FileNameOnly}{audio.Extension}""";
-            }
-
-            AudioEncoderScriptFile = $"{outputDir}Encode Audio [{audio.Codec}].cmd";
-            AudioEncoderScriptContent = aPipe + aEncoder;
+            return Task.CompletedTask;
         }
+
+        string aPipe    = @"avs2pipemod -wav=16bit ""%~dp0Script.avs"" | ",
+               aEncoder = string.Empty;
+
+        if (audio.Codec is "AAC-LC")
+        {
+            aEncoder += $"qaac64 --abr {audio.Bitrate} --ignorelength --no-delay ";
+            aEncoder += $@"-o ""%~dp0{fileInfo.FileNameOnly}{audio.Extension}"" - ";
+        }
+        else if (audio.Codec is "AAC-HE")
+        {
+            aEncoder += $"qaac64 --he{(audio.SourceChannels is "7.1" ? " --chanmask 0xff " : " ")}--abr {audio.Bitrate} --ignorelength ";
+            aEncoder += $@"-o ""%~dp0{fileInfo.FileNameOnly}{audio.Extension}"" - ";
+        }
+        else if (audio.Codec is "OPUS")
+        {
+            aEncoder += $"opusenc --bitrate {audio.Bitrate} --ignorelength ";
+            aEncoder += $@"- ""%~dp0{fileInfo.FileNameOnly}{audio.Extension}""";
+        }
+
+        AudioEncoderScriptFile = $"{outputDir}Encode Audio [{audio.Codec}].cmd";
+        AudioEncoderScriptContent = aPipe + aEncoder;
+
+        return Task.CompletedTask;
     }
 
-    public void ConfigureContainerScript(FileModel fileInfo, VideoModel video, AudioModel audio, string? outputContainer, string outputDir)
+    public Task ConfigureContainerScriptAsync(FileModel fileInfo, VideoModel video, AudioModel audio, string? outputContainer, string outputDir)
     {
         if (video.Enabled is false)
         {
-            return;
+            return Task.CompletedTask;
         }
         
         string containerTemplate = outputContainer switch
@@ -131,5 +137,7 @@ public class OutputScripts
                             ? $"{outputDir}{outputContainer} Mux{original}.cmd"
                             : null;
         ContainerScriptContent = containerTemplate;
+
+        return Task.CompletedTask;
     }
 }

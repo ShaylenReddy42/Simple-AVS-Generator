@@ -38,7 +38,7 @@ public class AviSynthScriptTests
 
         // Act
         AviSynthScript script = new(input.ScriptFile);
-        script.SetScriptContent(input.FileInfo, input.Video, input.Audio);
+        script.SetScriptContentAsync(input.FileInfo, input.Video, input.Audio);
 
         bool actualCreateAviSynthScript = script.CreateAviSynthScript;
         char actualEndsWith = script.AVSScriptContent[^1];
@@ -74,7 +74,7 @@ public class AviSynthScriptTests
 
         // Act
         AviSynthScript script = new(input.ScriptFile);
-        script.SetScriptContent(input.FileInfo, input.Video, input.Audio);
+        script.SetScriptContentAsync(input.FileInfo, input.Video, input.Audio);
 
         // Assert
         Assert.Contains(expectedStringInScript, script.AVSScriptContent);

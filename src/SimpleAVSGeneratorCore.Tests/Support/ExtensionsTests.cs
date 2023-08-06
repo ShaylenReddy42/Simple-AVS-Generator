@@ -15,7 +15,7 @@ public class ExtensionsTests
 
     [Theory(DisplayName = "Validate That Input File Type Is Set Correctly")]
     [MemberData(nameof(DetermineInputFileType_ValidateFileTypeIsCorrect_TestData))]
-    public void DetermineInputFileType_ValidateFileTypeIsCorrect(
+    public async Task DetermineInputFileType_ValidateFileTypeIsCorrect(
         string fileExt,
         string expectedFileType)
     {
@@ -23,7 +23,7 @@ public class ExtensionsTests
         // Expected result is passed as a parameter
 
         // Act
-        string actualFileType = Extensions.DetermineInputFileType(fileExt);
+        string actualFileType = await Extensions.DetermineInputFileTypeAsync(fileExt);
 
         // Assert
         Assert.Equal(expectedFileType, actualFileType);
@@ -41,7 +41,7 @@ public class ExtensionsTests
 
     [Theory(DisplayName = "Validate That MP4Box Support Is Set Correctly")]
     [MemberData(nameof(IsSupportedByMP4Box_ValidateSupport_TestData))]
-    public void IsSupportedByMP4Box_ValidateSupport(
+    public async Task IsSupportedByMP4Box_ValidateSupport(
         string fileExt,
         bool expectedIsSupportedByMP4Box)
     {
@@ -49,7 +49,7 @@ public class ExtensionsTests
         // Expected result is passed as a parameter
 
         // Act
-        bool actualIsSupportedByMP4Box = Extensions.IsSupportedByMP4Box(fileExt);
+        bool actualIsSupportedByMP4Box = await Extensions.IsSupportedByMP4BoxAsync(fileExt);
 
         // Assert
         Assert.Equal(expectedIsSupportedByMP4Box, actualIsSupportedByMP4Box);

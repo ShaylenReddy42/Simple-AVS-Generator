@@ -30,7 +30,7 @@ public partial class MainForm : Form
         }
 
         txbOutFile.Text = home;
-        PopulateComboBoxes();
+        PopulateComboBoxesAsync().GetAwaiter().GetResult();
     }
 
     //Variables for dragging the form
@@ -44,52 +44,54 @@ public partial class MainForm : Form
     InputFile? input = null;
 
     #region Methods
-    void PopulateComboBoxes()
+    private async Task PopulateComboBoxesAsync()
     {
-        cmbVideoCodec.Items.AddRange(GetOutputVideoCodecs());
+        cmbVideoCodec.Items.AddRange(await GetOutputVideoCodecsAsync());
         cmbVideoCodec.SelectedIndex = 0;
 
-        cmbAudioCodec.Items.AddRange(GetOutputAudioCodecs());
+        cmbAudioCodec.Items.AddRange(await GetOutputAudioCodecsAsync());
         cmbAudioCodec.SelectedIndex = 0;
 
-        cmbKeyframeInterval.Items.AddRange(GetKeyframeIntervals());
+        cmbKeyframeInterval.Items.AddRange(await GetKeyframeIntervalsAsync());
         cmbKeyframeInterval.SelectedIndex = 0;
 
-        cmbLanguage.Items.AddRange(GetLanguages());
+        cmbLanguage.Items.AddRange(await GetLanguagesAsync());
         cmbLanguage.SelectedIndex = 0;
 
-        SetSelectableAudioBitrates();
+        await SetSelectableAudioBitratesAsync();
     }
 
-    void SetSelectableAudioBitrates()
+    private async Task SetSelectableAudioBitratesAsync()
     {
         cmbBitrate.Items.Clear();
 
         string? audioCodec    = (string)cmbAudioCodec.SelectedItem,
                 audioChannels = input?.Audio.SourceChannels ?? "2.0";
 
-        (object[] selectableAudioBitrates, int defaultAudioBitrate) = GetSelectableAndDefaultAudioBitrates(audioCodec, audioChannels);
+        (object[] selectableAudioBitrates, int defaultAudioBitrate) = await GetSelectableAndDefaultAudioBitratesAsync(audioCodec, audioChannels);
 
         cmbBitrate.Items.AddRange(selectableAudioBitrates);
         cmbBitrate.SelectedItem = defaultAudioBitrate;
     }
 
-    void EnableUI()
+    private async Task EnableUIAsync()
     {
-        if (input is not null)
+        if (input is null)
         {
-            cbxVideo.Enabled = input.FileInfo.HasVideo;
-            cbxVideo.Checked = input.FileInfo.HasVideo;
-            cbxAudio.Enabled = input.FileInfo.HasAudio;
-            cbxAudio.Checked = input.FileInfo.HasAudio;
-            cbxMP4.Enabled   = input.FileInfo.HasVideo;
-            cbxMKV.Enabled   = input.FileInfo.HasVideo;
-
-            SetSelectableAudioBitrates();
+            return;
         }
+
+        cbxVideo.Enabled = input.FileInfo.HasVideo;
+        cbxVideo.Checked = input.FileInfo.HasVideo;
+        cbxAudio.Enabled = input.FileInfo.HasAudio;
+        cbxAudio.Checked = input.FileInfo.HasAudio;
+        cbxMP4.Enabled = input.FileInfo.HasVideo;
+        cbxMKV.Enabled = input.FileInfo.HasVideo;
+
+        await SetSelectableAudioBitratesAsync();
     }
 
-    void New()
+    private void New()
     {
         txbInFile.Clear();
 
@@ -122,7 +124,7 @@ public partial class MainForm : Form
     #endregion Methods
 
     #region Buttons
-    private void btnOpenFile_Click(object sender, EventArgs e)
+    private async void btnOpenFile_Click(object sender, EventArgs e)
     {
         string filterSupportedExts = $"All Supported|{supportedExts.SupportedContainerExts};{supportedExts.SupportedVideoExts};{supportedExts.SupportedAudioExts}",
                filterContainerExts = $"Container Types [{supportedExts.FilterContainerExts}]|{supportedExts.SupportedContainerExts}",
@@ -140,7 +142,7 @@ public partial class MainForm : Form
 
         if (input is not null)
         {
-            EnableUI();
+            await EnableUIAsync();
 
             btnOpenFile.Enabled = false;
             btnNew.Enabled = true;
@@ -153,50 +155,54 @@ public partial class MainForm : Form
 
     private void btnOut_Click(object sender, EventArgs e)
     {
-        if (input is not null)
+        if (input is null)
         {
-            FolderBrowserDialog fbd = new();
-            input.HomeDir = fbd.ShowDialog() == DialogResult.OK ? $@"{fbd.SelectedPath}\" : input.HomeDir;
-
-            txbOutFile.Text = input?.ScriptFile;
+            return;
         }
+
+        FolderBrowserDialog fbd = new();
+        input.HomeDir = fbd.ShowDialog() is DialogResult.OK ? $@"{fbd.SelectedPath}\" : input.HomeDir;
+
+        txbOutFile.Text = input?.ScriptFile;
     }
 
     private void btnGen_Click(object sender, EventArgs e)
     {
-        if (input is not null)
+        if (input is null)
         {
-            input.Video.Enabled = cbxVideo.Checked;
-            input.Video.Codec = (string)cmbVideoCodec.SelectedItem;
-            input.Video.KeyframeIntervalInSeconds = (string)cmbKeyframeInterval.SelectedItem;
-            
-            input.Audio.Enabled = cbxAudio.Checked;
-            input.Audio.Codec = (string)cmbAudioCodec.SelectedItem;
-            input.Audio.Bitrate = (int)cmbBitrate.SelectedItem;
-            input.Audio.Language = (string)cmbLanguage.SelectedItem;
-            
-            input.OutputContainer = cbxMP4.Checked switch
-            {
-                true  => "MP4",
-                false => cbxMKV.Checked switch
-                {
-                    true  => "MKV",
-                    false => null
-                }
-            };
-
-            input.CreateScripts(out string scriptsCreated);
-
-            if (scriptsCreated is "")
-            {
-                MessageBox.Show("No scripts will be created");
-            }
-            else
-            {
-                New();
-            }
+            MessageBox.Show("Please Input A File First");
+            return;
         }
-        else MessageBox.Show("Please Input A File First");
+
+        input.Video.Enabled = cbxVideo.Checked;
+        input.Video.Codec = (string)cmbVideoCodec.SelectedItem;
+        input.Video.KeyframeIntervalInSeconds = (string)cmbKeyframeInterval.SelectedItem;
+
+        input.Audio.Enabled = cbxAudio.Checked;
+        input.Audio.Codec = (string)cmbAudioCodec.SelectedItem;
+        input.Audio.Bitrate = (int)cmbBitrate.SelectedItem;
+        input.Audio.Language = (string)cmbLanguage.SelectedItem;
+
+        input.OutputContainer = cbxMP4.Checked switch
+        {
+            true => "MP4",
+            false => cbxMKV.Checked switch
+            {
+                true => "MKV",
+                false => null
+            }
+        };
+
+        input.CreateScripts(out string scriptsCreated);
+
+        if (scriptsCreated is "")
+        {
+            MessageBox.Show("No scripts will be created");
+        }
+        else
+        {
+            New();
+        }
     }
 
     private void btnNew_Click(object sender, EventArgs e) { New(); }
@@ -274,8 +280,8 @@ public partial class MainForm : Form
         }
     }
 
-    private void cmbAudioCodec_SelectedIndexChanged(object sender, EventArgs e) => 
-        SetSelectableAudioBitrates();
+    private async void cmbAudioCodec_SelectedIndexChanged(object sender, EventArgs e) => 
+        await SetSelectableAudioBitratesAsync();
 
     private void cbxMP4_CheckedChanged(object sender, EventArgs e) =>
         cbxMKV.Checked = cbxMP4.Checked switch

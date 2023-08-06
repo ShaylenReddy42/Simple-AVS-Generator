@@ -5,26 +5,26 @@ namespace SimpleAVSGeneratorCore.Tests.Support;
 public class AudioTests
 {
     [Fact(DisplayName = "Validate Audio Codecs")]
-    public void GetOutputAudioCodecs_ValidateAudioCodecs()
+    public async Task GetOutputAudioCodecs_ValidateAudioCodecs()
     {
         // Arrange
         object[] expectedAudioCodecs = new object[] { "AAC-LC", "AAC-HE", "OPUS" };
 
         // Act
-        object[] actualAudioCodecs = GetOutputAudioCodecs();
+        object[] actualAudioCodecs = await GetOutputAudioCodecsAsync();
 
         // Assert
         Assert.Equal(expectedAudioCodecs, actualAudioCodecs);
     }
 
     [Fact(DisplayName = "Validate Languages")]
-    public void GetLanguages_ValidateLanguages()
+    public async Task GetLanguages_ValidateLanguages()
     {
         // Arrange
         object[] expectedLanguages = new object[] { "English", "Hindi", "Japanese", "Tamil", "Undetermined" };
 
         // Act
-        object[] actualLanguages = GetLanguages();
+        object[] actualLanguages = await GetLanguagesAsync();
 
         // Assert
         Assert.Equal(expectedLanguages, actualLanguages);
@@ -41,7 +41,7 @@ public class AudioTests
 
     [Theory(DisplayName = "Validate Whether Returned Audio Bitrates And Default Is Correct")]
     [MemberData(nameof(GetSelectableAndDefaultAudioBitrates_ValidateResult_TestData))]
-    public void GetSelectableAndDefaultAudioBitrates_ValidateResult(
+    public async Task GetSelectableAndDefaultAudioBitrates_ValidateResult(
         string audioCodec,
         string audioChannels,
         object[] expectedAudioBitrates,
@@ -51,7 +51,7 @@ public class AudioTests
         object[] expected = new object[] { expectedAudioBitrates, expectedDefaultAudioBitrate };
 
         // Act
-        (object[] actualAudioBitrates, int actualDefaultAudioBitrate) = GetSelectableAndDefaultAudioBitrates(audioCodec, audioChannels);
+        (object[] actualAudioBitrates, int actualDefaultAudioBitrate) = await GetSelectableAndDefaultAudioBitratesAsync(audioCodec, audioChannels);
 
         object[] actual = new object[] { actualAudioBitrates, actualDefaultAudioBitrate };
         

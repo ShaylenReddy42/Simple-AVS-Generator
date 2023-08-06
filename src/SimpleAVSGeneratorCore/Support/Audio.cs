@@ -36,17 +36,18 @@ public static class Audio
 
     public static readonly ImmutableList<SupportedOutputAudio> idSupportedOutputAudios = supportedOutputAudios.ToImmutableList();
 
-    public static object[] GetOutputAudioCodecs() => 
-        supportedOutputAudios.Select(audio => audio.Codec).Distinct().ToArray();
+    public static Task<object[]> GetOutputAudioCodecsAsync() =>
+        Task.FromResult<object[]>(supportedOutputAudios.Select(audio => audio.Codec).Distinct().ToArray());
 
-    public static object[] GetLanguages() => languagesDictionary.Keys.ToArray();
+    public static Task<object[]> GetLanguagesAsync() =>
+        Task.FromResult<object[]>(languagesDictionary.Keys.ToArray());
 
-    public static (object[], int) GetSelectableAndDefaultAudioBitrates(string audioCodec, string audioChannels)
+    public static Task<(object[], int)> GetSelectableAndDefaultAudioBitratesAsync(string audioCodec, string audioChannels)
     {
         var supportedOutputAudio =
             supportedOutputAudios
                 .Single(audio => audio.Codec == audioCodec && audio.Channels == audioChannels);
 
-        return (supportedOutputAudio.Bitrates, supportedOutputAudio.DefaultBitrate);
+        return Task.FromResult((supportedOutputAudio.Bitrates, supportedOutputAudio.DefaultBitrate));
     }
 }

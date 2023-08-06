@@ -68,16 +68,16 @@ public class Extensions
 
     public Extensions()
     {
-        SetSupportFor("CONTAINER");
-        SetSupportFor("VIDEO");
-        SetSupportFor("AUDIO");
+        SetSupportForAsync("CONTAINER");
+        SetSupportForAsync("VIDEO");
+        SetSupportForAsync("AUDIO");
 
-        SetFilterFor("CONTAINER");
-        SetFilterFor("VIDEO");
-        SetFilterFor("AUDIO");
+        SetFilterForAsync("CONTAINER");
+        SetFilterForAsync("VIDEO");
+        SetFilterForAsync("AUDIO");
     }
 
-    private void SetSupportFor(string fileType)
+    private Task SetSupportForAsync(string fileType)
     {
         StringBuilder sbSupport = new();
 
@@ -100,9 +100,11 @@ public class Extensions
                 SupportedAudioExts = support;
                 break;
         }
+
+        return Task.CompletedTask;
     }
 
-    private void SetFilterFor(string fileType)
+    private Task SetFilterForAsync(string fileType)
     {
         StringBuilder sbFilter = new();
 
@@ -125,11 +127,13 @@ public class Extensions
                 FilterAudioExts = filter;
                 break;
         }
+
+        return Task.CompletedTask;
     }
 
-    public static string DetermineInputFileType(string fileExt) =>
-        supportedExtensions.Single(ext => ext.Extension == fileExt).Type;
+    public static Task<string> DetermineInputFileTypeAsync(string fileExt) =>
+        Task.FromResult(supportedExtensions.Single(ext => ext.Extension == fileExt).Type);
 
-    public static bool IsSupportedByMP4Box(string fileExt) =>
-        supportedExtensions.Single(ext => ext.Extension == fileExt).MP4BoxSupport;
+    public static Task<bool> IsSupportedByMP4BoxAsync(string fileExt) =>
+        Task.FromResult(supportedExtensions.Single(ext => ext.Extension == fileExt).MP4BoxSupport);
 }

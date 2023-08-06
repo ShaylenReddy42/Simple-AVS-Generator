@@ -14,7 +14,7 @@ public class AviSynthScript
         AVSScriptFile = scriptFile;
     }
 
-    public void SetScriptContent(FileModel fileInfo, VideoModel video, AudioModel audio)
+    public Task SetScriptContentAsync(FileModel fileInfo, VideoModel video, AudioModel audio)
     {
         StringBuilder sb = new();
         
@@ -62,5 +62,7 @@ public class AviSynthScript
         }
 
         AVSScriptContent = sb.ToString();
+
+        return Task.CompletedTask;
     }
 }
