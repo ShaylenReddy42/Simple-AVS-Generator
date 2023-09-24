@@ -10,8 +10,30 @@ namespace SimpleAVSGenerator;
 
 public partial class MainForm : Form
 {
-    public MainForm()
+    private readonly ILogger<MainForm> logger;
+    private readonly IConfiguration configuration;
+    private readonly Extensions extensions;
+
+    //Variables for dragging the form
+    private bool dragging = false;
+    private Point dragCursorPoint;
+    private Point dragFormPoint;
+
+    static string home = $@"C:\Users\{Environment.UserName}\Desktop\Temp\";
+    InputFile? input = null;
+
+    public MainForm(
+        ILogger<MainForm> logger,
+        IConfiguration configuration,
+        Extensions extensions)
     {
+        this.logger = logger;
+        this.configuration = configuration;
+        this.extensions = extensions;
+
+        // easter egg
+        this.logger.LogInformation("Testing configuration: TestConfig is {TestConfig}", this.configuration["TestConfig"]);
+
         InitializeComponent();
 
         var informationalVersion = typeof(MainForm).Assembly.GetCustomAttribute<AssemblyInformationalVersionAttribute>()?.InformationalVersion
@@ -32,16 +54,6 @@ public partial class MainForm : Form
         txbOutFile.Text = home;
         PopulateComboBoxesAsync().GetAwaiter().GetResult();
     }
-
-    //Variables for dragging the form
-    private bool dragging = false;
-    private Point dragCursorPoint;
-    private Point dragFormPoint;
-
-    static string home = $@"C:\Users\{Environment.UserName}\Desktop\Temp\";
-
-    Extensions supportedExts = new();
-    InputFile? input = null;
 
     #region Methods
     private async Task PopulateComboBoxesAsync()
@@ -126,10 +138,10 @@ public partial class MainForm : Form
     #region Buttons
     private async void btnOpenFile_Click(object sender, EventArgs e)
     {
-        string filterSupportedExts = $"All Supported|{supportedExts.SupportedContainerExts};{supportedExts.SupportedVideoExts};{supportedExts.SupportedAudioExts}",
-               filterContainerExts = $"Container Types [{supportedExts.FilterContainerExts}]|{supportedExts.SupportedContainerExts}",
-               filterVideoExts     = $"Video Types [{supportedExts.FilterVideoExts}]|{supportedExts.SupportedVideoExts}",
-               filterAudioExts     = $"Audio Types [{supportedExts.FilterAudioExts}]|{supportedExts.SupportedAudioExts}";
+        string filterSupportedExts = $"All Supported|{extensions.SupportedContainerExts};{extensions.SupportedVideoExts};{extensions.SupportedAudioExts}",
+               filterContainerExts = $"Container Types [{extensions.FilterContainerExts}]|{extensions.SupportedContainerExts}",
+               filterVideoExts     = $"Video Types [{extensions.FilterVideoExts}]|{extensions.SupportedVideoExts}",
+               filterAudioExts     = $"Audio Types [{extensions.FilterAudioExts}]|{extensions.SupportedAudioExts}";
         
         OpenFileDialog ofd = new()
         {
@@ -163,7 +175,7 @@ public partial class MainForm : Form
         FolderBrowserDialog fbd = new();
         input.HomeDir = fbd.ShowDialog() is DialogResult.OK ? $@"{fbd.SelectedPath}\" : input.HomeDir;
 
-        txbOutFile.Text = input?.ScriptFile;
+        txbOutFile.Text = input.ScriptFile;
     }
 
     private void btnGen_Click(object sender, EventArgs e)
@@ -213,15 +225,15 @@ public partial class MainForm : Form
     {
         dragging = true;
         dragCursorPoint = Cursor.Position;
-        dragFormPoint = this.Location;
+        dragFormPoint = Location;
     }
 
     private void MainForm_MouseMove(object sender, MouseEventArgs e)
     {
-        if (dragging is true)
+        if (dragging)
         {
             Point dif = Point.Subtract(Cursor.Position, new Size(dragCursorPoint));
-            this.Location = Point.Add(dragFormPoint, new Size(dif));
+            Location = Point.Add(dragFormPoint, new Size(dif));
         }
     }
 
