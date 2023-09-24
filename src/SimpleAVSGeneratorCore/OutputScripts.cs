@@ -17,7 +17,7 @@ public class OutputScripts
 
     public Task ConfigureVideoScriptAsync(VideoModel video, string outputDir)
     {
-        if (video.Enabled is true && video.MuxOriginalVideo is false)
+        if (video.Enabled && !video.MuxOriginalVideo)
         {
             string vPipe    = @"avs2pipemod -y4mp ""%~dp0Script.avs"" | ",
                    vEncoder = string.Empty;
@@ -52,7 +52,7 @@ public class OutputScripts
 
     public Task ConfigureAudioScriptAsync(FileModel fileInfo, AudioModel audio, string outputDir)
     {
-        if (audio.Enabled is false)
+        if (!audio.Enabled)
         {
             return Task.CompletedTask;
         }
@@ -84,7 +84,7 @@ public class OutputScripts
 
     public Task ConfigureContainerScriptAsync(FileModel fileInfo, VideoModel video, AudioModel audio, string? outputContainer, string outputDir)
     {
-        if (video.Enabled is false)
+        if (!video.Enabled)
         {
             return Task.CompletedTask;
         }

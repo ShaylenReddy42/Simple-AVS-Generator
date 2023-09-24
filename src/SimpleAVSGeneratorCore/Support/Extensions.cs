@@ -68,13 +68,13 @@ public class Extensions
 
     public Extensions()
     {
-        SetSupportForAsync("CONTAINER");
-        SetSupportForAsync("VIDEO");
-        SetSupportForAsync("AUDIO");
+        SetSupportForAsync("CONTAINER").GetAwaiter().GetResult();
+        SetSupportForAsync("VIDEO").GetAwaiter().GetResult();
+        SetSupportForAsync("AUDIO").GetAwaiter().GetResult();
 
-        SetFilterForAsync("CONTAINER");
-        SetFilterForAsync("VIDEO");
-        SetFilterForAsync("AUDIO");
+        SetFilterForAsync("CONTAINER").GetAwaiter().GetResult();
+        SetFilterForAsync("VIDEO").GetAwaiter().GetResult();
+        SetFilterForAsync("AUDIO").GetAwaiter().GetResult();
     }
 
     private Task SetSupportForAsync(string fileType)

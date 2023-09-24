@@ -19,7 +19,7 @@ public partial class MainForm : Form
     private Point dragCursorPoint;
     private Point dragFormPoint;
 
-    static string home = $@"C:\Users\{Environment.UserName}\Desktop\Temp\";
+    static readonly string home = $@"C:\Users\{Environment.UserName}\Desktop\Temp\";
     InputFile? input = null;
 
     public MainForm(

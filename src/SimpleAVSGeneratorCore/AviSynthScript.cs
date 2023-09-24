@@ -20,7 +20,7 @@ public class AviSynthScript
         
         sb.Append($"i = \"{fileInfo.FileName}\"\r\n\r\n");
 
-        if (video.Enabled is true && video.MuxOriginalVideo is false)
+        if (video.Enabled && !video.MuxOriginalVideo)
         {
             sb.Append("v = LWLibavVideoSource(i, cachedir=\".\").ConvertBits(8).ConvertToYV12()#.ShowFrameNumber()\r\n\r\n");
             
@@ -33,13 +33,13 @@ public class AviSynthScript
             sb.Append("v = Spline36Resize(v, targetWidth, targetHeight)\r\n\r\n");
         }
 
-        if (audio.Enabled is true)
+        if (audio.Enabled)
         {
             sb.Append("a = LWLibavAudioSource(i, cachedir=\".\").ConvertAudioToFloat()\r\n\r\n");
             sb.Append("a = Normalize(a, 1.0)\r\n\r\n");
         }
 
-        if ((video.Enabled is true && video.MuxOriginalVideo is false) && audio.Enabled is true)
+        if ((video.Enabled && !video.MuxOriginalVideo) && audio.Enabled)
         {
             sb.Append("o = AudioDub(v, a)\r\n\r\n");
             sb.Append("o = ConvertAudioTo16Bit(o)\r\n\r\n");
@@ -47,13 +47,13 @@ public class AviSynthScript
 
             CreateAviSynthScript = true;
         }
-        else if ((video.Enabled is true && video.MuxOriginalVideo is false) && audio.Enabled is false)
+        else if ((video.Enabled && !video.MuxOriginalVideo) && !audio.Enabled)
         {
             sb.Append('v');
 
             CreateAviSynthScript = true;
         }
-        else if ((audio.Enabled is true && video.Enabled is false) || (audio.Enabled is true && video.Enabled is true && video.MuxOriginalVideo is true))
+        else if ((audio.Enabled && !video.Enabled) || (audio.Enabled && video.Enabled && video.MuxOriginalVideo))
         {
             sb.Append("a = ConvertAudioTo16Bit(a)\r\n\r\n");
             sb.Append('a');

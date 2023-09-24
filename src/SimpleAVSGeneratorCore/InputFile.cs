@@ -128,7 +128,7 @@ public class InputFile
         AviSynthScript script = new(ScriptFile);
         
         script.SetScriptContentAsync(FileInfo, Video, Audio);
-        if (script.CreateAviSynthScript is true)
+        if (script.CreateAviSynthScript)
         {
             scriptsCreated += "s";
 #if RELEASE
