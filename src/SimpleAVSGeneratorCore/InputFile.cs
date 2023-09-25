@@ -99,16 +99,24 @@ public class InputFile
         };
     }
 
-#if RELEASE
-    private Task WriteFileAsync(string outputFileName, string fileContents)
+    private static async Task WriteFileAsync(string outputFileName, string fileContents)
     {
-        StreamWriter sw = new StreamWriter(outputFileName);
-        sw.Write($"{(outputFileName.EndsWith(".cmd") ? "@ECHO off\r\n\r\n" : "")}{fileContents}");
-        sw.Close();
+        var solutionConfiguration = string.Empty;
 
-        return Task.CompletedTask;
-    }
+#if DEBUG
+        solutionConfiguration = "DEBUG";
+#else
+        solutionConfiguration = "RELEASE";
 #endif
+
+        if (solutionConfiguration is "DEBUG")
+        {
+            return;
+        }
+
+        await using var streamWriter = new StreamWriter(outputFileName);
+        await streamWriter.WriteAsync($"{(outputFileName.EndsWith(".cmd") ? "@ECHO off\r\n\r\n" : "")}{fileContents}");
+    }
 
     public async Task<string> CreateScriptsAsync()
     {
@@ -133,11 +141,10 @@ public class InputFile
         if (script.CreateAviSynthScript)
         {
             scriptsCreated += "s";
-#if RELEASE
+
             await WriteFileAsync(script.AVSScriptFile, script.AVSScriptContent);
 
             await WriteFileAsync(AVSMeterScriptFile, AVSMeterScriptContent);
-#endif
         }
 
         OutputScripts output = new();
@@ -146,27 +153,25 @@ public class InputFile
         if (output.VideoEncoderScriptFile is not null && output.VideoEncoderScriptContent is not null)
         {
             scriptsCreated += "v";
-#if RELEASE
+
             await WriteFileAsync(output.VideoEncoderScriptFile, output.VideoEncoderScriptContent);
-#endif
         }
 
         await output.ConfigureAudioScriptAsync(FileInfo, Audio, OutputDir);
         if (output.AudioEncoderScriptFile is not null && output.AudioEncoderScriptContent is not null)
         {
             scriptsCreated += "a";
-#if RELEASE
+
             await WriteFileAsync(output.AudioEncoderScriptFile, output.AudioEncoderScriptContent);
-#endif
+
         }
 
         await output.ConfigureContainerScriptAsync(FileInfo, Video, Audio, OutputContainer, OutputDir);
         if (output.ContainerScriptFile is not null && output.ContainerScriptContent is not null)
         {
             scriptsCreated += "c";
-#if RELEASE
+
             await WriteFileAsync(output.ContainerScriptFile, output.ContainerScriptContent);
-#endif
         }
 
 #if RELEASE
