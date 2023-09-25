@@ -43,7 +43,7 @@ public class OutputScripts
                 vEncoder += $@"--aud --no-mbtree --demuxer y4m --frames {video.SourceFrameCount} -o ""%~dp0Video{video.Extension}"" -";
             }
 
-            VideoEncoderScriptFile = $"{outputDir}Encode Video [{video.Codec}].cmd";
+            VideoEncoderScriptFile = Path.Combine(outputDir, $"Encode Video [{video.Codec}].cmd");
             VideoEncoderScriptContent = vPipe + vEncoder;
         }
 
@@ -76,7 +76,7 @@ public class OutputScripts
             aEncoder += $@"- ""%~dp0{fileInfo.FileNameOnly}{audio.Extension}""";
         }
 
-        AudioEncoderScriptFile = $"{outputDir}Encode Audio [{audio.Codec}].cmd";
+        AudioEncoderScriptFile = Path.Combine(outputDir, $"Encode Audio [{audio.Codec}].cmd");
         AudioEncoderScriptContent = aPipe + aEncoder;
 
         return Task.CompletedTask;
@@ -134,7 +134,7 @@ public class OutputScripts
         string original = video.MuxOriginalVideo ? " [Original Video]" : "";
 
         ContainerScriptFile = outputContainer is not null
-                            ? $"{outputDir}{outputContainer} Mux{original}.cmd"
+                            ? Path.Combine(outputDir, $"{outputContainer} Mux{original}.cmd")
                             : null;
         ContainerScriptContent = containerTemplate;
 

@@ -64,7 +64,7 @@ public class OutputScriptsTests
         string? videoEncoderScriptFile = output.VideoEncoderScriptFile;
 
         // Assert
-        Assert.Equal($"{input.OutputDir}{expectedEndsWith}", videoEncoderScriptFile);
+        Assert.Equal(Path.Combine(input.OutputDir, expectedEndsWith), videoEncoderScriptFile);
     }
 
     // AudioCodec | Expected audio encoder
@@ -148,7 +148,7 @@ public class OutputScriptsTests
         string? audioEncoderScriptFile = output.AudioEncoderScriptFile;
 
         // Assert
-        Assert.Equal($"{input.OutputDir}{expectedEndsWith}", audioEncoderScriptFile);
+        Assert.Equal(Path.Combine(input.OutputDir, expectedEndsWith), audioEncoderScriptFile);
     }
 
     [Theory(DisplayName = "Validate Which Multiplexer Is Used")]
@@ -324,6 +324,6 @@ public class OutputScriptsTests
         string? containerScriptFile = output.ContainerScriptFile;
 
         // Assert
-        Assert.Equal($"{input.OutputDir}{expectedEndsWith}", containerScriptFile);
+        Assert.Equal(Path.Combine(input.OutputDir, expectedEndsWith), containerScriptFile);
     }
 }

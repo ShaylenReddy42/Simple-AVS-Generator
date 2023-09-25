@@ -10,12 +10,12 @@ public class InputFile
     public FileModel FileInfo { get; }
 
     public string HomeDir { get; set; }
-    public string OutputDir => $@"{HomeDir}{FileInfo.FileNameOnly}\";
+    public string OutputDir => Path.Combine(HomeDir, FileInfo.FileNameOnly);
 
-    public string ScriptFile => $@"{OutputDir}Script.avs";
+    public string ScriptFile => Path.Combine(OutputDir, "Script.avs");
 
     //AVSMeter Properties
-    public string AVSMeterScriptFile => $"{OutputDir}AVSMeter.cmd";
+    public string AVSMeterScriptFile => Path.Combine(OutputDir, "AVSMeter.cmd");
     public static string AVSMeterScriptContent => @"AVSMeter64 ""%~dp0Script.avs"" -i -l";
 
     public VideoModel Video { get; }
@@ -100,15 +100,17 @@ public class InputFile
     }
 
 #if RELEASE
-    private void WriteFile(string outputFileName, string fileContents)
+    private Task WriteFileAsync(string outputFileName, string fileContents)
     {
         StreamWriter sw = new StreamWriter(outputFileName);
         sw.Write($"{(outputFileName.EndsWith(".cmd") ? "@ECHO off\r\n\r\n" : "")}{fileContents}");
         sw.Close();
+
+        return Task.CompletedTask;
     }
 #endif
 
-    public Task CreateScripts(out string scriptsCreated)
+    public async Task<string> CreateScriptsAsync()
     {
         // scriptsCreated is a variable that will be used for testing this function
         // Result could be in variable length, containing characters to indicated
@@ -119,7 +121,7 @@ public class InputFile
         // a indicates that the Audio Encoder script is created
         // c indicates that the Container Muxing script is created
         
-        scriptsCreated = "";
+        var scriptsCreated = string.Empty;
 
 #if RELEASE
         Directory.CreateDirectory(OutputDir);
@@ -127,43 +129,43 @@ public class InputFile
 
         AviSynthScript script = new(ScriptFile);
         
-        script.SetScriptContentAsync(FileInfo, Video, Audio);
+        await script.SetScriptContentAsync(FileInfo, Video, Audio);
         if (script.CreateAviSynthScript)
         {
             scriptsCreated += "s";
 #if RELEASE
-            WriteFile(script.AVSScriptFile, script.AVSScriptContent);
+            await WriteFileAsync(script.AVSScriptFile, script.AVSScriptContent);
 
-            WriteFile(AVSMeterScriptFile, AVSMeterScriptContent);
+            await WriteFileAsync(AVSMeterScriptFile, AVSMeterScriptContent);
 #endif
         }
 
         OutputScripts output = new();
 
-        output.ConfigureVideoScriptAsync(Video, OutputDir);
+        await output.ConfigureVideoScriptAsync(Video, OutputDir);
         if (output.VideoEncoderScriptFile is not null && output.VideoEncoderScriptContent is not null)
         {
             scriptsCreated += "v";
 #if RELEASE
-            WriteFile(output.VideoEncoderScriptFile, output.VideoEncoderScriptContent);
+            await WriteFileAsync(output.VideoEncoderScriptFile, output.VideoEncoderScriptContent);
 #endif
         }
 
-        output.ConfigureAudioScriptAsync(FileInfo, Audio, OutputDir);
+        await output.ConfigureAudioScriptAsync(FileInfo, Audio, OutputDir);
         if (output.AudioEncoderScriptFile is not null && output.AudioEncoderScriptContent is not null)
         {
             scriptsCreated += "a";
 #if RELEASE
-            WriteFile(output.AudioEncoderScriptFile, output.AudioEncoderScriptContent);
+            await WriteFileAsync(output.AudioEncoderScriptFile, output.AudioEncoderScriptContent);
 #endif
         }
 
-        output.ConfigureContainerScriptAsync(FileInfo, Video, Audio, OutputContainer, OutputDir);
+        await output.ConfigureContainerScriptAsync(FileInfo, Video, Audio, OutputContainer, OutputDir);
         if (output.ContainerScriptFile is not null && output.ContainerScriptContent is not null)
         {
             scriptsCreated += "c";
 #if RELEASE
-            WriteFile(output.ContainerScriptFile, output.ContainerScriptContent);
+            await WriteFileAsync(output.ContainerScriptFile, output.ContainerScriptContent);
 #endif
         }
 
@@ -174,6 +176,6 @@ public class InputFile
         }
 #endif
 
-        return Task.CompletedTask;
+        return scriptsCreated;
     }
 }

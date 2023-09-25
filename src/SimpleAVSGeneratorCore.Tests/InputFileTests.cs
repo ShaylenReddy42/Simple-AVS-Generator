@@ -97,7 +97,7 @@ public class InputFileTests
 
     [Theory(DisplayName = "Validate Which Scripts Were Created")]
     [MemberData(nameof(CreateScripts_ValidateWhichScriptsWereCreated_TestData))]
-    public void CreateScripts_ValidateWhichScriptsWereCreated(
+    public async Task CreateScripts_ValidateWhichScriptsWereCreated(
         bool video,
         string videoCodec,
         bool audio,
@@ -119,7 +119,7 @@ public class InputFileTests
         input.OutputContainer = outputContainer;
 
         // Act
-        input.CreateScripts(out string actualScriptsCreated);
+        var actualScriptsCreated = await input.CreateScriptsAsync();
 
         // Assert
         Assert.Equal(expectedScriptsCreated, actualScriptsCreated);

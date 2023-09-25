@@ -19,7 +19,7 @@ public partial class MainForm : Form
     private Point dragCursorPoint;
     private Point dragFormPoint;
 
-    static readonly string home = $@"C:\Users\{Environment.UserName}\Desktop\Temp\";
+    private readonly string home = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "Temp");
     InputFile? input = null;
 
     public MainForm(
@@ -178,7 +178,7 @@ public partial class MainForm : Form
         txbOutFile.Text = input.ScriptFile;
     }
 
-    private void btnGen_Click(object sender, EventArgs e)
+    private async void btnGen_Click(object sender, EventArgs e)
     {
         if (input is null)
         {
@@ -205,7 +205,7 @@ public partial class MainForm : Form
             }
         };
 
-        input.CreateScripts(out string scriptsCreated);
+        var scriptsCreated = await input.CreateScriptsAsync();
 
         if (scriptsCreated is "")
         {
