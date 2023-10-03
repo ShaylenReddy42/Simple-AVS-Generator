@@ -1,7 +1,8 @@
-﻿using System.Globalization;
+﻿using MediaInfo;
+using System.Globalization;
 using SimpleAVSGeneratorCore.Models;
 using SimpleAVSGeneratorCore.Support;
-using MediaInfo;
+using SimpleAVSGeneratorCore.Services;
 
 namespace SimpleAVSGeneratorCore;
 
@@ -99,25 +100,6 @@ public class InputFile
         };
     }
 
-    private static async Task WriteFileAsync(string outputFileName, string fileContents)
-    {
-        var solutionConfiguration = string.Empty;
-
-#if DEBUG
-        solutionConfiguration = "DEBUG";
-#else
-        solutionConfiguration = "RELEASE";
-#endif
-
-        if (solutionConfiguration is "DEBUG")
-        {
-            return;
-        }
-
-        await using var streamWriter = new StreamWriter(outputFileName);
-        await streamWriter.WriteAsync($"{(outputFileName.EndsWith(".cmd") ? "@ECHO off\r\n\r\n" : "")}{fileContents}");
-    }
-
     public async Task<string> CreateScriptsAsync()
     {
         // scriptsCreated is a variable that will be used for testing this function
@@ -131,6 +113,8 @@ public class InputFile
         
         var scriptsCreated = string.Empty;
 
+        IFileWriterService fileWriterService = new FileWriterService();
+
 #if RELEASE
         Directory.CreateDirectory(OutputDir);
 #endif
@@ -142,9 +126,9 @@ public class InputFile
         {
             scriptsCreated += "s";
 
-            await WriteFileAsync(script.AVSScriptFile, script.AVSScriptContent);
+            await fileWriterService.WriteFileAsync(script.AVSScriptFile, script.AVSScriptContent);
 
-            await WriteFileAsync(AVSMeterScriptFile, AVSMeterScriptContent);
+            await fileWriterService.WriteFileAsync(AVSMeterScriptFile, AVSMeterScriptContent);
         }
 
         OutputScripts output = new();
@@ -154,7 +138,7 @@ public class InputFile
         {
             scriptsCreated += "v";
 
-            await WriteFileAsync(output.VideoEncoderScriptFile, output.VideoEncoderScriptContent);
+            await fileWriterService.WriteFileAsync(output.VideoEncoderScriptFile, output.VideoEncoderScriptContent);
         }
 
         await output.ConfigureAudioScriptAsync(FileInfo, Audio, OutputDir);
@@ -162,7 +146,7 @@ public class InputFile
         {
             scriptsCreated += "a";
 
-            await WriteFileAsync(output.AudioEncoderScriptFile, output.AudioEncoderScriptContent);
+            await fileWriterService.WriteFileAsync(output.AudioEncoderScriptFile, output.AudioEncoderScriptContent);
 
         }
 
@@ -171,7 +155,7 @@ public class InputFile
         {
             scriptsCreated += "c";
 
-            await WriteFileAsync(output.ContainerScriptFile, output.ContainerScriptContent);
+            await fileWriterService.WriteFileAsync(output.ContainerScriptFile, output.ContainerScriptContent);
         }
 
 #if RELEASE
