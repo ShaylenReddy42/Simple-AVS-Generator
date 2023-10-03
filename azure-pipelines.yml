@@ -34,7 +34,7 @@ steps:
   inputs:
     command: restore
     arguments: -c $(buildConfiguration)
-    projects: '$(Build.SourcesDirectory)/src/Simple AVS Generator.sln'
+    projects: '$(Build.SourcesDirectory)/src/SimpleAVSGenerator.sln'
     
 - task: SonarCloudPrepare@1
   displayName: 'Prepare SonarCloud for Analysis'
@@ -50,7 +50,7 @@ steps:
   inputs:
     command: build
     arguments: -c $(buildConfiguration)
-    projects: '$(Build.SourcesDirectory)/src/Simple AVS Generator.sln'
+    projects: '$(Build.SourcesDirectory)/src/SimpleAVSGenerator.sln'
 
 - task: DotNetCoreCLI@2
   displayName: 'Run Unit Tests'
