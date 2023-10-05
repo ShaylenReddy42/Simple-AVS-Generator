@@ -147,14 +147,14 @@ public partial class MainForm : Form
                filterVideoExts     = $"Video Types [{extensions.FilterVideoExts}]|{extensions.SupportedVideoExts}",
                filterAudioExts     = $"Audio Types [{extensions.FilterAudioExts}]|{extensions.SupportedAudioExts}";
         
-        OpenFileDialog ofd = new()
+        var openFileDialog = new OpenFileDialog()
         {
             Multiselect = false,
             Title = "Open File",
             Filter = $"{filterSupportedExts}|{filterContainerExts}|{filterVideoExts}|{filterAudioExts}"
         };
 
-        input = ofd.ShowDialog() == DialogResult.OK ? new(ofd.FileName, home) : null;
+        input = openFileDialog.ShowDialog() == DialogResult.OK ? new(openFileDialog.FileName, home) : null;
 
         if (input is not null)
         {
@@ -176,8 +176,8 @@ public partial class MainForm : Form
             return;
         }
 
-        FolderBrowserDialog fbd = new();
-        input.HomeDir = fbd.ShowDialog() is DialogResult.OK ? $@"{fbd.SelectedPath}\" : input.HomeDir;
+        var folderBrowserDialog = new FolderBrowserDialog();
+        input.HomeDir = folderBrowserDialog.ShowDialog() is DialogResult.OK ? folderBrowserDialog.SelectedPath : input.HomeDir;
 
         txbOutFile.Text = input.ScriptFile;
     }
