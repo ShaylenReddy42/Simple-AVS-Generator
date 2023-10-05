@@ -107,6 +107,11 @@ public class InputFileTests
         string expectedScriptsCreated)
     {
         // Arrange
+        // construct dependencies for the input file handler service before constructing the handler itself
+        var fileWriterService = new FileWriterService();
+
+        var inputFileHandlerService = new InputFileHandlerService(fileWriterService);
+
         InputFile input = new(@"Samples\Sample.mp4", @"C:\Users\User\Desktop\Temp\");
 
         input.Video.Enabled = video;
@@ -121,7 +126,7 @@ public class InputFileTests
         input.OutputContainer = outputContainer;
 
         // Act
-        var actualScriptsCreated = await input.CreateScriptsAsync(new FileWriterService());
+        var actualScriptsCreated = await inputFileHandlerService.CreateScriptsAsync(input);
 
         // Assert
         Assert.Equal(expectedScriptsCreated, actualScriptsCreated);

@@ -11,10 +11,10 @@ namespace SimpleAVSGenerator;
 
 public partial class MainForm : Form
 {
+    private readonly Extensions extensions;
     private readonly ILogger<MainForm> logger;
     private readonly IConfiguration configuration;
-    private readonly Extensions extensions;
-    private readonly IFileWriterService fileWriterService;
+    private readonly IInputFileHandlerService inputFileHandlerService;
 
     //Variables for dragging the form
     private bool dragging = false;
@@ -22,18 +22,18 @@ public partial class MainForm : Form
     private Point dragFormPoint;
 
     private readonly string home = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "Temp");
-    InputFile? input = null;
+    private InputFile? input = null;
 
     public MainForm(
+        Extensions extensions,
         ILogger<MainForm> logger,
         IConfiguration configuration,
-        Extensions extensions,
-        IFileWriterService fileWriterService)
+        IInputFileHandlerService inputFileHandlerService)
     {
+        this.extensions = extensions;
         this.logger = logger;
         this.configuration = configuration;
-        this.extensions = extensions;
-        this.fileWriterService = fileWriterService;
+        this.inputFileHandlerService = inputFileHandlerService;
 
         // easter egg
         this.logger.LogInformation("Testing configuration: TestConfig is {TestConfig}", this.configuration["TestConfig"]);
@@ -209,7 +209,7 @@ public partial class MainForm : Form
             }
         };
 
-        var scriptsCreated = await input.CreateScriptsAsync(fileWriterService);
+        var scriptsCreated = await inputFileHandlerService.CreateScriptsAsync(input);
 
         if (scriptsCreated is "")
         {

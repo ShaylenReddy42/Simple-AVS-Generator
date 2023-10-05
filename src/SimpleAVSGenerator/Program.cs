@@ -57,6 +57,8 @@ internal static class Program
 
         services.AddSingleton<IFileWriterService, FileWriterService>();
 
+        services.AddSingleton<IInputFileHandlerService, InputFileHandlerService>();
+
         return services.BuildServiceProvider();
     }
 }

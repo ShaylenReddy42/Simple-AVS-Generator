@@ -2,7 +2,6 @@
 using System.Globalization;
 using SimpleAVSGeneratorCore.Models;
 using SimpleAVSGeneratorCore.Support;
-using SimpleAVSGeneratorCore.Services;
 
 namespace SimpleAVSGeneratorCore;
 
@@ -98,71 +97,5 @@ public class InputFile
             "8.0" => Task.FromResult("7.1"),
             _     => Task.FromResult(channelLayout)
         };
-    }
-
-    public async Task<string> CreateScriptsAsync(IFileWriterService fileWriterService)
-    {
-        // scriptsCreated is a variable that will be used for testing this function
-        // Result could be in variable length, containing characters to indicated
-        // which scripts were created e.g. svac
-        // Key:
-        // s indicates that the AviSynth script is created
-        // v indicates that the Video Encoder script is created
-        // a indicates that the Audio Encoder script is created
-        // c indicates that the Container Muxing script is created
-        
-        var scriptsCreated = string.Empty;
-
-#if RELEASE
-        Directory.CreateDirectory(OutputDir);
-#endif
-
-        AviSynthScript script = new(ScriptFile);
-        
-        await script.SetScriptContentAsync(FileInfo, Video, Audio);
-        if (script.CreateAviSynthScript)
-        {
-            scriptsCreated += "s";
-
-            await fileWriterService.WriteFileAsync(script.AVSScriptFile, script.AVSScriptContent);
-
-            await fileWriterService.WriteFileAsync(AVSMeterScriptFile, AVSMeterScriptContent);
-        }
-
-        OutputScripts output = new();
-
-        await output.ConfigureVideoScriptAsync(Video, OutputDir);
-        if (output.VideoEncoderScriptFile is not null && output.VideoEncoderScriptContent is not null)
-        {
-            scriptsCreated += "v";
-
-            await fileWriterService.WriteFileAsync(output.VideoEncoderScriptFile, output.VideoEncoderScriptContent);
-        }
-
-        await output.ConfigureAudioScriptAsync(FileInfo, Audio, OutputDir);
-        if (output.AudioEncoderScriptFile is not null && output.AudioEncoderScriptContent is not null)
-        {
-            scriptsCreated += "a";
-
-            await fileWriterService.WriteFileAsync(output.AudioEncoderScriptFile, output.AudioEncoderScriptContent);
-
-        }
-
-        await output.ConfigureContainerScriptAsync(FileInfo, Video, Audio, OutputContainer, OutputDir);
-        if (output.ContainerScriptFile is not null && output.ContainerScriptContent is not null)
-        {
-            scriptsCreated += "c";
-
-            await fileWriterService.WriteFileAsync(output.ContainerScriptFile, output.ContainerScriptContent);
-        }
-
-#if RELEASE
-        if (scriptsCreated is "")
-        {
-            Directory.Delete(OutputDir);
-        }
-#endif
-
-        return scriptsCreated;
     }
 }
