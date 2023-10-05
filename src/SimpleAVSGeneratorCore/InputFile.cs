@@ -100,7 +100,7 @@ public class InputFile
         };
     }
 
-    public async Task<string> CreateScriptsAsync()
+    public async Task<string> CreateScriptsAsync(IFileWriterService fileWriterService)
     {
         // scriptsCreated is a variable that will be used for testing this function
         // Result could be in variable length, containing characters to indicated
@@ -112,8 +112,6 @@ public class InputFile
         // c indicates that the Container Muxing script is created
         
         var scriptsCreated = string.Empty;
-
-        IFileWriterService fileWriterService = new FileWriterService();
 
 #if RELEASE
         Directory.CreateDirectory(OutputDir);

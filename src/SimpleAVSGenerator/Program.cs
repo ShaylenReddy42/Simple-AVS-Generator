@@ -1,5 +1,6 @@
 using Microsoft.Extensions.DependencyInjection;
 using Serilog;
+using SimpleAVSGeneratorCore.Services;
 using SimpleAVSGeneratorCore.Support;
 
 namespace SimpleAVSGenerator;
@@ -53,6 +54,8 @@ internal static class Program
         services.AddSingleton<MainForm>();
 
         services.AddSingleton<Extensions>();
+
+        services.AddSingleton<IFileWriterService, FileWriterService>();
 
         return services.BuildServiceProvider();
     }

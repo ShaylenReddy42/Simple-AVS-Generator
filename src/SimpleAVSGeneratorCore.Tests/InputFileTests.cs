@@ -1,4 +1,6 @@
-﻿namespace SimpleAVSGeneratorCore.Tests;
+﻿using SimpleAVSGeneratorCore.Services;
+
+namespace SimpleAVSGeneratorCore.Tests;
 
 public class InputFileTests
 {
@@ -119,7 +121,7 @@ public class InputFileTests
         input.OutputContainer = outputContainer;
 
         // Act
-        var actualScriptsCreated = await input.CreateScriptsAsync();
+        var actualScriptsCreated = await input.CreateScriptsAsync(new FileWriterService());
 
         // Assert
         Assert.Equal(expectedScriptsCreated, actualScriptsCreated);

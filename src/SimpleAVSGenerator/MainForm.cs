@@ -1,6 +1,7 @@
 ﻿using SimpleAVSGeneratorCore;
 using SimpleAVSGeneratorCore.Support;
 
+using SimpleAVSGeneratorCore.Services;
 using static SimpleAVSGeneratorCore.Support.Video;
 using static SimpleAVSGeneratorCore.Support.Audio;
 
@@ -13,6 +14,7 @@ public partial class MainForm : Form
     private readonly ILogger<MainForm> logger;
     private readonly IConfiguration configuration;
     private readonly Extensions extensions;
+    private readonly IFileWriterService fileWriterService;
 
     //Variables for dragging the form
     private bool dragging = false;
@@ -25,11 +27,13 @@ public partial class MainForm : Form
     public MainForm(
         ILogger<MainForm> logger,
         IConfiguration configuration,
-        Extensions extensions)
+        Extensions extensions,
+        IFileWriterService fileWriterService)
     {
         this.logger = logger;
         this.configuration = configuration;
         this.extensions = extensions;
+        this.fileWriterService = fileWriterService;
 
         // easter egg
         this.logger.LogInformation("Testing configuration: TestConfig is {TestConfig}", this.configuration["TestConfig"]);
@@ -205,7 +209,7 @@ public partial class MainForm : Form
             }
         };
 
-        var scriptsCreated = await input.CreateScriptsAsync();
+        var scriptsCreated = await input.CreateScriptsAsync(fileWriterService);
 
         if (scriptsCreated is "")
         {
