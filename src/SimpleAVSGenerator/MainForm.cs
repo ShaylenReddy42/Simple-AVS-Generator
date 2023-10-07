@@ -81,7 +81,7 @@ public partial class MainForm : Form
     {
         AudioBitrateComboBox.Items.Clear();
 
-        string? audioCodec = (string)AudioCodecComboBox.SelectedItem,
+        string? audioCodec    = (string)AudioCodecComboBox.SelectedItem,
                 audioChannels = input?.Audio.SourceChannels ?? "2.0";
 
         (object[] selectableAudioBitrates, int defaultAudioBitrate) = await GetSelectableAndDefaultAudioBitratesAsync(audioCodec, audioChannels);
@@ -144,14 +144,14 @@ public partial class MainForm : Form
     {
         string filterSupportedExts = $"All Supported|{extensions.SupportedContainerExts};{extensions.SupportedVideoExts};{extensions.SupportedAudioExts}",
                filterContainerExts = $"Container Types [{extensions.FilterContainerExts}]|{extensions.SupportedContainerExts}",
-               filterVideoExts = $"Video Types [{extensions.FilterVideoExts}]|{extensions.SupportedVideoExts}",
-               filterAudioExts = $"Audio Types [{extensions.FilterAudioExts}]|{extensions.SupportedAudioExts}";
+               filterVideoExts     = $"Video Types [{extensions.FilterVideoExts}]|{extensions.SupportedVideoExts}",
+               filterAudioExts     = $"Audio Types [{extensions.FilterAudioExts}]|{extensions.SupportedAudioExts}";
 
         var openFileDialog = new OpenFileDialog()
         {
             Multiselect = false,
-            Title = "Open File",
-            Filter = $"{filterSupportedExts}|{filterContainerExts}|{filterVideoExts}|{filterAudioExts}"
+            Title       = "Open File",
+            Filter      = $"{filterSupportedExts}|{filterContainerExts}|{filterVideoExts}|{filterAudioExts}"
         };
 
         input = openFileDialog.ShowDialog() is DialogResult.OK ? new(openFileDialog.FileName, home) : null;
@@ -246,16 +246,16 @@ public partial class MainForm : Form
 
     private void MainForm_Deactivate(object sender, EventArgs e)
     {
-        TitleLabel.ForeColor = Color.FromArgb(200, 200, 200);
+        TitleLabel.ForeColor    = Color.FromArgb(200, 200, 200);
         MinimizeLabel.ForeColor = Color.FromArgb(200, 200, 200);
-        CloseLabel.ForeColor = Color.FromArgb(200, 200, 200);
+        CloseLabel.ForeColor    = Color.FromArgb(200, 200, 200);
     }
 
     private void MainForm_Activated(object sender, EventArgs e)
     {
-        TitleLabel.ForeColor = Color.White;
+        TitleLabel.ForeColor    = Color.White;
         MinimizeLabel.ForeColor = Color.White;
-        CloseLabel.ForeColor = Color.White;
+        CloseLabel.ForeColor    = Color.White;
     }
 
     private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
@@ -266,9 +266,9 @@ public partial class MainForm : Form
 
     private void VideoEnabledCheckBox_CheckedChanged(object sender, EventArgs e)
     {
-        MP4CheckBox.Checked = EnableVideoCheckBox.Checked
-                      && MP4CheckBox.Enabled
-                      && !MKVCheckBox.Checked;
+        MP4CheckBox.Checked =  EnableVideoCheckBox.Checked
+                           &&  MP4CheckBox.Enabled
+                           && !MKVCheckBox.Checked;
 
         VideoCodecComboBox.Enabled = EnableVideoCheckBox.Checked;
         KeyframeIntervalComboBox.Enabled = EnableVideoCheckBox.Checked;
@@ -302,14 +302,14 @@ public partial class MainForm : Form
     private void MP4CheckBox_CheckedChanged(object sender, EventArgs e) =>
         MKVCheckBox.Checked = MP4CheckBox.Checked switch
         {
-            true => false,
+            true  => false,
             false => MKVCheckBox.Checked
         };
 
     private void MKVCheckBox_CheckedChanged(object sender, EventArgs e) =>
         MP4CheckBox.Checked = MKVCheckBox.Checked switch
         {
-            true => false,
+            true  => false,
             false => MP4CheckBox.Checked
         };
 
