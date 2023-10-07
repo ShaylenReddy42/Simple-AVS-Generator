@@ -43,7 +43,7 @@ public partial class MainForm : Form
         var informationalVersion = typeof(MainForm).Assembly.GetCustomAttribute<AssemblyInformationalVersionAttribute>()?.InformationalVersion
                                 ?? "0.0.0+0-unknown";
 
-        lbltitle.Text += $" v{informationalVersion}";
+        TitleLabel.Text += $" v{informationalVersion}";
 
         if (Properties.Settings.Default.Location.X <= 0 ||
             Properties.Settings.Default.Location.Y <= 0)
@@ -55,39 +55,39 @@ public partial class MainForm : Form
             DataBindings.Add("Location", Properties.Settings.Default, "Location", true, DataSourceUpdateMode.OnPropertyChanged);
         }
 
-        txbOutFile.Text = home;
+        OutputFileTextBox.Text = home;
         PopulateComboBoxesAsync().GetAwaiter().GetResult();
     }
 
     #region Methods
     private async Task PopulateComboBoxesAsync()
     {
-        cmbVideoCodec.Items.AddRange(await GetOutputVideoCodecsAsync());
-        cmbVideoCodec.SelectedIndex = 0;
+        VideoCodecComboBox.Items.AddRange(await GetOutputVideoCodecsAsync());
+        VideoCodecComboBox.SelectedIndex = 0;
 
-        cmbAudioCodec.Items.AddRange(await GetOutputAudioCodecsAsync());
-        cmbAudioCodec.SelectedIndex = 0;
+        AudioCodecComboBox.Items.AddRange(await GetOutputAudioCodecsAsync());
+        AudioCodecComboBox.SelectedIndex = 0;
 
-        cmbKeyframeInterval.Items.AddRange(await GetKeyframeIntervalsAsync());
-        cmbKeyframeInterval.SelectedIndex = 0;
+        KeyframeIntervalComboBox.Items.AddRange(await GetKeyframeIntervalsAsync());
+        KeyframeIntervalComboBox.SelectedIndex = 0;
 
-        cmbLanguage.Items.AddRange(await GetLanguagesAsync());
-        cmbLanguage.SelectedIndex = 0;
+        AudioLanguageComboBox.Items.AddRange(await GetLanguagesAsync());
+        AudioLanguageComboBox.SelectedIndex = 0;
 
         await SetSelectableAudioBitratesAsync();
     }
 
     private async Task SetSelectableAudioBitratesAsync()
     {
-        cmbBitrate.Items.Clear();
+        AudioBitrateComboBox.Items.Clear();
 
-        string? audioCodec    = (string)cmbAudioCodec.SelectedItem,
+        string? audioCodec = (string)AudioCodecComboBox.SelectedItem,
                 audioChannels = input?.Audio.SourceChannels ?? "2.0";
 
         (object[] selectableAudioBitrates, int defaultAudioBitrate) = await GetSelectableAndDefaultAudioBitratesAsync(audioCodec, audioChannels);
 
-        cmbBitrate.Items.AddRange(selectableAudioBitrates);
-        cmbBitrate.SelectedItem = defaultAudioBitrate;
+        AudioBitrateComboBox.Items.AddRange(selectableAudioBitrates);
+        AudioBitrateComboBox.SelectedItem = defaultAudioBitrate;
     }
 
     private async Task EnableUIAsync()
@@ -97,56 +97,56 @@ public partial class MainForm : Form
             return;
         }
 
-        cbxVideo.Enabled = input.FileInfo.HasVideo;
-        cbxVideo.Checked = input.FileInfo.HasVideo;
-        cbxAudio.Enabled = input.FileInfo.HasAudio;
-        cbxAudio.Checked = input.FileInfo.HasAudio;
-        cbxMP4.Enabled = input.FileInfo.HasVideo;
-        cbxMKV.Enabled = input.FileInfo.HasVideo;
+        EnableVideoCheckBox.Enabled = input.FileInfo.HasVideo;
+        EnableVideoCheckBox.Checked = input.FileInfo.HasVideo;
+        EnableAudioCheckBox.Enabled = input.FileInfo.HasAudio;
+        EnableAudioCheckBox.Checked = input.FileInfo.HasAudio;
+        MP4CheckBox.Enabled = input.FileInfo.HasVideo;
+        MKVCheckBox.Enabled = input.FileInfo.HasVideo;
 
         await SetSelectableAudioBitratesAsync();
     }
 
     private void New()
     {
-        txbInFile.Clear();
+        InputFileTextBox.Clear();
 
-        txbOutFile.Text = home;
+        OutputFileTextBox.Text = home;
 
-        cbxVideo.Checked = false;
-        cbxVideo.Enabled = false;
+        EnableVideoCheckBox.Checked = false;
+        EnableVideoCheckBox.Enabled = false;
 
-        cmbVideoCodec.SelectedIndex = 0;
-        cmbKeyframeInterval.SelectedIndex = 0;
+        VideoCodecComboBox.SelectedIndex = 0;
+        KeyframeIntervalComboBox.SelectedIndex = 0;
 
-        cbxAudio.Enabled = false;
-        cbxAudio.Checked = false;
+        EnableAudioCheckBox.Enabled = false;
+        EnableAudioCheckBox.Checked = false;
 
-        cmbAudioCodec.SelectedIndex = 0;
-        cmbLanguage.SelectedIndex = 0;
+        AudioCodecComboBox.SelectedIndex = 0;
+        AudioLanguageComboBox.SelectedIndex = 0;
 
-        cbxMP4.Enabled = false;
-        cbxMP4.Checked = false;
+        MP4CheckBox.Enabled = false;
+        MP4CheckBox.Checked = false;
 
-        cbxMKV.Enabled = false;
-        cbxMKV.Checked = false;
+        MKVCheckBox.Enabled = false;
+        MKVCheckBox.Checked = false;
 
-        btnNew.Enabled = false;
-        btnOpenFile.Enabled = true;
-        btnOutDir.Enabled = false;
+        NewButton.Enabled = false;
+        OpenFileButton.Enabled = true;
+        OutputDirectoryButton.Enabled = false;
 
         input = null;
     }
     #endregion Methods
 
     #region Buttons
-    private async void btnOpenFile_Click(object sender, EventArgs e)
+    private async void OpenFileButton_Click(object sender, EventArgs e)
     {
         string filterSupportedExts = $"All Supported|{extensions.SupportedContainerExts};{extensions.SupportedVideoExts};{extensions.SupportedAudioExts}",
                filterContainerExts = $"Container Types [{extensions.FilterContainerExts}]|{extensions.SupportedContainerExts}",
-               filterVideoExts     = $"Video Types [{extensions.FilterVideoExts}]|{extensions.SupportedVideoExts}",
-               filterAudioExts     = $"Audio Types [{extensions.FilterAudioExts}]|{extensions.SupportedAudioExts}";
-        
+               filterVideoExts = $"Video Types [{extensions.FilterVideoExts}]|{extensions.SupportedVideoExts}",
+               filterAudioExts = $"Audio Types [{extensions.FilterAudioExts}]|{extensions.SupportedAudioExts}";
+
         var openFileDialog = new OpenFileDialog()
         {
             Multiselect = false,
@@ -154,22 +154,22 @@ public partial class MainForm : Form
             Filter = $"{filterSupportedExts}|{filterContainerExts}|{filterVideoExts}|{filterAudioExts}"
         };
 
-        input = openFileDialog.ShowDialog() == DialogResult.OK ? new(openFileDialog.FileName, home) : null;
+        input = openFileDialog.ShowDialog() is DialogResult.OK ? new(openFileDialog.FileName, home) : null;
 
         if (input is not null)
         {
             await EnableUIAsync();
 
-            btnOpenFile.Enabled = false;
-            btnNew.Enabled = true;
-            btnOutDir.Enabled = true;
+            OpenFileButton.Enabled = false;
+            NewButton.Enabled = true;
+            OutputDirectoryButton.Enabled = true;
         }
 
-        txbInFile.Text = input?.FileInfo.FileName;
-        txbOutFile.Text = input is not null ? input.ScriptFile : home;
+        InputFileTextBox.Text = input?.FileInfo.FileName;
+        OutputFileTextBox.Text = input is not null ? input.ScriptFile : home;
     }
 
-    private void btnOut_Click(object sender, EventArgs e)
+    private void OutputDirectory_Click(object sender, EventArgs e)
     {
         if (input is null)
         {
@@ -179,10 +179,10 @@ public partial class MainForm : Form
         var folderBrowserDialog = new FolderBrowserDialog();
         input.HomeDir = folderBrowserDialog.ShowDialog() is DialogResult.OK ? folderBrowserDialog.SelectedPath : input.HomeDir;
 
-        txbOutFile.Text = input.ScriptFile;
+        OutputFileTextBox.Text = input.ScriptFile;
     }
 
-    private async void btnGen_Click(object sender, EventArgs e)
+    private async void GenerateButton_Click(object sender, EventArgs e)
     {
         if (input is null)
         {
@@ -190,19 +190,19 @@ public partial class MainForm : Form
             return;
         }
 
-        input.Video.Enabled = cbxVideo.Checked;
-        input.Video.Codec = (string)cmbVideoCodec.SelectedItem;
-        input.Video.KeyframeIntervalInSeconds = (string)cmbKeyframeInterval.SelectedItem;
+        input.Video.Enabled = EnableVideoCheckBox.Checked;
+        input.Video.Codec = (string)VideoCodecComboBox.SelectedItem;
+        input.Video.KeyframeIntervalInSeconds = (string)KeyframeIntervalComboBox.SelectedItem;
 
-        input.Audio.Enabled = cbxAudio.Checked;
-        input.Audio.Codec = (string)cmbAudioCodec.SelectedItem;
-        input.Audio.Bitrate = (int)cmbBitrate.SelectedItem;
-        input.Audio.Language = (string)cmbLanguage.SelectedItem;
+        input.Audio.Enabled = EnableAudioCheckBox.Checked;
+        input.Audio.Codec = (string)AudioCodecComboBox.SelectedItem;
+        input.Audio.Bitrate = (int)AudioBitrateComboBox.SelectedItem;
+        input.Audio.Language = (string)AudioLanguageComboBox.SelectedItem;
 
-        input.OutputContainer = cbxMP4.Checked switch
+        input.OutputContainer = MP4CheckBox.Checked switch
         {
             true => "MP4",
-            false => cbxMKV.Checked switch
+            false => MKVCheckBox.Checked switch
             {
                 true => "MKV",
                 false => null
@@ -221,7 +221,7 @@ public partial class MainForm : Form
         }
     }
 
-    private void btnNew_Click(object sender, EventArgs e) { New(); }
+    private void NewButton_Click(object sender, EventArgs e) { New(); }
     #endregion Buttons
 
     #region ComponentEvents
@@ -241,21 +241,21 @@ public partial class MainForm : Form
         }
     }
 
-    private void MainForm_MouseUp(object sender, MouseEventArgs e) => 
+    private void MainForm_MouseUp(object sender, MouseEventArgs e) =>
         dragging = false;
 
     private void MainForm_Deactivate(object sender, EventArgs e)
     {
-        lbltitle.ForeColor    = Color.FromArgb(200, 200, 200);
-        lblMinimize.ForeColor = Color.FromArgb(200, 200, 200);
-        lblClose.ForeColor    = Color.FromArgb(200, 200, 200);
+        TitleLabel.ForeColor = Color.FromArgb(200, 200, 200);
+        MinimizeLabel.ForeColor = Color.FromArgb(200, 200, 200);
+        CloseLabel.ForeColor = Color.FromArgb(200, 200, 200);
     }
 
     private void MainForm_Activated(object sender, EventArgs e)
     {
-        lbltitle.ForeColor    = Color.White;
-        lblMinimize.ForeColor = Color.White;
-        lblClose.ForeColor    = Color.White;
+        TitleLabel.ForeColor = Color.White;
+        MinimizeLabel.ForeColor = Color.White;
+        CloseLabel.ForeColor = Color.White;
     }
 
     private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
@@ -264,71 +264,71 @@ public partial class MainForm : Form
         Properties.Settings.Default.Save();
     }
 
-    private void cbxVideo_CheckedChanged(object sender, EventArgs e)
+    private void VideoEnabledCheckBox_CheckedChanged(object sender, EventArgs e)
     {
-        cbxMP4.Checked =  cbxVideo.Checked
-                      &&  cbxMP4.Enabled
-                      && !cbxMKV.Checked;
+        MP4CheckBox.Checked = EnableVideoCheckBox.Checked
+                      && MP4CheckBox.Enabled
+                      && !MKVCheckBox.Checked;
 
-        cmbVideoCodec.Enabled = cbxVideo.Checked;
-        cmbKeyframeInterval.Enabled = cbxVideo.Checked;
+        VideoCodecComboBox.Enabled = EnableVideoCheckBox.Checked;
+        KeyframeIntervalComboBox.Enabled = EnableVideoCheckBox.Checked;
     }
 
-    private void cbxAudio_CheckedChanged(object sender, EventArgs e)
+    private void AudioEnabledCheckBox_CheckedChanged(object sender, EventArgs e)
     {
-        cmbAudioCodec.Enabled = cbxAudio.Checked;
+        AudioCodecComboBox.Enabled = EnableAudioCheckBox.Checked;
 
-        cmbLanguage.Enabled = cbxAudio.Checked;
-        cmbBitrate.Enabled = cbxAudio.Checked;
+        AudioLanguageComboBox.Enabled = EnableAudioCheckBox.Checked;
+        AudioBitrateComboBox.Enabled = EnableAudioCheckBox.Checked;
     }
-    
-    private void cmbVideoCodec_SelectedIndexChanged(object sender, EventArgs e)
+
+    private void VideoCodecComboBox_SelectedIndexChanged(object sender, EventArgs e)
     {
-        if ((string)cmbVideoCodec.SelectedItem is "Mux Original" && input?.FileInfo.IsSupportedByMP4Box is false)
+        if ((string)VideoCodecComboBox.SelectedItem is "Mux Original" && input?.FileInfo.IsSupportedByMP4Box is false)
         {
-            cbxMP4.Enabled = false;
-            cbxMP4.Checked = false;
-            cbxMKV.Checked = true;
+            MP4CheckBox.Enabled = false;
+            MP4CheckBox.Checked = false;
+            MKVCheckBox.Checked = true;
         }
         else if (input is not null)
         {
-            cbxMP4.Enabled = true;
+            MP4CheckBox.Enabled = true;
         }
     }
 
-    private async void cmbAudioCodec_SelectedIndexChanged(object sender, EventArgs e) => 
+    private async void AudioCodecComboBox_SelectedIndexChanged(object sender, EventArgs e) =>
         await SetSelectableAudioBitratesAsync();
 
-    private void cbxMP4_CheckedChanged(object sender, EventArgs e) =>
-        cbxMKV.Checked = cbxMP4.Checked switch
+    private void MP4CheckBox_CheckedChanged(object sender, EventArgs e) =>
+        MKVCheckBox.Checked = MP4CheckBox.Checked switch
         {
-            true  => false,
-            false => cbxMKV.Checked
+            true => false,
+            false => MKVCheckBox.Checked
         };
 
-    private void cbxMKV_CheckedChanged(object sender, EventArgs e) =>
-        cbxMP4.Checked = cbxMKV.Checked switch
+    private void MKVCheckBox_CheckedChanged(object sender, EventArgs e) =>
+        MP4CheckBox.Checked = MKVCheckBox.Checked switch
         {
-            true  => false,
-            false => cbxMP4.Checked
+            true => false,
+            false => MP4CheckBox.Checked
         };
 
-    private void lblClose_MouseEnter(object sender, EventArgs e) =>
-        lblClose.BackColor = Color.Red;
+    private void CloseLabel_MouseEnter(object sender, EventArgs e) =>
+        CloseLabel.BackColor = Color.Red;
 
-    private void lblClose_MouseLeave(object sender, EventArgs e) =>
-        lblClose.BackColor = Color.FromArgb(40, 40, 40);
+    private void CloseLabel_MouseLeave(object sender, EventArgs e) =>
+        CloseLabel.BackColor = Color.FromArgb(40, 40, 40);
 
-    private void lblClose_Click(object sender, EventArgs e) =>
+    private void CloseLabel_Click(object sender, EventArgs e) =>
         Application.Exit();
 
-    private void lblMinimize_MouseEnter(object sender, EventArgs e) =>
-        lblMinimize.BackColor = Color.FromArgb(60, 60, 60);
+    private void MinimizeLabel_MouseEnter(object sender, EventArgs e) =>
+        MinimizeLabel.BackColor = Color.FromArgb(60, 60, 60);
 
-    private void lblMinimize_MouseLeave(object sender, EventArgs e) =>
-        lblMinimize.BackColor = Color.FromArgb(40, 40, 40);
+    private void MinimizeLabel_MouseLeave(object sender, EventArgs e) =>
+        MinimizeLabel.BackColor = Color.FromArgb(40, 40, 40);
 
-    private void lblMinimize_Click(object sender, EventArgs e) =>
+    private void MinimizeLabel_Click(object sender, EventArgs e) =>
         WindowState = FormWindowState.Minimized;
 
     #endregion ComponentEvents
