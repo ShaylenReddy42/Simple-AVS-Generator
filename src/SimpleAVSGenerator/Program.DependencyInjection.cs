@@ -40,6 +40,8 @@ internal static partial class Program
 
         services.AddSingleton<Extensions>();
 
+        services.AddScoped<MediaInfo.MediaInfo>();
+
         services.AddSingleton<IFileWriterService, FileWriterService>();
 
         services.AddSingleton<IInputFileHandlerService, InputFileHandlerService>();

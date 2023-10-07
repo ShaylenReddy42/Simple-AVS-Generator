@@ -1,7 +1,23 @@
-﻿namespace SimpleAVSGeneratorCore.Tests;
+﻿using SimpleAVSGeneratorCore.Services;
+
+namespace SimpleAVSGeneratorCore.Tests;
 
 public class AviSynthScriptTests
 {
+    private readonly IInputFileHandlerService inputFileHandlerService;
+
+    public AviSynthScriptTests()
+    {
+        var fileWriterService = new FileWriterService();
+
+        var serviceProvider =
+            new ServiceCollection()
+                .AddScoped<MediaInfo.MediaInfo>()
+            .BuildServiceProvider();
+
+        inputFileHandlerService = new InputFileHandlerService(fileWriterService, serviceProvider);
+    }
+
     // Use Cases
     // FileName | Video | VideoCodec | Audio | CreateAviSynthScript | EndsWith | LineCount
     public static TheoryData<string, bool, string, bool, bool, char, int> AviSynthScript_CheckScriptContentForVariousUseCases_TestData =>
@@ -18,7 +34,7 @@ public class AviSynthScriptTests
 
     [Theory(DisplayName = "Validate Script Content For Various Use Cases")]
     [MemberData(nameof(AviSynthScript_CheckScriptContentForVariousUseCases_TestData))]
-    public void AviSynthScript_ValidateScriptContentForVariousUseCases(   
+    public async Task AviSynthScript_ValidateScriptContentForVariousUseCases(   
         string fileName,
         bool video,
         string videoCodec,
@@ -30,7 +46,7 @@ public class AviSynthScriptTests
         // Arrange
         object[] expectedOutput = new object[] { expectedCreateAviSynthScript, expectedEndsWith, expectedLineCount };
         
-        InputFile input = new(fileName, @"C:\Users\User\Desktop\Temp\");
+        var input = await inputFileHandlerService.CreateInputFileAsync(fileName, @"C:\Users\User\Desktop\Temp\");
 
         input.Video.Enabled = video;
         input.Video.Codec = videoCodec;
@@ -38,7 +54,7 @@ public class AviSynthScriptTests
 
         // Act
         AviSynthScript script = new(input.ScriptFile);
-        script.SetScriptContentAsync(input.FileInfo, input.Video, input.Audio);
+        await script.SetScriptContentAsync(input.FileInfo, input.Video, input.Audio);
 
         bool actualCreateAviSynthScript = script.CreateAviSynthScript;
         char actualEndsWith = script.AVSScriptContent[^1];
@@ -62,19 +78,19 @@ public class AviSynthScriptTests
 
     [Theory(DisplayName = "Validate That 'targetWidth' Is Set Correctly")]
     [MemberData(nameof(ResizeVideo_ValidateThatTargetWidthIsSetCorrectly_TestData))]
-    public void ResizeVideo_ValidateThatTargetWidthIsSetCorrectly(
+    public async Task ResizeVideo_ValidateThatTargetWidthIsSetCorrectly(
         string videoCodec,
         string expectedStringInScript)
     {
         // Arrange
-        InputFile input = new(@"Samples\Sample.mp4", @"C:\Users\User\Desktop\Temp\");
+        var input = await inputFileHandlerService.CreateInputFileAsync(@"Samples\Sample.mp4", @"C:\Users\User\Desktop\Temp\");
 
         input.Video.Enabled = true;
         input.Video.Codec = videoCodec;
 
         // Act
         AviSynthScript script = new(input.ScriptFile);
-        script.SetScriptContentAsync(input.FileInfo, input.Video, input.Audio);
+        await script.SetScriptContentAsync(input.FileInfo, input.Video, input.Audio);
 
         // Assert
         Assert.Contains(expectedStringInScript, script.AVSScriptContent);

@@ -1,7 +1,23 @@
-﻿namespace SimpleAVSGeneratorCore.Tests;
+﻿using SimpleAVSGeneratorCore.Services;
+
+namespace SimpleAVSGeneratorCore.Tests;
 
 public class OutputScriptsTests
 {
+    private readonly IInputFileHandlerService inputFileHandlerService;
+
+    public OutputScriptsTests()
+    {
+        var fileWriterService = new FileWriterService();
+        
+        var serviceProvider = 
+            new ServiceCollection()
+                .AddScoped<MediaInfo.MediaInfo>()
+            .BuildServiceProvider();
+
+        inputFileHandlerService = new InputFileHandlerService(fileWriterService, serviceProvider);
+    }
+
     // VideoCodec | Expected video encoder
     public static TheoryData<string, string> ConfigureVideoScript_ValidateWhichVideoEncoderIsUsed_TestData =>
     new()
@@ -19,7 +35,7 @@ public class OutputScriptsTests
         string expectedVideoEncoder)
     {
         // Arrange
-        InputFile input = new(@"Samples\Sample.mp4", @"C:\Users\User\Desktop\Temp\");
+        var input = await inputFileHandlerService.CreateInputFileAsync(@"Samples\Sample.mp4", @"C:\Users\User\Desktop\Temp\");
 
         input.Video.Enabled = true;
         input.Video.Codec = videoCodec;
@@ -47,19 +63,19 @@ public class OutputScriptsTests
 
     [Theory(DisplayName = "Validate The Video Script Filename")]
     [MemberData(nameof(ConfigureVideoScript_ValidateTheVideoScriptFilename_TestData))]
-    public void ConfigureVideoScript_ValidateTheVideoScriptFilename(
+    public async Task ConfigureVideoScript_ValidateTheVideoScriptFilename(
         string videoCodec,
         string expectedEndsWith)
     {
         // Arrange
-        InputFile input = new(@"Samples\Sample.mp4", @"C:\Users\User\Desktop\Temp\");
+        var input = await inputFileHandlerService.CreateInputFileAsync(@"Samples\Sample.mp4", @"C:\Users\User\Desktop\Temp\");
 
         input.Video.Enabled = true;
         input.Video.Codec = videoCodec;
 
         // Act
         OutputScripts output = new();
-        output.ConfigureVideoScriptAsync(input.Video, input.OutputDir);
+        await output.ConfigureVideoScriptAsync(input.Video, input.OutputDir);
 
         string? videoEncoderScriptFile = output.VideoEncoderScriptFile;
 
@@ -78,12 +94,12 @@ public class OutputScriptsTests
 
     [Theory(DisplayName = "Validate Which Audio Encoder Is Used")]
     [MemberData(nameof(ConfigureAudioScript_ValidateWhichAudioEncoderIsUsed_TestData))]
-    public void ConfigureAudioScript_ValidateWhichAudioEncoderIsUsed(
+    public async Task ConfigureAudioScript_ValidateWhichAudioEncoderIsUsed(
         string audioCodec,
         string expectedAudioEncoder)
     {
         // Arrange
-        InputFile input = new(@"Samples\Sample.m4a", @"C:\Users\User\Desktop\Temp\");
+        var input = await inputFileHandlerService.CreateInputFileAsync(@"Samples\Sample.m4a", @"C:\Users\User\Desktop\Temp\");
 
         input.Audio.Enabled = true;
         input.Audio.Codec = audioCodec;
@@ -91,7 +107,7 @@ public class OutputScriptsTests
 
         // Act
         OutputScripts output = new();
-        output.ConfigureAudioScriptAsync(input.FileInfo, input.Audio, input.OutputDir);
+        await output.ConfigureAudioScriptAsync(input.FileInfo, input.Audio, input.OutputDir);
 
         string? audioEncoderScriptContent = output.AudioEncoderScriptContent;
 
@@ -100,10 +116,10 @@ public class OutputScriptsTests
     }
 
     [Fact(DisplayName = "Check Audio Channel Mask for AAC-HE 7.1")]
-    public void CheckAudioChannelMask()
+    public async Task CheckAudioChannelMask()
     {
         // Arrange
-        InputFile input = new(@"Samples\Sample DTS_X.mkv", @"C:\Users\User\Desktop\Temp\");
+        var input = await inputFileHandlerService.CreateInputFileAsync(@"Samples\Sample DTS_X.mkv", @"C:\Users\User\Desktop\Temp\");
 
         input.Audio.Enabled = true;
         input.Audio.Codec = "AAC-HE";
@@ -111,7 +127,7 @@ public class OutputScriptsTests
 
         // Act
         OutputScripts output = new();
-        output.ConfigureAudioScriptAsync(input.FileInfo, input.Audio, input.OutputDir);
+        await output.ConfigureAudioScriptAsync(input.FileInfo, input.Audio, input.OutputDir);
 
         string? audioEncoderScriptContent = output.AudioEncoderScriptContent;
 
@@ -130,12 +146,12 @@ public class OutputScriptsTests
 
     [Theory(DisplayName = "Validate The Audio Script Filename")]
     [MemberData(nameof(ConfigureAudioScript_ValidateTheAudioScriptFilename_TestData))]
-    public void ConfigureAudioScript_ValidateTheAudioScriptFilename(
+    public async Task ConfigureAudioScript_ValidateTheAudioScriptFilename(
         string audioCodec,
         string expectedEndsWith)
     {
         // Arrange
-        InputFile input = new(@"Samples\Sample.m4a", @"C:\Users\User\Desktop\Temp\");
+        var input = await inputFileHandlerService.CreateInputFileAsync(@"Samples\Sample.m4a", @"C:\Users\User\Desktop\Temp\");
 
         input.Audio.Enabled = true;
         input.Audio.Codec = audioCodec;
@@ -143,7 +159,7 @@ public class OutputScriptsTests
 
         // Act
         OutputScripts output = new();
-        output.ConfigureAudioScriptAsync(input.FileInfo, input.Audio, input.OutputDir);
+        await output.ConfigureAudioScriptAsync(input.FileInfo, input.Audio, input.OutputDir);
 
         string? audioEncoderScriptFile = output.AudioEncoderScriptFile;
 
@@ -155,21 +171,19 @@ public class OutputScriptsTests
     // OutputContainer | Expected multiplexer
     [InlineData("MP4", "mp4box")]
     [InlineData("MKV", "mkvmerge")]
-    public void ConfigureContainerScript_ValidateWhichMultiplexerIsUsed(
+    public async Task ConfigureContainerScript_ValidateWhichMultiplexerIsUsed(
         string outputContainer,
         string expectedMultiplexer)
     {
         // Arrange
-        InputFile input = new(@"Samples\Sample.mp4", @"C:\Users\User\Desktop\Temp\")
-        {
-            OutputContainer = outputContainer
-        };
+        var input = await inputFileHandlerService.CreateInputFileAsync(@"Samples\Sample.mp4", @"C:\Users\User\Desktop\Temp\");
 
+        input.OutputContainer = outputContainer;
         input.Video.Enabled = true;
 
         // Act
         OutputScripts output = new();
-        output.ConfigureContainerScriptAsync(input.FileInfo, input.Video, input.Audio, input.OutputContainer, input.OutputDir);
+        await output.ConfigureContainerScriptAsync(input.FileInfo, input.Video, input.Audio, input.OutputContainer, input.OutputDir);
 
         string? containerScriptContent = output.ContainerScriptContent;
 
@@ -193,23 +207,21 @@ public class OutputScriptsTests
 
     [Theory(DisplayName = "Validate Video String In Script")]
     [MemberData(nameof(ConfigureContainerScript_ValidateVideoStringInScript_TestData))]
-    public void ConfigureContainerScript_ValidateVideoStringInScript(
+    public async Task ConfigureContainerScript_ValidateVideoStringInScript(
         string videoCodec,
         string outputContainer,
         string expectedVideoStringInScript)
     {
         // Arrange
-        InputFile input = new(@"Samples\Sample.mp4", @"C:\Users\User\Desktop\Temp\")
-        {
-            OutputContainer = outputContainer
-        };
-
+        var input = await inputFileHandlerService.CreateInputFileAsync(@"Samples\Sample.mp4", @"C:\Users\User\Desktop\Temp\");
+        
+        input.OutputContainer = outputContainer;
         input.Video.Enabled = true;
         input.Video.Codec = videoCodec;
 
         // Act
         OutputScripts output = new();
-        output.ConfigureContainerScriptAsync(input.FileInfo, input.Video, input.Audio, input.OutputContainer, input.OutputDir);
+        await output.ConfigureContainerScriptAsync(input.FileInfo, input.Video, input.Audio, input.OutputContainer, input.OutputDir);
 
         string? containerScriptContent = output.ContainerScriptContent;
 
@@ -231,18 +243,16 @@ public class OutputScriptsTests
 
     [Theory(DisplayName = "Validate Audio String In Script")]
     [MemberData(nameof(ConfigureContainerScript_ValidateAudioStringInScript_TestData))]
-    public void ConfigureContainerScript_ValidateAudioStringInScript(
+    public async Task ConfigureContainerScript_ValidateAudioStringInScript(
         string audioCodec,
         string audioLanguageKey,
         string outputContainer,
         string expectedAudioStringInScript)
     {
         // Arrange
-        InputFile input = new(@"Samples\Sample.mp4", @"C:\Users\User\Desktop\Temp\")
-        {
-            OutputContainer = outputContainer
-        };
+        var input = await inputFileHandlerService.CreateInputFileAsync(@"Samples\Sample.mp4", @"C:\Users\User\Desktop\Temp\");
 
+        input.OutputContainer = outputContainer;
         input.Video.Enabled = true;
         input.Video.Codec = "HEVC";
         input.Audio.Enabled = true;
@@ -251,7 +261,7 @@ public class OutputScriptsTests
 
         // Act
         OutputScripts output = new();
-        output.ConfigureContainerScriptAsync(input.FileInfo, input.Video, input.Audio, input.OutputContainer, input.OutputDir);
+        await output.ConfigureContainerScriptAsync(input.FileInfo, input.Video, input.Audio, input.OutputContainer, input.OutputDir);
 
         string? containerScriptContent = output.ContainerScriptContent;
 
@@ -269,21 +279,19 @@ public class OutputScriptsTests
 
     [Theory(DisplayName = "Validate Output File String In Script")]
     [MemberData(nameof(ConfigureContainerScript_ValidateOutputFileStringInScript_TestData))]
-    public void ConfigureContainerScript_ValidateOutputFileStringInScript(
+    public async Task ConfigureContainerScript_ValidateOutputFileStringInScript(
         string outputContainer,
         string expectedOutputFileStringInScript)
     {
         // Arrange
-        InputFile input = new(@"Samples\Sample.mp4", @"C:\Users\User\Desktop\Temp\")
-        {
-            OutputContainer = outputContainer
-        };
-
+        var input = await inputFileHandlerService.CreateInputFileAsync(@"Samples\Sample.mp4", @"C:\Users\User\Desktop\Temp\");
+        
+        input.OutputContainer = outputContainer;
         input.Video.Enabled = true;
 
         // Act
         OutputScripts output = new();
-        output.ConfigureContainerScriptAsync(input.FileInfo, input.Video, input.Audio, input.OutputContainer, input.OutputDir);
+        await output.ConfigureContainerScriptAsync(input.FileInfo, input.Video, input.Audio, input.OutputContainer, input.OutputDir);
 
         string? containerScriptContent = output.ContainerScriptContent;
 
@@ -303,23 +311,21 @@ public class OutputScriptsTests
 
     [Theory(DisplayName = "Validate The Container Script Filename")]
     [MemberData(nameof(ConfigureContainerScript_ValidateTheContainerScriptFilename_TestData))]
-    public void ConfigureContainerScript_ValidateTheContainerScriptFilename(
+    public async Task ConfigureContainerScript_ValidateTheContainerScriptFilename(
         string videoCodec,
         string outputContainer,
         string expectedEndsWith)
     {
         // Arrange
-        InputFile input = new(@"Samples\Sample.mp4", @"C:\Users\User\Desktop\Temp\")
-        {
-            OutputContainer = outputContainer
-        };
+        var input = await inputFileHandlerService.CreateInputFileAsync(@"Samples\Sample.mp4", @"C:\Users\User\Desktop\Temp\");
 
+        input.OutputContainer = outputContainer;
         input.Video.Enabled = true;
         input.Video.Codec = videoCodec;
 
         // Act
         OutputScripts output = new();
-        output.ConfigureContainerScriptAsync(input.FileInfo, input.Video, input.Audio, input.OutputContainer, input.OutputDir);
+        await output.ConfigureContainerScriptAsync(input.FileInfo, input.Video, input.Audio, input.OutputContainer, input.OutputDir);
 
         string? containerScriptFile = output.ContainerScriptFile;
 

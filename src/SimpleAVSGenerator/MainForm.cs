@@ -154,7 +154,7 @@ public partial class MainForm : Form
             Filter      = $"{filterSupportedExts}|{filterContainerExts}|{filterVideoExts}|{filterAudioExts}"
         };
 
-        input = openFileDialog.ShowDialog() is DialogResult.OK ? new(openFileDialog.FileName, home) : null;
+        input = openFileDialog.ShowDialog() is DialogResult.OK ? await inputFileHandlerService.CreateInputFileAsync(openFileDialog.FileName, home) : null;
 
         if (input is not null)
         {

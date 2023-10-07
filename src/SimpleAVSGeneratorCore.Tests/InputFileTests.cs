@@ -4,6 +4,20 @@ namespace SimpleAVSGeneratorCore.Tests;
 
 public class InputFileTests
 {
+    private readonly InputFileHandlerService inputFileHandlerService;
+
+    public InputFileTests()
+    {
+        var fileWriterService = new FileWriterService();
+
+        var serviceProvider =
+            new ServiceCollection()
+                .AddScoped<MediaInfo.MediaInfo>()
+            .BuildServiceProvider();
+
+        inputFileHandlerService = new InputFileHandlerService(fileWriterService, serviceProvider);
+    }
+
     // FileName | FileExt | FileNameOnly | FileType | IsSupportedByMP4Box
     public static TheoryData<string, string, string, string, bool> InputFile_CheckIfPropertiesAreSetAccurately_TestData =>
         new()
@@ -16,7 +30,7 @@ public class InputFileTests
 
     [Theory(DisplayName = "Check If Properties Are Set Accurately")]
     [MemberData(nameof(InputFile_CheckIfPropertiesAreSetAccurately_TestData))]
-    public void InputFile_CheckIfPropertiesAreSetAccurately(
+    public async Task InputFile_CheckIfPropertiesAreSetAccurately(
         string fileName,
         string fileExt,
         string fileNameOnly,
@@ -27,7 +41,7 @@ public class InputFileTests
         object[] expectedProperties = { fileName, fileExt, fileNameOnly, fileType, isSupportedByMP4Box };
 
         // Act
-        InputFile input = new(fileName, @"C:\Users\User\Desktop\Temp\");
+        var input = await inputFileHandlerService.CreateInputFileAsync(fileName, @"C:\Users\User\Desktop\Temp\");
         string actualFileName     = input.FileInfo.FileName,
                actualFileExt      = input.FileInfo.FileExt,
                actualFileNameOnly = input.FileInfo.FileNameOnly,
@@ -44,14 +58,14 @@ public class InputFileTests
     // FileName | Expected AVSMeter script file
     [InlineData(@"Samples\Sample.mp4",  @"C:\Users\User\Desktop\Temp\Sample\AVSMeter.cmd")]
     [InlineData(@"Samples\Sample1.mkv", @"C:\Users\User\Desktop\Temp\Sample1\AVSMeter.cmd")]
-    public void ValidateAVSMeterScriptFileAndContent(
+    public async Task ValidateAVSMeterScriptFileAndContent(
         string fileName,
         string expectedScriptFile)
     {
         // Arrange
         string[] expectedScriptFileAndContent = { expectedScriptFile, $"AVSMeter64 \"%~dp0Script.avs\" -i -l" };
 
-        InputFile input = new(fileName, @"C:\Users\User\Desktop\Temp\");
+        var input = await inputFileHandlerService.CreateInputFileAsync(fileName, @"C:\Users\User\Desktop\Temp\");
 
         // Act
         string actualScriptFile    = input.AVSMeterScriptFile,
@@ -68,7 +82,7 @@ public class InputFileTests
     [InlineData(@"Samples\Sample.mp3",       "2.0")]
     [InlineData(@"Samples\Sample.m4a",       "2.0")]
     [InlineData(@"Samples\Sample DTS_X.mkv", "7.1")] // This is an 8.0 track mapped to 7.1
-    public void ValidateSimpleAudioChannelLayout(
+    public async Task ValidateSimpleAudioChannelLayout(
         string fileName,
         string expectedAudioChannelLayout)
     {
@@ -76,7 +90,7 @@ public class InputFileTests
         // Nothing to do here
 
         // Act
-        InputFile input = new(fileName, @"C:\Users\User\Desktop\Temp\");
+        var input = await inputFileHandlerService.CreateInputFileAsync(fileName, @"C:\Users\User\Desktop\Temp\");
 
         // Assert
         Assert.Equal(expectedAudioChannelLayout, input.Audio.SourceChannels);
@@ -107,12 +121,7 @@ public class InputFileTests
         string expectedScriptsCreated)
     {
         // Arrange
-        // construct dependencies for the input file handler service before constructing the handler itself
-        var fileWriterService = new FileWriterService();
-
-        var inputFileHandlerService = new InputFileHandlerService(fileWriterService);
-
-        InputFile input = new(@"Samples\Sample.mp4", @"C:\Users\User\Desktop\Temp\");
+        var input = await inputFileHandlerService.CreateInputFileAsync(@"Samples\Sample.mp4", @"C:\Users\User\Desktop\Temp\");
 
         input.Video.Enabled = video;
         input.Video.Codec = videoCodec;
