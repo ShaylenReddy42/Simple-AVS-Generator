@@ -99,10 +99,14 @@ public partial class MainForm : Form
 
         EnableVideoCheckBox.Enabled = input.FileInfo.HasVideo;
         EnableVideoCheckBox.Checked = input.FileInfo.HasVideo;
+
         EnableAudioCheckBox.Enabled = input.FileInfo.HasAudio;
         EnableAudioCheckBox.Checked = input.FileInfo.HasAudio;
+
         MP4CheckBox.Enabled = input.FileInfo.HasVideo;
         MKVCheckBox.Enabled = input.FileInfo.HasVideo;
+
+        MP4CheckBox.Checked = input.FileInfo.HasVideo;
 
         await SetSelectableAudioBitratesAsync();
     }
@@ -201,10 +205,10 @@ public partial class MainForm : Form
 
         input.OutputContainer = MP4CheckBox.Checked switch
         {
-            true => "MP4",
+            true  => "MP4",
             false => MKVCheckBox.Checked switch
             {
-                true => "MKV",
+                true  => "MKV",
                 false => null
             }
         };
