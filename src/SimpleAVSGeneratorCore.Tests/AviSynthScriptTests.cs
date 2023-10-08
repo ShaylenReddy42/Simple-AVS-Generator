@@ -1,21 +1,14 @@
-﻿using SimpleAVSGeneratorCore.Services;
+﻿using SimpleAVSGeneratorCore.Tests.Fixtures;
 
 namespace SimpleAVSGeneratorCore.Tests;
 
-public class AviSynthScriptTests
+public class AviSynthScriptTests : IClassFixture<CommonDependencyInjectionFixture>
 {
-    private readonly IInputFileHandlerService inputFileHandlerService;
+    private readonly CommonDependencyInjectionFixture commonDependencyInjectionFixture;
 
-    public AviSynthScriptTests()
+    public AviSynthScriptTests(CommonDependencyInjectionFixture commonDependencyInjectionFixture)
     {
-        var fileWriterService = new FileWriterService();
-
-        var serviceProvider =
-            new ServiceCollection()
-                .AddScoped<MediaInfo.MediaInfo>()
-            .BuildServiceProvider();
-
-        inputFileHandlerService = new InputFileHandlerService(fileWriterService, serviceProvider);
+        this.commonDependencyInjectionFixture = commonDependencyInjectionFixture;
     }
 
     // Use Cases
@@ -46,7 +39,7 @@ public class AviSynthScriptTests
         // Arrange
         object[] expectedOutput = new object[] { expectedCreateAviSynthScript, expectedEndsWith, expectedLineCount };
         
-        var input = await inputFileHandlerService.CreateInputFileAsync(fileName, @"C:\Users\User\Desktop\Temp\");
+        var input = await commonDependencyInjectionFixture.InputFileHandlerServiceInstance.CreateInputFileAsync(fileName, @"C:\Users\User\Desktop\Temp\");
 
         input.Video.Enabled = video;
         input.Video.Codec = videoCodec;
@@ -83,7 +76,7 @@ public class AviSynthScriptTests
         string expectedStringInScript)
     {
         // Arrange
-        var input = await inputFileHandlerService.CreateInputFileAsync(@"Samples\Sample.mp4", @"C:\Users\User\Desktop\Temp\");
+        var input = await commonDependencyInjectionFixture.InputFileHandlerServiceInstance.CreateInputFileAsync(@"Samples\Sample.mp4", @"C:\Users\User\Desktop\Temp\");
 
         input.Video.Enabled = true;
         input.Video.Codec = videoCodec;

@@ -1,21 +1,15 @@
 ﻿using SimpleAVSGeneratorCore.Services;
+using SimpleAVSGeneratorCore.Tests.Fixtures;
 
 namespace SimpleAVSGeneratorCore.Tests;
 
-public class OutputScriptsTests
+public class OutputScriptsTests : IClassFixture<CommonDependencyInjectionFixture>
 {
-    private readonly IInputFileHandlerService inputFileHandlerService;
+    private readonly CommonDependencyInjectionFixture commonDependencyInjectionFixture;
 
-    public OutputScriptsTests()
+    public OutputScriptsTests(CommonDependencyInjectionFixture commonDependencyInjectionFixture)
     {
-        var fileWriterService = new FileWriterService();
-        
-        var serviceProvider = 
-            new ServiceCollection()
-                .AddScoped<MediaInfo.MediaInfo>()
-            .BuildServiceProvider();
-
-        inputFileHandlerService = new InputFileHandlerService(fileWriterService, serviceProvider);
+        this.commonDependencyInjectionFixture = commonDependencyInjectionFixture;
     }
 
     // VideoCodec | Expected video encoder
@@ -35,7 +29,7 @@ public class OutputScriptsTests
         string expectedVideoEncoder)
     {
         // Arrange
-        var input = await inputFileHandlerService.CreateInputFileAsync(@"Samples\Sample.mp4", @"C:\Users\User\Desktop\Temp\");
+        var input = await commonDependencyInjectionFixture.InputFileHandlerServiceInstance.CreateInputFileAsync(@"Samples\Sample.mp4", @"C:\Users\User\Desktop\Temp\");
 
         input.Video.Enabled = true;
         input.Video.Codec = videoCodec;
@@ -68,7 +62,7 @@ public class OutputScriptsTests
         string expectedEndsWith)
     {
         // Arrange
-        var input = await inputFileHandlerService.CreateInputFileAsync(@"Samples\Sample.mp4", @"C:\Users\User\Desktop\Temp\");
+        var input = await commonDependencyInjectionFixture.InputFileHandlerServiceInstance.CreateInputFileAsync(@"Samples\Sample.mp4", @"C:\Users\User\Desktop\Temp\");
 
         input.Video.Enabled = true;
         input.Video.Codec = videoCodec;
@@ -99,7 +93,7 @@ public class OutputScriptsTests
         string expectedAudioEncoder)
     {
         // Arrange
-        var input = await inputFileHandlerService.CreateInputFileAsync(@"Samples\Sample.m4a", @"C:\Users\User\Desktop\Temp\");
+        var input = await commonDependencyInjectionFixture.InputFileHandlerServiceInstance.CreateInputFileAsync(@"Samples\Sample.m4a", @"C:\Users\User\Desktop\Temp\");
 
         input.Audio.Enabled = true;
         input.Audio.Codec = audioCodec;
@@ -119,7 +113,7 @@ public class OutputScriptsTests
     public async Task CheckAudioChannelMask()
     {
         // Arrange
-        var input = await inputFileHandlerService.CreateInputFileAsync(@"Samples\Sample DTS_X.mkv", @"C:\Users\User\Desktop\Temp\");
+        var input = await commonDependencyInjectionFixture.InputFileHandlerServiceInstance.CreateInputFileAsync(@"Samples\Sample DTS_X.mkv", @"C:\Users\User\Desktop\Temp\");
 
         input.Audio.Enabled = true;
         input.Audio.Codec = "AAC-HE";
@@ -151,7 +145,7 @@ public class OutputScriptsTests
         string expectedEndsWith)
     {
         // Arrange
-        var input = await inputFileHandlerService.CreateInputFileAsync(@"Samples\Sample.m4a", @"C:\Users\User\Desktop\Temp\");
+        var input = await commonDependencyInjectionFixture.InputFileHandlerServiceInstance.CreateInputFileAsync(@"Samples\Sample.m4a", @"C:\Users\User\Desktop\Temp\");
 
         input.Audio.Enabled = true;
         input.Audio.Codec = audioCodec;
@@ -176,7 +170,7 @@ public class OutputScriptsTests
         string expectedMultiplexer)
     {
         // Arrange
-        var input = await inputFileHandlerService.CreateInputFileAsync(@"Samples\Sample.mp4", @"C:\Users\User\Desktop\Temp\");
+        var input = await commonDependencyInjectionFixture.InputFileHandlerServiceInstance.CreateInputFileAsync(@"Samples\Sample.mp4", @"C:\Users\User\Desktop\Temp\");
 
         input.OutputContainer = outputContainer;
         input.Video.Enabled = true;
@@ -213,7 +207,7 @@ public class OutputScriptsTests
         string expectedVideoStringInScript)
     {
         // Arrange
-        var input = await inputFileHandlerService.CreateInputFileAsync(@"Samples\Sample.mp4", @"C:\Users\User\Desktop\Temp\");
+        var input = await commonDependencyInjectionFixture.InputFileHandlerServiceInstance.CreateInputFileAsync(@"Samples\Sample.mp4", @"C:\Users\User\Desktop\Temp\");
         
         input.OutputContainer = outputContainer;
         input.Video.Enabled = true;
@@ -250,7 +244,7 @@ public class OutputScriptsTests
         string expectedAudioStringInScript)
     {
         // Arrange
-        var input = await inputFileHandlerService.CreateInputFileAsync(@"Samples\Sample.mp4", @"C:\Users\User\Desktop\Temp\");
+        var input = await commonDependencyInjectionFixture.InputFileHandlerServiceInstance.CreateInputFileAsync(@"Samples\Sample.mp4", @"C:\Users\User\Desktop\Temp\");
 
         input.OutputContainer = outputContainer;
         input.Video.Enabled = true;
@@ -284,7 +278,7 @@ public class OutputScriptsTests
         string expectedOutputFileStringInScript)
     {
         // Arrange
-        var input = await inputFileHandlerService.CreateInputFileAsync(@"Samples\Sample.mp4", @"C:\Users\User\Desktop\Temp\");
+        var input = await commonDependencyInjectionFixture.InputFileHandlerServiceInstance.CreateInputFileAsync(@"Samples\Sample.mp4", @"C:\Users\User\Desktop\Temp\");
         
         input.OutputContainer = outputContainer;
         input.Video.Enabled = true;
@@ -317,7 +311,7 @@ public class OutputScriptsTests
         string expectedEndsWith)
     {
         // Arrange
-        var input = await inputFileHandlerService.CreateInputFileAsync(@"Samples\Sample.mp4", @"C:\Users\User\Desktop\Temp\");
+        var input = await commonDependencyInjectionFixture.InputFileHandlerServiceInstance.CreateInputFileAsync(@"Samples\Sample.mp4", @"C:\Users\User\Desktop\Temp\");
 
         input.OutputContainer = outputContainer;
         input.Video.Enabled = true;

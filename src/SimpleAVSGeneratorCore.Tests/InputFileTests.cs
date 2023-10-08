@@ -1,21 +1,15 @@
 ﻿using SimpleAVSGeneratorCore.Services;
+using SimpleAVSGeneratorCore.Tests.Fixtures;
 
 namespace SimpleAVSGeneratorCore.Tests;
 
-public class InputFileTests
+public class InputFileTests : IClassFixture<CommonDependencyInjectionFixture>
 {
-    private readonly InputFileHandlerService inputFileHandlerService;
+    private readonly CommonDependencyInjectionFixture commonDependencyInjectionFixture;
 
-    public InputFileTests()
+    public InputFileTests(CommonDependencyInjectionFixture commonDependencyInjectionFixture)
     {
-        var fileWriterService = new FileWriterService();
-
-        var serviceProvider =
-            new ServiceCollection()
-                .AddScoped<MediaInfo.MediaInfo>()
-            .BuildServiceProvider();
-
-        inputFileHandlerService = new InputFileHandlerService(fileWriterService, serviceProvider);
+        this.commonDependencyInjectionFixture = commonDependencyInjectionFixture;
     }
 
     // FileName | FileExt | FileNameOnly | FileType | IsSupportedByMP4Box
@@ -41,7 +35,7 @@ public class InputFileTests
         object[] expectedProperties = { fileName, fileExt, fileNameOnly, fileType, isSupportedByMP4Box };
 
         // Act
-        var input = await inputFileHandlerService.CreateInputFileAsync(fileName, @"C:\Users\User\Desktop\Temp\");
+        var input = await commonDependencyInjectionFixture.InputFileHandlerServiceInstance.CreateInputFileAsync(fileName, @"C:\Users\User\Desktop\Temp\");
         string actualFileName     = input.FileInfo.FileName,
                actualFileExt      = input.FileInfo.FileExt,
                actualFileNameOnly = input.FileInfo.FileNameOnly,
@@ -65,7 +59,7 @@ public class InputFileTests
         // Arrange
         string[] expectedScriptFileAndContent = { expectedScriptFile, $"AVSMeter64 \"%~dp0Script.avs\" -i -l" };
 
-        var input = await inputFileHandlerService.CreateInputFileAsync(fileName, @"C:\Users\User\Desktop\Temp\");
+        var input = await commonDependencyInjectionFixture.InputFileHandlerServiceInstance.CreateInputFileAsync(fileName, @"C:\Users\User\Desktop\Temp\");
 
         // Act
         string actualScriptFile    = input.AVSMeterScriptFile,
@@ -90,7 +84,7 @@ public class InputFileTests
         // Nothing to do here
 
         // Act
-        var input = await inputFileHandlerService.CreateInputFileAsync(fileName, @"C:\Users\User\Desktop\Temp\");
+        var input = await commonDependencyInjectionFixture.InputFileHandlerServiceInstance.CreateInputFileAsync(fileName, @"C:\Users\User\Desktop\Temp\");
 
         // Assert
         Assert.Equal(expectedAudioChannelLayout, input.Audio.SourceChannels);
@@ -121,7 +115,7 @@ public class InputFileTests
         string expectedScriptsCreated)
     {
         // Arrange
-        var input = await inputFileHandlerService.CreateInputFileAsync(@"Samples\Sample.mp4", @"C:\Users\User\Desktop\Temp\");
+        var input = await commonDependencyInjectionFixture.InputFileHandlerServiceInstance.CreateInputFileAsync(@"Samples\Sample.mp4", @"C:\Users\User\Desktop\Temp\");
 
         input.Video.Enabled = video;
         input.Video.Codec = videoCodec;
@@ -135,7 +129,7 @@ public class InputFileTests
         input.OutputContainer = outputContainer;
 
         // Act
-        var actualScriptsCreated = await inputFileHandlerService.CreateScriptsAsync(input);
+        var actualScriptsCreated = await commonDependencyInjectionFixture.InputFileHandlerServiceInstance.CreateScriptsAsync(input);
 
         // Assert
         Assert.Equal(expectedScriptsCreated, actualScriptsCreated);
