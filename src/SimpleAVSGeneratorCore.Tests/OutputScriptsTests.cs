@@ -1,9 +1,9 @@
-﻿using SimpleAVSGeneratorCore.Services;
-using SimpleAVSGeneratorCore.Tests.Fixtures;
+﻿using SimpleAVSGeneratorCore.Tests.Fixtures;
 
 namespace SimpleAVSGeneratorCore.Tests;
 
-public class OutputScriptsTests : IClassFixture<CommonDependencyInjectionFixture>
+[Collection("CommonDependencyInjectionCollection")]
+public class OutputScriptsTests
 {
     private readonly CommonDependencyInjectionFixture commonDependencyInjectionFixture;
 

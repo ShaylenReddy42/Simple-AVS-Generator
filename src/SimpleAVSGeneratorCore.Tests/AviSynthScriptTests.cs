@@ -2,7 +2,8 @@
 
 namespace SimpleAVSGeneratorCore.Tests;
 
-public class AviSynthScriptTests : IClassFixture<CommonDependencyInjectionFixture>
+[Collection("CommonDependencyInjectionCollection")]
+public class AviSynthScriptTests
 {
     private readonly CommonDependencyInjectionFixture commonDependencyInjectionFixture;
 
