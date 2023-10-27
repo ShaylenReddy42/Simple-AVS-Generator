@@ -436,6 +436,7 @@ partial class MainForm
         Activated += MainForm_Activated;
         Deactivate += MainForm_Deactivate;
         FormClosing += MainForm_FormClosing;
+        Load += MainForm_Load;
         MouseDown += MainForm_MouseDown;
         MouseMove += MainForm_MouseMove;
         MouseUp += MainForm_MouseUp;

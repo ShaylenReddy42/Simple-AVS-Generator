@@ -35,28 +35,7 @@ public partial class MainForm : Form
         this.configuration = configuration;
         this.inputFileHandlerService = inputFileHandlerService;
 
-        // easter egg
-        this.logger.LogInformation("Testing configuration: TestConfig is {TestConfig}", this.configuration["TestConfig"]);
-
         InitializeComponent();
-
-        var informationalVersion = typeof(MainForm).Assembly.GetCustomAttribute<AssemblyInformationalVersionAttribute>()?.InformationalVersion
-                                ?? "0.0.0+0-unknown";
-
-        TitleLabel.Text += $" v{informationalVersion}";
-
-        if (Properties.Settings.Default.Location.X <= 0 ||
-            Properties.Settings.Default.Location.Y <= 0)
-        {
-            StartPosition = FormStartPosition.CenterScreen;
-        }
-        else
-        {
-            DataBindings.Add("Location", Properties.Settings.Default, "Location", true, DataSourceUpdateMode.OnPropertyChanged);
-        }
-
-        OutputFileTextBox.Text = home;
-        PopulateComboBoxesAsync().GetAwaiter().GetResult();
     }
 
     #region Methods
@@ -148,14 +127,14 @@ public partial class MainForm : Form
     {
         string filterSupportedExts = $"All Supported|{extensions.SupportedContainerExts};{extensions.SupportedVideoExts};{extensions.SupportedAudioExts}",
                filterContainerExts = $"Container Types [{extensions.FilterContainerExts}]|{extensions.SupportedContainerExts}",
-               filterVideoExts     = $"Video Types [{extensions.FilterVideoExts}]|{extensions.SupportedVideoExts}",
-               filterAudioExts     = $"Audio Types [{extensions.FilterAudioExts}]|{extensions.SupportedAudioExts}";
+               filterVideoExts = $"Video Types [{extensions.FilterVideoExts}]|{extensions.SupportedVideoExts}",
+               filterAudioExts = $"Audio Types [{extensions.FilterAudioExts}]|{extensions.SupportedAudioExts}";
 
         var openFileDialog = new OpenFileDialog()
         {
             Multiselect = false,
-            Title       = "Open File",
-            Filter      = $"{filterSupportedExts}|{filterContainerExts}|{filterVideoExts}|{filterAudioExts}"
+            Title = "Open File",
+            Filter = $"{filterSupportedExts}|{filterContainerExts}|{filterVideoExts}|{filterAudioExts}"
         };
 
         input = openFileDialog.ShowDialog() is DialogResult.OK ? await inputFileHandlerService.CreateInputFileAsync(openFileDialog.FileName, home) : null;
@@ -205,10 +184,10 @@ public partial class MainForm : Form
 
         input.OutputContainer = MP4CheckBox.Checked switch
         {
-            true  => "MP4",
+            true => "MP4",
             false => MKVCheckBox.Checked switch
             {
-                true  => "MKV",
+                true => "MKV",
                 false => null
             }
         };
@@ -229,6 +208,32 @@ public partial class MainForm : Form
     #endregion Buttons
 
     #region ComponentEvents
+    private async void MainForm_Load(object sender, EventArgs e)
+    {
+        // easter egg
+        logger.LogInformation(
+            "Testing configuration: TestConfig is {TestConfig}", 
+            configuration["TestConfig"]);
+
+        var informationalVersion = typeof(MainForm).Assembly.GetCustomAttribute<AssemblyInformationalVersionAttribute>()?.InformationalVersion
+                                ?? "0.0.0+0-unknown";
+
+        TitleLabel.Text += $" v{informationalVersion}";
+
+        if (Properties.Settings.Default.Location.X <= 0 ||
+            Properties.Settings.Default.Location.Y <= 0)
+        {
+            StartPosition = FormStartPosition.CenterScreen;
+        }
+        else
+        {
+            DataBindings.Add("Location", Properties.Settings.Default, "Location", true, DataSourceUpdateMode.OnPropertyChanged);
+        }
+
+        OutputFileTextBox.Text = home;
+        await PopulateComboBoxesAsync();
+    }
+
     private void MainForm_MouseDown(object sender, MouseEventArgs e)
     {
         dragging = true;
@@ -250,16 +255,16 @@ public partial class MainForm : Form
 
     private void MainForm_Deactivate(object sender, EventArgs e)
     {
-        TitleLabel.ForeColor    = Color.FromArgb(200, 200, 200);
+        TitleLabel.ForeColor = Color.FromArgb(200, 200, 200);
         MinimizeLabel.ForeColor = Color.FromArgb(200, 200, 200);
-        CloseLabel.ForeColor    = Color.FromArgb(200, 200, 200);
+        CloseLabel.ForeColor = Color.FromArgb(200, 200, 200);
     }
 
     private void MainForm_Activated(object sender, EventArgs e)
     {
-        TitleLabel.ForeColor    = Color.White;
+        TitleLabel.ForeColor = Color.White;
         MinimizeLabel.ForeColor = Color.White;
-        CloseLabel.ForeColor    = Color.White;
+        CloseLabel.ForeColor = Color.White;
     }
 
     private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
@@ -270,8 +275,8 @@ public partial class MainForm : Form
 
     private void VideoEnabledCheckBox_CheckedChanged(object sender, EventArgs e)
     {
-        MP4CheckBox.Checked =  EnableVideoCheckBox.Checked
-                           &&  MP4CheckBox.Enabled
+        MP4CheckBox.Checked = EnableVideoCheckBox.Checked
+                           && MP4CheckBox.Enabled
                            && !MKVCheckBox.Checked;
 
         VideoCodecComboBox.Enabled = EnableVideoCheckBox.Checked;
@@ -306,14 +311,14 @@ public partial class MainForm : Form
     private void MP4CheckBox_CheckedChanged(object sender, EventArgs e) =>
         MKVCheckBox.Checked = MP4CheckBox.Checked switch
         {
-            true  => false,
+            true => false,
             false => MKVCheckBox.Checked
         };
 
     private void MKVCheckBox_CheckedChanged(object sender, EventArgs e) =>
         MP4CheckBox.Checked = MKVCheckBox.Checked switch
         {
-            true  => false,
+            true => false,
             false => MP4CheckBox.Checked
         };
 
@@ -334,6 +339,5 @@ public partial class MainForm : Form
 
     private void MinimizeLabel_Click(object sender, EventArgs e) =>
         WindowState = FormWindowState.Minimized;
-
     #endregion ComponentEvents
 }
