@@ -50,7 +50,7 @@ public class AviSynthScriptService
 
             CreateAviSynthScript = true;
         }
-        else if (audio.Enabled && !video.Enabled || audio.Enabled && video.Enabled && video.MuxOriginalVideo)
+        else if ((audio.Enabled && !video.Enabled) || (audio.Enabled && video.Enabled && video.MuxOriginalVideo))
         {
             avsScriptBuilder.Append("a = ConvertAudioTo16Bit(a)\r\n\r\n");
             avsScriptBuilder.Append('a');

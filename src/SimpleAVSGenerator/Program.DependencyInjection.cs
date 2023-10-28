@@ -1,6 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Serilog;
-using SimpleAVSGeneratorCore;
 using SimpleAVSGeneratorCore.Services;
 using SimpleAVSGeneratorCore.Support;
 
