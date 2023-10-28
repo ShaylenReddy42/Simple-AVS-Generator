@@ -13,8 +13,6 @@ public class OutputScripts
     public string? ContainerScriptFile { get; private set; }
     public string? ContainerScriptContent { get; private set; }
 
-    public OutputScripts() {}
-
     public Task ConfigureVideoScriptAsync(VideoModel video, string outputDir)
     {
         if (video.Enabled && !video.MuxOriginalVideo)

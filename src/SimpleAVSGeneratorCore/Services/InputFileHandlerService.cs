@@ -97,14 +97,14 @@ public class InputFileHandlerService : IInputFileHandlerService
         Directory.CreateDirectory(inputFile.OutputDir);
 #endif
 
-        AviSynthScript script = new(inputFile.ScriptFile);
+        var avsScript = new AviSynthScript();
 
-        await script.SetScriptContentAsync(inputFile.FileInfo, inputFile.Video, inputFile.Audio);
-        if (script.CreateAviSynthScript)
+        await avsScript.SetScriptContentAsync(inputFile.ScriptFile, inputFile.FileInfo, inputFile.Video, inputFile.Audio);
+        if (avsScript.CreateAviSynthScript)
         {
             scriptsCreated += "s";
 
-            await fileWriterService.WriteFileAsync(script.AVSScriptFile, script.AVSScriptContent);
+            await fileWriterService.WriteFileAsync(avsScript.AVSScriptFile, avsScript.AVSScriptContent);
 
             await fileWriterService.WriteFileAsync(inputFile.AVSMeterScriptFile, InputFile.AVSMeterScriptContent);
         }
