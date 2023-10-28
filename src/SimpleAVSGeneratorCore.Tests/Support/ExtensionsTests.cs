@@ -59,7 +59,7 @@ public class ExtensionsTests
     [InlineData("CONTAINER")]
     [InlineData("VIDEO")]
     [InlineData("AUDIO")]
-    public void SupportedExtensionType_CheckPatternForMatch(string extensionType)
+    public async Task SupportedExtensionType_CheckPatternForMatch(string extensionType)
     {
         // Arrange
         // This pattern was a little difficult to set up
@@ -85,13 +85,14 @@ public class ExtensionsTests
         string expectedPattern = "([*][.][a-z0-9];)*[^;]$";
 
         // Act
-        Extensions se = new();
-        string? supportedExts =
-        extensionType switch
+        var extensions = new Extensions();
+        await extensions.ConfigureSupportedExtensionsAsync();
+
+        string? supportedExts = extensionType switch
         {
-            "CONTAINER" => se.SupportedContainerExts,
-            "VIDEO"     => se.SupportedVideoExts,
-            "AUDIO"     => se.SupportedAudioExts,
+            "CONTAINER" => extensions.SupportedContainerExts,
+            "VIDEO"     => extensions.SupportedVideoExts,
+            "AUDIO"     => extensions.SupportedAudioExts,
             _           => null
         };
 
@@ -103,7 +104,7 @@ public class ExtensionsTests
     [InlineData("CONTAINER")]
     [InlineData("VIDEO")]
     [InlineData("AUDIO")]
-    public void FilterExtensionType_CheckPatternForMatch(string extensionType)
+    public async Task FilterExtensionType_CheckPatternForMatch(string extensionType)
     {
         // Arrange
         // This pattern was a little similar to the previous but with a new challenge
@@ -128,13 +129,14 @@ public class ExtensionsTests
         string expectedPattern = "([A-Z0-9]\x020)*[^\x020]$";
 
         // Act
-        Extensions se = new();
-        string? filterExts =
-        extensionType switch
+        var extensions = new Extensions();
+        await extensions.ConfigureSupportedExtensionsAsync();
+
+        string? filterExts = extensionType switch
         {
-            "CONTAINER" => se.FilterContainerExts,
-            "VIDEO"     => se.FilterVideoExts,
-            "AUDIO"     => se.FilterAudioExts,
+            "CONTAINER" => extensions.FilterContainerExts,
+            "VIDEO"     => extensions.FilterVideoExts,
+            "AUDIO"     => extensions.FilterAudioExts,
             _           => null
         };
 

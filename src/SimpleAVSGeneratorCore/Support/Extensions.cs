@@ -66,17 +66,6 @@ public class Extensions
         new SupportedExtension(".wma",  "AUDIO", false)
     };
 
-    public Extensions()
-    {
-        SetSupportForAsync("CONTAINER").GetAwaiter().GetResult();
-        SetSupportForAsync("VIDEO").GetAwaiter().GetResult();
-        SetSupportForAsync("AUDIO").GetAwaiter().GetResult();
-
-        SetFilterForAsync("CONTAINER").GetAwaiter().GetResult();
-        SetFilterForAsync("VIDEO").GetAwaiter().GetResult();
-        SetFilterForAsync("AUDIO").GetAwaiter().GetResult();
-    }
-
     private Task SetSupportForAsync(string fileType)
     {
         StringBuilder sbSupport = new();
@@ -136,4 +125,15 @@ public class Extensions
 
     public static Task<bool> IsSupportedByMP4BoxAsync(string fileExt) =>
         Task.FromResult(supportedExtensions.Single(ext => ext.Extension == fileExt).MP4BoxSupport);
+
+    public async Task ConfigureSupportedExtensionsAsync()
+    {
+        await SetSupportForAsync("CONTAINER");
+        await SetSupportForAsync("VIDEO");
+        await SetSupportForAsync("AUDIO");
+
+        await SetFilterForAsync("CONTAINER");
+        await SetFilterForAsync("VIDEO");
+        await SetFilterForAsync("AUDIO");
+    }
 }

@@ -127,17 +127,19 @@ public partial class MainForm : Form
     {
         string filterSupportedExts = $"All Supported|{extensions.SupportedContainerExts};{extensions.SupportedVideoExts};{extensions.SupportedAudioExts}",
                filterContainerExts = $"Container Types [{extensions.FilterContainerExts}]|{extensions.SupportedContainerExts}",
-               filterVideoExts = $"Video Types [{extensions.FilterVideoExts}]|{extensions.SupportedVideoExts}",
-               filterAudioExts = $"Audio Types [{extensions.FilterAudioExts}]|{extensions.SupportedAudioExts}";
+               filterVideoExts     = $"Video Types [{extensions.FilterVideoExts}]|{extensions.SupportedVideoExts}",
+               filterAudioExts     = $"Audio Types [{extensions.FilterAudioExts}]|{extensions.SupportedAudioExts}";
 
         var openFileDialog = new OpenFileDialog()
         {
             Multiselect = false,
-            Title = "Open File",
-            Filter = $"{filterSupportedExts}|{filterContainerExts}|{filterVideoExts}|{filterAudioExts}"
+            Title       = "Open File",
+            Filter      = $"{filterSupportedExts}|{filterContainerExts}|{filterVideoExts}|{filterAudioExts}"
         };
 
-        input = openFileDialog.ShowDialog() is DialogResult.OK ? await inputFileHandlerService.CreateInputFileAsync(openFileDialog.FileName, home) : null;
+        input = openFileDialog.ShowDialog() is DialogResult.OK 
+              ? await inputFileHandlerService.CreateInputFileAsync(openFileDialog.FileName, home) 
+              : null;
 
         if (input is not null)
         {
@@ -184,10 +186,10 @@ public partial class MainForm : Form
 
         input.OutputContainer = MP4CheckBox.Checked switch
         {
-            true => "MP4",
+            true  => "MP4",
             false => MKVCheckBox.Checked switch
             {
-                true => "MKV",
+                true  => "MKV",
                 false => null
             }
         };
@@ -197,11 +199,10 @@ public partial class MainForm : Form
         if (scriptsCreated is "")
         {
             MessageBox.Show("No scripts will be created");
+            return;
         }
-        else
-        {
-            New();
-        }
+
+        New();
     }
 
     private void NewButton_Click(object sender, EventArgs e) { New(); }
@@ -231,7 +232,10 @@ public partial class MainForm : Form
         }
 
         OutputFileTextBox.Text = home;
+
         await PopulateComboBoxesAsync();
+
+        await extensions.ConfigureSupportedExtensionsAsync();
     }
 
     private void MainForm_MouseDown(object sender, MouseEventArgs e)
@@ -311,14 +315,14 @@ public partial class MainForm : Form
     private void MP4CheckBox_CheckedChanged(object sender, EventArgs e) =>
         MKVCheckBox.Checked = MP4CheckBox.Checked switch
         {
-            true => false,
+            true  => false,
             false => MKVCheckBox.Checked
         };
 
     private void MKVCheckBox_CheckedChanged(object sender, EventArgs e) =>
         MP4CheckBox.Checked = MKVCheckBox.Checked switch
         {
-            true => false,
+            true  => false,
             false => MP4CheckBox.Checked
         };
 
