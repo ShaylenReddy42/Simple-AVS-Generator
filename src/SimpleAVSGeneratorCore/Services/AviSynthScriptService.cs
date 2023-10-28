@@ -1,9 +1,9 @@
 ﻿using System.Text;
 using SimpleAVSGeneratorCore.Models;
 
-namespace SimpleAVSGeneratorCore;
+namespace SimpleAVSGeneratorCore.Services;
 
-public class AviSynthScript
+public class AviSynthScriptService
 {
     public bool CreateAviSynthScript { get; private set; } = default;
     public string AVSScriptFile { get; private set; } = string.Empty;
@@ -12,15 +12,15 @@ public class AviSynthScript
     public Task SetScriptContentAsync(string scriptFile, FileModel fileInfo, VideoModel video, AudioModel audio)
     {
         AVSScriptFile = scriptFile;
-        
+
         var avsScriptBuilder = new StringBuilder();
-        
+
         avsScriptBuilder.Append($"i = \"{fileInfo.FileName}\"\r\n\r\n");
 
         if (video.Enabled && !video.MuxOriginalVideo)
         {
             avsScriptBuilder.Append("v = LWLibavVideoSource(i, cachedir=\".\").ConvertBits(8).ConvertToYV12()#.ShowFrameNumber()\r\n\r\n");
-            
+
             avsScriptBuilder.Append("# Calculate the target height based on a target width\r\n");
             avsScriptBuilder.Append("aspectRatio  = float(Width(v)) / float(Height(v))\r\n");
             avsScriptBuilder.Append($"targetWidth  = {(video.NeedsToBeResized ? "640" : "Width(v)")}\r\n");
@@ -36,7 +36,7 @@ public class AviSynthScript
             avsScriptBuilder.Append("a = Normalize(a, 1.0)\r\n\r\n");
         }
 
-        if ((video.Enabled && !video.MuxOriginalVideo) && audio.Enabled)
+        if (video.Enabled && !video.MuxOriginalVideo && audio.Enabled)
         {
             avsScriptBuilder.Append("o = AudioDub(v, a)\r\n\r\n");
             avsScriptBuilder.Append("o = ConvertAudioTo16Bit(o)\r\n\r\n");
@@ -44,13 +44,13 @@ public class AviSynthScript
 
             CreateAviSynthScript = true;
         }
-        else if ((video.Enabled && !video.MuxOriginalVideo) && !audio.Enabled)
+        else if (video.Enabled && !video.MuxOriginalVideo && !audio.Enabled)
         {
             avsScriptBuilder.Append('v');
 
             CreateAviSynthScript = true;
         }
-        else if ((audio.Enabled && !video.Enabled) || (audio.Enabled && video.Enabled && video.MuxOriginalVideo))
+        else if (audio.Enabled && !video.Enabled || audio.Enabled && video.Enabled && video.MuxOriginalVideo)
         {
             avsScriptBuilder.Append("a = ConvertAudioTo16Bit(a)\r\n\r\n");
             avsScriptBuilder.Append('a');

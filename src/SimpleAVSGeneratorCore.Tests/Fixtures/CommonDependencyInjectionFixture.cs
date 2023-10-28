@@ -12,10 +12,15 @@ public class CommonDependencyInjectionFixture : IDisposable
 
         var serviceProvider =
             new ServiceCollection()
+                .AddScoped<AviSynthScriptService>()
                 .AddScoped<MediaInfo.MediaInfo>()
-        .BuildServiceProvider();
+                .AddScoped<OutputScriptsService>()
+            .BuildServiceProvider();
 
-        InputFileHandlerServiceInstance = new InputFileHandlerService(fileWriterService, serviceProvider);
+        InputFileHandlerServiceInstance = 
+            new InputFileHandlerService(
+                fileWriterService, 
+                serviceProvider);
     }
 
     public void Dispose()

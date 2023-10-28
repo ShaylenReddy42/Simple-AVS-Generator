@@ -1,4 +1,5 @@
-﻿using SimpleAVSGeneratorCore.Tests.Fixtures;
+﻿using SimpleAVSGeneratorCore.Services;
+using SimpleAVSGeneratorCore.Tests.Fixtures;
 
 namespace SimpleAVSGeneratorCore.Tests;
 
@@ -36,10 +37,10 @@ public class OutputScriptsTests
         input.Video.KeyframeIntervalInSeconds = "2 Seconds";
         
         // Act
-        OutputScripts output = new();
-        await output.ConfigureVideoScriptAsync(input.Video, input.OutputDir);
+        var outputScriptsService = new OutputScriptsService();
+        await outputScriptsService.ConfigureVideoScriptAsync(input.Video, input.OutputDir);
 
-        string? videoEncoderScriptContent = output.VideoEncoderScriptContent;
+        string? videoEncoderScriptContent = outputScriptsService.VideoEncoderScriptContent;
         
         // Assert
         Assert.Contains(expectedVideoEncoder, videoEncoderScriptContent);
@@ -68,10 +69,10 @@ public class OutputScriptsTests
         input.Video.Codec = videoCodec;
 
         // Act
-        OutputScripts output = new();
-        await output.ConfigureVideoScriptAsync(input.Video, input.OutputDir);
+        var outputScriptsService = new OutputScriptsService();
+        await outputScriptsService.ConfigureVideoScriptAsync(input.Video, input.OutputDir);
 
-        string? videoEncoderScriptFile = output.VideoEncoderScriptFile;
+        string? videoEncoderScriptFile = outputScriptsService.VideoEncoderScriptFile;
 
         // Assert
         Assert.Equal(Path.Combine(input.OutputDir, expectedEndsWith), videoEncoderScriptFile);
@@ -100,10 +101,10 @@ public class OutputScriptsTests
         input.Audio.Bitrate = 128;
 
         // Act
-        OutputScripts output = new();
-        await output.ConfigureAudioScriptAsync(input.FileInfo, input.Audio, input.OutputDir);
+        var outputScriptsService = new OutputScriptsService();
+        await outputScriptsService.ConfigureAudioScriptAsync(input.FileInfo, input.Audio, input.OutputDir);
 
-        string? audioEncoderScriptContent = output.AudioEncoderScriptContent;
+        string? audioEncoderScriptContent = outputScriptsService.AudioEncoderScriptContent;
 
         // Assert
         Assert.Contains(expectedAudioEncoder, audioEncoderScriptContent);
@@ -120,10 +121,10 @@ public class OutputScriptsTests
         input.Audio.Bitrate = 256;
 
         // Act
-        OutputScripts output = new();
-        await output.ConfigureAudioScriptAsync(input.FileInfo, input.Audio, input.OutputDir);
+        var outputScriptsService = new OutputScriptsService();
+        await outputScriptsService.ConfigureAudioScriptAsync(input.FileInfo, input.Audio, input.OutputDir);
 
-        string? audioEncoderScriptContent = output.AudioEncoderScriptContent;
+        string? audioEncoderScriptContent = outputScriptsService.AudioEncoderScriptContent;
 
         // Assert
         Assert.Contains("qaac64 --he --chanmask 0xff ", audioEncoderScriptContent);
@@ -152,10 +153,10 @@ public class OutputScriptsTests
         input.Audio.Bitrate = 128;
 
         // Act
-        OutputScripts output = new();
-        await output.ConfigureAudioScriptAsync(input.FileInfo, input.Audio, input.OutputDir);
+        var outputScriptsService = new OutputScriptsService();
+        await outputScriptsService.ConfigureAudioScriptAsync(input.FileInfo, input.Audio, input.OutputDir);
 
-        string? audioEncoderScriptFile = output.AudioEncoderScriptFile;
+        string? audioEncoderScriptFile = outputScriptsService.AudioEncoderScriptFile;
 
         // Assert
         Assert.Equal(Path.Combine(input.OutputDir, expectedEndsWith), audioEncoderScriptFile);
@@ -176,10 +177,10 @@ public class OutputScriptsTests
         input.Video.Enabled = true;
 
         // Act
-        OutputScripts output = new();
-        await output.ConfigureContainerScriptAsync(input.FileInfo, input.Video, input.Audio, input.OutputContainer, input.OutputDir);
+        var outputScriptsService = new OutputScriptsService();
+        await outputScriptsService.ConfigureContainerScriptAsync(input.FileInfo, input.Video, input.Audio, input.OutputContainer, input.OutputDir);
 
-        string? containerScriptContent = output.ContainerScriptContent;
+        string? containerScriptContent = outputScriptsService.ContainerScriptContent;
 
         // Assert
         Assert.Contains(expectedMultiplexer, containerScriptContent);
@@ -214,10 +215,10 @@ public class OutputScriptsTests
         input.Video.Codec = videoCodec;
 
         // Act
-        OutputScripts output = new();
-        await output.ConfigureContainerScriptAsync(input.FileInfo, input.Video, input.Audio, input.OutputContainer, input.OutputDir);
+        var outputScriptsService = new OutputScriptsService();
+        await outputScriptsService.ConfigureContainerScriptAsync(input.FileInfo, input.Video, input.Audio, input.OutputContainer, input.OutputDir);
 
-        string? containerScriptContent = output.ContainerScriptContent;
+        string? containerScriptContent = outputScriptsService.ContainerScriptContent;
 
         // Assert
         Assert.Contains(expectedVideoStringInScript, containerScriptContent);
@@ -254,10 +255,10 @@ public class OutputScriptsTests
         input.Audio.Language = audioLanguageKey;
 
         // Act
-        OutputScripts output = new();
-        await output.ConfigureContainerScriptAsync(input.FileInfo, input.Video, input.Audio, input.OutputContainer, input.OutputDir);
+        var outputScriptsService = new OutputScriptsService();
+        await outputScriptsService.ConfigureContainerScriptAsync(input.FileInfo, input.Video, input.Audio, input.OutputContainer, input.OutputDir);
 
-        string? containerScriptContent = output.ContainerScriptContent;
+        string? containerScriptContent = outputScriptsService.ContainerScriptContent;
 
         // Assert
         Assert.Contains(expectedAudioStringInScript, containerScriptContent);
@@ -284,10 +285,10 @@ public class OutputScriptsTests
         input.Video.Enabled = true;
 
         // Act
-        OutputScripts output = new();
-        await output.ConfigureContainerScriptAsync(input.FileInfo, input.Video, input.Audio, input.OutputContainer, input.OutputDir);
+        var outputScriptsService = new OutputScriptsService();
+        await outputScriptsService.ConfigureContainerScriptAsync(input.FileInfo, input.Video, input.Audio, input.OutputContainer, input.OutputDir);
 
-        string? containerScriptContent = output.ContainerScriptContent;
+        string? containerScriptContent = outputScriptsService.ContainerScriptContent;
 
         // Assert
         Assert.Contains(expectedOutputFileStringInScript, containerScriptContent);
@@ -318,10 +319,10 @@ public class OutputScriptsTests
         input.Video.Codec = videoCodec;
 
         // Act
-        OutputScripts output = new();
-        await output.ConfigureContainerScriptAsync(input.FileInfo, input.Video, input.Audio, input.OutputContainer, input.OutputDir);
+        var outputScriptsService = new OutputScriptsService();
+        await outputScriptsService.ConfigureContainerScriptAsync(input.FileInfo, input.Video, input.Audio, input.OutputContainer, input.OutputDir);
 
-        string? containerScriptFile = output.ContainerScriptFile;
+        string? containerScriptFile = outputScriptsService.ContainerScriptFile;
 
         // Assert
         Assert.Equal(Path.Combine(input.OutputDir, expectedEndsWith), containerScriptFile);

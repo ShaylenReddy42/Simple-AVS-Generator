@@ -1,4 +1,5 @@
-﻿using SimpleAVSGeneratorCore.Tests.Fixtures;
+﻿using SimpleAVSGeneratorCore.Services;
+using SimpleAVSGeneratorCore.Tests.Fixtures;
 
 namespace SimpleAVSGeneratorCore.Tests;
 
@@ -47,14 +48,14 @@ public class AviSynthScriptTests
         input.Audio.Enabled = audio;
 
         // Act
-        var avsScript = new AviSynthScript();
-        await avsScript.SetScriptContentAsync(input.ScriptFile, input.FileInfo, input.Video, input.Audio);
+        var aviSynthScriptService = new AviSynthScriptService();
+        await aviSynthScriptService.SetScriptContentAsync(input.ScriptFile, input.FileInfo, input.Video, input.Audio);
 
-        bool actualCreateAviSynthScript = avsScript.CreateAviSynthScript;
-        char actualEndsWith = avsScript.AVSScriptContent[^1];
+        bool actualCreateAviSynthScript = aviSynthScriptService.CreateAviSynthScript;
+        char actualEndsWith = aviSynthScriptService.AVSScriptContent[^1];
         // Split the string using the line feed character which creates a string array
         // and get the length of the array
-        int actualLineCount = (avsScript.AVSScriptContent.Split('\n')).Length;
+        int actualLineCount = (aviSynthScriptService.AVSScriptContent.Split('\n')).Length;
         
         object[] actualOutput = new object[] { actualCreateAviSynthScript, actualEndsWith, actualLineCount };
 
@@ -83,10 +84,10 @@ public class AviSynthScriptTests
         input.Video.Codec = videoCodec;
 
         // Act
-        var avsScript = new AviSynthScript();
-        await avsScript.SetScriptContentAsync(input.ScriptFile, input.FileInfo, input.Video, input.Audio);
+        var aviSynthScriptService = new AviSynthScriptService();
+        await aviSynthScriptService.SetScriptContentAsync(input.ScriptFile, input.FileInfo, input.Video, input.Audio);
 
         // Assert
-        Assert.Contains(expectedStringInScript, avsScript.AVSScriptContent);
+        Assert.Contains(expectedStringInScript, aviSynthScriptService.AVSScriptContent);
     }
 }

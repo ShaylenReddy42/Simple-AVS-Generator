@@ -1,8 +1,8 @@
 ﻿using SimpleAVSGeneratorCore.Models;
 
-namespace SimpleAVSGeneratorCore;
+namespace SimpleAVSGeneratorCore.Services;
 
-public class OutputScripts
+public class OutputScriptsService
 {
     public string? VideoEncoderScriptFile { get; private set; }
     public string? VideoEncoderScriptContent { get; private set; }

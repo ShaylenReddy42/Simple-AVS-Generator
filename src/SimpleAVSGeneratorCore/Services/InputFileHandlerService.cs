@@ -97,43 +97,44 @@ public class InputFileHandlerService : IInputFileHandlerService
         Directory.CreateDirectory(inputFile.OutputDir);
 #endif
 
-        var avsScript = new AviSynthScript();
+        using var scope = serviceProvider.CreateScope();
 
-        await avsScript.SetScriptContentAsync(inputFile.ScriptFile, inputFile.FileInfo, inputFile.Video, inputFile.Audio);
-        if (avsScript.CreateAviSynthScript)
+        var aviSynthScriptService = scope.ServiceProvider.GetRequiredService<AviSynthScriptService>();
+        var outputScriptsService = scope.ServiceProvider.GetRequiredService<OutputScriptsService>();
+
+        await aviSynthScriptService.SetScriptContentAsync(inputFile.ScriptFile, inputFile.FileInfo, inputFile.Video, inputFile.Audio);
+        if (aviSynthScriptService.CreateAviSynthScript)
         {
             scriptsCreated += "s";
 
-            await fileWriterService.WriteFileAsync(avsScript.AVSScriptFile, avsScript.AVSScriptContent);
+            await fileWriterService.WriteFileAsync(aviSynthScriptService.AVSScriptFile, aviSynthScriptService.AVSScriptContent);
 
             await fileWriterService.WriteFileAsync(inputFile.AVSMeterScriptFile, InputFile.AVSMeterScriptContent);
         }
 
-        OutputScripts output = new();
-
-        await output.ConfigureVideoScriptAsync(inputFile.Video, inputFile.OutputDir);
-        if (output.VideoEncoderScriptFile is not null && output.VideoEncoderScriptContent is not null)
+        await outputScriptsService.ConfigureVideoScriptAsync(inputFile.Video, inputFile.OutputDir);
+        if (outputScriptsService.VideoEncoderScriptFile is not null && outputScriptsService.VideoEncoderScriptContent is not null)
         {
             scriptsCreated += "v";
 
-            await fileWriterService.WriteFileAsync(output.VideoEncoderScriptFile, output.VideoEncoderScriptContent);
+            await fileWriterService.WriteFileAsync(outputScriptsService.VideoEncoderScriptFile, outputScriptsService.VideoEncoderScriptContent);
         }
 
-        await output.ConfigureAudioScriptAsync(inputFile.FileInfo, inputFile.Audio, inputFile.OutputDir);
-        if (output.AudioEncoderScriptFile is not null && output.AudioEncoderScriptContent is not null)
+        await outputScriptsService.ConfigureAudioScriptAsync(inputFile.FileInfo, inputFile.Audio, inputFile.OutputDir);
+        if (outputScriptsService.AudioEncoderScriptFile is not null && outputScriptsService.AudioEncoderScriptContent is not null)
         {
             scriptsCreated += "a";
 
-            await fileWriterService.WriteFileAsync(output.AudioEncoderScriptFile, output.AudioEncoderScriptContent);
+            await fileWriterService.WriteFileAsync(outputScriptsService.AudioEncoderScriptFile, outputScriptsService.AudioEncoderScriptContent);
 
         }
 
-        await output.ConfigureContainerScriptAsync(inputFile.FileInfo, inputFile.Video, inputFile.Audio, inputFile.OutputContainer, inputFile.OutputDir);
-        if (output.ContainerScriptFile is not null && output.ContainerScriptContent is not null)
+        await outputScriptsService.ConfigureContainerScriptAsync(inputFile.FileInfo, inputFile.Video, inputFile.Audio, inputFile.OutputContainer, inputFile.OutputDir);
+        if (outputScriptsService.ContainerScriptFile is not null && outputScriptsService.ContainerScriptContent is not null)
         {
             scriptsCreated += "c";
 
-            await fileWriterService.WriteFileAsync(output.ContainerScriptFile, output.ContainerScriptContent);
+            await fileWriterService.WriteFileAsync(outputScriptsService.ContainerScriptFile, outputScriptsService.ContainerScriptContent);
         }
 
 #if RELEASE
