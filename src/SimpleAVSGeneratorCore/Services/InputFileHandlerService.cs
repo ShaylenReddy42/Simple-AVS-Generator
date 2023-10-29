@@ -102,12 +102,12 @@ public class InputFileHandlerService : IInputFileHandlerService
         var aviSynthScriptService = scope.ServiceProvider.GetRequiredService<AviSynthScriptService>();
         var outputScriptsService = scope.ServiceProvider.GetRequiredService<OutputScriptsService>();
 
-        await aviSynthScriptService.SetScriptContentAsync(inputFile.ScriptFile, inputFile.FileInfo, inputFile.Video, inputFile.Audio);
+        await aviSynthScriptService.SetScriptContentAsync(inputFile.FileInfo, inputFile.Video, inputFile.Audio);
         if (aviSynthScriptService.CreateAviSynthScript)
         {
             scriptsCreated += "s";
 
-            await fileWriterService.WriteFileAsync(aviSynthScriptService.AVSScriptFile, aviSynthScriptService.AVSScriptContent);
+            await fileWriterService.WriteFileAsync(inputFile.ScriptFile, aviSynthScriptService.AVSScriptContent);
 
             await fileWriterService.WriteFileAsync(inputFile.AVSMeterScriptFile, InputFile.AVSMeterScriptContent);
         }

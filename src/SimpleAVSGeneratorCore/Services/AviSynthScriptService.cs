@@ -6,13 +6,10 @@ namespace SimpleAVSGeneratorCore.Services;
 public class AviSynthScriptService
 {
     public bool CreateAviSynthScript { get; private set; } = default;
-    public string AVSScriptFile { get; private set; } = string.Empty;
     public string AVSScriptContent { get; private set; } = string.Empty;
 
-    public Task SetScriptContentAsync(string scriptFile, FileModel fileInfo, VideoModel video, AudioModel audio)
+    public Task SetScriptContentAsync(FileModel fileInfo, VideoModel video, AudioModel audio)
     {
-        AVSScriptFile = scriptFile;
-
         var avsScriptBuilder = new StringBuilder();
 
         avsScriptBuilder.Append($"i = \"{fileInfo.FileName}\"\r\n\r\n");

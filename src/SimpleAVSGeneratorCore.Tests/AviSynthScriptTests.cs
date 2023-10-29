@@ -49,7 +49,7 @@ public class AviSynthScriptTests
 
         // Act
         var aviSynthScriptService = new AviSynthScriptService();
-        await aviSynthScriptService.SetScriptContentAsync(input.ScriptFile, input.FileInfo, input.Video, input.Audio);
+        await aviSynthScriptService.SetScriptContentAsync(input.FileInfo, input.Video, input.Audio);
 
         bool actualCreateAviSynthScript = aviSynthScriptService.CreateAviSynthScript;
         char actualEndsWith = aviSynthScriptService.AVSScriptContent[^1];
@@ -85,7 +85,7 @@ public class AviSynthScriptTests
 
         // Act
         var aviSynthScriptService = new AviSynthScriptService();
-        await aviSynthScriptService.SetScriptContentAsync(input.ScriptFile, input.FileInfo, input.Video, input.Audio);
+        await aviSynthScriptService.SetScriptContentAsync(input.FileInfo, input.Video, input.Audio);
 
         // Assert
         Assert.Contains(expectedStringInScript, aviSynthScriptService.AVSScriptContent);
