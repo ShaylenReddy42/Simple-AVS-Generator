@@ -32,7 +32,7 @@ public class InputFileTests
         bool isSupportedByMP4Box)
     {
         // Arrange
-        object[] expectedProperties = { fileName, fileExt, fileNameOnly, fileType, isSupportedByMP4Box };
+        object[] expectedProperties = [ fileName, fileExt, fileNameOnly, fileType, isSupportedByMP4Box ];
 
         // Act
         var input = await commonDependencyInjectionFixture.InputFileHandlerServiceInstance.CreateInputFileAsync(fileName, @"C:\Users\User\Desktop\Temp\");
@@ -42,7 +42,7 @@ public class InputFileTests
                actualFileType     = input.FileInfo.FileType;
         bool actualIsSupportedByMP4Box = input.FileInfo.IsSupportedByMP4Box;
 
-        object[] actualProperties = { actualFileName, actualFileExt, actualFileNameOnly, actualFileType, actualIsSupportedByMP4Box };
+        object[] actualProperties = [ actualFileName, actualFileExt, actualFileNameOnly, actualFileType, actualIsSupportedByMP4Box ];
 
         // Assert
         Assert.Equal(expectedProperties, actualProperties);
@@ -57,7 +57,7 @@ public class InputFileTests
         string expectedScriptFile)
     {
         // Arrange
-        string[] expectedScriptFileAndContent = { expectedScriptFile, $"AVSMeter64 \"%~dp0Script.avs\" -i -l" };
+        string[] expectedScriptFileAndContent = [ expectedScriptFile, $"AVSMeter64 \"%~dp0Script.avs\" -i -l" ];
 
         var input = await commonDependencyInjectionFixture.InputFileHandlerServiceInstance.CreateInputFileAsync(fileName, @"C:\Users\User\Desktop\Temp\");
 
@@ -65,7 +65,7 @@ public class InputFileTests
         string actualScriptFile    = input.AVSMeterScriptFile,
                actualScriptContent = InputFile.AVSMeterScriptContent;
 
-        string[] actualScriptFileAndContent = { actualScriptFile, actualScriptContent };
+        string[] actualScriptFileAndContent = [ actualScriptFile, actualScriptContent ];
 
         // Assert
         Assert.Equal(expectedScriptFileAndContent, actualScriptFileAndContent);

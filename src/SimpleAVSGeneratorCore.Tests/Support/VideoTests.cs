@@ -8,10 +8,10 @@ public class VideoTests
     public async Task GetOutputVideoCodecs_ValidateVideoCodecs()
     {
         // Arrange
-        object[] expectedVideoCodecs = new object[] { "HEVC", "AV1", "AVC", "WhatsApp", "Mux Original" };
+        var expectedVideoCodecs = new object[] { "HEVC", "AV1", "AVC", "WhatsApp", "Mux Original" };
 
         // Act
-        object[] actualVideoCodecs = await GetOutputVideoCodecsAsync();
+        var actualVideoCodecs = await GetOutputVideoCodecsAsync();
 
         // Assert
         Assert.Equal(expectedVideoCodecs, actualVideoCodecs);
@@ -21,10 +21,10 @@ public class VideoTests
     public async Task GetKeyframeIntervals_ValidateKeyframeIntervalsInSeconds()
     {
         // Arrange
-        object[] expectedKeyframeIntervals = new object[] { "2 Seconds", "5 Seconds", "10 Seconds" };
+        var expectedKeyframeIntervals = new object[] { "2 Seconds", "5 Seconds", "10 Seconds" };
 
         // Act
-        object[] actualKeyframeIntervals = await GetKeyframeIntervalsAsync();
+        var actualKeyframeIntervals = await GetKeyframeIntervalsAsync();
 
         // Assert
         Assert.Equal(expectedKeyframeIntervals, actualKeyframeIntervals);

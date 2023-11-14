@@ -60,7 +60,8 @@ public partial class MainForm : Form
     {
         AudioBitrateComboBox.Items.Clear();
 
-        string? audioCodec    = (string)AudioCodecComboBox.SelectedItem,
+        string? audioCodec    = AudioCodecComboBox.SelectedItem as string 
+                             ?? throw new NullReferenceException("audioCodec is NULL"),
                 audioChannels = input?.Audio.SourceChannels ?? "2.0";
 
         (object[] selectableAudioBitrates, int defaultAudioBitrate) = await GetSelectableAndDefaultAudioBitratesAsync(audioCodec, audioChannels);
@@ -176,13 +177,23 @@ public partial class MainForm : Form
         }
 
         input.Video.Enabled = EnableVideoCheckBox.Checked;
-        input.Video.Codec = (string)VideoCodecComboBox.SelectedItem;
-        input.Video.KeyframeIntervalInSeconds = (string)KeyframeIntervalComboBox.SelectedItem;
+
+        input.Video.Codec = VideoCodecComboBox.SelectedItem as string 
+                         ?? throw new NullReferenceException("input.Video.Codec will be NULL");
+
+        input.Video.KeyframeIntervalInSeconds = KeyframeIntervalComboBox.SelectedItem as string
+                                             ?? throw new NullReferenceException("input.Video.KeyframeIntervalInSeconds will be NULL");
 
         input.Audio.Enabled = EnableAudioCheckBox.Checked;
-        input.Audio.Codec = (string)AudioCodecComboBox.SelectedItem;
-        input.Audio.Bitrate = (int)AudioBitrateComboBox.SelectedItem;
-        input.Audio.Language = (string)AudioLanguageComboBox.SelectedItem;
+
+        input.Audio.Codec = AudioCodecComboBox.SelectedItem as string
+                         ?? throw new NullReferenceException("input.Audio.Codec will be NULL");
+
+        input.Audio.Bitrate = AudioBitrateComboBox.SelectedItem as int?
+                           ?? throw new NullReferenceException("input.Audio.Bitrate will be NULL");
+
+        input.Audio.Language = AudioLanguageComboBox.SelectedItem as string
+                            ?? throw new NullReferenceException("input.Audio.Language will be NULL");
 
         input.OutputContainer = MP4CheckBox.Checked switch
         {
@@ -297,7 +308,7 @@ public partial class MainForm : Form
 
     private void VideoCodecComboBox_SelectedIndexChanged(object sender, EventArgs e)
     {
-        if ((string)VideoCodecComboBox.SelectedItem is "Mux Original" && input?.FileInfo.IsSupportedByMP4Box is false)
+        if ((string?)VideoCodecComboBox.SelectedItem is "Mux Original" && input?.FileInfo.IsSupportedByMP4Box is false)
         {
             MP4CheckBox.Enabled = false;
             MP4CheckBox.Checked = false;

@@ -8,10 +8,10 @@ public class AudioTests
     public async Task GetOutputAudioCodecs_ValidateAudioCodecs()
     {
         // Arrange
-        object[] expectedAudioCodecs = new object[] { "AAC-LC", "AAC-HE", "OPUS" };
+        var expectedAudioCodecs = new object[] { "AAC-LC", "AAC-HE", "OPUS" };
 
         // Act
-        object[] actualAudioCodecs = await GetOutputAudioCodecsAsync();
+        var actualAudioCodecs = await GetOutputAudioCodecsAsync();
 
         // Assert
         Assert.Equal(expectedAudioCodecs, actualAudioCodecs);
@@ -21,10 +21,10 @@ public class AudioTests
     public async Task GetLanguages_ValidateLanguages()
     {
         // Arrange
-        object[] expectedLanguages = new object[] { "English", "Hindi", "Japanese", "Tamil", "Undetermined" };
+        var expectedLanguages = new object[] { "English", "Hindi", "Japanese", "Tamil", "Undetermined" };
 
         // Act
-        object[] actualLanguages = await GetLanguagesAsync();
+        var actualLanguages = await GetLanguagesAsync();
 
         // Assert
         Assert.Equal(expectedLanguages, actualLanguages);
@@ -48,12 +48,12 @@ public class AudioTests
         int expectedDefaultAudioBitrate)
     {
         // Arrange
-        object[] expected = new object[] { expectedAudioBitrates, expectedDefaultAudioBitrate };
+        var expected = new object[] { expectedAudioBitrates, expectedDefaultAudioBitrate };
 
         // Act
         (object[] actualAudioBitrates, int actualDefaultAudioBitrate) = await GetSelectableAndDefaultAudioBitratesAsync(audioCodec, audioChannels);
 
-        object[] actual = new object[] { actualAudioBitrates, actualDefaultAudioBitrate };
+        var actual = new object[] { actualAudioBitrates, actualDefaultAudioBitrate };
         
         // Assert
         Assert.Equal(expected, actual);

@@ -39,7 +39,7 @@ public class AviSynthScriptTests
         int expectedLineCount)
     {
         // Arrange
-        object[] expectedOutput = new object[] { expectedCreateAviSynthScript, expectedEndsWith, expectedLineCount };
+        var expectedOutput = new object[] { expectedCreateAviSynthScript, expectedEndsWith, expectedLineCount };
         
         var input = await commonDependencyInjectionFixture.InputFileHandlerServiceInstance.CreateInputFileAsync(fileName, @"C:\Users\User\Desktop\Temp\");
 
@@ -57,7 +57,7 @@ public class AviSynthScriptTests
         // and get the length of the array
         int actualLineCount = (aviSynthScriptService.AVSScriptContent.Split('\n')).Length;
         
-        object[] actualOutput = new object[] { actualCreateAviSynthScript, actualEndsWith, actualLineCount };
+        var actualOutput = new object[] { actualCreateAviSynthScript, actualEndsWith, actualLineCount };
 
         // Assert
         Assert.Equal(expectedOutput, actualOutput);
