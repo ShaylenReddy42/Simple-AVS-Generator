@@ -61,7 +61,7 @@ public partial class MainForm : Form
         AudioBitrateComboBox.Items.Clear();
 
         string? audioCodec    = AudioCodecComboBox.SelectedItem as string 
-                             ?? throw new NullReferenceException("audioCodec is NULL"),
+                             ?? throw new InvalidOperationException("audioCodec cannot be NULL"),
                 audioChannels = input?.Audio.SourceChannels ?? "2.0";
 
         (object[] selectableAudioBitrates, int defaultAudioBitrate) = await GetSelectableAndDefaultAudioBitratesAsync(audioCodec, audioChannels);
@@ -179,21 +179,21 @@ public partial class MainForm : Form
         input.Video.Enabled = EnableVideoCheckBox.Checked;
 
         input.Video.Codec = VideoCodecComboBox.SelectedItem as string 
-                         ?? throw new NullReferenceException("input.Video.Codec will be NULL");
+                         ?? throw new InvalidOperationException("input.Video.Codec cannot be NULL");
 
         input.Video.KeyframeIntervalInSeconds = KeyframeIntervalComboBox.SelectedItem as string
-                                             ?? throw new NullReferenceException("input.Video.KeyframeIntervalInSeconds will be NULL");
+                                             ?? throw new InvalidOperationException("input.Video.KeyframeIntervalInSeconds cannot be NULL");
 
         input.Audio.Enabled = EnableAudioCheckBox.Checked;
 
         input.Audio.Codec = AudioCodecComboBox.SelectedItem as string
-                         ?? throw new NullReferenceException("input.Audio.Codec will be NULL");
+                         ?? throw new InvalidOperationException("input.Audio.Codec cannot be NULL");
 
         input.Audio.Bitrate = AudioBitrateComboBox.SelectedItem as int?
-                           ?? throw new NullReferenceException("input.Audio.Bitrate will be NULL");
+                           ?? throw new InvalidOperationException("input.Audio.Bitrate cannot be NULL");
 
         input.Audio.Language = AudioLanguageComboBox.SelectedItem as string
-                            ?? throw new NullReferenceException("input.Audio.Language will be NULL");
+                            ?? throw new InvalidOperationException("input.Audio.Language cannot be NULL");
 
         input.OutputContainer = MP4CheckBox.Checked switch
         {
