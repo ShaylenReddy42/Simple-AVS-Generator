@@ -22,7 +22,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\SimpleAVSGeneratorCore\SimpleAVSGeneratorCore.csproj" />
+    <ProjectReference Include="..\..\Libraries\SimpleAVSGeneratorCore\SimpleAVSGeneratorCore.csproj" />
   </ItemGroup>
 
   <ItemGroup>

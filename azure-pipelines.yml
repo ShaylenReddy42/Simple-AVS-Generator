@@ -14,7 +14,7 @@ pool: Default
 variables:
   buildConfiguration: 'Debug'
   workDir: '$(Build.SourcesDirectory)\src'
-  testResultsDir: '$(workDir)\SimpleAVSGenerator.Tests\TestResults'
+  testResultsDir: '$(workDir)\Libraries\SimpleAVSGeneratorCore.Tests\TestResults'
 
 steps:
 - task: UseDotNet@2
@@ -89,9 +89,9 @@ steps:
     coverageType: 'lines'
     coverageThreshold: '90'
 
-- script: dotnet publish -c Release -r win-x64 --self-contained -o "..\..\publish"
+- script: dotnet publish -c Release -r win-x64 --self-contained -o "..\..\..\publish"
   displayName: 'Publish the Final Executable'
-  workingDirectory: '$(workDir)\SimpleAVSGenerator'
+  workingDirectory: '$(workDir)\Frontends\SimpleAVSGenerator.WinForms'
 
 - task: BatchScript@1
   displayName: 'Create Installer'

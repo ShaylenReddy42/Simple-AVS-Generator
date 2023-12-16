@@ -1,12 +1,17 @@
-﻿Microsoft Visual Studio Solution File, Format Version 12.00
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.32014.148
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SimpleAVSGenerator", "SimpleAVSGenerator\SimpleAVSGenerator.csproj", "{F4E2D21C-B20C-46F6-98A1-3C021F6E9DDB}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Frontends", "Frontends", "{B2B483B9-4E2C-4715-88AE-1BD6E77C8B75}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SimpleAVSGeneratorCore", "SimpleAVSGeneratorCore\SimpleAVSGeneratorCore.csproj", "{FECFC601-B84C-4308-B1BC-8E67E6C85B19}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Libraries", "Libraries", "{63D101C7-5BD3-4FBB-9788-0C7E2D2B90E8}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SimpleAVSGeneratorCore.Tests", "SimpleAVSGeneratorCore.Tests\SimpleAVSGeneratorCore.Tests.csproj", "{8BDCE831-C27A-4E77-BC6F-07ABCE95F68D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SimpleAVSGenerator.WinForms", "Frontends\SimpleAVSGenerator.WinForms\SimpleAVSGenerator.WinForms.csproj", "{F4E2D21C-B20C-46F6-98A1-3C021F6E9DDB}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SimpleAVSGeneratorCore", "Libraries\SimpleAVSGeneratorCore\SimpleAVSGeneratorCore.csproj", "{FECFC601-B84C-4308-B1BC-8E67E6C85B19}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SimpleAVSGeneratorCore.Tests", "Libraries\SimpleAVSGeneratorCore.Tests\SimpleAVSGeneratorCore.Tests.csproj", "{8BDCE831-C27A-4E77-BC6F-07ABCE95F68D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -29,6 +34,11 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{F4E2D21C-B20C-46F6-98A1-3C021F6E9DDB} = {B2B483B9-4E2C-4715-88AE-1BD6E77C8B75}
+		{FECFC601-B84C-4308-B1BC-8E67E6C85B19} = {63D101C7-5BD3-4FBB-9788-0C7E2D2B90E8}
+		{8BDCE831-C27A-4E77-BC6F-07ABCE95F68D} = {63D101C7-5BD3-4FBB-9788-0C7E2D2B90E8}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {3B28E57C-3D2C-49BF-AD7E-7205531E49CC}

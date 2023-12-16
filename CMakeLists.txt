@@ -65,12 +65,12 @@ message(STATUS "File Version: ${FILE_VERSION}")
 message(STATUS "Informational Version: ${INFORMATIONAL_VERSION}")
 
 configure_file(
-	"${CMAKE_SOURCE_DIR}/cmake/SimpleAVSGenerator.AssemblyInfo.cs.in" 
-	"${CMAKE_SOURCE_DIR}/src/SimpleAVSGenerator/Properties/AssemblyInfo.cs")
+	"${CMAKE_SOURCE_DIR}/cmake/SimpleAVSGenerator.WinForms.AssemblyInfo.cs.in" 
+	"${CMAKE_SOURCE_DIR}/src/Frontends/SimpleAVSGenerator.WinForms/Properties/AssemblyInfo.cs")
 
 configure_file(
 	"${CMAKE_SOURCE_DIR}/cmake/SimpleAVSGeneratorCore.AssemblyInfo.cs.in" 
-	"${CMAKE_SOURCE_DIR}/src/SimpleAVSGeneratorCore/Properties/AssemblyInfo.cs")
+	"${CMAKE_SOURCE_DIR}/src/Libraries/SimpleAVSGeneratorCore/Properties/AssemblyInfo.cs")
 
 configure_file(
 	"${CMAKE_SOURCE_DIR}/cmake/installer.iss.in" 

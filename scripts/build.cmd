@@ -39,12 +39,12 @@ dotnet tool restore
 ECHO.
 ECHO Generate HTML Code Coverage Report
 ECHO.
-dotnet tool run reportgenerator -reports:"SimpleAVSGeneratorCore.Tests\TestResults\*\*.xml" -reporttypes:HtmlInline_AzurePipelines -targetDir:"..\CodeCoverage"
+dotnet tool run reportgenerator -reports:"Libraries\SimpleAVSGeneratorCore.Tests\TestResults\*\*.xml" -reporttypes:HtmlInline_AzurePipelines -targetDir:"..\CodeCoverage"
 
 ECHO.
 ECHO Publish the Final Executable
 ECHO.
-dotnet publish SimpleAVSGenerator\SimpleAVSGenerator.csproj -c Release -r win-x64 --self-contained -o "..\publish"
+dotnet publish Frontends\SimpleAVSGenerator.WinForms\SimpleAVSGenerator.WinForms.csproj -c Release -r win-x64 --self-contained -o "..\publish"
 
 CD ..
 

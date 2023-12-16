@@ -2,7 +2,7 @@
 #define MyAppVersion "@FILE_VERSION@"
 #define MyAppInformationalVersion "@INFORMATIONAL_VERSION@"
 #define MyAppPublisher "Shaylen Reddy"
-#define MyAppExeName "SimpleAVSGenerator.exe"
+#define MyAppExeName "SimpleAVSGenerator.WinForms.exe"
 
 [Setup]
 AppId={{BDD7D2F6-4F67-4AC3-B23B-79FDFE5CBE81}
