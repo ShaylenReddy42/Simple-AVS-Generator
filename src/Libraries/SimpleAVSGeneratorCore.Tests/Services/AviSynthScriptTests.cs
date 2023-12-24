@@ -1,7 +1,7 @@
 ﻿using SimpleAVSGeneratorCore.Services;
 using SimpleAVSGeneratorCore.Tests.Fixtures;
 
-namespace SimpleAVSGeneratorCore.Tests;
+namespace SimpleAVSGeneratorCore.Tests.Services;
 
 [Collection("CommonDependencyInjectionCollection")]
 public class AviSynthScriptTests(CommonDependencyInjectionFixture commonDependencyInjectionFixture)
@@ -23,7 +23,7 @@ public class AviSynthScriptTests(CommonDependencyInjectionFixture commonDependen
 
     [Theory(DisplayName = "Validate Script Content For Various Use Cases")]
     [MemberData(nameof(AviSynthScript_CheckScriptContentForVariousUseCases_TestData))]
-    public async Task AviSynthScript_ValidateScriptContentForVariousUseCases(   
+    public async Task AviSynthScript_ValidateScriptContentForVariousUseCases(
         string fileName,
         bool video,
         string videoCodec,
@@ -34,7 +34,7 @@ public class AviSynthScriptTests(CommonDependencyInjectionFixture commonDependen
     {
         // Arrange
         var expectedOutput = new object[] { expectedCreateAviSynthScript, expectedEndsWith, expectedLineCount };
-        
+
         var input = await commonDependencyInjectionFixture.InputFileHandlerServiceInstance.CreateInputFileAsync(fileName, @"C:\Users\User\Desktop\Temp\");
 
         input.Video.Enabled = video;
@@ -49,8 +49,8 @@ public class AviSynthScriptTests(CommonDependencyInjectionFixture commonDependen
         char actualEndsWith = aviSynthScriptService.AVSScriptContent[^1];
         // Split the string using the line feed character which creates a string array
         // and get the length of the array
-        int actualLineCount = (aviSynthScriptService.AVSScriptContent.Split('\n')).Length;
-        
+        int actualLineCount = aviSynthScriptService.AVSScriptContent.Split('\n').Length;
+
         var actualOutput = new object[] { actualCreateAviSynthScript, actualEndsWith, actualLineCount };
 
         // Assert

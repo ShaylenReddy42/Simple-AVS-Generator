@@ -1,7 +1,7 @@
 ﻿using SimpleAVSGeneratorCore.Services;
 using SimpleAVSGeneratorCore.Tests.Fixtures;
 
-namespace SimpleAVSGeneratorCore.Tests;
+namespace SimpleAVSGeneratorCore.Tests.Services;
 
 [Collection("CommonDependencyInjectionCollection")]
 public class OutputScriptsTests(CommonDependencyInjectionFixture commonDependencyInjectionFixture)
@@ -29,13 +29,13 @@ public class OutputScriptsTests(CommonDependencyInjectionFixture commonDependenc
         input.Video.Enabled = true;
         input.Video.Codec = videoCodec;
         input.Video.KeyframeIntervalInSeconds = "2 Seconds";
-        
+
         // Act
         var outputScriptsService = new OutputScriptsService();
         await outputScriptsService.ConfigureVideoScriptAsync(input.Video, input.OutputDir);
 
         string? videoEncoderScriptContent = outputScriptsService.VideoEncoderScriptContent;
-        
+
         // Assert
         Assert.Contains(expectedVideoEncoder, videoEncoderScriptContent);
     }
@@ -203,7 +203,7 @@ public class OutputScriptsTests(CommonDependencyInjectionFixture commonDependenc
     {
         // Arrange
         var input = await commonDependencyInjectionFixture.InputFileHandlerServiceInstance.CreateInputFileAsync(@"Samples\Sample.mp4", @"C:\Users\User\Desktop\Temp\");
-        
+
         input.OutputContainer = outputContainer;
         input.Video.Enabled = true;
         input.Video.Codec = videoCodec;
@@ -274,7 +274,7 @@ public class OutputScriptsTests(CommonDependencyInjectionFixture commonDependenc
     {
         // Arrange
         var input = await commonDependencyInjectionFixture.InputFileHandlerServiceInstance.CreateInputFileAsync(@"Samples\Sample.mp4", @"C:\Users\User\Desktop\Temp\");
-        
+
         input.OutputContainer = outputContainer;
         input.Video.Enabled = true;
 

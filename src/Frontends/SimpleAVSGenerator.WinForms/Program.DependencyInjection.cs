@@ -1,7 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Serilog;
-using SimpleAVSGeneratorCore.Services;
-using SimpleAVSGeneratorCore.Support;
+using SimpleAVSGeneratorCore;
 
 namespace SimpleAVSGenerator;
 
@@ -38,15 +37,7 @@ internal static partial class Program
 
         services.AddSingleton<MainForm>();
 
-        services.AddScoped<AviSynthScriptService>();
-        services.AddSingleton<Extensions>();
-        services.AddScoped<OutputScriptsService>();
-
-        services.AddScoped<MediaInfo.MediaInfo>();
-
-        services.AddSingleton<IFileWriterService, FileWriterService>();
-
-        services.AddSingleton<IInputFileHandlerService, InputFileHandlerService>();
+        services.AddCoreServices();
 
         return services.BuildServiceProvider();
     }
