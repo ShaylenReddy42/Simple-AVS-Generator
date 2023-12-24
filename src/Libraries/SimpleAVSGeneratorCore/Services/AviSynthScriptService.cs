@@ -8,7 +8,7 @@ public class AviSynthScriptService
     public bool CreateAviSynthScript { get; private set; } = default;
     public string AVSScriptContent { get; private set; } = string.Empty;
 
-    public Task SetScriptContentAsync(FileModel fileInfo, VideoModel video, AudioModel audio)
+    public Task SetScriptContentAsync(InputFileInfo fileInfo, VideoInfo video, AudioInfo audio)
     {
         var avsScriptBuilder = new StringBuilder();
 

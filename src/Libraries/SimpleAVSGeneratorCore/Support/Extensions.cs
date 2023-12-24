@@ -13,8 +13,8 @@ public class Extensions
     public string? FilterVideoExts { get; private set; }
     public string? FilterAudioExts { get; private set; }
 
-    private static readonly List<SupportedExtension> supportedExtensions = new()
-    {
+    private static readonly List<SupportedExtension> supportedExtensions =
+    [
         /* -------- CONTAINER -------- */
         new SupportedExtension(extension: ".3gp", type: "CONTAINER", mp4boxSupport: true),
         new SupportedExtension(".3g2",  "CONTAINER", true),
@@ -64,7 +64,7 @@ public class Extensions
         new SupportedExtension(".tta",  "AUDIO", false),
         new SupportedExtension(".wav",  "AUDIO", true),
         new SupportedExtension(".wma",  "AUDIO", false)
-    };
+    ];
 
     private Task SetSupportForAsync(string fileType)
     {

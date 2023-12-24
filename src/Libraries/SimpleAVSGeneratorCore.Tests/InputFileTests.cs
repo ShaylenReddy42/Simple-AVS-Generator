@@ -1,16 +1,11 @@
-﻿using SimpleAVSGeneratorCore.Tests.Fixtures;
+﻿using SimpleAVSGeneratorCore.Models;
+using SimpleAVSGeneratorCore.Tests.Fixtures;
 
 namespace SimpleAVSGeneratorCore.Tests;
 
 [Collection("CommonDependencyInjectionCollection")]
-public class InputFileTests
+public class InputFileTests(CommonDependencyInjectionFixture commonDependencyInjectionFixture)
 {
-    private readonly CommonDependencyInjectionFixture commonDependencyInjectionFixture;
-
-    public InputFileTests(CommonDependencyInjectionFixture commonDependencyInjectionFixture)
-    {
-        this.commonDependencyInjectionFixture = commonDependencyInjectionFixture;
-    }
 
     // FileName | FileExt | FileNameOnly | FileType | IsSupportedByMP4Box
     public static TheoryData<string, string, string, string, bool> InputFile_CheckIfPropertiesAreSetAccurately_TestData =>

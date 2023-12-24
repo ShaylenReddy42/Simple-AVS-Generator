@@ -4,14 +4,8 @@ using SimpleAVSGeneratorCore.Tests.Fixtures;
 namespace SimpleAVSGeneratorCore.Tests;
 
 [Collection("CommonDependencyInjectionCollection")]
-public class AviSynthScriptTests
+public class AviSynthScriptTests(CommonDependencyInjectionFixture commonDependencyInjectionFixture)
 {
-    private readonly CommonDependencyInjectionFixture commonDependencyInjectionFixture;
-
-    public AviSynthScriptTests(CommonDependencyInjectionFixture commonDependencyInjectionFixture)
-    {
-        this.commonDependencyInjectionFixture = commonDependencyInjectionFixture;
-    }
 
     // Use Cases
     // FileName | Video | VideoCodec | Audio | CreateAviSynthScript | EndsWith | LineCount

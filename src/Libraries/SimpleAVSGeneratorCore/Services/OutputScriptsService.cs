@@ -13,7 +13,7 @@ public class OutputScriptsService
     public string? ContainerScriptFile { get; private set; }
     public string? ContainerScriptContent { get; private set; }
 
-    public Task ConfigureVideoScriptAsync(VideoModel video, string outputDir)
+    public Task ConfigureVideoScriptAsync(VideoInfo video, string outputDir)
     {
         if (video.Enabled && !video.MuxOriginalVideo)
         {
@@ -48,7 +48,7 @@ public class OutputScriptsService
         return Task.CompletedTask;
     }
 
-    public Task ConfigureAudioScriptAsync(FileModel fileInfo, AudioModel audio, string outputDir)
+    public Task ConfigureAudioScriptAsync(InputFileInfo fileInfo, AudioInfo audio, string outputDir)
     {
         if (!audio.Enabled)
         {
@@ -80,7 +80,7 @@ public class OutputScriptsService
         return Task.CompletedTask;
     }
 
-    public Task ConfigureContainerScriptAsync(FileModel fileInfo, VideoModel video, AudioModel audio, string? outputContainer, string outputDir)
+    public Task ConfigureContainerScriptAsync(InputFileInfo fileInfo, VideoInfo video, AudioInfo audio, string? outputContainer, string outputDir)
     {
         if (!video.Enabled)
         {

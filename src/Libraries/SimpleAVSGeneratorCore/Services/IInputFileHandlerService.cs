@@ -1,4 +1,6 @@
-﻿namespace SimpleAVSGeneratorCore.Services;
+﻿using SimpleAVSGeneratorCore.Models;
+
+namespace SimpleAVSGeneratorCore.Services;
 
 public interface IInputFileHandlerService
 {

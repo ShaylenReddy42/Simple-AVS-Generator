@@ -2,7 +2,7 @@ using static SimpleAVSGeneratorCore.Support.Video;
 
 namespace SimpleAVSGeneratorCore.Models;
 
-public class VideoModel
+public class VideoInfo
 {
     public bool Enabled { get; set; } = default;
     public string Codec { get; set; } = string.Empty;

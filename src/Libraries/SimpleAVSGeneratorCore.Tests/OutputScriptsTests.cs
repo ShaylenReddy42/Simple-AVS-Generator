@@ -4,14 +4,8 @@ using SimpleAVSGeneratorCore.Tests.Fixtures;
 namespace SimpleAVSGeneratorCore.Tests;
 
 [Collection("CommonDependencyInjectionCollection")]
-public class OutputScriptsTests
+public class OutputScriptsTests(CommonDependencyInjectionFixture commonDependencyInjectionFixture)
 {
-    private readonly CommonDependencyInjectionFixture commonDependencyInjectionFixture;
-
-    public OutputScriptsTests(CommonDependencyInjectionFixture commonDependencyInjectionFixture)
-    {
-        this.commonDependencyInjectionFixture = commonDependencyInjectionFixture;
-    }
 
     // VideoCodec | Expected video encoder
     public static TheoryData<string, string> ConfigureVideoScript_ValidateWhichVideoEncoderIsUsed_TestData =>

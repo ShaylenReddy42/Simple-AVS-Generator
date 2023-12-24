@@ -43,7 +43,6 @@
     </None>
   </ItemGroup>
 
-  <!-- Manually added PropertyGroup for reducing files created during publishing -->
   <PropertyGroup>
     <DebugType>embedded</DebugType>
     <PublishSingleFile>true</PublishSingleFile>

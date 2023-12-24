@@ -2,7 +2,7 @@
 
 namespace SimpleAVSGeneratorCore.Models;
 
-public class AudioModel
+public class AudioInfo
 {
     public bool Enabled { get; set; } = default;
     public string? SourceChannels { get; init; }

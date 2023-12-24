@@ -6,19 +6,10 @@ using System.Globalization;
 
 namespace SimpleAVSGeneratorCore.Services;
 
-public class InputFileHandlerService : IInputFileHandlerService
+public class InputFileHandlerService(
+    IFileWriterService fileWriterService,
+    IServiceProvider serviceProvider) : IInputFileHandlerService
 {
-    private readonly IFileWriterService fileWriterService;
-    private readonly IServiceProvider serviceProvider;
-
-    public InputFileHandlerService(
-        IFileWriterService fileWriterService,
-        IServiceProvider serviceProvider)
-    {
-        this.fileWriterService = fileWriterService;
-        this.serviceProvider = serviceProvider;
-    }
-
     public async Task<InputFile> CreateInputFileAsync(string fileName, string home)
     {
         var inputFile = new InputFile
@@ -28,13 +19,13 @@ public class InputFileHandlerService : IInputFileHandlerService
 
         using var scope = serviceProvider.CreateScope();
 
-        var mediaInfo = scope.ServiceProvider.GetRequiredService<MediaInfo.MediaInfo>();
+        using var mediaInfo = scope.ServiceProvider.GetRequiredService<MediaInfo.MediaInfo>();
 
         mediaInfo.Open(fileName);
 
         string fileExtension = Path.GetExtension(fileName);
 
-        var inputFileInfo = new FileModel
+        var inputFileInfo = new InputFileInfo
         {
             FileName = fileName,
             FileType = await Extensions.DetermineInputFileTypeAsync(fileExtension),
@@ -47,12 +38,12 @@ public class InputFileHandlerService : IInputFileHandlerService
 
         var inputFileVideo = inputFile.FileInfo.HasVideo switch
         {
-            true  => new VideoModel
+            true  => new VideoInfo
             {
                 SourceFPS = decimal.Parse(mediaInfo.Get(StreamKind.Video, 0, "FrameRate"), CultureInfo.InvariantCulture),
                 SourceFrameCount = inputFile.FileInfo.FileType is "CONTAINER" ? int.Parse(mediaInfo.Get(StreamKind.Video, 0, "FrameCount")) : 0
             },
-            false => new VideoModel
+            false => new VideoInfo
             {
                 SourceFPS = 23.976M,
                 SourceFrameCount = 0
@@ -61,11 +52,11 @@ public class InputFileHandlerService : IInputFileHandlerService
 
         var inputFileAudio = inputFile.FileInfo.HasAudio switch
         {
-            true  => new AudioModel
+            true  => new AudioInfo
             {
                 SourceChannels = await GetSimpleAudioChannelLayoutAsync(mediaInfo)
             },
-            false => new AudioModel
+            false => new AudioInfo
             {
                 SourceChannels = "2.0"
             }
@@ -82,14 +73,16 @@ public class InputFileHandlerService : IInputFileHandlerService
 
     public async Task<string> CreateScriptsAsync(InputFile inputFile)
     {
-        // scriptsCreated is a variable that will be used for testing this function
-        // Result could be in variable length, containing characters to indicated
-        // which scripts were created e.g. svac
-        // Key:
-        // s indicates that the AviSynth script is created
-        // v indicates that the Video Encoder script is created
-        // a indicates that the Audio Encoder script is created
-        // c indicates that the Container Muxing script is created
+        /****************************************************************************
+         * scriptsCreated is a variable that will be used for testing this function *
+         * Result could be in variable length, containing characters to indicated   *
+         * which scripts were created e.g. svac                                     *
+         * Key:                                                                     *
+         * s indicates that the AviSynth script is created                          *
+         * v indicates that the Video Encoder script is created                     *
+         * a indicates that the Audio Encoder script is created                     *
+         * c indicates that the Container Muxing script is created                  *
+         ****************************************************************************/
 
         var scriptsCreated = string.Empty;
 
@@ -149,30 +142,36 @@ public class InputFileHandlerService : IInputFileHandlerService
 
     private static Task<string> GetSimpleAudioChannelLayoutAsync(MediaInfo.MediaInfo mediaInfo)
     {
-        // Ensures the value from MediaInfo e.g. 2/0/0 or 3/2/0.1 or 3/2/2.1 returns 2.0, 5.1 or 7.1 respectively
-        // Those are channel positions (Front/Side/Rear+LFE)
+        /**********************************************************************************************************
+         * Ensures the value from MediaInfo e.g. 2/0/0 or 3/2/0.1 or 3/2/2.1 returns 2.0, 5.1 or 7.1 respectively *
+         * Those are channel positions (Front/Side/Rear+LFE)                                                      *
+         **********************************************************************************************************/
 
         string channelPositions = mediaInfo.Get(StreamKind.Audio, 0, "ChannelPositions/String2");
-        channelPositions = channelPositions is "" ? mediaInfo.Get(StreamKind.Audio, 0, "Channels") : channelPositions;
+        channelPositions = channelPositions is "" 
+                         ? mediaInfo.Get(StreamKind.Audio, 0, "Channels") 
+                         : channelPositions;
 
         string channelLayout =
             channelPositions.Split('/')
                 .Sum(ch => double.Parse(ch, CultureInfo.InvariantCulture))
                 .ToString("0.0", CultureInfo.InvariantCulture);
 
-        // DTS:X is an 8 Channel Object-Based track
-        // Ran into this bug and went down a rabbit hole
-        // AAC-HE has to force a different channel mask
-        // to even support 7.1 [0xff or 3/4/0.1]
-        // instead of [0x63f or 3/2/2.1]
-        // These hex values are from the research
-        // 8.0 will be treated like 7.1
-        // AAC-LC and OPUS creates a 7.1 [3/2/2.1]
-        // track from the 8.0 without tampering
+        /*************************************************
+         * DTS:X is an 8 Channel Object-Based track      *
+         * Ran into this bug and went down a rabbit hole *
+         * AAC-HE has to force a different channel mask  *
+         * to even support 7.1 [0xff or 3/4/0.1]         *
+         * instead of [0x63f or 3/2/2.1]                 *
+         * These hex values are from the research        *
+         * 8.0 will be treated like 7.1                  *
+         * AAC-LC and OPUS creates a 7.1 [3/2/2.1]       *
+         * track from the 8.0 without tampering          *
+         *************************************************/
         return channelLayout switch
         {
             "8.0" => Task.FromResult("7.1"),
-            _ => Task.FromResult(channelLayout)
+            _     => Task.FromResult(channelLayout)
         };
     }
 }

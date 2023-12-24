@@ -1,7 +1,7 @@
-﻿using SimpleAVSGeneratorCore;
-using SimpleAVSGeneratorCore.Support;
+﻿using SimpleAVSGeneratorCore.Support;
 
 using SimpleAVSGeneratorCore.Services;
+using SimpleAVSGeneratorCore.Models;
 using static SimpleAVSGeneratorCore.Support.Video;
 using static SimpleAVSGeneratorCore.Support.Audio;
 
