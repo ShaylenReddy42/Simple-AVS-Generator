@@ -6,7 +6,7 @@ namespace SimpleAVSGeneratorCore.Tests;
 public class DependencyInjectionTests
 {
     [Fact(DisplayName = "Validate Registered Core Services")]
-    public void ValidateRegisteredServices()
+    public Task ValidateRegisteredCoreServices()
     {
         // Arrange
         var services = new ServiceCollection();
@@ -39,5 +39,7 @@ public class DependencyInjectionTests
 
         Assert.IsType<FileWriterService>(fileWriterService);
         Assert.IsType<InputFileHandlerService>(inputFileHandlerService);
+
+        return Task.CompletedTask;
     }
 }
