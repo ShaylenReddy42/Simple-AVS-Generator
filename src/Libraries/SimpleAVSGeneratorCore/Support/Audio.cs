@@ -14,7 +14,7 @@ public static class Audio
         { "Undetermined", "und" }
     };
 
-    public static readonly ImmutableDictionary<string, string> idLanguagesDictionary = languagesDictionary.ToImmutableDictionary();
+    public static readonly ImmutableDictionary<string, string> immutableLanguagesDictionary = languagesDictionary.ToImmutableDictionary();
 
     private static readonly List<SupportedOutputAudio> supportedOutputAudios =
     [
@@ -34,7 +34,7 @@ public static class Audio
         new SupportedOutputAudio("OPUS",   "7.1", [ 256, 288, 320, 384, 448, 512 ], 320)
     ];
 
-    public static readonly ImmutableList<SupportedOutputAudio> idSupportedOutputAudios = supportedOutputAudios.ToImmutableList();
+    public static readonly ImmutableList<SupportedOutputAudio> immutableSupportedOutputAudios = [.. supportedOutputAudios];
 
     public static Task<object[]> GetOutputAudioCodecsAsync() =>
         Task.FromResult<object[]>(supportedOutputAudios.Select(audio => audio.Codec).Distinct().ToArray());
