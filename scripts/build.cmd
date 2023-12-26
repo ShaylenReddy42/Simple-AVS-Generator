@@ -23,8 +23,8 @@ dotnet build -c Debug
 ECHO.
 ECHO Clean Older Tests If They Exist
 ECHO.
-IF EXIST SimpleAVSGeneratorCore.Tests\TestResults (
-	RD SimpleAVSGeneratorCore.Tests\TestResults /S /Q
+IF EXIST Libraries\SimpleAVSGeneratorCore.Tests\TestResults (
+	RD Libraries\SimpleAVSGeneratorCore.Tests\TestResults /S /Q
 )
 
 ECHO Run Unit Tests 
@@ -44,7 +44,7 @@ dotnet tool run reportgenerator -reports:"Libraries\SimpleAVSGeneratorCore.Tests
 ECHO.
 ECHO Publish the Final Executable
 ECHO.
-dotnet publish Frontends\SimpleAVSGenerator.WinForms\SimpleAVSGenerator.WinForms.csproj -c Release -r win-x64 --self-contained -o "..\publish"
+dotnet publish Frontends\SimpleAVSGenerator.WinForms\SimpleAVSGenerator.WinForms.csproj -c Release -r win-x64 --self-contained -o "..\publish\winforms"
 
 CD ..
 

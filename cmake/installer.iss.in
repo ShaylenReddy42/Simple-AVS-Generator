@@ -1,4 +1,4 @@
-#define MyAppName "Simple AVS Generator"
+#define MyAppName "Simple AVS Generator: WinForms"
 #define MyAppVersion "@FILE_VERSION@"
 #define MyAppInformationalVersion "@INFORMATIONAL_VERSION@"
 #define MyAppPublisher "Shaylen Reddy"
@@ -12,13 +12,13 @@ AppVerName={#MyAppName} v{#MyAppInformationalVersion}
 AppPublisher={#MyAppPublisher}
 UninstallDisplayName={#MyAppName}
 
-DefaultDirName={commonpf64}\{#MyAppName}
+DefaultDirName={commonpf64}\{#MyAppName}\WinForms
 DisableDirPage=yes
 DisableProgramGroupPage=yes
 LicenseFile=..\COPYING
 
 OutputDir=..\installer
-OutputBaseFilename=SimpleAVSGeneratorSetup-v{#MyAppInformationalVersion}-Win64
+OutputBaseFilename=SimpleAVSGeneratorSetup-v{#MyAppInformationalVersion}-WinForms-Win64
 Compression=lzma
 SolidCompression=yes
 WizardStyle=modern
@@ -40,8 +40,8 @@ Name: "english"; MessagesFile: "compiler:Default.isl"
 Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked
 
 [Files]
-Source: "..\publish\{#MyAppExeName}"; DestDir: "{app}"; Flags: ignoreversion
-Source: "..\publish\*"; DestDir: "{app}"; Flags: ignoreversion
+Source: "..\publish\winforms\{#MyAppExeName}"; DestDir: "{app}"; Flags: ignoreversion
+Source: "..\publish\winforms\*"; DestDir: "{app}"; Flags: ignoreversion
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
 [Icons]
