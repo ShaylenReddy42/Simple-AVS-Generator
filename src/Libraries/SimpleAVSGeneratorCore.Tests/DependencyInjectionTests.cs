@@ -40,6 +40,10 @@ public class DependencyInjectionTests
         Assert.IsType<FileWriterService>(fileWriterService);
         Assert.IsType<InputFileHandlerService>(inputFileHandlerService);
 
+        var expectedNumberOfRegisteredServices = 6;
+
+        Assert.Equal(expectedNumberOfRegisteredServices, services.Count);
+
         return Task.CompletedTask;
     }
 }
