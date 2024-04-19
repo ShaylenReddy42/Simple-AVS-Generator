@@ -53,6 +53,7 @@ steps:
     projectKey: 'ShaylenReddy42_Simple-AVS-Generator'
     projectName: 'Simple-AVS-Generator'
     extraProperties: |
+      sonar.cs.vstest.reportsPaths=$(testResultsDir)/*.trx
       sonar.cs.vscoveragexml.reportsPaths=$(Build.SourcesDirectory)/CodeCoverage/SonarQube.xml
 
 - task: DotNetCoreCLI@2
