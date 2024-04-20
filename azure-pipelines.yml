@@ -46,7 +46,7 @@ steps:
     projectName: 'Simple-AVS-Generator'
     extraProperties: |
       sonar.cs.vstest.reportsPaths=$(testResultsDir)/*.trx
-      sonar.cs.opencover.reportsPaths=$(testResultsDir)/*/coverage.cobertura.xml'
+      sonar.cs.opencover.reportsPaths=$(testResultsDir)/**/coverage.cobertura.xml'
 
 - task: DotNetCoreCLI@2
   displayName: 'Build Solution'
