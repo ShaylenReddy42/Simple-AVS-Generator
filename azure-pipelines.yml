@@ -21,7 +21,6 @@ steps:
   displayName: 'Use .NET SDK 8.0.204'
   inputs:
     version: 8.0.204
-    performMultiLevelLookup: true
 
 - task: CMake@1
   displayName: 'Run CMake'
