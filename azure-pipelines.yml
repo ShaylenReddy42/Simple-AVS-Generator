@@ -36,14 +36,6 @@ steps:
     arguments: -c $(buildConfiguration)
     projects: '$(Build.SourcesDirectory)/src/SimpleAVSGenerator.sln'
 
-- task: DotNetCoreCLI@2
-  displayName: 'Restore dotnet tools'
-  inputs:
-    command: custom
-    custom: tool
-    arguments: restore
-    workingDirectory: $(Build.SourcesDirectory)
-    
 - task: SonarCloudPrepare@1
   displayName: 'Prepare SonarCloud for Analysis'
   inputs:
@@ -54,7 +46,6 @@ steps:
     projectName: 'Simple-AVS-Generator'
     extraProperties: |
       sonar.cs.vstest.reportsPaths=$(testResultsDir)/*.trx
-      sonar.cs.vscoveragexml.reportsPaths=$(Build.SourcesDirectory)/CodeCoverage/SonarQube.xml
 
 - task: DotNetCoreCLI@2
   displayName: 'Build Solution'
@@ -71,13 +62,6 @@ steps:
    arguments: -c $(buildConfiguration) --results-directory "$(testResultsDir)" --collect:"XPlat Code Coverage" --logger trx
    workingDirectory: $(workDir)
 
-- task: DotNetCoreCLI@2
-  displayName: 'Generate Code Coverage Report for SonarCloud'
-  inputs:
-    command: custom
-    custom: tool
-    arguments: run reportgenerator -reports:"$(testResultsDir)\*\coverage.cobertura.xml" -reporttypes:SonarQube -targetDir:"$(Build.SourcesDirectory)\CodeCoverage"
-
 - task: PublishTestResults@2
   displayName: 'Publish Test Results'
   inputs:
@@ -85,10 +69,9 @@ steps:
     testResultsFiles: '*.trx'
     searchFolder: $(testResultsDir)
 
-- task: PublishCodeCoverageResults@1
+- task: PublishCodeCoverageResults@2
   displayName: 'Publish HTML Code Coverage Report'
   inputs:
-    codeCoverageTool: Cobertura
     summaryFileLocation: '$(testResultsDir)\*\coverage.cobertura.xml'
 
 - task: SonarCloudAnalyze@1
