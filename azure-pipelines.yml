@@ -18,9 +18,9 @@ variables:
 
 steps:
 - task: UseDotNet@2
-  displayName: 'Use .NET SDK 8.0.100'
+  displayName: 'Use .NET SDK 8.0.204'
   inputs:
-    version: 8.0.100
+    version: 8.0.204
     performMultiLevelLookup: true
 
 - task: CMake@1
@@ -46,7 +46,6 @@ steps:
     projectName: 'Simple-AVS-Generator'
     extraProperties: |
       sonar.cs.vstest.reportsPaths=$(testResultsDir)/*.trx
-      sonar.cs.opencover.reportsPaths=$(testResultsDir)\**\*.xml'
 
 - task: DotNetCoreCLI@2
   displayName: 'Build Solution'
