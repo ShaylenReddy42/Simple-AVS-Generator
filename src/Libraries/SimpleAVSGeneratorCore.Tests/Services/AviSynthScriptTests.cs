@@ -12,11 +12,11 @@ public class AviSynthScriptTests(CommonDependencyInjectionFixture commonDependen
     public static TheoryData<string, bool, string, bool, bool, char, int> AviSynthScript_CheckScriptContentForVariousUseCases_TestData =>
         new()
         {
-            { @"Samples\Sample.mp4", true,  "HEVC",         true,  true,  'o',  21 },
-            { @"Samples\Sample.mp4", true,  "AV1",          false, true,  'v',  13 },
+            { @"Samples\Sample.mp4", true,  "HEVC",         true,  true,  'o',  25 },
+            { @"Samples\Sample.mp4", true,  "AV1",          false, true,  'v',  17 },
             { @"Samples\Sample.mp4", true,  "Mux Original", true,  true,  'a',   9 },
             { @"Samples\Sample.mp4", true,  "Mux Original", false, false, '\n',  3 },
-            { @"Samples\Sample.265", true,  "AVC",          false, true,  'v',  13 },
+            { @"Samples\Sample.265", true,  "AVC",          false, true,  'v',  17 },
             { @"Samples\Sample.265", true,  "Mux Original", false, false, '\n',  3 },
             { @"Samples\Sample.m4a", false, "",             true,  true,  'a',   9 }
         };

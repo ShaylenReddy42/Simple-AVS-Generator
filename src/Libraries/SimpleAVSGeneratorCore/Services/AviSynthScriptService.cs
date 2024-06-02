@@ -16,7 +16,11 @@ public class AviSynthScriptService
 
         if (video.Enabled && !video.MuxOriginalVideo)
         {
-            avsScriptBuilder.Append("v = LWLibavVideoSource(i, cachedir=\".\").ConvertBits(8).ConvertToYV12()#.ShowFrameNumber()\r\n\r\n");
+            avsScriptBuilder.Append("v = LWLibavVideoSource(i, cachedir=\".\").ConvertBits(8).ConvertToYV12()\r\n\r\n");
+
+            avsScriptBuilder.Append("#v = AutoCrop(v, 0)#.Crop(0, 0, -0, -0)\r\n\r\n");
+
+            avsScriptBuilder.Append("#v = ShowFrameNumber(v)\r\n\r\n");
 
             avsScriptBuilder.Append("# Calculate the target height based on a target width\r\n");
             avsScriptBuilder.Append("aspectRatio  = float(Width(v)) / float(Height(v))\r\n");
