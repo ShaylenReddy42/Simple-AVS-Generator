@@ -35,10 +35,10 @@ The generated AviSynth+ scripts make use of the [L-SMASH-Works plugin](https://g
 
 ## Required setup
 
-* [Visual Studio 2022](https://visualstudio.microsoft.com/vs/community/) 17.9.6 or later
-* [.NET SDK](https://dotnet.microsoft.com/en-us/download/dotnet/8.0) 8.0.204
+* [Visual Studio 2022](https://visualstudio.microsoft.com/vs/community/) 17.10.1 or later
+* [.NET SDK](https://dotnet.microsoft.com/en-us/download/dotnet/8.0) 8.0.302
 * [CMake](https://cmake.org/download/) 3.29.0 or later
-* [Inno Setup](https://jrsoftware.org/isdl.php) 6.2.2 or later
+* [Inno Setup](https://jrsoftware.org/isdl.php) 6.3.1 or later
 
 ## Build instructions
 

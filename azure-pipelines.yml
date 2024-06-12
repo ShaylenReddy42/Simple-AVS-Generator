@@ -18,9 +18,9 @@ variables:
 
 steps:
 - task: UseDotNet@2
-  displayName: 'Use .NET SDK 8.0.204'
+  displayName: 'Use .NET SDK 8.0.302'
   inputs:
-    version: 8.0.204
+    version: 8.0.302
 
 - task: CMake@1
   displayName: 'Run CMake'
@@ -35,7 +35,7 @@ steps:
     arguments: -c $(buildConfiguration)
     projects: '$(Build.SourcesDirectory)/src/SimpleAVSGenerator.sln'
 
-- task: SonarCloudPrepare@1
+- task: SonarCloudPrepare@2
   displayName: 'Prepare SonarCloud for Analysis'
   inputs:
     SonarCloud: 'SonarCloud'
@@ -73,10 +73,10 @@ steps:
   inputs:
     summaryFileLocation: '$(testResultsDir)\*\coverage.cobertura.xml'
 
-- task: SonarCloudAnalyze@1
+- task: SonarCloudAnalyze@2
   displayName: 'Run SonarCloud Analysis'
 
-- task: SonarCloudPublish@1
+- task: SonarCloudPublish@2
   displayName: 'Publish SonarCloud Quality Gate Result'
   inputs:
     pollingTimeoutSec: '300'
