@@ -1,5 +1,6 @@
 ﻿using MediaInfo;
 using Microsoft.Extensions.DependencyInjection;
+using SimpleAVSGeneratorCore.Constants;
 using SimpleAVSGeneratorCore.Models;
 using SimpleAVSGeneratorCore.Support;
 using System.Globalization;
@@ -41,7 +42,9 @@ public class InputFileHandlerService(
             true  => new VideoInfo
             {
                 SourceFPS = decimal.Parse(mediaInfo.Get(StreamKind.Video, 0, "FrameRate"), CultureInfo.InvariantCulture),
-                SourceFrameCount = inputFile.FileInfo.FileType is "CONTAINER" ? int.Parse(mediaInfo.Get(StreamKind.Video, 0, "FrameCount")) : 0
+                SourceFrameCount = inputFile.FileInfo.FileType == FileExtensionTypes.Container 
+                                 ? int.Parse(mediaInfo.Get(StreamKind.Video, 0, "FrameCount")) 
+                                 : 0
             },
             false => new VideoInfo
             {

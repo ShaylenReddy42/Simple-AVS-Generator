@@ -1,4 +1,5 @@
-﻿using SimpleAVSGeneratorCore.Models;
+﻿using SimpleAVSGeneratorCore.Constants;
+using SimpleAVSGeneratorCore.Models;
 
 namespace SimpleAVSGeneratorCore.Services;
 
@@ -58,17 +59,17 @@ public class OutputScriptsService
         string aPipe    = @"avs2pipemod -wav=16bit ""%~dp0Script.avs"" | ",
                aEncoder = string.Empty;
 
-        if (audio.Codec is "AAC-LC")
+        if (audio.Codec == SupportedOutputAudioCodecs.AacLc)
         {
             aEncoder += $"qaac64 --abr {audio.Bitrate} --ignorelength --no-delay ";
             aEncoder += $@"-o ""%~dp0{fileInfo.FileNameOnly}{audio.Extension}"" - ";
         }
-        else if (audio.Codec is "AAC-HE")
+        else if (audio.Codec == SupportedOutputAudioCodecs.AacHe)
         {
             aEncoder += $"qaac64 --he{(audio.SourceChannels is "7.1" ? " --chanmask 0xff " : " ")}--abr {audio.Bitrate} --ignorelength ";
             aEncoder += $@"-o ""%~dp0{fileInfo.FileNameOnly}{audio.Extension}"" - ";
         }
-        else if (audio.Codec is "OPUS")
+        else if (audio.Codec == SupportedOutputAudioCodecs.Opus)
         {
             aEncoder += $"opusenc --bitrate {audio.Bitrate} --ignorelength ";
             aEncoder += $@"- ""%~dp0{fileInfo.FileNameOnly}{audio.Extension}""";

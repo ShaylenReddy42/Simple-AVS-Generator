@@ -1,4 +1,5 @@
-﻿using SimpleAVSGeneratorCore.Models;
+﻿using SimpleAVSGeneratorCore.Constants;
+using SimpleAVSGeneratorCore.Models;
 using SimpleAVSGeneratorCore.Tests.Fixtures;
 
 namespace SimpleAVSGeneratorCore.Tests;
@@ -11,10 +12,10 @@ public class InputFileTests(CommonDependencyInjectionFixture commonDependencyInj
     public static TheoryData<string, string, string, string, bool> InputFile_CheckIfPropertiesAreSetAccurately_TestData =>
         new()
         {
-            { @"Samples\Sample.mp4",  ".mp4", "Sample",  "CONTAINER", true  },
-            { @"Samples\Sample1.mkv", ".mkv", "Sample1", "CONTAINER", false },
-            { @"Samples\Sample.265",  ".265", "Sample",  "VIDEO",     true  },
-            { @"Samples\Sample.m4a",  ".m4a", "Sample",  "AUDIO",     true  }
+            { @"Samples\Sample.mp4",  ".mp4", "Sample",  FileExtensionTypes.Container, true  },
+            { @"Samples\Sample1.mkv", ".mkv", "Sample1", FileExtensionTypes.Container, false },
+            { @"Samples\Sample.265",  ".265", "Sample",  FileExtensionTypes.Video,     true  },
+            { @"Samples\Sample.m4a",  ".m4a", "Sample",  FileExtensionTypes.Audio,     true  }
         };
 
     [Theory(DisplayName = "Check If Properties Are Set Accurately")]
@@ -117,7 +118,7 @@ public class InputFileTests(CommonDependencyInjectionFixture commonDependencyInj
         input.Video.KeyframeIntervalInSeconds = "2 Seconds";
 
         input.Audio.Enabled = audio;
-        input.Audio.Codec = "AAC-LC";
+        input.Audio.Codec = SupportedOutputAudioCodecs.AacLc;
         input.Audio.Bitrate = 128;
         input.Audio.Language = "English";
 

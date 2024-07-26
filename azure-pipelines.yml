@@ -18,9 +18,9 @@ variables:
 
 steps:
 - task: UseDotNet@2
-  displayName: 'Use .NET SDK 8.0.302'
+  displayName: 'Use .NET sdk 8.x'
   inputs:
-    version: 8.0.302
+    version: 8.x
 
 - task: CMake@1
   displayName: 'Run CMake'

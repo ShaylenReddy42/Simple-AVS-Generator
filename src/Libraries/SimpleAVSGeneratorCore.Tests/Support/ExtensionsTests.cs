@@ -1,4 +1,5 @@
-﻿using SimpleAVSGeneratorCore.Support;
+﻿using SimpleAVSGeneratorCore.Constants;
+using SimpleAVSGeneratorCore.Support;
 
 namespace SimpleAVSGeneratorCore.Tests.Support;
 
@@ -8,9 +9,9 @@ public class ExtensionsTests
     public static TheoryData<string, string> DetermineInputFileType_ValidateFileTypeIsCorrect_TestData =>
         new()
         {
-            { ".mp4", "CONTAINER" },
-            { ".264", "VIDEO"     },
-            { ".m4a", "AUDIO"     }
+            { ".mp4", FileExtensionTypes.Container },
+            { ".264", FileExtensionTypes.Video     },
+            { ".m4a", FileExtensionTypes.Audio     }
         };
 
     [Theory(DisplayName = "Validate That Input File Type Is Set Correctly")]
@@ -56,9 +57,9 @@ public class ExtensionsTests
     }
 
     [Theory(DisplayName = "Check Supported Extension Type Strings For Regex Pattern \"*.ext1;*.ext2\"")]
-    [InlineData("CONTAINER")]
-    [InlineData("VIDEO")]
-    [InlineData("AUDIO")]
+    [InlineData(FileExtensionTypes.Container)]
+    [InlineData(FileExtensionTypes.Video)]
+    [InlineData(FileExtensionTypes.Audio)]
     public async Task SupportedExtensionType_CheckPatternForMatch(string extensionType)
     {
         // Arrange
@@ -90,10 +91,10 @@ public class ExtensionsTests
 
         string? supportedExts = extensionType switch
         {
-            "CONTAINER" => extensions.SupportedContainerExts,
-            "VIDEO"     => extensions.SupportedVideoExts,
-            "AUDIO"     => extensions.SupportedAudioExts,
-            _           => null
+            FileExtensionTypes.Container => extensions.SupportedContainerExts,
+            FileExtensionTypes.Video     => extensions.SupportedVideoExts,
+            FileExtensionTypes.Audio     => extensions.SupportedAudioExts,
+            _                                    => null
         };
 
         // Assert
@@ -101,9 +102,9 @@ public class ExtensionsTests
     }
 
     [Theory(DisplayName = "Check Filter Extension Type Strings For Regex Pattern \"EXT1 EXT2\"")]
-    [InlineData("CONTAINER")]
-    [InlineData("VIDEO")]
-    [InlineData("AUDIO")]
+    [InlineData(FileExtensionTypes.Container)]
+    [InlineData(FileExtensionTypes.Video)]
+    [InlineData(FileExtensionTypes.Audio)]
     public async Task FilterExtensionType_CheckPatternForMatch(string extensionType)
     {
         // Arrange
@@ -134,10 +135,10 @@ public class ExtensionsTests
 
         string? filterExts = extensionType switch
         {
-            "CONTAINER" => extensions.FilterContainerExts,
-            "VIDEO"     => extensions.FilterVideoExts,
-            "AUDIO"     => extensions.FilterAudioExts,
-            _           => null
+            FileExtensionTypes.Container => extensions.FilterContainerExts,
+            FileExtensionTypes.Video     => extensions.FilterVideoExts,
+            FileExtensionTypes.Audio     => extensions.FilterAudioExts,
+            _                                    => null
         };
 
         // Assert

@@ -1,4 +1,6 @@
-﻿namespace SimpleAVSGeneratorCore.Models;
+﻿using SimpleAVSGeneratorCore.Constants;
+
+namespace SimpleAVSGeneratorCore.Models;
 
 public class SupportedOutputAudio
 {
@@ -8,10 +10,10 @@ public class SupportedOutputAudio
     public int DefaultBitrate { get; }
     public string Extension => Codec switch
     {
-        "AAC-LC" => ".m4a",
-        "AAC-HE" => ".m4a",
-        "OPUS"   => ".ogg",
-        _        => string.Empty
+        SupportedOutputAudioCodecs.AacLc => ".m4a",
+        SupportedOutputAudioCodecs.AacHe => ".m4a",
+        SupportedOutputAudioCodecs.Opus  => ".ogg",
+        _                                => string.Empty
     };
 
     public SupportedOutputAudio(string codec, string channels, object[] bitrates, int defaultBitrate) => 

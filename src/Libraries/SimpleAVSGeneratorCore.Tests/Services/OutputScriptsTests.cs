@@ -1,4 +1,5 @@
-﻿using SimpleAVSGeneratorCore.Services;
+﻿using SimpleAVSGeneratorCore.Constants;
+using SimpleAVSGeneratorCore.Services;
 using SimpleAVSGeneratorCore.Tests.Fixtures;
 
 namespace SimpleAVSGeneratorCore.Tests.Services;
@@ -76,9 +77,9 @@ public class OutputScriptsTests(CommonDependencyInjectionFixture commonDependenc
     public static TheoryData<string, string> ConfigureAudioScript_ValidateWhichAudioEncoderIsUsed_TestData =>
         new()
         {
-            { "AAC-LC", "qaac64"      },
-            { "AAC-HE", "qaac64 --he" },
-            { "OPUS",   "opusenc"     }
+            { SupportedOutputAudioCodecs.AacLc, "qaac64"      },
+            { SupportedOutputAudioCodecs.AacHe, "qaac64 --he" },
+            { SupportedOutputAudioCodecs.Opus,  "opusenc"     }
         };
 
     [Theory(DisplayName = "Validate Which Audio Encoder Is Used")]
@@ -128,9 +129,9 @@ public class OutputScriptsTests(CommonDependencyInjectionFixture commonDependenc
     public static TheoryData<string, string> ConfigureAudioScript_ValidateTheAudioScriptFilename_TestData =>
         new()
         {
-            { "AAC-LC", "Encode Audio [AAC-LC].cmd" },
-            { "AAC-HE", "Encode Audio [AAC-HE].cmd" },
-            { "OPUS",   "Encode Audio [OPUS].cmd"   }
+            { SupportedOutputAudioCodecs.AacLc, "Encode Audio [AAC-LC].cmd" },
+            { SupportedOutputAudioCodecs.AacHe, "Encode Audio [AAC-HE].cmd" },
+            { SupportedOutputAudioCodecs.Opus,  "Encode Audio [OPUS].cmd"   }
         };
 
     [Theory(DisplayName = "Validate The Audio Script Filename")]
@@ -222,12 +223,12 @@ public class OutputScriptsTests(CommonDependencyInjectionFixture commonDependenc
     public static TheoryData<string, string, string, string> ConfigureContainerScript_ValidateAudioStringInScript_TestData =>
         new()
         {
-            { "AAC-LC", "English",  "MP4", $"-add \"%~dp0Sample.m4a\":name=:lang=eng" },
-            { "AAC-HE", "Hindi",    "MP4", $"-add \"%~dp0Sample.m4a\":name=:lang=hin" },
-            { "OPUS",   "Japanese", "MP4", $"-add \"%~dp0Sample.ogg\":name=:lang=jpn" },
-            { "AAC-LC", "English",  "MKV", $"--language 0:eng \"%~dp0Sample.m4a\""    },
-            { "AAC-HE", "Hindi",    "MKV", $"--language 0:hin \"%~dp0Sample.m4a\""    },
-            { "OPUS",   "Japanese", "MKV", $"--language 0:jpn \"%~dp0Sample.ogg\""    }
+            { SupportedOutputAudioCodecs.AacLc, "English",  "MP4", $"-add \"%~dp0Sample.m4a\":name=:lang=eng" },
+            { SupportedOutputAudioCodecs.AacHe, "Hindi",    "MP4", $"-add \"%~dp0Sample.m4a\":name=:lang=hin" },
+            { SupportedOutputAudioCodecs.Opus,  "Japanese", "MP4", $"-add \"%~dp0Sample.ogg\":name=:lang=jpn" },
+            { SupportedOutputAudioCodecs.AacLc, "English",  "MKV", $"--language 0:eng \"%~dp0Sample.m4a\""    },
+            { SupportedOutputAudioCodecs.AacHe, "Hindi",    "MKV", $"--language 0:hin \"%~dp0Sample.m4a\""    },
+            { SupportedOutputAudioCodecs.Opus,  "Japanese", "MKV", $"--language 0:jpn \"%~dp0Sample.ogg\""    }
         };
 
     [Theory(DisplayName = "Validate Audio String In Script")]

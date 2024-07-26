@@ -1,10 +1,13 @@
-﻿using SimpleAVSGeneratorCore.Models;
+﻿using SimpleAVSGeneratorCore.Constants;
+using SimpleAVSGeneratorCore.Models;
 using System.Text;
 
 namespace SimpleAVSGeneratorCore.Support;
 
 public class Extensions
 {
+    
+    
     public string? SupportedContainerExts { get; private set; }
     public string? SupportedVideoExts { get; private set; }
     public string? SupportedAudioExts { get; private set; }
@@ -16,54 +19,54 @@ public class Extensions
     private static readonly List<SupportedExtension> supportedExtensions =
     [
         /* -------- CONTAINER -------- */
-        new SupportedExtension(extension: ".3gp", type: "CONTAINER", mp4boxSupport: true),
-        new SupportedExtension(".3g2",  "CONTAINER", true),
-        new SupportedExtension(".asf",  "CONTAINER", false),
-        new SupportedExtension(".avi",  "CONTAINER", true),
-        new SupportedExtension(".flv",  "CONTAINER", false),
-        new SupportedExtension(".mp4",  "CONTAINER", true),
-        new SupportedExtension(".m4v",  "CONTAINER", true),
-        new SupportedExtension(".mkv",  "CONTAINER", false),
-        new SupportedExtension(".mov",  "CONTAINER", false),
-        new SupportedExtension(".m2t",  "CONTAINER", true),
-        new SupportedExtension(".m2ts", "CONTAINER", true),
-        new SupportedExtension(".mxf",  "CONTAINER", false),
-        new SupportedExtension(".ogm",  "CONTAINER", false),
-        new SupportedExtension(".rm",   "CONTAINER", false),
-        new SupportedExtension(".rmvb", "CONTAINER", false),
-        new SupportedExtension(".ts",   "CONTAINER", true),
-        new SupportedExtension(".webm", "CONTAINER", false),
-        new SupportedExtension(".wmv",  "CONTAINER", false),
+        new SupportedExtension(extension: ".3gp", type: FileExtensionTypes.Container, mp4boxSupport: true),
+        new SupportedExtension(".3g2",  FileExtensionTypes.Container, true),
+        new SupportedExtension(".asf",  FileExtensionTypes.Container, false),
+        new SupportedExtension(".avi",  FileExtensionTypes.Container, true),
+        new SupportedExtension(".flv",  FileExtensionTypes.Container, false),
+        new SupportedExtension(".mp4",  FileExtensionTypes.Container, true),
+        new SupportedExtension(".m4v",  FileExtensionTypes.Container, true),
+        new SupportedExtension(".mkv",  FileExtensionTypes.Container, false),
+        new SupportedExtension(".mov",  FileExtensionTypes.Container, false),
+        new SupportedExtension(".m2t",  FileExtensionTypes.Container, true),
+        new SupportedExtension(".m2ts", FileExtensionTypes.Container, true),
+        new SupportedExtension(".mxf",  FileExtensionTypes.Container, false),
+        new SupportedExtension(".ogm",  FileExtensionTypes.Container, false),
+        new SupportedExtension(".rm",   FileExtensionTypes.Container, false),
+        new SupportedExtension(".rmvb", FileExtensionTypes.Container, false),
+        new SupportedExtension(".ts",   FileExtensionTypes.Container, true),
+        new SupportedExtension(".webm", FileExtensionTypes.Container, false),
+        new SupportedExtension(".wmv",  FileExtensionTypes.Container, false),
         /* ---------- VIDEO ---------- */
-        new SupportedExtension(extension: ".263", type: "VIDEO", mp4boxSupport: true),
-        new SupportedExtension(".h263", "VIDEO", true),
-        new SupportedExtension(".264",  "VIDEO", true),
-        new SupportedExtension(".h264", "VIDEO", true),
-        new SupportedExtension(".265",  "VIDEO", true),
-        new SupportedExtension(".h265", "VIDEO", true),
-        new SupportedExtension(".hevc", "VIDEO", true),
-        new SupportedExtension(".ivf",  "VIDEO", true),
-        new SupportedExtension(".obu",  "VIDEO", true),
-        new SupportedExtension(".y4m",  "VIDEO", true),
+        new SupportedExtension(extension: ".263", type: FileExtensionTypes.Video, mp4boxSupport: true),
+        new SupportedExtension(".h263", FileExtensionTypes.Video, true),
+        new SupportedExtension(".264",  FileExtensionTypes.Video, true),
+        new SupportedExtension(".h264", FileExtensionTypes.Video, true),
+        new SupportedExtension(".265",  FileExtensionTypes.Video, true),
+        new SupportedExtension(".h265", FileExtensionTypes.Video, true),
+        new SupportedExtension(".hevc", FileExtensionTypes.Video, true),
+        new SupportedExtension(".ivf",  FileExtensionTypes.Video, true),
+        new SupportedExtension(".obu",  FileExtensionTypes.Video, true),
+        new SupportedExtension(".y4m",  FileExtensionTypes.Video, true),
         /* ---------- AUDIO ---------- */
-        new SupportedExtension(extension: ".aa3", type: "AUDIO", mp4boxSupport: false),
-        new SupportedExtension(".aac",  "AUDIO", true),
-        new SupportedExtension(".aif",  "AUDIO", false),
-        new SupportedExtension(".ac3",  "AUDIO", true),
-        new SupportedExtension(".ape",  "AUDIO", false),
-        new SupportedExtension(".dts",  "AUDIO", false),
-        new SupportedExtension(".flac", "AUDIO", true),
-        new SupportedExtension(".m1a",  "AUDIO", true),
-        new SupportedExtension(".m2a",  "AUDIO", true),
-        new SupportedExtension(".mp2",  "AUDIO", true),
-        new SupportedExtension(".mp3",  "AUDIO", true),
-        new SupportedExtension(".m4a",  "AUDIO", true),
-        new SupportedExtension(".oma",  "AUDIO", false),
-        new SupportedExtension(".opus", "AUDIO", true),
-        new SupportedExtension(".thd",  "AUDIO", false),
-        new SupportedExtension(".tta",  "AUDIO", false),
-        new SupportedExtension(".wav",  "AUDIO", true),
-        new SupportedExtension(".wma",  "AUDIO", false)
+        new SupportedExtension(extension: ".aa3", type: FileExtensionTypes.Audio, mp4boxSupport: false),
+        new SupportedExtension(".aac",  FileExtensionTypes.Audio, true),
+        new SupportedExtension(".aif",  FileExtensionTypes.Audio, false),
+        new SupportedExtension(".ac3",  FileExtensionTypes.Audio, true),
+        new SupportedExtension(".ape",  FileExtensionTypes.Audio, false),
+        new SupportedExtension(".dts",  FileExtensionTypes.Audio, false),
+        new SupportedExtension(".flac", FileExtensionTypes.Audio, true),
+        new SupportedExtension(".m1a",  FileExtensionTypes.Audio, true),
+        new SupportedExtension(".m2a",  FileExtensionTypes.Audio, true),
+        new SupportedExtension(".mp2",  FileExtensionTypes.Audio, true),
+        new SupportedExtension(".mp3",  FileExtensionTypes.Audio, true),
+        new SupportedExtension(".m4a",  FileExtensionTypes.Audio, true),
+        new SupportedExtension(".oma",  FileExtensionTypes.Audio, false),
+        new SupportedExtension(".opus", FileExtensionTypes.Audio, true),
+        new SupportedExtension(".thd",  FileExtensionTypes.Audio, false),
+        new SupportedExtension(".tta",  FileExtensionTypes.Audio, false),
+        new SupportedExtension(".wav",  FileExtensionTypes.Audio, true),
+        new SupportedExtension(".wma",  FileExtensionTypes.Audio, false)
     ];
 
     private Task SetSupportForAsync(string fileType)
@@ -79,13 +82,13 @@ public class Extensions
 
         switch (fileType)
         {
-            case "CONTAINER":
+            case FileExtensionTypes.Container:
                 SupportedContainerExts = support;
                 break;
-            case "VIDEO":
+            case FileExtensionTypes.Video:
                 SupportedVideoExts = support;
                 break;
-            case "AUDIO":
+            case FileExtensionTypes.Audio:
                 SupportedAudioExts = support;
                 break;
         }
@@ -106,13 +109,13 @@ public class Extensions
 
         switch (fileType)
         {
-            case "CONTAINER":
+            case FileExtensionTypes.Container:
                 FilterContainerExts = filter;
                 break;
-            case "VIDEO":
+            case FileExtensionTypes.Video:
                 FilterVideoExts = filter;
                 break;
-            case "AUDIO":
+            case FileExtensionTypes.Audio:
                 FilterAudioExts = filter;
                 break;
         }
@@ -128,12 +131,12 @@ public class Extensions
 
     public async Task ConfigureSupportedExtensionsAsync()
     {
-        await SetSupportForAsync("CONTAINER");
-        await SetSupportForAsync("VIDEO");
-        await SetSupportForAsync("AUDIO");
+        await SetSupportForAsync(FileExtensionTypes.Container);
+        await SetSupportForAsync(FileExtensionTypes.Video);
+        await SetSupportForAsync(FileExtensionTypes.Audio);
 
-        await SetFilterForAsync("CONTAINER");
-        await SetFilterForAsync("VIDEO");
-        await SetFilterForAsync("AUDIO");
+        await SetFilterForAsync(FileExtensionTypes.Container);
+        await SetFilterForAsync(FileExtensionTypes.Video);
+        await SetFilterForAsync(FileExtensionTypes.Audio);
     }
 }
